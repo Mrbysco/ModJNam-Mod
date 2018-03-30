@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "cactusmod:prickly_iron_block"
+  },
+  "pattern": [
+	" I ",
+    "ICI",
+    " I "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+	"C": {
+      "item": "minecraft:cactus"
+    }
+  }
+}

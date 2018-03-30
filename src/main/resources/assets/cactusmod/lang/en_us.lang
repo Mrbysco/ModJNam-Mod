@@ -1,0 +1,14 @@
+# Creative Tab
+itemGroup.cactusmod=The Cactus Tab
+
+# Entities
+entity.cactusmod:CactusGolem.name=Cactus Golem
+
+# Items
+item.cactusmod:cactusstick.name=Cactus Stick
+
+cactus_stick.text=Used to summon cactus monsters
+cactus_stick.text2=when right-clicked on the proper structures.
+
+# Blocks
+tile.cactusmod:pricklyironblock.name=Prickly Iron Block
