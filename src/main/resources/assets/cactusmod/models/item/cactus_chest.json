@@ -1,5 +1,5 @@
 {
-    "parent": "builtin/entity",
+    "parent": "cactusmod:block/cactus_chest",
     "display": {
         "gui": {
             "rotation": [ 30, 45, 0 ],

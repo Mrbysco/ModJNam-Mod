@@ -16,12 +16,11 @@ public class TileEntityCactusChestRenderer extends TileEntitySpecialRenderer<Til
     public void render(TileEntityCactusChest te, double x, double y, double z, float partialTicks, int destroyStage,
     		float alpha) {
     	int i = 0;
-
-    	if (te == null) {
-        	te = new TileEntityCactusChest();
-        }
     	
-        if (te.hasWorld())
+    	if (te == null || te.isInvalid())
+            return;
+    	
+        if (te != null && te.hasWorld())
             i = te.getBlockMetadata();
 
         if (destroyStage >= 0)
@@ -60,10 +59,14 @@ public class TileEntityCactusChestRenderer extends TileEntitySpecialRenderer<Til
 
         GlStateManager.rotate((float)j, 0.0F, 1.0F, 0.0F);
         GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-        float f = te.prevLidAngle + (te.lidAngle - te.prevLidAngle) * partialTicks;
-        f = 1.0F - f;
-        f = 1.0F - f * f * f;
-        this.singleChest.chestLid.rotateAngleX = -(f * ((float)Math.PI / 2F));
+        
+        if(te != null)
+        {
+        	float f = te.prevLidAngle + (te.lidAngle - te.prevLidAngle) * partialTicks;
+            f = 1.0F - f;
+            f = 1.0F - f * f * f;
+            this.singleChest.chestLid.rotateAngleX = -(f * ((float)Math.PI / 2F));
+        }
         this.singleChest.renderAll();
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();
