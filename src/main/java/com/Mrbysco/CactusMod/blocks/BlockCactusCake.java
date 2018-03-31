@@ -2,6 +2,7 @@ package com.Mrbysco.CactusMod.blocks;
 
 import java.util.List;
 
+import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
 
 import net.minecraft.block.BlockCake;
@@ -28,6 +29,8 @@ public class BlockCactusCake extends BlockCake{
 		setHardness(0.5F);
 		setSoundType(SoundType.CLOTH);
 		
+		setCreativeTab(CactusMod.cactustab);
+	    
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}

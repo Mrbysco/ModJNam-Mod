@@ -2,7 +2,6 @@ package com.Mrbysco.CactusMod.init;
 
 import java.util.ArrayList;
 
-import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.blocks.BlockCactusCake;
 import com.Mrbysco.CactusMod.blocks.BlockCactusChest;
 import com.Mrbysco.CactusMod.blocks.BlockCactusHopper;
@@ -36,14 +35,9 @@ public class CactusBlocks {
 
 	    prickly_iron = registerBlock(new BlockPricklyIron("prickly_iron_block"));
 	    
-	    cactus_cake = new BlockCactusCake("cactus_cake");
-	    cactus_cake_item = new ItemBlock(cactus_cake);
-	    cactus_cake_item.setMaxStackSize(1);
-	    
-	    registerBlock(cactus_cake, cactus_cake_item);
-	    
 		cactus_chest = registerBlock(new BlockCactusChest("cactus_chest"));
 		cactus_hopper = registerBlock(new BlockCactusHopper("cactus_hopper"));
+	    cactus_cake = registerCake(new BlockCactusCake("cactus_cake"));
 	    
 	    registry.registerAll(BLOCKS.toArray(new Block[0]));
 	}
@@ -55,11 +49,17 @@ public class CactusBlocks {
     
     public static <T extends Block> T registerBlock(T block, ItemBlock item)
     {
-    	item.setUnlocalizedName(block.getUnlocalizedName());
     	item.setRegistryName(block.getRegistryName());
-    	item.setCreativeTab(CactusMod.cactustab);
     	CactusItems.ITEMS.add(item);
         BLOCKS.add(block);
         return block;
+    }
+    
+    public static <T extends Block> T registerCake(T block)
+    {
+    	ItemBlock item = new ItemBlock(block);
+    	item.setMaxStackSize(1);
+    	
+        return registerBlock(block, item);
     }
 }
