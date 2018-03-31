@@ -1,17 +1,14 @@
 {
   "result": {
-    "item": "cactusmod:cactus_sword"
+    "item": "cactusmod:cactus_chestplate"
   },
   "pattern": [
-	" C ",
-    " C ",
-    " S "
+	"C C",
+    "CCC",
+	"CCC"
   ],
   "type": "minecraft:crafting_shaped",
   "key": {
-    "S": {
-      "item": "cactusmod:cactus_stick"
-    },
 	"C": {
       "item": "minecraft:cactus"
     }

@@ -32,6 +32,11 @@ public class PricklyIronBlock extends Block{
 	}
 
 	@Override
+	public boolean isBeaconBase(IBlockAccess worldObj, BlockPos pos, BlockPos beacon) {
+		return true;
+	}
+	
+	@Override
 	public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction,
 			IPlantable plantable) {
 		if(direction == EnumFacing.UP)

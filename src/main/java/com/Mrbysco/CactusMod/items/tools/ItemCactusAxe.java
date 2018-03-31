@@ -23,9 +23,9 @@ public class ItemCactusAxe extends ItemTool{
 	private final ToolMaterial material;
     
 	public ItemCactusAxe(String registryName) {
-		super(CactusItems.cactusMaterial, EFFECTIVE_ON);
+		super(CactusItems.cactusTool, EFFECTIVE_ON);
 		
-		this.material = CactusItems.cactusMaterial;
+		this.material = CactusItems.cactusTool;
         this.maxStackSize = 1;
         this.attackDamage = 7.0F;
         this.attackSpeed = -3.2F;
@@ -37,7 +37,8 @@ public class ItemCactusAxe extends ItemTool{
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,
 			EntityLivingBase entityLiving) {
-		entityLiving.attackEntityFrom(DamageSource.CACTUS, 0.5F);
+		if(worldIn.rand.nextInt(10) < 3)
+			entityLiving.attackEntityFrom(DamageSource.CACTUS, 1F);
 		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
 	}
 	

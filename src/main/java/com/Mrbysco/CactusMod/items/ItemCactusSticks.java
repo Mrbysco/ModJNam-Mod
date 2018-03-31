@@ -12,9 +12,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
-public class ItemBase extends Item{
+public class ItemCactusSticks extends Item{
 
-	public ItemBase(String registryName) {
+	public ItemCactusSticks(String registryName) {
 		setCreativeTab(CactusMod.cactustab);
 		
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));

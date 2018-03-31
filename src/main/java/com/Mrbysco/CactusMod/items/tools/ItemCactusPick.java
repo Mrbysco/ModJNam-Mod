@@ -17,9 +17,9 @@ public class ItemCactusPick extends ItemPickaxe{
     private final ToolMaterial material;
 	
     public ItemCactusPick(String registryName) {
-		super(CactusItems.cactusMaterial);
+		super(CactusItems.cactusTool);
 		
-		this.material = CactusItems.cactusMaterial;
+		this.material = CactusItems.cactusTool;
         this.maxStackSize = 1;
 
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
@@ -29,7 +29,8 @@ public class ItemCactusPick extends ItemPickaxe{
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,
 			EntityLivingBase entityLiving) {
-		entityLiving.attackEntityFrom(DamageSource.CACTUS, 0.5F);
+		if(worldIn.rand.nextInt(10) < 3)
+			entityLiving.attackEntityFrom(DamageSource.CACTUS, 1F);
 		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
 	}
 }

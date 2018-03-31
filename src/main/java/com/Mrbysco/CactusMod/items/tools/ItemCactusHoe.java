@@ -20,9 +20,9 @@ public class ItemCactusHoe extends ItemHoe{
 	private final ToolMaterial material;
 	
 	public ItemCactusHoe(String registryName) {
-		super(CactusItems.cactusMaterial);
+		super(CactusItems.cactusTool);
 		
-		this.material = CactusItems.cactusMaterial;
+		this.material = CactusItems.cactusTool;
         this.maxStackSize = 1;
 
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
@@ -32,7 +32,8 @@ public class ItemCactusHoe extends ItemHoe{
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
-		player.attackEntityFrom(DamageSource.CACTUS, 0.5F);
+		if(worldIn.rand.nextInt(10) < 3)
+			player.attackEntityFrom(DamageSource.CACTUS, 1F);
 		return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 	}
 }

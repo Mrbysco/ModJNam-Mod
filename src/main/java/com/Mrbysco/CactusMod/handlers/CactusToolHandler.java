@@ -14,18 +14,17 @@ public class CactusToolHandler {
 	@SubscribeEvent
 	public void CactusSwordEvent(LivingAttackEvent event)
 	{
-		if(event.getSource().getDamageType() == "player")
+		boolean flag = event.getSource().getTrueSource() instanceof EntityPlayer;
+		if(event.getSource().getDamageType() == "player" && flag)
 		{
-			if(event.getSource().getTrueSource() instanceof EntityPlayer)
+			EntityPlayer player = (EntityPlayer)event.getSource().getTrueSource();
+			ItemStack stack = player.getHeldItemMainhand();
+			World world = player.world;
+			
+			if(stack.getItem() == CactusItems.cactus_sword && !world.isRemote)
 			{
-				EntityPlayer player = (EntityPlayer)event.getEntityLiving();
-				ItemStack stack = player.getHeldItemMainhand();
-				World world = player.world;
-				
-				if(stack.getItem() == CactusItems.cactus_sword && !world.isRemote)
-				{
-					player.attackEntityFrom(DamageSource.CACTUS, 0.5F);
-				}
+				if(world.rand.nextInt(10) < 3)
+					player.attackEntityFrom(DamageSource.CACTUS, 1F);
 			}
 		}
 	}
