@@ -5,6 +5,7 @@ import com.Mrbysco.CactusMod.init.CactusBlocks;
 import com.Mrbysco.CactusMod.init.CactusItems;
 
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.block.BlockCactus;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.pattern.BlockMaterialMatcher;
@@ -35,7 +36,9 @@ public class PlaceHandler {
 		{
 			if(stack.getItem() == CactusItems.cactus_stick)
 			{
-				spawnGolem(world, pos);
+				System.out.println(world.getBlockState(pos).getBlock());
+				if(world.getBlockState(pos).getBlock() instanceof BlockCactus)
+					spawnGolem(world, pos);
 			}
 		}
 	}

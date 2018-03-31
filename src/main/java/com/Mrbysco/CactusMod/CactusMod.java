@@ -3,6 +3,7 @@ package com.Mrbysco.CactusMod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.Mrbysco.CactusMod.handlers.CactusToolHandler;
 import com.Mrbysco.CactusMod.handlers.PlaceHandler;
 import com.Mrbysco.CactusMod.init.CactusEntities;
 import com.Mrbysco.CactusMod.init.CactusTab;
@@ -45,8 +46,9 @@ public class CactusMod {
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		logger.debug("Registering Place Handler");
+		logger.debug("Registering Handlers");
 		MinecraftForge.EVENT_BUS.register(new PlaceHandler());
+		MinecraftForge.EVENT_BUS.register(new CactusToolHandler());
 		
 		proxy.init();
 	}

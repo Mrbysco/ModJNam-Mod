@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "cactusmod:cactus_shovel"
+  },
+  "pattern": [
+	" C ",
+    " S",
+    " S "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "S": {
+      "item": "cactusmod:cactus_stick"
+    },
+	"C": {
+      "item": "minecraft:cactus"
+    }
+  }
+}
