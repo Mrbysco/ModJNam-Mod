@@ -7,6 +7,6 @@
 			"west": { "model": "cactusmod:cactus_chest", "y": 270},
 			"south": { "model": "cactusmod:cactus_chest", "y": 180}
 		},
-		"inventory": [{}]
+		"inventory": { "model": "cactusmod:cactus_chest" }
 	}
 }

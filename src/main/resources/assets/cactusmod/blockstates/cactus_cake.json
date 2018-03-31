@@ -1,27 +1,11 @@
 {
-	"forge_marker": 1,
-	"defaults": {
-		"textures": {
-			"particle": "cactusmod:blocks/cake_side",
-			"bottom": "cactusmod:blocks/cake_bottom",
-			"top": "cactusmod:blocks/cake_top",
-			"side": "cactusmod:blocks/cake_side"
-		}
-	},
 	"variants": {
-		"bites=0": { "model": "cake_uneaten",
-					 "textures": {"inside": "cactusmod:blocks/cake_inner"}},
-        "bites=1": { "model": "cake_slice1",
-					 "textures": {"inside": "cactusmod:blocks/cake_inner"}},
-        "bites=2": { "model": "cake_slice2",
-					 "textures": {"inside": "cactusmod:blocks/cake_inner"}},
-        "bites=3": { "model": "cake_slice3",
-					 "textures": {"inside": "cactusmod:blocks/cake_inner"}},
-        "bites=4": { "model": "cake_slice4",
-					 "textures": {"inside": "cactusmod:blocks/cake_inner"}},
-        "bites=5": { "model": "cake_slice5",
-					 "textures": {"inside": "cactusmod:blocks/cake_inner"}},
-        "bites=6": { "model": "cake_slice6",
-					 "textures": {"inside": "cactusmod:blocks/cake_inner"}}
+        "bites=0": { "model": "cactusmod:cactus_cake_uneaten" },
+        "bites=1": { "model": "cactusmod:cactus_cake_slice1" },
+        "bites=2": { "model": "cactusmod:cactus_cake_slice2" },
+        "bites=3": { "model": "cactusmod:cactus_cake_slice3" },
+        "bites=4": { "model": "cactusmod:cactus_cake_slice4" },
+        "bites=5": { "model": "cactusmod:cactus_cake_slice5" },
+        "bites=6": { "model": "cactusmod:cactus_cake_slice6" }
 	}
 }

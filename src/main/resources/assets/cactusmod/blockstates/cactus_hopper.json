@@ -1,12 +1,8 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"textures": {
-			"particle": "cactusmod:blocks/cactus_hopper_outside",
-			"top": "cactusmod:blocks/cactus_hopper_top",
-			"side": "cactusmod:blocks/cactus_hopper_outside",
-			"inside": "cactusmod:blocks/cactus_hopper_inside"
-		}
+        "transform": "forge:default-block",
+        "model": "cactusmod:cactus_hopper_down"
 	},
 	"variants": {
 		"enabled": {
@@ -14,12 +10,11 @@
             "false": {}  
 		},
 		"facing": {
-			"down": { "model": "hopper_down" },
-			"north": { "model": "hopper_side" },
-			"south": { "model": "hopper_side", "y": 180 },
-			"west": { "model": "hopper_side", "y": 270 },
-			"east": { "model": "hopper_side", "y": 90 }
-		},
-		"inventory": [{}]
+			"down": { "model": "cactusmod:cactus_hopper_down" },
+			"north": { "model": "cactusmod:cactus_hopper_side" },
+			"south": { "model": "cactusmod:cactus_hopper_side", "y": 180 },
+			"west": { "model": "cactusmod:cactus_hopper_side", "y": 270 },
+			"east": { "model": "cactusmod:cactus_hopper_side", "y": 90 }
+		}
 	}
 }

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "cactusmod:cactus_hopper"
+  },
+  "pattern": [
+	"C C",
+    "CWC",
+    " C "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "minecraft:cactus"
+    },
+	"W": {
+      "item": "minecraft:chest"
+    }
+  }
+}
