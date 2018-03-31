@@ -1,7 +1,7 @@
 package com.Mrbysco.CactusMod.items.tools;
 
+import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
-import com.Mrbysco.CactusMod.init.CactusItems;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,14 +16,15 @@ public class ItemCactusSword extends ItemSword{
     private final ToolMaterial material;
     
 	public ItemCactusSword(String registryName) {
-		super(CactusItems.cactusTool);
+		super(CactusMod.cactusTool);
 		
-		this.material = CactusItems.cactusTool;
+		this.material = CactusMod.cactusTool;
 		
         this.maxStackSize = 1;
         this.setMaxDamage(material.getMaxUses());
         this.attackDamage = 3.0F + material.getAttackDamage();
-
+        this.setCreativeTab(CactusMod.cactustab);
+        
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}

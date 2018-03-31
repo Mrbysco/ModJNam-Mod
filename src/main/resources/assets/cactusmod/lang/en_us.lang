@@ -6,7 +6,7 @@ entity.cactusmod:CactusGolem.name=Cactus Golem
 
 # Items
 item.cactusmod:cactusstick.name=Cactus Stick
-item.Cactus Cake.name=Cactus Cake
+item.tile.cactusmod:cactuscake.name=Cactus Cake
 
 item.cactusmod:cactussword.name=Cactus Sword
 item.cactusmod:cactusshovel.name=Cactus Shovel
@@ -22,8 +22,16 @@ item.cactusmod:cactusboots.name=Cactus Boots
 cactus_stick.text=Used to summon cactus monsters
 cactus_stick.text2=when right-clicked on the proper structures.
 
-cactus.armor.text=Comes with Thorns 2 when crafted
+cactus.armor.text=Comes with Thorns 2 when crafted.
 
 # Blocks
 tile.cactusmod:pricklyironblock.name=Prickly Iron Block
 tile.cactusmod:cactuscake.name=Cactus Cake
+tile.cactusmod:cactuschest.name=Cactus Chest
+tile.cactusmod:cactushopper.name=Cactus Hopper
+
+cactus.chest.info=Slowly rids it's inventory.
+
+# Others
+container.cactus.chest=Cactus Chest
+container.cactus.hopper=Cactus Hopper

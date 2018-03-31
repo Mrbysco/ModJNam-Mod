@@ -43,9 +43,7 @@ public class CactusItems {
 	public static ItemArmor cactus_chestplate;
 	public static ItemArmor cactus_leggings;
 	public static ItemArmor cactus_boots;
-
-	public static final ToolMaterial cactusTool = EnumHelper.addToolMaterial("cactus", 0, 67, 3.0F, 0.2F, 15).setRepairItem(new ItemStack(Blocks.CACTUS));
-	public static final ArmorMaterial cactusArmor = EnumHelper.addArmorMaterial("cactus", "cactusmod:cactus", 0 , new int[]{0, 0, 0, 0}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0F).setRepairItem(new ItemStack(Blocks.CACTUS));
+	
 	public static ArrayList<Item> ITEMS = new ArrayList<>();
 	
 	@SubscribeEvent

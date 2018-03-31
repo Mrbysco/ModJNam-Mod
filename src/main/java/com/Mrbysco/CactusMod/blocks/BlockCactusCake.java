@@ -1,5 +1,7 @@
 package com.Mrbysco.CactusMod.blocks;
 
+import java.util.List;
+
 import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
 
@@ -7,6 +9,7 @@ import net.minecraft.block.BlockCake;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,10 +18,12 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
-public class CactusCakeBlock extends BlockCake{
-	public CactusCakeBlock(String registryName) {		
+public class BlockCactusCake extends BlockCake{
+	public BlockCactusCake(String registryName) {		
 		setHardness(0.5F);
 		setSoundType(SoundType.CLOTH);
 		
@@ -72,5 +77,12 @@ public class CactusCakeBlock extends BlockCake{
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
         entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		super.addInformation(stack, worldIn, tooltip, flagIn);
+
+		tooltip.add(TextFormatting.GREEN + I18n.translateToLocal("cactus.chest.info"));
 	}
 }

@@ -2,8 +2,8 @@ package com.Mrbysco.CactusMod.items.tools;
 
 import java.util.Set;
 
+import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
-import com.Mrbysco.CactusMod.init.CactusItems;
 import com.google.common.collect.Sets;
 
 import net.minecraft.block.Block;
@@ -11,7 +11,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.DamageSource;
@@ -23,12 +22,13 @@ public class ItemCactusAxe extends ItemTool{
 	private final ToolMaterial material;
     
 	public ItemCactusAxe(String registryName) {
-		super(CactusItems.cactusTool, EFFECTIVE_ON);
+		super(CactusMod.cactusTool, EFFECTIVE_ON);
 		
-		this.material = CactusItems.cactusTool;
+		this.material = CactusMod.cactusTool;
         this.maxStackSize = 1;
         this.attackDamage = 7.0F;
         this.attackSpeed = -3.2F;
+        this.setCreativeTab(CactusMod.cactustab);
         
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);

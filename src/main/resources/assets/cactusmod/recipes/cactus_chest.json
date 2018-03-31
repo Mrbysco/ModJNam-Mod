@@ -1,19 +1,19 @@
 {
   "result": {
-    "item": "cactusmod:cactus_pickaxe"
+    "item": "cactusmod:cactus_chest"
   },
   "pattern": [
-	"CCC",
-    " S ",
-    " S "
+	" C ",
+    "CWC",
+    " C "
   ],
   "type": "minecraft:crafting_shaped",
   "key": {
-    "S": {
-      "item": "cactusmod:cactus_stick"
-    },
-	"C": {
+    "C": {
       "item": "minecraft:cactus"
+    },
+	"W": {
+      "item": "minecraft:chest"
     }
   }
 }

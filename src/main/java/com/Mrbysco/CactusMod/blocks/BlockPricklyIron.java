@@ -17,9 +17,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 
-public class PricklyIronBlock extends Block{
+public class BlockPricklyIron extends Block{
     public static final AxisAlignedBB FULL_AAB = new AxisAlignedBB(0.005D, 0.0D, 0.005D, 0.995D, 0.995D, 0.995D);
-	public PricklyIronBlock(String registryName) {
+	public BlockPricklyIron(String registryName) {
 		super(Material.IRON);
 		
 		setHardness(2.0F);

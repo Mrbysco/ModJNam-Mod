@@ -2,8 +2,8 @@ package com.Mrbysco.CactusMod.items;
 
 import java.util.List;
 
+import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
-import com.Mrbysco.CactusMod.init.CactusItems;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,9 +18,10 @@ import net.minecraft.world.World;
 public class itemCactusArmor extends ItemArmor{
 
 	public itemCactusArmor(String registryName, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) {
-		super(CactusItems.cactusArmor, renderIndexIn, equipmentSlotIn);
+		super(CactusMod.cactusArmor, renderIndexIn, equipmentSlotIn);
 		this.maxStackSize = 1;
-
+		
+		this.setCreativeTab(CactusMod.cactustab);
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}

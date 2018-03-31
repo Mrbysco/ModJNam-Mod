@@ -1,7 +1,7 @@
 package com.Mrbysco.CactusMod.items.tools;
 
+import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
-import com.Mrbysco.CactusMod.init.CactusItems;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,11 +19,12 @@ public class ItemCactusShovel extends ItemSpade{
 	private final ToolMaterial material;
 	
 	public ItemCactusShovel(String registryName) {
-		super(CactusItems.cactusTool);
+		super(CactusMod.cactusTool);
 		
-		this.material = CactusItems.cactusTool;
+		this.material = CactusMod.cactusTool;
         this.maxStackSize = 1;
-
+        this.setCreativeTab(CactusMod.cactustab);
+        
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}

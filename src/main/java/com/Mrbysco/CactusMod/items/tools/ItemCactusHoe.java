@@ -1,14 +1,10 @@
 package com.Mrbysco.CactusMod.items.tools;
 
+import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
-import com.Mrbysco.CactusMod.init.CactusItems;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -20,11 +16,12 @@ public class ItemCactusHoe extends ItemHoe{
 	private final ToolMaterial material;
 	
 	public ItemCactusHoe(String registryName) {
-		super(CactusItems.cactusTool);
+		super(CactusMod.cactusTool);
 		
-		this.material = CactusItems.cactusTool;
+		this.material = CactusMod.cactusTool;
         this.maxStackSize = 1;
-
+        this.setCreativeTab(CactusMod.cactustab);
+        
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}

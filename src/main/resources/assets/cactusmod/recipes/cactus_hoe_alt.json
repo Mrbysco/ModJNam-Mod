@@ -4,7 +4,7 @@
   },
   "pattern": [
 	"CC ",
-    " S",
+    " S ",
     " S "
   ],
   "type": "minecraft:crafting_shaped",

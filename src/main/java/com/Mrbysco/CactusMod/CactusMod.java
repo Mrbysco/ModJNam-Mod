@@ -9,7 +9,13 @@ import com.Mrbysco.CactusMod.init.CactusEntities;
 import com.Mrbysco.CactusMod.init.CactusTab;
 import com.Mrbysco.CactusMod.proxy.CommonProxy;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -33,6 +39,10 @@ public class CactusMod {
 	public static CactusTab cactustab = new CactusTab();
 	
 	public static final Logger logger = LogManager.getLogger(Reference.MOD_ID);
+	
+	//Stuff
+	public static final ToolMaterial cactusTool = EnumHelper.addToolMaterial("cactus", 0, 67, 3.0F, 0.2F, 15).setRepairItem(new ItemStack(Blocks.CACTUS));
+	public static final ArmorMaterial cactusArmor = EnumHelper.addArmorMaterial("cactus", "cactusmod:cactus", 0 , new int[]{0, 0, 0, 0}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0F).setRepairItem(new ItemStack(Blocks.CACTUS));
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
