@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "cactusmod:carved_cactus"
+  },
+  "pattern": [
+	"C"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+	"C": {
+      "item": "minecraft:cactus"
+    }
+  }
+}

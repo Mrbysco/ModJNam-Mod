@@ -52,7 +52,7 @@ public class EntitySpike extends EntityArrow{
             float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
             int i = MathHelper.ceil((double)f * this.damage);
             
-            DamageSource damagesource = DamageSource.CACTUS;
+            DamageSource damagesource = new DamageSource("spike");
 
             if (this.isBurning() && !(entity instanceof EntityEnderman))
             {

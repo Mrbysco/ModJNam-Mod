@@ -23,6 +23,7 @@ item.cactusmod:cactusleggings.name=Cactus Leggings
 item.cactusmod:cactusboots.name=Cactus Boots
 
 item.cactusmod:cactusshield.name=Cactus Shield
+item.cactusmod:cactusbow.name=Cactus Bow
 item.cactusmod:cactuscart.name=Cactus Cart
 
 cactus.stick.text=Used to summon cactus monsters
@@ -35,6 +36,8 @@ cactus.bow.text=Shoots knockback spikes.
 
 # Blocks
 tile.cactusmod:pricklyironblock.name=Prickly Iron Block
+tile.cactusmod:carvedcactus.name=Carved Cactus
+tile.cactusmod:jackocactus.name=John O' Lantern
 tile.cactusmod:cactuscarpet.name=Cactus Carpet
 
 tile.cactusmod:cactuscake.name=Cactus Cake
@@ -48,3 +51,6 @@ cactus.chest.info=Slowly rids it's inventory.
 # Others
 container.cactus.chest=Cactus Chest
 container.cactus.hopper=Cactus Hopper
+
+death.attack.spike=%s got spiked
+death.attack.spike.player=%1$s was spiked by %2$s

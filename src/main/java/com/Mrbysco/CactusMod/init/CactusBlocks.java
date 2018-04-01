@@ -7,6 +7,7 @@ import com.Mrbysco.CactusMod.blocks.BlockCactusChest;
 import com.Mrbysco.CactusMod.blocks.BlockCactusHopper;
 import com.Mrbysco.CactusMod.blocks.BlockCactusPunji;
 import com.Mrbysco.CactusMod.blocks.BlockCactusTNT;
+import com.Mrbysco.CactusMod.blocks.BlockCarvedCactus;
 import com.Mrbysco.CactusMod.blocks.BlockPricklyIron;
 
 import net.minecraft.block.Block;
@@ -22,6 +23,10 @@ import net.minecraftforge.registries.IForgeRegistry;
 @EventBusSubscriber
 public class CactusBlocks {
 	public static Block prickly_iron;
+	
+	public static Block carved_cactus;
+	public static Block jacko_cactus;
+	
 	public static Block cactus_carpet;
 	
 	public static Block cactus_cake;
@@ -39,6 +44,13 @@ public class CactusBlocks {
 	    IForgeRegistry<Block> registry = event.getRegistry();
 
 	    prickly_iron = registerBlock(new BlockPricklyIron("prickly_iron_block"));
+	    
+	    carved_cactus = registerBlock(new BlockCarvedCactus("carved_cactus"));
+	    
+	    jacko_cactus = new BlockCarvedCactus("jacko_cactus");
+	    jacko_cactus.setLightLevel(1F);
+	    registerBlock(jacko_cactus);
+	    
 	    cactus_carpet = registerBlock(new BlockCactusPunji("cactus_carpet"));
 	    
 		cactus_chest = registerBlock(new BlockCactusChest("cactus_chest"));

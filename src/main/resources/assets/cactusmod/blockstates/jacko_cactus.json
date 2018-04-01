@@ -1,0 +1,12 @@
+{
+	"forge_marker": 1,
+	"variants": {
+		"facing": {
+			"north": { "model": "cactusmod:jacko_cactus" },
+			"south": { "model": "cactusmod:jacko_cactus", "y": 180 },
+			"west":  { "model": "cactusmod:jacko_cactus", "y": 270 },
+			"east":  { "model": "cactusmod:jacko_cactus", "y": 90 }
+		},
+		"inventory": { "model": "cactusmod:jacko_cactus" }
+	}
+}

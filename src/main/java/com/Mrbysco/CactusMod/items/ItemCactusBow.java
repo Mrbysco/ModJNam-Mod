@@ -22,6 +22,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -83,24 +84,28 @@ public class ItemCactusBow extends Item
             {
                 if (!worldIn.isRemote)
                 {
-                    EntitySpike EntitySpike = new EntitySpike(worldIn, entityplayer);
-                    EntitySpike.setDamage(0D);
-                    EntitySpike.shoot(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw, 0.0F, f * 3.0F, 1.0F);
+                    EntitySpike spike = new EntitySpike(worldIn, entityplayer);
+                    spike.setDamage(0D);
+                    spike.setKnockbackStrength(3);
+                    spike.shoot(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw, 0.0F, f * 3.0F, 1.0F);
 
                     if (f == 1.0F)
                     {
-                        EntitySpike.setIsCritical(true);
+                    	spike.setIsCritical(true);
                     }
 
                     int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
 
                     if (k > 0)
                     {
-                        EntitySpike.setKnockbackStrength(k);
+                    	spike.setKnockbackStrength(k + 3);
                     }
 
                     stack.damageItem(1, entityplayer);
-                    worldIn.spawnEntity(EntitySpike);
+                    worldIn.spawnEntity(spike);
+                    
+            		if(worldIn.rand.nextInt(10) < 5)
+            			entityLiving.attackEntityFrom(DamageSource.CACTUS, 1F);
                 }
 
                 worldIn.playSound((EntityPlayer)null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
