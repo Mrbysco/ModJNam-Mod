@@ -1,0 +1,6 @@
+{
+    "parent": "item/bow",
+    "textures": {
+        "layer0": "cactusmod:items/cactus_bow_pulling_2"
+    }
+}

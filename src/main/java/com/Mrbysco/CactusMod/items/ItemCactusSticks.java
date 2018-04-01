@@ -25,7 +25,7 @@ public class ItemCactusSticks extends Item{
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 
-		tooltip.add(TextFormatting.GREEN + I18n.translateToLocal("cactus_stick.text"));
-		tooltip.add(TextFormatting.GREEN + I18n.translateToLocal("cactus_stick.text2"));
+		tooltip.add(TextFormatting.GREEN + I18n.translateToLocal("cactus.stick.text"));
+		tooltip.add(TextFormatting.GREEN + I18n.translateToLocal("cactus.stick.text2"));
 	}
 }

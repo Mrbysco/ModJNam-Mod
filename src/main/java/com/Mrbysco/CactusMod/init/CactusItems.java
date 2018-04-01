@@ -2,8 +2,10 @@ package com.Mrbysco.CactusMod.init;
 
 import java.util.ArrayList;
 
-import com.Mrbysco.CactusMod.items.ItemCactusSticks;
 import com.Mrbysco.CactusMod.items.ItemCactusArmor;
+import com.Mrbysco.CactusMod.items.ItemCactusBow;
+import com.Mrbysco.CactusMod.items.ItemCactusCart;
+import com.Mrbysco.CactusMod.items.ItemCactusSticks;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusAxe;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusHoe;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusPick;
@@ -41,6 +43,8 @@ public class CactusItems {
 	public static ItemArmor cactus_boots;
 	
 	public static ItemShield cactus_shield;
+	public static Item cactus_bow;
+	public static Item cactus_cart;
 	
 	public static ArrayList<Item> ITEMS = new ArrayList<>();
 	
@@ -66,6 +70,9 @@ public class CactusItems {
 		
 		//Shield
 		cactus_shield = registerItem(new ItemCactusShield("cactus_shield"));
+		cactus_bow = registerItem(new ItemCactusBow("cactus_bow"));
+		
+		cactus_cart = registerItem(new ItemCactusCart("cactus_cart"));
 		
 		registry.registerAll(ITEMS.toArray(new Item[0]));
     }

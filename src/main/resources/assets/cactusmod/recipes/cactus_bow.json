@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "cactusmod:cactus_bow"
+  },
+  "pattern": [
+	" CS",
+    "C S",
+    " CS"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "minecraft:cactus"
+    },
+	"S": {
+      "item": "minecraft:string"
+    }
+  }
+}

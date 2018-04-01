@@ -1,15 +1,19 @@
 {
   "result": {
-    "item": "cactusmod:cactus_punji",
-	"count": 6
+    "item": "cactusmod:cactus_tnt"
   },
   "pattern": [
-	"CCC"
+	"GCG",
+    "CGC",
+	"GCG"
   ],
   "type": "minecraft:crafting_shaped",
   "key": {
-	"C": {
+    "C": {
       "item": "minecraft:cactus"
+    },
+	"G": {
+      "item": "minecraft:gunpowder"
     }
   }
 }

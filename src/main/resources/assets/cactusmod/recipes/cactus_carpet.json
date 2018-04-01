@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "cactusmod:cactus_carpet",
+	"count": 6
+  },
+  "pattern": [
+	"CCC"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+	"C": {
+      "item": "minecraft:cactus"
+    }
+  }
+}

@@ -6,11 +6,13 @@ import com.Mrbysco.CactusMod.blocks.BlockCactusCake;
 import com.Mrbysco.CactusMod.blocks.BlockCactusChest;
 import com.Mrbysco.CactusMod.blocks.BlockCactusHopper;
 import com.Mrbysco.CactusMod.blocks.BlockCactusPunji;
+import com.Mrbysco.CactusMod.blocks.BlockCactusTNT;
 import com.Mrbysco.CactusMod.blocks.BlockPricklyIron;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHopper;
+import net.minecraft.block.BlockTNT;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -20,13 +22,14 @@ import net.minecraftforge.registries.IForgeRegistry;
 @EventBusSubscriber
 public class CactusBlocks {
 	public static Block prickly_iron;
-	public static Block cactus_punji;
+	public static Block cactus_carpet;
 	
 	public static Block cactus_cake;
 	public static ItemBlock cactus_cake_item;
 	
 	public static BlockContainer cactus_chest;
 	public static BlockHopper cactus_hopper;
+	public static BlockTNT cactus_tnt;
 	
 	public static ArrayList<Block> BLOCKS = new ArrayList<>();
 	
@@ -36,11 +39,13 @@ public class CactusBlocks {
 	    IForgeRegistry<Block> registry = event.getRegistry();
 
 	    prickly_iron = registerBlock(new BlockPricklyIron("prickly_iron_block"));
-	    cactus_punji = registerBlock(new BlockCactusPunji("cactus_punji"));
+	    cactus_carpet = registerBlock(new BlockCactusPunji("cactus_carpet"));
 	    
 		cactus_chest = registerBlock(new BlockCactusChest("cactus_chest"));
 		cactus_hopper = registerBlock(new BlockCactusHopper("cactus_hopper"));
 	    cactus_cake = registerCake(new BlockCactusCake("cactus_cake"));
+	    
+	    cactus_tnt = registerBlock(new BlockCactusTNT("cactus_tnt"));
 	    
 	    registry.registerAll(BLOCKS.toArray(new Block[0]));
 	}

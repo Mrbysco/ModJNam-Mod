@@ -1,0 +1,11 @@
+{
+	"forge_marker": 1,
+	"variants": {
+		"explode": {
+			"false": { "model": "cactusmod:cactus_tnt" },
+			"true": { "model": "cactusmod:cactus_tnt" }
+		},
+		"normal": { "model": "cactusmod:cactus_tnt" },
+		"inventory": { "model": "cactusmod:cactus_tnt" }
+	}
+}

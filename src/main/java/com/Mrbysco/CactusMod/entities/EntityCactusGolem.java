@@ -31,7 +31,6 @@ public class EntityCactusGolem extends EntityIronGolem{
 	@Override
 	protected void collideWithEntity(Entity entityIn) {
 		super.collideWithEntity(entityIn);
-		
 		entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
 	}
 	

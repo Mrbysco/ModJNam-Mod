@@ -20,9 +20,23 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class PlaceHandler {
+	
+	@SubscribeEvent
+	public void CactusPlacementCheckk(BlockEvent.PlaceEvent event)
+	{
+		World world = event.getWorld();
+		BlockPos pos = event.getPos();
+		
+		if(!world.isRemote)
+		{
+			if(world.getBlockState(pos).getBlock() instanceof BlockCactus)
+				spawnGolem(world, pos);
+		}
+	}
 	
 	@SubscribeEvent
 	public void CactusPlacementCheck(PlayerInteractEvent.RightClickBlock event)
@@ -37,8 +51,8 @@ public class PlaceHandler {
 			if(stack.getItem() == CactusItems.cactus_stick)
 			{
 				System.out.println(world.getBlockState(pos).getBlock());
-				if(world.getBlockState(pos).getBlock() instanceof BlockCactus)
-					spawnGolem(world, pos);
+				//if(world.getBlockState(pos).getBlock() instanceof BlockCactus)
+				//	spawnGolem(world, pos);
 			}
 		}
 	}

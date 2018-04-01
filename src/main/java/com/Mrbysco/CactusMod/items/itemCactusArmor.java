@@ -11,6 +11,8 @@ import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
@@ -30,6 +32,16 @@ public class ItemCactusArmor extends ItemArmor{
 	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		stack.addEnchantment(Enchantments.THORNS, 2);
 		super.onCreated(stack, worldIn, playerIn);
+	}
+	
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+		ItemStack stack = playerIn.getHeldItem(handIn);
+		if(!stack.isItemEnchanted())
+		{
+			stack.addEnchantment(Enchantments.THORNS, 2);
+		}
+		return super.onItemRightClick(worldIn, playerIn, handIn);
 	}
 	
 	@Override

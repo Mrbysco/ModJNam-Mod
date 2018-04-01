@@ -4,6 +4,9 @@ itemGroup.cactusmod=The Cactus Tab
 # Entities
 entity.cactusmod:cactusgolem.name=Cactus Golem
 entity.cactusmod:cactuscow.name=Cactus Cow
+entity.cactusmod:cactuscart.name=Cactus Cart
+entity.cactusmod:cactustnt.name=Cactus Tnt
+entity.cactusmod:cactusspike.name=Cactus Spike
 
 # Items
 item.cactusmod:cactusstick.name=Cactus Stick
@@ -20,21 +23,25 @@ item.cactusmod:cactusleggings.name=Cactus Leggings
 item.cactusmod:cactusboots.name=Cactus Boots
 
 item.cactusmod:cactusshield.name=Cactus Shield
+item.cactusmod:cactuscart.name=Cactus Cart
 
-cactus_stick.text=Used to summon cactus monsters
-cactus_stick.text2=when right-clicked on the proper structures.
+cactus.stick.text=Used to summon cactus monsters
+cactus.stick.text2=when right-clicked on the proper structures.
 
 cactus.armor.text=Comes with Thorns 2 when crafted.
 
 cactus.shield.text=Acts more like a reflector.
+cactus.bow.text=Shoots knockback spikes.
 
 # Blocks
 tile.cactusmod:pricklyironblock.name=Prickly Iron Block
-tile.cactusmod:cactuspunji.name=Cactus Punji
+tile.cactusmod:cactuscarpet.name=Cactus Carpet
 
 tile.cactusmod:cactuscake.name=Cactus Cake
 tile.cactusmod:cactuschest.name=Cactus Chest
 tile.cactusmod:cactushopper.name=Cactus Hopper
+
+tile.cactusmod:cactustnt.name=Cactus TNT
 
 cactus.chest.info=Slowly rids it's inventory.
 
