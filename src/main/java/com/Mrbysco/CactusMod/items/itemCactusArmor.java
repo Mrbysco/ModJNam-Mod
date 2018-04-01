@@ -15,9 +15,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
-public class itemCactusArmor extends ItemArmor{
+public class ItemCactusArmor extends ItemArmor{
 
-	public itemCactusArmor(String registryName, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) {
+	public ItemCactusArmor(String registryName, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) {
 		super(CactusMod.cactusArmor, renderIndexIn, equipmentSlotIn);
 		this.maxStackSize = 1;
 		

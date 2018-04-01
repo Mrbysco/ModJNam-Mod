@@ -2,6 +2,7 @@ package com.Mrbysco.CactusMod.init;
 
 import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
+import com.Mrbysco.CactusMod.entities.EntityCactusCow;
 import com.Mrbysco.CactusMod.entities.EntityCactusGolem;
 import com.Mrbysco.CactusMod.tileentities.TileEntityCactusChest;
 import com.Mrbysco.CactusMod.tileentities.TileEntityCactusHopper;
@@ -18,7 +19,8 @@ public class CactusEntities {
 	
 	public static void register()
 	{
-		registerEntity("cactus_golem", EntityCactusGolem.class, "CactusGolem", 80, 3, true, 0xFF0f751b, 0xFF89132f);
+		registerEntity("cactus_golem", EntityCactusGolem.class, "cactusgolem", 80, 3, true, 0xFF0f751b, 0xFF89132f);
+		registerEntity("cactus_cow", EntityCactusCow.class, "cactuscow", 80, 3, true, 0xFF0f751b, 0xFF89132f);
 		
 		registerTileEntity(TileEntityCactusChest.class, "_cactus_chest");
 		registerTileEntity(TileEntityCactusHopper.class, "_cactus_hopper");

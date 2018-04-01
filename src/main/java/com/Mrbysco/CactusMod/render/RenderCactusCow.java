@@ -1,9 +1,9 @@
 package com.Mrbysco.CactusMod.render;
 
 import com.Mrbysco.CactusMod.Reference;
-import com.Mrbysco.CactusMod.entities.EntityCactusGolem;
+import com.Mrbysco.CactusMod.entities.EntityCactusCow;
 
-import net.minecraft.client.model.ModelIronGolem;
+import net.minecraft.client.model.ModelCow;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -11,27 +11,33 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
-public class RenderCactusGolem extends RenderLiving<EntityCactusGolem> {
+public class RenderCactusCow extends RenderLiving<EntityCactusCow> {
 	public static final Factory FACTORY = new Factory();
-	private static final ResourceLocation texture = new ResourceLocation(Reference.PREFIX + "textures/entity/cactus_villager_golem.png");
+	private static final ResourceLocation texture = new ResourceLocation(Reference.PREFIX + "textures/entity/cactus_cow.png");
 
-	public RenderCactusGolem(RenderManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelIronGolem(), 0.5F);
+	public RenderCactusCow(RenderManager rendermanagerIn) {
+        super(rendermanagerIn, new ModelCow(), 0.7F);
+        this.addLayer(new LayerCactusCowCactus(this));
 	}
+	
+	public ModelCow getMainModel()
+    {
+        return (ModelCow)super.getMainModel();
+    }
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntityCactusGolem entity) {
+	protected ResourceLocation getEntityTexture(EntityCactusCow entity) {
 		return texture;
 	}
 	  
-	public static class Factory implements IRenderFactory<EntityCactusGolem> {
+	public static class Factory implements IRenderFactory<EntityCactusCow> {
 		@Override
-		public Render<? super EntityCactusGolem> createRenderFor(RenderManager manager) {
-			return new RenderCactusGolem(manager);
+		public Render<? super EntityCactusCow> createRenderFor(RenderManager manager) {
+			return new RenderCactusCow(manager);
 		}
 	}
 	
-	protected void applyRotations(EntityCactusGolem entityLiving, float p_77043_2_, float rotationYaw, float partialTicks)
+	protected void applyRotations(EntityCactusCow entityLiving, float p_77043_2_, float rotationYaw, float partialTicks)
     {
         super.applyRotations(entityLiving, p_77043_2_, rotationYaw, partialTicks);
 

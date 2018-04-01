@@ -69,7 +69,6 @@ public class TileEntityCactusHopper extends TileEntityHopper{
     {
         if (this.world != null && !this.world.isRemote)
         {
-        	System.out.println(this.ticksSinceDeleted);
         	Random rand = this.world.rand;
         	
             --this.transferCooldown;
@@ -83,7 +82,7 @@ public class TileEntityCactusHopper extends TileEntityHopper{
                 this.updateHopper();
             }
 
-            if(!this.isEmpty() && this.ticksSinceDeleted > 40)
+            if(!this.isEmpty() && this.ticksSinceDeleted > 60)
 			{
 				int randInt = rand.nextInt(this.getSizeInventory());
 				

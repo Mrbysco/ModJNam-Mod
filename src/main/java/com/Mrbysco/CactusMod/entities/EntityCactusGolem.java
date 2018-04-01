@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -76,4 +77,9 @@ public class EntityCactusGolem extends EntityIronGolem{
             super.handleStatusUpdate(id);
         }
     }
+	
+	@Override
+	protected ResourceLocation getLootTable() {
+		return new ResourceLocation("cactusmod:loot_tables/entities/cactus_golem");
+	}
 }

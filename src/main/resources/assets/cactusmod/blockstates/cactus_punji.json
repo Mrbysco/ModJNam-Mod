@@ -1,0 +1,7 @@
+{
+	"forge_marker": 1,
+	"variants": {
+		"normal": { "model": "cactusmod:cactus_punji" },
+		"inventory": { "model": "cactusmod:cactus_punji" }
+	}
+}

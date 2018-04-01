@@ -3,27 +3,23 @@ package com.Mrbysco.CactusMod.init;
 import java.util.ArrayList;
 
 import com.Mrbysco.CactusMod.items.ItemCactusSticks;
-import com.Mrbysco.CactusMod.items.itemCactusArmor;
+import com.Mrbysco.CactusMod.items.ItemCactusArmor;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusAxe;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusHoe;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusPick;
+import com.Mrbysco.CactusMod.items.tools.ItemCactusShield;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusShovel;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusSword;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemSpade;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
-import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -44,6 +40,8 @@ public class CactusItems {
 	public static ItemArmor cactus_leggings;
 	public static ItemArmor cactus_boots;
 	
+	public static ItemShield cactus_shield;
+	
 	public static ArrayList<Item> ITEMS = new ArrayList<>();
 	
 	@SubscribeEvent
@@ -61,10 +59,13 @@ public class CactusItems {
 		cactus_hoe = registerItem(new ItemCactusHoe("cactus_hoe"));
 		
 		//Armor
-		cactus_helmet = registerItem(new itemCactusArmor("cactus_helmet", 0, EntityEquipmentSlot.HEAD));
-		cactus_chestplate = registerItem(new itemCactusArmor("cactus_chestplate", 0, EntityEquipmentSlot.CHEST));
-		cactus_leggings = registerItem(new itemCactusArmor("cactus_leggings", 0, EntityEquipmentSlot.LEGS));
-		cactus_boots = registerItem(new itemCactusArmor("cactus_boots", 0, EntityEquipmentSlot.FEET));
+		cactus_helmet = registerItem(new ItemCactusArmor("cactus_helmet", 0, EntityEquipmentSlot.HEAD));
+		cactus_chestplate = registerItem(new ItemCactusArmor("cactus_chestplate", 0, EntityEquipmentSlot.CHEST));
+		cactus_leggings = registerItem(new ItemCactusArmor("cactus_leggings", 0, EntityEquipmentSlot.LEGS));
+		cactus_boots = registerItem(new ItemCactusArmor("cactus_boots", 0, EntityEquipmentSlot.FEET));
+		
+		//Shield
+		cactus_shield = registerItem(new ItemCactusShield("cactus_shield"));
 		
 		registry.registerAll(ITEMS.toArray(new Item[0]));
     }

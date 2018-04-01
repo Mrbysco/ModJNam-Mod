@@ -1,6 +1,8 @@
 package com.Mrbysco.CactusMod.proxy;
 
+import com.Mrbysco.CactusMod.entities.EntityCactusCow;
 import com.Mrbysco.CactusMod.entities.EntityCactusGolem;
+import com.Mrbysco.CactusMod.render.RenderCactusCow;
 import com.Mrbysco.CactusMod.render.RenderCactusGolem;
 import com.Mrbysco.CactusMod.render.TileEntityCactusChestRenderer;
 import com.Mrbysco.CactusMod.tileentities.TileEntityCactusChest;
@@ -25,6 +27,7 @@ public class ClientProxy extends CommonProxy{
 	public static void RegisterEntityRenders()
 	{
 		RenderingRegistry.registerEntityRenderingHandler(EntityCactusGolem.class, RenderCactusGolem.FACTORY);
+		RenderingRegistry.registerEntityRenderingHandler(EntityCactusCow.class, RenderCactusCow.FACTORY);
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCactusChest.class, new TileEntityCactusChestRenderer());
 	}

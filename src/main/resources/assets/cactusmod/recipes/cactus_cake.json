@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "cactusmod:cactus_cake"
+  },
+  "pattern": [
+	"AAA",
+    "BCB",
+    "WWW"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "minecraft:cactus"
+    },
+	"A": {
+      "item": "minecraft:milk_bucket"
+    },
+	"B": {
+      "item": "minecraft:sugar"
+    },
+	"W": {
+      "item": "minecraft:wheat"
+    }
+  }
+}

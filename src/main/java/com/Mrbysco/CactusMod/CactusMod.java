@@ -3,17 +3,22 @@ package com.Mrbysco.CactusMod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.Mrbysco.CactusMod.entities.EntityCactusCow;
 import com.Mrbysco.CactusMod.handlers.CactusToolHandler;
 import com.Mrbysco.CactusMod.handlers.PlaceHandler;
 import com.Mrbysco.CactusMod.init.CactusEntities;
 import com.Mrbysco.CactusMod.init.CactusTab;
 import com.Mrbysco.CactusMod.proxy.CommonProxy;
 
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.Mod;
@@ -56,6 +61,14 @@ public class CactusMod {
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
+		for (Biome biome : Biome.REGISTRY) {
+			if(biome == Biomes.DESERT || biome == Biomes.DESERT_HILLS || biome == Biomes.MUTATED_DESERT)
+			{
+				logger.debug("Registering Cactus Cow spawn");
+				biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusCow.class, 8, 4, 4));
+			}
+		}
+		
 		logger.debug("Registering Handlers");
 		MinecraftForge.EVENT_BUS.register(new PlaceHandler());
 		MinecraftForge.EVENT_BUS.register(new CactusToolHandler());

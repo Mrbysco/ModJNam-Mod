@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.Mrbysco.CactusMod.blocks.BlockCactusCake;
 import com.Mrbysco.CactusMod.blocks.BlockCactusChest;
 import com.Mrbysco.CactusMod.blocks.BlockCactusHopper;
+import com.Mrbysco.CactusMod.blocks.BlockCactusPunji;
 import com.Mrbysco.CactusMod.blocks.BlockPricklyIron;
 
 import net.minecraft.block.Block;
@@ -19,6 +20,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 @EventBusSubscriber
 public class CactusBlocks {
 	public static Block prickly_iron;
+	public static Block cactus_punji;
 	
 	public static Block cactus_cake;
 	public static ItemBlock cactus_cake_item;
@@ -34,6 +36,7 @@ public class CactusBlocks {
 	    IForgeRegistry<Block> registry = event.getRegistry();
 
 	    prickly_iron = registerBlock(new BlockPricklyIron("prickly_iron_block"));
+	    cactus_punji = registerBlock(new BlockCactusPunji("cactus_punji"));
 	    
 		cactus_chest = registerBlock(new BlockCactusChest("cactus_chest"));
 		cactus_hopper = registerBlock(new BlockCactusHopper("cactus_hopper"));

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "cactusmod:cactus_shield"
+  },
+  "pattern": [
+	"CIC",
+    "CCC",
+    " C "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "minecraft:cactus"
+    },
+	"I": {
+      "item": "minecraft:iron_ingot"
+    }
+  }
+}
