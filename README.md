@@ -7,3 +7,7 @@ This is a silly mod I created for the 2018.1 ModJam ModJnam.
 * The Cactus Mod is licensed under the MIT License
   - (c) 2018 Mrbysco
   - [![License](https://img.shields.io/badge/License-MIT-red.svg?style=flat)](http://opensource.org/licenses/MIT)
+
+## Downloads
+
+Downloads can be found on https://minecraft.curseforge.com/projects/the-cactus-mod
