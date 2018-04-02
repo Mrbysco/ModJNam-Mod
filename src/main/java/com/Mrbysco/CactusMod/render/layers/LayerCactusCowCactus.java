@@ -1,6 +1,7 @@
-package com.Mrbysco.CactusMod.render;
+package com.Mrbysco.CactusMod.render.layers;
 
 import com.Mrbysco.CactusMod.entities.EntityCactusCow;
+import com.Mrbysco.CactusMod.render.RenderCactusCow;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;

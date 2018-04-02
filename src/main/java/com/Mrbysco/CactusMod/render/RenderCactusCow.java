@@ -2,6 +2,7 @@ package com.Mrbysco.CactusMod.render;
 
 import com.Mrbysco.CactusMod.Reference;
 import com.Mrbysco.CactusMod.entities.EntityCactusCow;
+import com.Mrbysco.CactusMod.render.layers.LayerCactusCowCactus;
 
 import net.minecraft.client.model.ModelCow;
 import net.minecraft.client.renderer.entity.Render;

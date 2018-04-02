@@ -4,14 +4,17 @@ import java.util.ArrayList;
 
 import com.Mrbysco.CactusMod.blocks.BlockCactusCake;
 import com.Mrbysco.CactusMod.blocks.BlockCactusChest;
+import com.Mrbysco.CactusMod.blocks.BlockCactusDoor;
 import com.Mrbysco.CactusMod.blocks.BlockCactusHopper;
 import com.Mrbysco.CactusMod.blocks.BlockCactusPunji;
 import com.Mrbysco.CactusMod.blocks.BlockCactusTNT;
 import com.Mrbysco.CactusMod.blocks.BlockCarvedCactus;
 import com.Mrbysco.CactusMod.blocks.BlockPricklyIron;
+import com.Mrbysco.CactusMod.items.ItemCactusDoor;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockHopper;
 import net.minecraft.block.BlockTNT;
 import net.minecraft.item.ItemBlock;
@@ -35,6 +38,7 @@ public class CactusBlocks {
 	public static BlockContainer cactus_chest;
 	public static BlockHopper cactus_hopper;
 	public static BlockTNT cactus_tnt;
+	public static BlockDoor cactus_door;
 	
 	public static ArrayList<Block> BLOCKS = new ArrayList<>();
 	
@@ -59,6 +63,8 @@ public class CactusBlocks {
 	    
 	    cactus_tnt = registerBlock(new BlockCactusTNT("cactus_tnt"));
 	    
+	    cactus_door = registerBlock(new BlockCactusDoor("cactus_door"));
+	    
 	    registry.registerAll(BLOCKS.toArray(new Block[0]));
 	}
 	
@@ -67,9 +73,19 @@ public class CactusBlocks {
         return registerBlock(block, new ItemBlock(block));
     }
     
-    public static <T extends Block> T registerBlock(T block, ItemBlock item)
+	public static <T extends Block> T registerBlock(T block, ItemBlock item)
+	{
+		item.setRegistryName(block.getRegistryName());
+		CactusItems.ITEMS.add(item);
+		BLOCKS.add(block);
+		return block;
+	}
+	
+    public static <T extends Block> T registerDoor(T block)
     {
-    	item.setRegistryName(block.getRegistryName());
+    	ItemCactusDoor item = new ItemCactusDoor(block);
+    	item.setRegistryName(block.getRegistryName().getResourceDomain(), block.getRegistryName().getResourcePath() + "_item");
+
     	CactusItems.ITEMS.add(item);
         BLOCKS.add(block);
         return block;

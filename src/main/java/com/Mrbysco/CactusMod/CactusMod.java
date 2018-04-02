@@ -4,8 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.Mrbysco.CactusMod.entities.EntityCactusCow;
+import com.Mrbysco.CactusMod.entities.EntityCactusCreeper;
+import com.Mrbysco.CactusMod.handlers.CactusBlockHandler;
 import com.Mrbysco.CactusMod.handlers.CactusToolHandler;
-import com.Mrbysco.CactusMod.handlers.PlaceHandler;
 import com.Mrbysco.CactusMod.init.CactusEntities;
 import com.Mrbysco.CactusMod.init.CactusTab;
 import com.Mrbysco.CactusMod.proxy.CommonProxy;
@@ -66,11 +67,14 @@ public class CactusMod {
 			{
 				logger.debug("Registering Cactus Cow spawn");
 				biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusCow.class, 8, 4, 4));
+				
+				logger.debug("Registering Cactus Creeper spawn");
+				biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusCreeper.class, 100, 4, 4));
 			}
 		}
 		
 		logger.debug("Registering Handlers");
-		MinecraftForge.EVENT_BUS.register(new PlaceHandler());
+		MinecraftForge.EVENT_BUS.register(new CactusBlockHandler());
 		MinecraftForge.EVENT_BUS.register(new CactusToolHandler());
 		
 		proxy.init();

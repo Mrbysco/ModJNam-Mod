@@ -9,7 +9,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
 	"C": {
-      "item": "minecraft:carved_cactus"
+      "item": "cactusmod:carved_cactus"
     },
 	"T": {
       "item": "minecraft:torch"

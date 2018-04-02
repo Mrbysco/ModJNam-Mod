@@ -36,6 +36,7 @@ public class EntityCactusCow extends EntityCow implements net.minecraftforge.com
 	@Override
 	public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
 		this.setDead();
+		
 		WorldServer server = (WorldServer) this.world;
 		server.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, false, this.posX, this.posY + (double)(this.height / 2.0F), this.posZ, 1, 0.0D, 0.0D, 0.0D, 0.0D);
 

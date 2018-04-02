@@ -45,7 +45,7 @@ public class CactusItems {
 	public static ItemShield cactus_shield;
 	public static Item cactus_bow;
 	public static Item cactus_cart;
-	
+		
 	public static ArrayList<Item> ITEMS = new ArrayList<>();
 	
 	@SubscribeEvent
@@ -70,10 +70,10 @@ public class CactusItems {
 		
 		//Shield
 		cactus_shield = registerItem(new ItemCactusShield("cactus_shield"));
+		
 		cactus_bow = registerItem(new ItemCactusBow("cactus_bow"));
-		
 		cactus_cart = registerItem(new ItemCactusCart("cactus_cart"));
-		
+						
 		registry.registerAll(ITEMS.toArray(new Item[0]));
     }
     
