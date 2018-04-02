@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import com.Mrbysco.CactusMod.items.ItemCactusArmor;
 import com.Mrbysco.CactusMod.items.ItemCactusBow;
 import com.Mrbysco.CactusMod.items.ItemCactusCart;
-import com.Mrbysco.CactusMod.items.ItemCactusSticks;
+import com.Mrbysco.CactusMod.items.ItemCactusItem;
+import com.Mrbysco.CactusMod.items.ItemCactusJuice;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusAxe;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusHoe;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusPick;
@@ -16,6 +17,7 @@ import com.Mrbysco.CactusMod.items.tools.ItemCactusSword;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemShield;
@@ -30,6 +32,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 @EventBusSubscriber
 public class CactusItems {
 	public static Item cactus_stick;
+	public static Item cactus_brick;
 	
 	public static ItemSword cactus_sword;
 	public static ItemSpade cactus_shovel;
@@ -45,6 +48,8 @@ public class CactusItems {
 	public static ItemShield cactus_shield;
 	public static Item cactus_bow;
 	public static Item cactus_cart;
+	
+	public static ItemFood cactus_juice;
 		
 	public static ArrayList<Item> ITEMS = new ArrayList<>();
 	
@@ -53,7 +58,8 @@ public class CactusItems {
     {
 		IForgeRegistry<Item> registry = event.getRegistry();
 		
-		cactus_stick = registerItem(new ItemCactusSticks("cactus_stick"));
+		cactus_stick = registerItem(new ItemCactusItem("cactus_stick"));
+		cactus_brick = registerItem(new ItemCactusItem("cactus_brick"));
 		
 		//Tools
 		cactus_sword = registerItem(new ItemCactusSword("cactus_sword"));
@@ -62,17 +68,22 @@ public class CactusItems {
 		cactus_axe = registerItem(new ItemCactusAxe("cactus_axe"));
 		cactus_hoe = registerItem(new ItemCactusHoe("cactus_hoe"));
 		
+		//Bow
+		cactus_bow = registerItem(new ItemCactusBow("cactus_bow"));
+		
+		//Shield
+		cactus_shield = registerItem(new ItemCactusShield("cactus_shield"));
+				
 		//Armor
 		cactus_helmet = registerItem(new ItemCactusArmor("cactus_helmet", 0, EntityEquipmentSlot.HEAD));
 		cactus_chestplate = registerItem(new ItemCactusArmor("cactus_chestplate", 0, EntityEquipmentSlot.CHEST));
 		cactus_leggings = registerItem(new ItemCactusArmor("cactus_leggings", 0, EntityEquipmentSlot.LEGS));
 		cactus_boots = registerItem(new ItemCactusArmor("cactus_boots", 0, EntityEquipmentSlot.FEET));
 		
-		//Shield
-		cactus_shield = registerItem(new ItemCactusShield("cactus_shield"));
-		
-		cactus_bow = registerItem(new ItemCactusBow("cactus_bow"));
+		//Other
 		cactus_cart = registerItem(new ItemCactusCart("cactus_cart"));
+		
+		cactus_juice = registerItem(new ItemCactusJuice("cactus_juice"));
 						
 		registry.registerAll(ITEMS.toArray(new Item[0]));
     }

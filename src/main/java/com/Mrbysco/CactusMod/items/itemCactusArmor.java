@@ -6,6 +6,7 @@ import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
 
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -23,11 +24,15 @@ public class ItemCactusArmor extends ItemArmor{
 		super(CactusMod.cactusArmor, renderIndexIn, equipmentSlotIn);
 		this.maxStackSize = 1;
 		
-		this.setCreativeTab(CactusMod.cactustab);
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 
+	@Override
+    public CreativeTabs[] getCreativeTabs() {
+    	return new CreativeTabs[] {CreativeTabs.COMBAT, CactusMod.cactustab};
+    }
+	
 	@Override
 	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		stack.addEnchantment(Enchantments.THORNS, 2);

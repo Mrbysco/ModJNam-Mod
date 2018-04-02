@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "cactusmod:cactus_brick_stair",
+    "data": 0,
+	"count": 6
+  },
+  "pattern": [
+	"B  ",
+	"BB ",
+	"BBB"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "cactusmod:cactus_brick_block"
+    }
+  }
+}

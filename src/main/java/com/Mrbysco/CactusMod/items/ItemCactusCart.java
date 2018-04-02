@@ -1,5 +1,7 @@
 package com.Mrbysco.CactusMod.items;
 
+import java.util.List;
+
 import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
 import com.Mrbysco.CactusMod.entities.EntityCactiCart;
@@ -8,6 +10,7 @@ import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBehaviorDispenseItem;
@@ -19,19 +22,24 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 public class ItemCactusCart extends Item{
-	public ItemCactusCart(String registryName) {
-		this.setCreativeTab(CactusMod.cactustab);
-        this.setCreativeTab(CreativeTabs.TRANSPORTATION);
 
+	public ItemCactusCart(String registryName) {
         this.maxStackSize = 1;
 
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
-        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, MINECART_DISPENSER_BEHAVIOR);
+        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, CART_DISPENSER_BEHAVIOR);
 	}
+	
+	@Override
+    public CreativeTabs[] getCreativeTabs() {
+    	return new CreativeTabs[] {CreativeTabs.TRANSPORTATION, CactusMod.cactustab};
+    }
 	
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
@@ -67,7 +75,7 @@ public class ItemCactusCart extends Item{
         }
 	}
 	
-	private static final IBehaviorDispenseItem MINECART_DISPENSER_BEHAVIOR = new BehaviorDefaultDispenseItem()
+	private static final IBehaviorDispenseItem CART_DISPENSER_BEHAVIOR = new BehaviorDefaultDispenseItem()
     {
         private final BehaviorDefaultDispenseItem behaviourDefaultDispenseItem = new BehaviorDefaultDispenseItem();
         
@@ -113,12 +121,16 @@ public class ItemCactusCart extends Item{
             stack.shrink(1);
             return stack;
         }
-        /**
-         * Play the dispense sound from the specified block.
-         */
+
         protected void playDispenseSound(IBlockSource source)
         {
             source.getWorld().playEvent(1000, source.getBlockPos(), 0);
         }
     };
+    
+    @Override
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+    	super.addInformation(stack, worldIn, tooltip, flagIn);
+    	tooltip.add(TextFormatting.GREEN + I18n.translateToLocal("cactus.cart.info"));
+    }
 }

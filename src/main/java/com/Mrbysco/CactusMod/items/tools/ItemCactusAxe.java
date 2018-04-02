@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -28,11 +29,15 @@ public class ItemCactusAxe extends ItemTool{
         this.maxStackSize = 1;
         this.attackDamage = 7.0F;
         this.attackSpeed = -3.2F;
-        this.setCreativeTab(CactusMod.cactustab);
         
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
+	
+	@Override
+    public CreativeTabs[] getCreativeTabs() {
+    	return new CreativeTabs[] {CreativeTabs.TOOLS, CactusMod.cactustab};
+    }
 
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,

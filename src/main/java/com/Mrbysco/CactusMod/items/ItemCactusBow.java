@@ -39,8 +39,7 @@ public class ItemCactusBow extends Item
     {
         this.maxStackSize = 1;
         this.setMaxDamage(384);
-        this.setCreativeTab(CreativeTabs.COMBAT);
-        this.setCreativeTab(CactusMod.cactustab);
+                
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
         this.addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter()
@@ -66,6 +65,11 @@ public class ItemCactusBow extends Item
                 return entityIn != null && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack ? 1.0F : 0.0F;
             }
         });
+    }
+    
+    @Override
+    public CreativeTabs[] getCreativeTabs() {
+    	return new CreativeTabs[] {CreativeTabs.COMBAT, CactusMod.cactustab};
     }
 
     @Override

@@ -57,13 +57,6 @@ public class BlockPricklyIron extends Block{
 	}
 	
 	@Override
-	public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
-		super.onEntityWalk(worldIn, pos, entityIn);
-        entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
-
-	}
-	
-	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
         entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);

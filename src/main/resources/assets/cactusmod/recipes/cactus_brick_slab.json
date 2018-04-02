@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "cactusmod:cactus_brick_slab",
+    "data": 0,
+	"count": 6
+  },
+  "pattern": [
+	"BBB"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "cactusmod:cactus_brick_block"
+    }
+  }
+}

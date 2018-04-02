@@ -4,6 +4,7 @@ import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -23,11 +24,15 @@ public class ItemCactusSword extends ItemSword{
         this.maxStackSize = 1;
         this.setMaxDamage(material.getMaxUses());
         this.attackDamage = 3.0F + material.getAttackDamage();
-        this.setCreativeTab(CactusMod.cactustab);
         
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
+	
+	@Override
+    public CreativeTabs[] getCreativeTabs() {
+    	return new CreativeTabs[] {CreativeTabs.COMBAT, CactusMod.cactustab};
+    }
 	
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,

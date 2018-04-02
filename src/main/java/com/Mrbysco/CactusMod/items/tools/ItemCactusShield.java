@@ -6,6 +6,7 @@ import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
 
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemShield;
@@ -15,15 +16,18 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 public class ItemCactusShield extends ItemShield{
-	public ItemCactusShield(String registryName) {
-        this.setCreativeTab(CactusMod.cactustab);
-        
+	public ItemCactusShield(String registryName) {        
         this.setMaxDamage(97);
 
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 
+	@Override
+    public CreativeTabs[] getCreativeTabs() {
+    	return new CreativeTabs[] {CreativeTabs.COMBAT, CactusMod.cactustab};
+    }
+	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		return I18n.translateToLocal("item.cactusmod:cactusshield.name");

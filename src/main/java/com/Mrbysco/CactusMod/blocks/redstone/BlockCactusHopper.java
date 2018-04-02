@@ -1,6 +1,7 @@
-package com.Mrbysco.CactusMod.blocks;
+package com.Mrbysco.CactusMod.blocks.redstone;
 
-import com.Mrbysco.CactusMod.CactusMod;
+import java.util.List;
+
 import com.Mrbysco.CactusMod.Reference;
 import com.Mrbysco.CactusMod.tileentities.TileEntityCactusHopper;
 
@@ -8,16 +9,18 @@ import net.minecraft.block.BlockHopper;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 public class BlockCactusHopper extends BlockHopper{
@@ -25,7 +28,6 @@ public class BlockCactusHopper extends BlockHopper{
 	public BlockCactusHopper(String registryName) {
 	super();
 
-	this.setCreativeTab(CactusMod.cactustab);
 	this.setSoundType(SoundType.CLOTH);
 	this.setHardness(1.0F);
 	
@@ -92,5 +94,11 @@ public class BlockCactusHopper extends BlockHopper{
         }
 
         super.breakBlock(worldIn, pos, state);
+    }
+	
+    @Override
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+    	super.addInformation(stack, worldIn, tooltip, flagIn);
+    	tooltip.add(TextFormatting.GREEN + I18n.translateToLocal("cactus.hopper.info"));
     }
 }

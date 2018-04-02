@@ -1,5 +1,7 @@
 {
+	"forge_marker": 1,
 	"variants": {
-		"normal": { "model": "cactusmod:prickly_iron_block" }
+		"normal": { "model": "cactusmod:prickly_iron_block" },
+		"inventory": { "model": "cactusmod:prickly_iron_block" }
 	}
 }

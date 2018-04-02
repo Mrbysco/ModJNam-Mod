@@ -1,8 +1,7 @@
-package com.Mrbysco.CactusMod.blocks;
+package com.Mrbysco.CactusMod.blocks.redstone;
 
 import java.util.Random;
 
-import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
 
 import net.minecraft.block.BlockDoor;
@@ -25,7 +24,6 @@ public class BlockCactusDoor extends BlockDoor{
 		this.setHardness(0.4F);
 		this.setSoundType(SoundType.CLOTH);
 		
-		this.setCreativeTab(CactusMod.cactustab);
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}

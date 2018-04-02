@@ -1,0 +1,7 @@
+{
+	"forge_marker": 1,
+	"variants": {
+        "variant=default": { "model": "cactusmod:cactus_brick_block" },
+		"inventory": { "model": "cactusmod:cactus_brick_block" }
+	}
+}

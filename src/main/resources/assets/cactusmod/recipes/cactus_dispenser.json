@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "cactusmod:cactus_dispenser"
+  },
+  "pattern": [
+	"CCC"
+	"CBC"
+	"CRC"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+	"R": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "cactusmod:cactus_bow"
+    },
+	"D": {
+      "item": "minecraft:cactus"
+    }
+  }
+}

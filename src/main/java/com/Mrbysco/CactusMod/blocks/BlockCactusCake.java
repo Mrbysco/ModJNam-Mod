@@ -87,7 +87,7 @@ public class BlockCactusCake extends BlockCake{
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 
-		tooltip.add(TextFormatting.GREEN + I18n.translateToLocal("cactus.chest.info"));
+		tooltip.add(TextFormatting.GREEN + I18n.translateToLocal("cactus.cake.info"));
 	}
 	
 	@Override

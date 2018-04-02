@@ -3,6 +3,7 @@ package com.Mrbysco.CactusMod.items.tools;
 import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.util.DamageSource;
@@ -20,12 +21,16 @@ public class ItemCactusHoe extends ItemHoe{
 		
 		this.material = CactusMod.cactusTool;
         this.maxStackSize = 1;
-        this.setCreativeTab(CactusMod.cactustab);
         
 		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 
+	@Override
+    public CreativeTabs[] getCreativeTabs() {
+    	return new CreativeTabs[] {CreativeTabs.TOOLS, CactusMod.cactustab};
+    }
+	
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ) {

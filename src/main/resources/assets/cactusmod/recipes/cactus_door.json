@@ -1,9 +1,11 @@
 {
   "result": {
-    "item": "cactusmod:cactus_carpet",
+    "item": "cactusmod:cactus_door_item",
 	"count": 3
   },
   "pattern": [
+	"CC",
+	"CC",
 	"CC"
   ],
   "type": "minecraft:crafting_shaped",

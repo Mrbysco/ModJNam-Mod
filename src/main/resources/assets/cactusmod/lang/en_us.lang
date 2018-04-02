@@ -12,42 +12,57 @@ entity.cactusmod:cactussnowman.name=Cactus Snowman
 
 # Items
 item.cactusmod:cactusstick.name=Cactus Stick
+item.cactusmod:cactusbrick.name=Cactus Brick
 
 item.cactusmod:cactussword.name=Cactus Sword
 item.cactusmod:cactusshovel.name=Cactus Shovel
 item.cactusmod:cactuspickaxe.name=Cactus Pickaxe
 item.cactusmod:cactusaxe.name=Cactus Axe
 item.cactusmod:cactushoe.name=Cactus Hoe
+item.cactusmod:cactusbow.name=Cactus Bow
+item.cactusmod:cactusshield.name=Cactus Shield
 
 item.cactusmod:cactushelmet.name=Cactus Helmet
 item.cactusmod:cactuschestplate.name=Cactus Chestplate
 item.cactusmod:cactusleggings.name=Cactus Leggings
 item.cactusmod:cactusboots.name=Cactus Boots
 
-item.cactusmod:cactusshield.name=Cactus Shield
-item.cactusmod:cactusbow.name=Cactus Bow
 item.cactusmod:cactuscart.name=Cactus Cart
-item.cactusmod:cactusdoor.name=Cactus Door
+item.cactusmod:cactusjuice.name=Cactus Juice
 
 cactus.armor.text=Comes with Thorns 2 when crafted.
 
-cactus.shield.text=Acts more like a reflector.
-cactus.bow.text=Shoots knockback spikes.
+cactus.shield.text=Acts more like a reflector
+cactus.bow.text=Shoots knockback spikes
 
 # Blocks
 tile.cactusmod:pricklyironblock.name=Prickly Iron Block
+
+tile.cactusmod:cactusbrickblock.name=Cactus Brick
+tile.cactusmod:cactusbrickstair.name=Cactus Brick stairs
+tile.cactusmod:cactusbrickslab.name=Cactus Brick Slab
+tile.cactusmod:cactusbrickdoubleslab.name=Cactus Double Brick Slab
+
 tile.cactusmod:carvedcactus.name=Carved Cactus
 tile.cactusmod:jackocactus.name=John O' Lantern
+
+tile.cactusmod:cactuschest.name=Cactus Chest
+tile.cactusmod:cactusdispenser.name=Cactus Dispenser
+tile.cactusmod:cactustnt.name=Cactus TNT
 tile.cactusmod:cactuscarpet.name=Cactus Carpet
 
-tile.cactusmod:cactuscake.name=Cactus Cake
-tile.cactusmod:cactuschest.name=Cactus Chest
 tile.cactusmod:cactushopper.name=Cactus Hopper
-
-tile.cactusmod:cactustnt.name=Cactus TNT
 tile.cactusmod:cactusdoor.name=Cactus Door
+tile.cactusmod:cactuscake.name=Cactus Cake
 
-cactus.chest.info=Slowly rids it's inventory.
+cactus.cake.info=Probably looks better than it tastes
+cactus.cart.info=Painfully cheap
+cactus.chest.info=Slowly rids it's inventory
+cactus.hopper.info=Slowly rids it's inventory
+cactus.tnt.info=Shoots spikes in all horizontal directions
+cactus.carpet.info=Hurts mobs that touch it, destroys items on top
+cactus.carpet.info2=only when they're 2 minutes old
+cactus.dispenser.info=Has no inventory, shoots spikes
 
 # Others
 container.cactus.chest=Cactus Chest

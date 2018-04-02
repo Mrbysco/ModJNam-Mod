@@ -5,11 +5,16 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.Mrbysco.CactusMod.init.CactusItems;
+
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -58,6 +63,31 @@ public class EntityCactusCow extends EntityCow implements net.minecraftforge.com
 
         this.playSound(SoundEvents.ENTITY_MOOSHROOM_SHEAR, 1.0F, 1.0F);
         return ret;
+	}
+	
+	@Override
+	public boolean processInteract(EntityPlayer player, EnumHand hand) {
+		ItemStack itemstack = player.getHeldItem(hand);
+
+        if (itemstack.getItem() == Items.GLASS_BOTTLE && this.getGrowingAge() >= 0 && !player.capabilities.isCreativeMode)
+        {
+            itemstack.shrink(1);
+
+            if (itemstack.isEmpty())
+            {
+                player.setHeldItem(hand, new ItemStack(CactusItems.cactus_juice));
+            }
+            else if (!player.inventory.addItemStackToInventory(new ItemStack(CactusItems.cactus_juice)))
+            {
+                player.dropItem(new ItemStack(CactusItems.cactus_juice), false);
+            }
+
+            return true;
+        }
+        else
+        {
+            return super.processInteract(player, hand);
+        }
 	}
 	
 	@Nullable

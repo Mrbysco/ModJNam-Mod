@@ -1,4 +1,4 @@
-package com.Mrbysco.CactusMod.items;
+package com.Mrbysco.CactusMod.items.itemblocks;
 
 import com.Mrbysco.CactusMod.CactusMod;
 
@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -21,16 +22,16 @@ public class ItemCactusDoor extends ItemBlock
 	private final Block block;
 
     public ItemCactusDoor(Block block) {
-		super(block);
-
-        this.block = block;
-
-        this.setCreativeTab(CactusMod.cactustab);
+    	super(block);
+    	
+    	this.block = block;
 	}
+    
+    @Override
+    public CreativeTabs[] getCreativeTabs() {
+    	return new CreativeTabs[] {CreativeTabs.REDSTONE, CactusMod.cactustab};
+    }
 
-    /**
-     * Called when a Block is right-clicked with this Item
-     */
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {

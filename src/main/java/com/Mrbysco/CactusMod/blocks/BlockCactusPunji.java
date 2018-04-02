@@ -1,5 +1,7 @@
 package com.Mrbysco.CactusMod.blocks;
 
+import java.util.List;
+
 import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
 
@@ -8,13 +10,17 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -103,5 +109,12 @@ public class BlockCactusPunji extends Block{
     			entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
     		}
     	}
+    }
+    
+    @Override
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+    	super.addInformation(stack, worldIn, tooltip, flagIn);
+    	tooltip.add(TextFormatting.GREEN + I18n.translateToLocal("cactus.carpet.info"));
+    	tooltip.add(TextFormatting.GREEN + I18n.translateToLocal("cactus.carpet.info2"));
     }
 }

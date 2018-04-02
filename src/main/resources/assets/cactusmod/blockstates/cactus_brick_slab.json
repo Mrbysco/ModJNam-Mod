@@ -1,0 +1,8 @@
+{
+	"forge_marker": 1,
+	"variants": {
+        "half=bottom,variant=default": { "model": "cactusmod:half_cactus_slab" },
+        "half=top,variant=default": { "model": "cactusmod:upper_cactus_slab" },
+		"inventory": { "model": "cactusmod:half_cactus_slab" }
+	}
+}

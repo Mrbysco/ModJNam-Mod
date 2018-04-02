@@ -1,0 +1,19 @@
+{
+	"forge_marker": 1,
+    "variants": {
+        "facing=down,triggered=false":  { "model": "cactusmod:cactus_dispenser_vertical", "x": 180 },
+        "facing=up,triggered=false":    { "model": "cactusmod:cactus_dispenser_vertical" },
+        "facing=north,triggered=false": { "model": "cactusmod:cactus_dispenser" },
+        "facing=south,triggered=false": { "model": "cactusmod:cactus_dispenser", "y": 180 },
+        "facing=west,triggered=false":  { "model": "cactusmod:cactus_dispenser", "y": 270 },
+        "facing=east,triggered=false":  { "model": "cactusmod:cactus_dispenser", "y": 90 },
+		
+        "facing=down,triggered=true":  { "model": "cactusmod:cactus_dispenser_vertical", "x": 180 },
+        "facing=up,triggered=true":    { "model": "cactusmod:cactus_dispenser_vertical" },
+        "facing=north,triggered=true": { "model": "cactusmod:cactus_dispenser" },
+        "facing=south,triggered=true": { "model": "cactusmod:cactus_dispenser", "y": 180 },
+        "facing=west,triggered=true":  { "model": "cactusmod:cactus_dispenser", "y": 270 },
+        "facing=east,triggered=true":  { "model": "cactusmod:cactus_dispenser", "y": 90 },
+		"inventory": { "model": "cactusmod:cactus_dispenser" }
+    }
+}

@@ -3,6 +3,7 @@ package com.Mrbysco.CactusMod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.Mrbysco.CactusMod.config.CactusConfig;
 import com.Mrbysco.CactusMod.entities.EntityCactusCow;
 import com.Mrbysco.CactusMod.entities.EntityCactusCreeper;
 import com.Mrbysco.CactusMod.handlers.CactusBlockHandler;
@@ -20,6 +21,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.Mod;
@@ -53,6 +55,9 @@ public class CactusMod {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{	
+		logger.debug("Registering Config");
+		MinecraftForge.EVENT_BUS.register(new CactusConfig());
+		
 		logger.debug("Register Entities");
 		CactusEntities.register();
 		
@@ -63,13 +68,19 @@ public class CactusMod {
 	public void init(FMLInitializationEvent event)
 	{
 		for (Biome biome : Biome.REGISTRY) {
-			if(biome == Biomes.DESERT || biome == Biomes.DESERT_HILLS || biome == Biomes.MUTATED_DESERT)
+			if(biome == Biomes.DESERT || biome == Biomes.DESERT_HILLS || biome == Biomes.MUTATED_DESERT || BiomeDictionary.hasType(biome, BiomeDictionary.Type.SANDY))
 			{
-				logger.debug("Registering Cactus Cow spawn");
-				biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusCow.class, 8, 4, 4));
+				if(CactusConfig.general.cowSpawn)
+				{
+					logger.debug("Registering Cactus Cow spawn");
+					biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusCow.class, 8, 4, 4));
+				}
 				
-				logger.debug("Registering Cactus Creeper spawn");
-				biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusCreeper.class, 100, 4, 4));
+				if(CactusConfig.general.creeperSpawn)
+				{
+					logger.debug("Registering Cactus Creeper spawn");
+					biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusCreeper.class, 100, 4, 4));
+				}
 			}
 		}
 		

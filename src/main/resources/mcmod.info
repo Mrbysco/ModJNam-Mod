@@ -1,16 +1,16 @@
 [
-{
-  "modid": "cactusmod",
-  "name": "The Cactus Mod",
-  "description": "A ModJam 2018.1 mod.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["Mrbysco"],
-  "credits": "",
-  "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
-}
+	{
+	  "modid": "cactusmod",
+	  "name": "The Cactus Mod",
+	  "description": "A ModJam 2018.1 mod.",
+	  "version": "${version}",
+	  "mcversion": "${mcversion}",
+	  "url": "",
+	  "updateUrl": "",
+	  "authorList": ["Mrbysco"],
+	  "credits": "",
+	  "logoFile": "assets/cactusmod/logo.png",
+	  "screenshots": [],
+	  "dependencies": []
+	}
 ]
