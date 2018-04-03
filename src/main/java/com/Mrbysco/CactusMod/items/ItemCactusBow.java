@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
+import com.Mrbysco.CactusMod.entities.EntityActualSpike;
 import com.Mrbysco.CactusMod.entities.EntitySpike;
 import com.Mrbysco.CactusMod.init.CactusItems;
 
@@ -88,7 +89,7 @@ public class ItemCactusBow extends Item
             {
                 if (!worldIn.isRemote)
                 {
-                    EntitySpike spike = new EntitySpike(worldIn, entityplayer);
+                    EntitySpike spike = new EntityActualSpike(worldIn, entityplayer);
                     spike.setDamage(0D);
                     spike.setKnockbackStrength(3);
                     spike.shoot(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw, 0.0F, f * 3.0F, 1.0F);

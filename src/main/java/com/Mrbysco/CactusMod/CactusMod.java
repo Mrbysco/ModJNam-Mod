@@ -7,6 +7,7 @@ import com.Mrbysco.CactusMod.config.CactusConfig;
 import com.Mrbysco.CactusMod.entities.EntityCactusCow;
 import com.Mrbysco.CactusMod.entities.EntityCactusCreeper;
 import com.Mrbysco.CactusMod.handlers.CactusBlockHandler;
+import com.Mrbysco.CactusMod.handlers.CactusMobHandler;
 import com.Mrbysco.CactusMod.handlers.CactusToolHandler;
 import com.Mrbysco.CactusMod.init.CactusEntities;
 import com.Mrbysco.CactusMod.init.CactusTab;
@@ -87,6 +88,7 @@ public class CactusMod {
 		logger.debug("Registering Handlers");
 		MinecraftForge.EVENT_BUS.register(new CactusBlockHandler());
 		MinecraftForge.EVENT_BUS.register(new CactusToolHandler());
+		MinecraftForge.EVENT_BUS.register(new CactusMobHandler());
 		
 		proxy.init();
 	}

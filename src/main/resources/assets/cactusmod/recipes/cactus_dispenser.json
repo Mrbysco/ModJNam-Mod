@@ -3,8 +3,8 @@
     "item": "cactusmod:cactus_dispenser"
   },
   "pattern": [
-	"CCC"
-	"CBC"
+	"CCC",
+	"CBC",
 	"CRC"
   ],
   "type": "minecraft:crafting_shaped",
@@ -15,7 +15,7 @@
     "B": {
       "item": "cactusmod:cactus_bow"
     },
-	"D": {
+	"C": {
       "item": "minecraft:cactus"
     }
   }

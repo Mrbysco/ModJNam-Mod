@@ -6,7 +6,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityCactusSnowman extends EntitySnowman{
+public class EntityCactusSnowman extends EntitySnowman implements ICactusMob{
 
 	public EntityCactusSnowman(World worldIn) {
 		super(worldIn);
@@ -14,7 +14,7 @@ public class EntityCactusSnowman extends EntitySnowman{
 
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
-		EntitySpike spike = new EntitySpike(this.world, this);
+		EntitySpike spike = new EntityActualSpike(this.world, this);
 		spike.setDamage(1);
         double d0 = target.posY + (double)target.getEyeHeight() - 1.100000023841858D;
         double d1 = target.posX - this.posX;

@@ -126,7 +126,7 @@ public class EntityCactusTnt extends Entity
         
         for(int i = 0; i <= 20; i++)
         {
-        	EntitySpike spike = new EntitySpike(world);
+        	EntitySpike spike = new EntityActualSpike(world);
         	
         	spike.motionX = (rand.nextDouble() * 6D - 3D) * 0.3D;
         	spike.motionZ = (rand.nextDouble() * 6D - 3D) * 0.3D;

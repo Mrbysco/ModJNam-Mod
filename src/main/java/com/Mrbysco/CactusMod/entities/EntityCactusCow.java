@@ -22,7 +22,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
-public class EntityCactusCow extends EntityCow implements net.minecraftforge.common.IShearable{
+public class EntityCactusCow extends EntityCow implements net.minecraftforge.common.IShearable, ICactusMob{
 
 	public EntityCactusCow(World worldIn) {
 		super(worldIn);

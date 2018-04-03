@@ -1,19 +1,19 @@
 package com.Mrbysco.CactusMod.proxy;
 
+import com.Mrbysco.CactusMod.entities.EntityActualSpike;
 import com.Mrbysco.CactusMod.entities.EntityCactiCart;
 import com.Mrbysco.CactusMod.entities.EntityCactusCow;
 import com.Mrbysco.CactusMod.entities.EntityCactusCreeper;
 import com.Mrbysco.CactusMod.entities.EntityCactusGolem;
 import com.Mrbysco.CactusMod.entities.EntityCactusSnowman;
 import com.Mrbysco.CactusMod.entities.EntityCactusTnt;
-import com.Mrbysco.CactusMod.entities.EntitySpike;
+import com.Mrbysco.CactusMod.render.RenderActualSpike;
 import com.Mrbysco.CactusMod.render.RenderCactiCart;
 import com.Mrbysco.CactusMod.render.RenderCactusCow;
 import com.Mrbysco.CactusMod.render.RenderCactusCreeper;
 import com.Mrbysco.CactusMod.render.RenderCactusGolem;
 import com.Mrbysco.CactusMod.render.RenderCactusSnowman;
 import com.Mrbysco.CactusMod.render.RenderCactusTnt;
-import com.Mrbysco.CactusMod.render.RenderSpike;
 import com.Mrbysco.CactusMod.render.TileEntityCactusChestRenderer;
 import com.Mrbysco.CactusMod.tileentities.TileEntityCactusChest;
 
@@ -40,7 +40,7 @@ public class ClientProxy extends CommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityCactusCow.class, RenderCactusCow.FACTORY);
 		RenderingRegistry.registerEntityRenderingHandler(EntityCactiCart.class, RenderCactiCart.FACTORY);
 		RenderingRegistry.registerEntityRenderingHandler(EntityCactusTnt.class, RenderCactusTnt.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpike.class, RenderSpike.FACTORY);
+		RenderingRegistry.registerEntityRenderingHandler(EntityActualSpike.class, RenderActualSpike.FACTORY);
 		RenderingRegistry.registerEntityRenderingHandler(EntityCactusCreeper.class, RenderCactusCreeper.FACTORY);
 		RenderingRegistry.registerEntityRenderingHandler(EntityCactusSnowman.class, RenderCactusSnowman.FACTORY);
 		

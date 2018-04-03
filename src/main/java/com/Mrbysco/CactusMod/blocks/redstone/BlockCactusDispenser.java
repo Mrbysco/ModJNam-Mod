@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.Mrbysco.CactusMod.Reference;
+import com.Mrbysco.CactusMod.entities.EntityActualSpike;
 import com.Mrbysco.CactusMod.entities.EntitySpike;
 
 import net.minecraft.block.Block;
@@ -113,32 +114,41 @@ public class BlockCactusDispenser extends Block{
         }
     }
 	
+    private int shotTimer;
+	
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		if (!worldIn.isRemote)
         {
-			EnumFacing facing = state.getValue(BlockCactusDispenser.FACING);
-			
-	        double d0 = pos.getX() + 0.7D * (double)facing.getFrontOffsetX();
-	        double d1 = pos.getY() + 0.7D * (double)facing.getFrontOffsetY();
-	        double d2 = pos.getZ() + 0.7D * (double)facing.getFrontOffsetZ();
+			++this.shotTimer;
+			System.out.println(this.shotTimer);
 
-			EntitySpike spike = new EntitySpike(worldIn, d0, d1 + 0.5, d2);
-			
-			switch(facing)
-	        {
-				default:
-					spike.posX = d0 + 0.5;
-					spike.posY = d1 + 0.5;
-					spike.posZ = d2 + 0.5;
-					break;
-	        }
-			
-			spike.setDamage(0);
-			spike.shoot((double)facing.getFrontOffsetX(), (double)((float)facing.getFrontOffsetY() + 0.1F), (double)facing.getFrontOffsetZ(), 1.1F, 6.0F);
-			spike.setKnockbackStrength(2);
-			
-			worldIn.spawnEntity(spike);
+			if(this.shotTimer >= 4)
+			{
+				EnumFacing facing = state.getValue(BlockCactusDispenser.FACING);
+				
+		        double d0 = pos.getX() + 0.7D * (double)facing.getFrontOffsetX();
+		        double d1 = pos.getY() + 0.7D * (double)facing.getFrontOffsetY();
+		        double d2 = pos.getZ() + 0.7D * (double)facing.getFrontOffsetZ();
+
+				EntitySpike spike = new EntityActualSpike(worldIn, d0, d1 + 0.5, d2);
+				spike.setDamage(0.5);
+				
+				switch(facing)
+		        {
+					default:
+						spike.posX = d0 + 0.5;
+						spike.posY = d1 + 0.5;
+						spike.posZ = d2 + 0.5;
+						break;
+		        }
+				
+				spike.shoot((double)facing.getFrontOffsetX(), (double)((float)facing.getFrontOffsetY() + 0.1F), (double)facing.getFrontOffsetZ(), 1.1F, 6.0F);
+				spike.setKnockbackStrength(2);
+				
+				worldIn.spawnEntity(spike);
+				this.shotTimer = 0;
+			}
         }
 	}
 	

@@ -3,8 +3,6 @@ package com.Mrbysco.CactusMod.entities;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Maps;
 
 import net.minecraft.enchantment.EnchantmentProtection;
@@ -24,7 +22,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityCactusCreeper extends EntityCreeper{
+public class EntityCactusCreeper extends EntityCreeper implements ICactusMob{
 	
     private int explosionRadius = 3;
     private int lastActiveTime;
@@ -77,18 +75,19 @@ public class EntityCactusCreeper extends EntityCreeper{
         if (!this.world.isRemote)
         {
         	this.arrowExplosionB();
-            this.arrowExplosion(this, this.posX, this.posY + (double)(this.height / 16.0F), this.posZ, 4.0F, true);
+            this.arrowExplosion(this.posX, this.posY + (double)(this.height / 16.0F), this.posZ);
         }
     }
 	
-	public void arrowExplosion(@Nullable Entity entityIn, double x, double y, double z, float strength, boolean isSmoking)
+	public void arrowExplosion(double x, double y, double z)
     {
     	this.world.playSound((EntityPlayer)null, x, y, z, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.world.rand.nextFloat() - this.world.rand.nextFloat()) * 0.2F) * 0.7F);
         this.world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, x, y, z, 1.0D, 0.0D, 0.0D);
         
         for(int i = 0; i <= 20; i++)
         {
-        	EntitySpike spike = new EntitySpike(world);
+        	EntitySpike spike = new EntityActualSpike(world);
+        	spike.setDamage(4);
         	
         	spike.motionX = (rand.nextDouble() * 6D - 3D) * 0.3D;
         	spike.motionZ = (rand.nextDouble() * 6D - 3D) * 0.3D;
