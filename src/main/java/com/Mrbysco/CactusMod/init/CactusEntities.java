@@ -5,10 +5,14 @@ import com.Mrbysco.CactusMod.Reference;
 import com.Mrbysco.CactusMod.entities.EntityActualSpike;
 import com.Mrbysco.CactusMod.entities.EntityCactiCart;
 import com.Mrbysco.CactusMod.entities.EntityCactusCow;
-import com.Mrbysco.CactusMod.entities.EntityCactusCreeper;
 import com.Mrbysco.CactusMod.entities.EntityCactusGolem;
+import com.Mrbysco.CactusMod.entities.EntityCactusSheep;
+import com.Mrbysco.CactusMod.entities.EntityCactusSlime;
 import com.Mrbysco.CactusMod.entities.EntityCactusSnowman;
 import com.Mrbysco.CactusMod.entities.EntityCactusTnt;
+import com.Mrbysco.CactusMod.entities.hostile.EntityCactusCreeper;
+import com.Mrbysco.CactusMod.entities.hostile.EntityCactusSkelly;
+import com.Mrbysco.CactusMod.entities.hostile.EntityCactusSpider;
 import com.Mrbysco.CactusMod.tileentities.TileEntityCactusChest;
 import com.Mrbysco.CactusMod.tileentities.TileEntityCactusHopper;
 
@@ -31,6 +35,10 @@ public class CactusEntities {
 		registerEntity("cactus_spike", EntityActualSpike.class, "cactusspike", 80, 3, true);
 		registerEntity("cactus_creeper", EntityCactusCreeper.class, "cactuscreeper", 80, 3, true, 0xFF0f751b, 0xFF89132f);
 		registerEntity("cactus_snowman", EntityCactusSnowman.class, "cactussnowman", 80, 3, true, 0xFF0f751b, 0xFF89132f);
+		registerEntity("cactus_slime", EntityCactusSlime.class, "cactusslime", 80, 3, true, 0xFF0f751b, 0xFF89132f);
+		registerEntity("cactus_sheep", EntityCactusSheep.class, "cactussheep", 80, 3, true, 0xFF0f751b, 0xFF89132f);
+		registerEntity("cactus_spider", EntityCactusSpider.class, "cactusspider", 80, 3, true, 0xFF0f751b, 0xFF89132f);
+		registerEntity("cactus_skeleton", EntityCactusSkelly.class, "cactusskeleton", 80, 3, true, 0xFF0f751b, 0xFF89132f);
 		
 		registerTileEntity(TileEntityCactusChest.class, "_cactus_chest");
 		registerTileEntity(TileEntityCactusHopper.class, "_cactus_hopper");

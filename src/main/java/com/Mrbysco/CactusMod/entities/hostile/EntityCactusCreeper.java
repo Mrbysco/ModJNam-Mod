@@ -1,8 +1,11 @@
-package com.Mrbysco.CactusMod.entities;
+package com.Mrbysco.CactusMod.entities.hostile;
 
 import java.util.Collection;
 import java.util.List;
 
+import com.Mrbysco.CactusMod.entities.EntityActualSpike;
+import com.Mrbysco.CactusMod.entities.EntitySpike;
+import com.Mrbysco.CactusMod.entities.ICactusMob;
 import com.google.common.collect.Maps;
 
 import net.minecraft.enchantment.EnchantmentProtection;
@@ -24,7 +27,7 @@ import net.minecraft.world.World;
 
 public class EntityCactusCreeper extends EntityCreeper implements ICactusMob{
 	
-    private int explosionRadius = 3;
+    private int explosionRadius = 2;
     private int lastActiveTime;
     private int timeSinceIgnited;
     private int fuseTime = 30;

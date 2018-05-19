@@ -3,16 +3,24 @@ package com.Mrbysco.CactusMod.proxy;
 import com.Mrbysco.CactusMod.entities.EntityActualSpike;
 import com.Mrbysco.CactusMod.entities.EntityCactiCart;
 import com.Mrbysco.CactusMod.entities.EntityCactusCow;
-import com.Mrbysco.CactusMod.entities.EntityCactusCreeper;
 import com.Mrbysco.CactusMod.entities.EntityCactusGolem;
+import com.Mrbysco.CactusMod.entities.EntityCactusSheep;
+import com.Mrbysco.CactusMod.entities.EntityCactusSlime;
 import com.Mrbysco.CactusMod.entities.EntityCactusSnowman;
 import com.Mrbysco.CactusMod.entities.EntityCactusTnt;
+import com.Mrbysco.CactusMod.entities.hostile.EntityCactusCreeper;
+import com.Mrbysco.CactusMod.entities.hostile.EntityCactusSkelly;
+import com.Mrbysco.CactusMod.entities.hostile.EntityCactusSpider;
 import com.Mrbysco.CactusMod.render.RenderActualSpike;
 import com.Mrbysco.CactusMod.render.RenderCactiCart;
 import com.Mrbysco.CactusMod.render.RenderCactusCow;
 import com.Mrbysco.CactusMod.render.RenderCactusCreeper;
 import com.Mrbysco.CactusMod.render.RenderCactusGolem;
+import com.Mrbysco.CactusMod.render.RenderCactusSheep;
+import com.Mrbysco.CactusMod.render.RenderCactusSkeleton;
+import com.Mrbysco.CactusMod.render.RenderCactusSlime;
 import com.Mrbysco.CactusMod.render.RenderCactusSnowman;
+import com.Mrbysco.CactusMod.render.RenderCactusSpider;
 import com.Mrbysco.CactusMod.render.RenderCactusTnt;
 import com.Mrbysco.CactusMod.render.TileEntityCactusChestRenderer;
 import com.Mrbysco.CactusMod.tileentities.TileEntityCactusChest;
@@ -43,6 +51,10 @@ public class ClientProxy extends CommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityActualSpike.class, RenderActualSpike.FACTORY);
 		RenderingRegistry.registerEntityRenderingHandler(EntityCactusCreeper.class, RenderCactusCreeper.FACTORY);
 		RenderingRegistry.registerEntityRenderingHandler(EntityCactusSnowman.class, RenderCactusSnowman.FACTORY);
+		RenderingRegistry.registerEntityRenderingHandler(EntityCactusSlime.class, RenderCactusSlime.FACTORY);
+		RenderingRegistry.registerEntityRenderingHandler(EntityCactusSheep.class, RenderCactusSheep.FACTORY);
+		RenderingRegistry.registerEntityRenderingHandler(EntityCactusSpider.class, RenderCactusSpider.FACTORY);
+		RenderingRegistry.registerEntityRenderingHandler(EntityCactusSkelly.class, RenderCactusSkeleton.FACTORY);
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCactusChest.class, new TileEntityCactusChestRenderer());
 	}

@@ -10,6 +10,8 @@ import com.Mrbysco.CactusMod.blocks.BlockPricklyIron;
 import com.Mrbysco.CactusMod.blocks.decorative.BlockCactusDeco;
 import com.Mrbysco.CactusMod.blocks.decorative.BlockCactusSlab;
 import com.Mrbysco.CactusMod.blocks.decorative.BlockCactusStairs;
+import com.Mrbysco.CactusMod.blocks.plant.BlockCactusFlower;
+import com.Mrbysco.CactusMod.blocks.plant.BlockCactusPlant;
 import com.Mrbysco.CactusMod.blocks.redstone.BlockCactusDispenser;
 import com.Mrbysco.CactusMod.blocks.redstone.BlockCactusDoor;
 import com.Mrbysco.CactusMod.blocks.redstone.BlockCactusHopper;
@@ -56,6 +58,9 @@ public class CactusBlocks {
 	public static BlockTNT cactus_tnt;
 	public static BlockDoor cactus_door;
 	
+	public static Block cactus_flower;
+	public static Block cactus_plant;
+	
 	public static ArrayList<Block> BLOCKS = new ArrayList<>();
 	
 	@SubscribeEvent
@@ -89,6 +94,9 @@ public class CactusBlocks {
 	    cactus_hopper = registerRedstoneBlock(new BlockCactusHopper("cactus_hopper"));
 	    cactus_door = registerDoor(new BlockCactusDoor("cactus_door"));
 	    cactus_cake = registerCake(new BlockCactusCake("cactus_cake"));
+	    
+	    cactus_flower = registerDecorativeBlock(new BlockCactusFlower("cactus_flower"));
+	    cactus_plant = registerDecorativeBlock(new BlockCactusPlant("cactus_plant"));
 	    
 	    registry.registerAll(BLOCKS.toArray(new Block[0]));
 	}

@@ -1,7 +1,7 @@
 package com.Mrbysco.CactusMod.render;
 
 import com.Mrbysco.CactusMod.Reference;
-import com.Mrbysco.CactusMod.entities.EntityCactusCreeper;
+import com.Mrbysco.CactusMod.entities.hostile.EntityCactusCreeper;
 import com.Mrbysco.CactusMod.render.layers.LayerCactusCreeperCharge;
 
 import net.minecraft.client.model.ModelCreeper;

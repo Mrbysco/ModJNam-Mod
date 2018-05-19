@@ -1,5 +1,9 @@
 package com.Mrbysco.CactusMod.entities;
 
+import javax.annotation.Nullable;
+
+import com.Mrbysco.CactusMod.Reference;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityIronGolem;
@@ -31,7 +35,8 @@ public class EntityCactusGolem extends EntityIronGolem implements ICactusMob{
 	@Override
 	protected void collideWithEntity(Entity entityIn) {
 		super.collideWithEntity(entityIn);
-		entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+		if(!(entityIn instanceof ICactusMob))
+			entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
 	}
 	
 	@Override
@@ -78,7 +83,8 @@ public class EntityCactusGolem extends EntityIronGolem implements ICactusMob{
     }
 	
 	@Override
+	@Nullable
 	protected ResourceLocation getLootTable() {
-		return new ResourceLocation("cactusmod:loot_tables/entities/cactus_golem");
+		return new ResourceLocation(Reference.PREFIX + "entities/cactus_golem");
 	}
 }

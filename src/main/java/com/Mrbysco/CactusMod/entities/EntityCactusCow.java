@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.Mrbysco.CactusMod.Reference;
 import com.Mrbysco.CactusMod.init.CactusItems;
 
 import net.minecraft.entity.EntityAgeable;
@@ -90,10 +91,10 @@ public class EntityCactusCow extends EntityCow implements net.minecraftforge.com
         }
 	}
 	
+	@Override
 	@Nullable
     protected ResourceLocation getLootTable()
     {
-		return new ResourceLocation("cactusmod:loot_tables/entities/cactus_cow");
+		return new ResourceLocation(Reference.PREFIX + "entities/cactus_cow");
     }
-
 }

@@ -5,13 +5,18 @@ import org.apache.logging.log4j.Logger;
 
 import com.Mrbysco.CactusMod.config.CactusConfig;
 import com.Mrbysco.CactusMod.entities.EntityCactusCow;
-import com.Mrbysco.CactusMod.entities.EntityCactusCreeper;
+import com.Mrbysco.CactusMod.entities.EntityCactusSheep;
+import com.Mrbysco.CactusMod.entities.EntityCactusSlime;
+import com.Mrbysco.CactusMod.entities.hostile.EntityCactusCreeper;
+import com.Mrbysco.CactusMod.entities.hostile.EntityCactusSkelly;
+import com.Mrbysco.CactusMod.entities.hostile.EntityCactusSpider;
 import com.Mrbysco.CactusMod.handlers.CactusBlockHandler;
 import com.Mrbysco.CactusMod.handlers.CactusMobHandler;
 import com.Mrbysco.CactusMod.handlers.CactusToolHandler;
 import com.Mrbysco.CactusMod.init.CactusEntities;
 import com.Mrbysco.CactusMod.init.CactusTab;
 import com.Mrbysco.CactusMod.proxy.CommonProxy;
+import com.Mrbysco.CactusMod.world.OverworldGen;
 
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Biomes;
@@ -32,6 +37,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid = Reference.MOD_ID, 
 	name = Reference.NAME, 
@@ -82,6 +88,30 @@ public class CactusMod {
 					logger.debug("Registering Cactus Creeper spawn");
 					biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusCreeper.class, 100, 4, 4));
 				}
+				
+				if(CactusConfig.general.slimeSpawn)
+				{
+					logger.debug("Registering Cactus Slime spawn");
+					biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusSlime.class, 100, 2, 2));
+				}
+				
+				if(CactusConfig.general.sheepSpawn)
+				{
+					logger.debug("Registering Cactus Sheep spawn");
+					biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusSheep.class, 12, 4, 4));
+				}
+				
+				if(CactusConfig.general.spiderSpawn)
+				{
+					logger.debug("Registering Cactus Spider spawn");
+					biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusSpider.class, 100, 4, 4));
+				}
+				
+				if(CactusConfig.general.skeletonSpawn)
+				{
+					logger.debug("Registering Cactus Skeleton spawn");
+					biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusSkelly.class, 100, 4, 4));
+				}
 			}
 		}
 		
@@ -89,6 +119,9 @@ public class CactusMod {
 		MinecraftForge.EVENT_BUS.register(new CactusBlockHandler());
 		MinecraftForge.EVENT_BUS.register(new CactusToolHandler());
 		MinecraftForge.EVENT_BUS.register(new CactusMobHandler());
+		
+		logger.debug("Register WorldGen");
+		GameRegistry.registerWorldGenerator(OverworldGen.INSTANCE, 0);
 		
 		proxy.init();
 	}

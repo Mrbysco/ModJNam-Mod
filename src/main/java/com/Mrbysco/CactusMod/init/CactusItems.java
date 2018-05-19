@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import com.Mrbysco.CactusMod.items.ItemCactusArmor;
 import com.Mrbysco.CactusMod.items.ItemCactusBow;
 import com.Mrbysco.CactusMod.items.ItemCactusCart;
+import com.Mrbysco.CactusMod.items.ItemCactusFruit;
 import com.Mrbysco.CactusMod.items.ItemCactusItem;
 import com.Mrbysco.CactusMod.items.ItemCactusJuice;
+import com.Mrbysco.CactusMod.items.itemCactusBonemeal;
+import com.Mrbysco.CactusMod.items.dispense.BonemealBehavior;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusAxe;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusHoe;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusPick;
@@ -14,6 +17,7 @@ import com.Mrbysco.CactusMod.items.tools.ItemCactusShield;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusShovel;
 import com.Mrbysco.CactusMod.items.tools.ItemCactusSword;
 
+import net.minecraft.block.BlockDispenser;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -33,6 +37,8 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class CactusItems {
 	public static Item cactus_stick;
 	public static Item cactus_brick;
+	public static Item cactus_bone;
+	public static Item cactus_bonemeal;
 	
 	public static ItemSword cactus_sword;
 	public static ItemSpade cactus_shovel;
@@ -50,6 +56,7 @@ public class CactusItems {
 	public static Item cactus_cart;
 	
 	public static ItemFood cactus_juice;
+	public static ItemFood cactus_fruit;
 		
 	public static ArrayList<Item> ITEMS = new ArrayList<>();
 	
@@ -60,6 +67,8 @@ public class CactusItems {
 		
 		cactus_stick = registerItem(new ItemCactusItem("cactus_stick"));
 		cactus_brick = registerItem(new ItemCactusItem("cactus_brick"));
+		cactus_bone = registerItem(new ItemCactusItem("cactus_bone"));
+		cactus_bonemeal = registerItem(new itemCactusBonemeal("cactus_bonemeal"));
 		
 		//Tools
 		cactus_sword = registerItem(new ItemCactusSword("cactus_sword"));
@@ -84,8 +93,11 @@ public class CactusItems {
 		cactus_cart = registerItem(new ItemCactusCart("cactus_cart"));
 		
 		cactus_juice = registerItem(new ItemCactusJuice("cactus_juice"));
+		cactus_fruit = registerItem(new ItemCactusFruit("cactus_fruit"));
 						
 		registry.registerAll(ITEMS.toArray(new Item[0]));
+		
+    	BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(CactusItems.cactus_bonemeal, new BonemealBehavior());
     }
     
     public static <T extends Item> T registerItem(T item)
