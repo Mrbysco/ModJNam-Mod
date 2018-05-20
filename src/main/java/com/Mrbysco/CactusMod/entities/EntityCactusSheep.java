@@ -287,7 +287,7 @@ public class EntityCactusSheep extends EntityAnimal implements net.minecraftforg
     
     @Override
 	protected void collideWithEntity(Entity entityIn) {
-    	if(!this.getSheared())
+    	if(!this.getSheared() && !(entityIn instanceof ICactusMob))
     		entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
 		
 		super.collideWithEntity(entityIn);

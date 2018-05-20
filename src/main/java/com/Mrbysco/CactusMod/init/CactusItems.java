@@ -3,6 +3,7 @@ package com.Mrbysco.CactusMod.init;
 import java.util.ArrayList;
 
 import com.Mrbysco.CactusMod.items.ItemCactusArmor;
+import com.Mrbysco.CactusMod.items.ItemCactusBoat;
 import com.Mrbysco.CactusMod.items.ItemCactusBow;
 import com.Mrbysco.CactusMod.items.ItemCactusCart;
 import com.Mrbysco.CactusMod.items.ItemCactusFruit;
@@ -56,6 +57,7 @@ public class CactusItems {
 	public static ItemShield cactus_shield;
 	public static Item cactus_bow;
 	public static Item cactus_cart;
+	public static Item cactus_boat;
 	
 	public static ItemFood cactus_juice;
 	public static ItemFood cactus_fruit;
@@ -94,6 +96,7 @@ public class CactusItems {
 		
 		//Other
 		cactus_cart = registerItem(new ItemCactusCart("cactus_cart"));
+		cactus_boat = registerItem(new ItemCactusBoat("cactus_boat"));
 		
 		cactus_juice = registerItem(new ItemCactusJuice("cactus_juice"));
 		cactus_fruit = registerItem(new ItemCactusFruit("cactus_fruit"));

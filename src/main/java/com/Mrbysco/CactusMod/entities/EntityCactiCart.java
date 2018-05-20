@@ -22,7 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityCactiCart extends EntityMinecartEmpty{
+public class EntityCactiCart extends EntityMinecartEmpty implements ICactusMob{
 
 	private static final DataParameter<Integer> ROLLING_AMPLITUDE = EntityDataManager.<Integer>createKey(EntityCactiCart.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> ROLLING_DIRECTION = EntityDataManager.<Integer>createKey(EntityCactiCart.class, DataSerializers.VARINT);

@@ -7,6 +7,7 @@ import java.util.Random;
 import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
 
+import net.minecraft.block.BlockCactus;
 import net.minecraft.block.BlockSand;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -21,6 +22,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
@@ -70,7 +72,18 @@ public class itemCactusBonemeal extends Item{
         int hook = net.minecraftforge.event.ForgeEventFactory.onApplyBonemeal(player, worldIn, target, iblockstate, stack, hand);
         if (hook != 0) return hook > 0;
 
-        if (iblockstate.getBlock() instanceof BlockSand)
+        if (iblockstate.getBlock() instanceof BlockCactus)
+        {
+        	if(!worldIn.isRemote)
+        	{
+        		growCactus(worldIn, worldIn.rand, target, iblockstate);
+        		
+        		stack.shrink(1);
+        	}
+
+            return true;
+        }
+        else if (iblockstate.getBlock() instanceof BlockSand)
         {
         	if (!worldIn.isRemote)
             {
@@ -84,6 +97,44 @@ public class itemCactusBonemeal extends Item{
 
         return false;
     }
+	
+	public static void growCactus(World worldIn, Random rand, BlockPos pos, IBlockState state)
+	{
+		if (!worldIn.isAreaLoaded(pos, 1)) return; // Forge: prevent growing cactus from loading unloaded chunks with block update
+        BlockPos blockpos = pos.up();
+
+        if (worldIn.isAirBlock(blockpos))
+        {
+            int i;
+	        
+            for (i = 1; worldIn.getBlockState(pos.down(i)).getBlock() == Blocks.CACTUS; ++i)
+            {
+                ;
+            }
+
+            if (i < 3)
+            {
+            	int j = ((Integer)state.getValue(BlockCactus.AGE)).intValue() + MathHelper.getInt(worldIn.rand, 3, 8);
+    	        int k = 15;
+    	        if (j > k)
+    	        {
+    	            j = k;
+    	        }
+    	        
+                if (j == k)
+                {
+                    worldIn.setBlockState(blockpos, Blocks.CACTUS.getDefaultState());
+                    IBlockState iblockstate = state.withProperty(BlockCactus.AGE, Integer.valueOf(0));
+                    worldIn.setBlockState(pos, iblockstate, 4);
+                    iblockstate.neighborChanged(worldIn, blockpos, Blocks.CACTUS, pos);
+                }
+                else
+                {
+                    worldIn.setBlockState(pos, state.withProperty(BlockCactus.AGE, Integer.valueOf(j + 1)), 4);
+                }
+            }
+        }
+	}
 	
 	public static void grow(World worldIn, Random rand, BlockPos pos, IBlockState state)
     {
