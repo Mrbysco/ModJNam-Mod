@@ -14,6 +14,7 @@ import com.Mrbysco.CactusMod.handlers.CactusBlockHandler;
 import com.Mrbysco.CactusMod.handlers.CactusMobHandler;
 import com.Mrbysco.CactusMod.handlers.CactusToolHandler;
 import com.Mrbysco.CactusMod.init.CactusEntities;
+import com.Mrbysco.CactusMod.init.CactusItems;
 import com.Mrbysco.CactusMod.init.CactusTab;
 import com.Mrbysco.CactusMod.proxy.CommonProxy;
 import com.Mrbysco.CactusMod.world.OverworldGen;
@@ -122,6 +123,8 @@ public class CactusMod {
 		
 		logger.debug("Register WorldGen");
 		GameRegistry.registerWorldGenerator(OverworldGen.INSTANCE, 0);
+		
+		CactusItems.initOredict();
 		
 		proxy.init();
 	}
