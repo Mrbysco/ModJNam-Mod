@@ -31,6 +31,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
 @EventBusSubscriber
@@ -39,6 +40,7 @@ public class CactusItems {
 	public static Item cactus_brick;
 	public static Item cactus_bone;
 	public static Item cactus_bonemeal;
+	public static Item cactus_slimeball;
 	
 	public static ItemSword cactus_sword;
 	public static ItemSpade cactus_shovel;
@@ -69,6 +71,7 @@ public class CactusItems {
 		cactus_brick = registerItem(new ItemCactusItem("cactus_brick"));
 		cactus_bone = registerItem(new ItemCactusItem("cactus_bone"));
 		cactus_bonemeal = registerItem(new itemCactusBonemeal("cactus_bonemeal"));
+		cactus_slimeball = registerItem(new ItemCactusItem("cactus_slimeball"));
 		
 		//Tools
 		cactus_sword = registerItem(new ItemCactusSword("cactus_sword"));
@@ -104,5 +107,11 @@ public class CactusItems {
     {
         ITEMS.add(item);
         return item;
+    }
+    
+    public static void initOredict()
+    {
+    	OreDictionary.registerOre("slimeball", CactusItems.cactus_slimeball);
+    	OreDictionary.registerOre("stickWood", CactusItems.cactus_slimeball);
     }
 }

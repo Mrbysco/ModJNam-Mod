@@ -1,0 +1,7 @@
+{
+	"forge_marker": 1,
+    "variants": {
+        "normal": { "model": "cactusmod:cactus_slimeblock" },
+		"inventory": { "model": "cactusmod:cactus_slimeblock" }
+    }
+}

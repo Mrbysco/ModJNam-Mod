@@ -19,6 +19,7 @@ item.cactusmod:cactusstick.name=Cactus Stick
 item.cactusmod:cactusbrick.name=Cactus Brick
 item.cactusmod:cactusbone.name=Cactus Bone
 item.cactusmod:cactusbonemeal.name=Cactus Bonemeal
+item.cactusmod:cactusslimeball.name=Cactus Slimeball
 
 item.cactusmod:cactussword.name=Cactus Sword
 item.cactusmod:cactusshovel.name=Cactus Shovel
@@ -42,6 +43,7 @@ cactus.armor.text=Comes with Thorns 2 when crafted.
 
 cactus.shield.text=Acts more like a reflector
 cactus.bow.text=Shoots knockback spikes
+cactus.bonemeal.info=Can only bonemeal sand blocks
 
 # Blocks
 tile.cactusmod:pricklyironblock.name=Prickly Iron Block
@@ -65,6 +67,7 @@ tile.cactusmod:cactuscake.name=Cactus Cake
 
 tile.cactusmod:cactusflower.name=Cactus Flower
 tile.cactusmod:cactusplant.name=Cactus Plant
+tile.cactusmod:cactusslimeblock.name=Cactus Slime Block
 
 cactus.cake.info=Probably looks better than it tastes
 cactus.cart.info=Painfully cheap
@@ -74,6 +77,7 @@ cactus.tnt.info=Shoots spikes in all horizontal directions
 cactus.carpet.info=Hurts mobs that touch it, destroys items on top
 cactus.carpet.info2=only when they're 2 minutes old
 cactus.dispenser.info=Has no inventory, shoots spikes
+cactus.slimeblock.info=Basically a slimeblock but less powerful
 
 # Others
 container.cactus.chest=Cactus Chest

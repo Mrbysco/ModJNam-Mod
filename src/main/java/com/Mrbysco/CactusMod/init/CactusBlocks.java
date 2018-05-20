@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.Mrbysco.CactusMod.blocks.BlockCactusCake;
 import com.Mrbysco.CactusMod.blocks.BlockCactusChest;
 import com.Mrbysco.CactusMod.blocks.BlockCactusPunji;
+import com.Mrbysco.CactusMod.blocks.BlockCactusSlimeblock;
 import com.Mrbysco.CactusMod.blocks.BlockCarvedCactus;
 import com.Mrbysco.CactusMod.blocks.BlockPricklyIron;
 import com.Mrbysco.CactusMod.blocks.decorative.BlockCactusDeco;
@@ -58,6 +59,8 @@ public class CactusBlocks {
 	public static BlockTNT cactus_tnt;
 	public static BlockDoor cactus_door;
 	
+	public static Block cactus_slimeblock;
+	
 	public static Block cactus_flower;
 	public static Block cactus_plant;
 	
@@ -86,6 +89,8 @@ public class CactusBlocks {
 	    jacko_cactus.setLightLevel(1F);
 	    registerDecorativeBlock(jacko_cactus);
 	    
+	    cactus_slimeblock = registerDecorativeBlock(new BlockCactusSlimeblock("cactus_slimeblock"));
+
 	    cactus_dispenser = registerRedstoneBlock(new BlockCactusDispenser("cactus_dispenser"));
 		cactus_chest = registerDecorativeBlock(new BlockCactusChest("cactus_chest"));
 	    cactus_tnt = registerRedstoneBlock(new BlockCactusTNT("cactus_tnt"));
