@@ -61,8 +61,8 @@ public class CactusBlocks {
 	
 	public static Block cactus_slimeblock;
 	
-	public static Block cactus_flower;
-	public static Block cactus_plant;
+	public static BlockCactusFlower cactus_flower;
+	public static BlockCactusPlant cactus_plant;
 	
 	public static ArrayList<Block> BLOCKS = new ArrayList<>();
 	

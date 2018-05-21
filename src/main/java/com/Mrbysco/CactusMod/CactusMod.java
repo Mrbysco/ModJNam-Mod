@@ -12,9 +12,12 @@ import com.Mrbysco.CactusMod.entities.hostile.EntityCactusSkelly;
 import com.Mrbysco.CactusMod.entities.hostile.EntityCactusSpider;
 import com.Mrbysco.CactusMod.handlers.CactusBlockHandler;
 import com.Mrbysco.CactusMod.handlers.CactusMobHandler;
+import com.Mrbysco.CactusMod.handlers.CactusModCompatHandlers;
 import com.Mrbysco.CactusMod.handlers.CactusToolHandler;
 import com.Mrbysco.CactusMod.init.CactusEntities;
 import com.Mrbysco.CactusMod.init.CactusItems;
+import com.Mrbysco.CactusMod.init.CactusRecipes;
+import com.Mrbysco.CactusMod.init.CactusSounds;
 import com.Mrbysco.CactusMod.init.CactusTab;
 import com.Mrbysco.CactusMod.proxy.CommonProxy;
 import com.Mrbysco.CactusMod.world.OverworldGen;
@@ -43,7 +46,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 @Mod(modid = Reference.MOD_ID, 
 	name = Reference.NAME, 
 	version = Reference.VERSION, 
-	acceptedMinecraftVersions = Reference.MC_VERSIONS)
+	acceptedMinecraftVersions = Reference.MC_VERSIONS,
+	dependencies = Reference.DEPENDENCIES)
 
 public class CactusMod {
 	@Instance(Reference.MOD_ID)
@@ -62,9 +66,11 @@ public class CactusMod {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
-	{	
+	{			
 		logger.debug("Registering Config");
 		MinecraftForge.EVENT_BUS.register(new CactusConfig());
+		
+		CactusSounds.registerSounds();
 		
 		logger.debug("Register Entities");
 		CactusEntities.register();
@@ -113,6 +119,12 @@ public class CactusMod {
 					logger.debug("Registering Cactus Skeleton spawn");
 					biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusSkelly.class, 100, 4, 4));
 				}
+				
+				if(CactusConfig.general.cactoniSpawn)
+				{
+					logger.debug("Registering Cactus Skeleton spawn");
+					biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusSkelly.class, 1, 2, 2));
+				}
 			}
 		}
 		
@@ -120,11 +132,13 @@ public class CactusMod {
 		MinecraftForge.EVENT_BUS.register(new CactusBlockHandler());
 		MinecraftForge.EVENT_BUS.register(new CactusToolHandler());
 		MinecraftForge.EVENT_BUS.register(new CactusMobHandler());
+		MinecraftForge.EVENT_BUS.register(new CactusModCompatHandlers());
 		
 		logger.debug("Register WorldGen");
 		GameRegistry.registerWorldGenerator(OverworldGen.INSTANCE, 0);
 		
 		CactusItems.initOredict();
+		CactusRecipes.init();
 		
 		proxy.init();
 	}

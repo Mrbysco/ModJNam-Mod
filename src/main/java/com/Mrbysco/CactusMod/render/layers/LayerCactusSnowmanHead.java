@@ -25,7 +25,7 @@ public class LayerCactusSnowmanHead implements LayerRenderer<EntityCactusSnowman
 
     public void doRenderLayer(EntityCactusSnowman entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-    	if (!entitylivingbaseIn.isInvisible() && entitylivingbaseIn.isPumpkinEquipped())
+    	if (!entitylivingbaseIn.isInvisible() && entitylivingbaseIn.isCactusEquipped())
         {
             GlStateManager.pushMatrix();
             this.snowManRenderer.getMainModel().head.postRender(0.0625F);

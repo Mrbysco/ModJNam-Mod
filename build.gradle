@@ -27,7 +27,7 @@ minecraft {
 }
 
 dependencies {
-
+		compile files("lib/statues-1.12.X-0.8.4.1.jar")
 }
 
 processResources {

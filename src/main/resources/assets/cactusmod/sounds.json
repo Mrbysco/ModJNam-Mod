@@ -1,0 +1,11 @@
+{
+    "hat.music" : {
+    "category" : "neutral",
+        "sounds": [
+            {
+				"name": "cactusmod:hat/hatdance",
+				"stream": true
+            }
+        ]
+    }
+}

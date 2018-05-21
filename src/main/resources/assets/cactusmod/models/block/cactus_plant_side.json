@@ -1,20 +1,23 @@
 {
-    "ambientocclusion": false,
-    "textures": {
-        "texture": "cactusmod:blocks/cactus_plant",
-        "inside": "cactusmod:blocks/cactus_plant",
-        "particle": "cactusmod:blocks/cactus_plant"
-    },
-    "elements": [
-        {   "from": [ 4, 4, 0 ],
-            "to": [ 12, 12, 4 ],
-            "faces": {
-                "down":  { "texture": "#texture" },
-                "up":    { "texture": "#texture" },
-                "north": { "texture": "#texture", "cullface":"north" },
-                "west":  { "texture": "#texture" },
-                "east":  { "texture": "#texture" }
-            }
-        }
-    ]
+	"__comment": "Designed by Mrbysco",
+	"ambientocclusion": false,
+	"textures": {
+		"texture": "blocks/cactus_side",
+		"inside": "blocks/cactus_side",
+		"particle": "blocks/cactus_side"
+	},
+	"elements": [ 	 
+		{
+			"__comment": "Element",
+			"from": [ 4, 4, 0 ],
+			"to": [ 12, 12, 4 ],
+			"faces": {
+				"down": { "uv": [ 4, 12, 12, 16 ], "texture": "#texture" },
+				"up": { "uv": [ 4, 0, 12, 4 ], "texture": "#texture" },
+				"north": { "uv": [ 4, 4, 12, 12 ], "texture": "#texture", "cullface": "north" },
+				"west": { "uv": [ 2, 4, 6, 12 ], "texture": "#texture" },
+				"east": { "uv": [ 10, 4, 14, 12 ], "texture": "#texture" }
+			}
+		}
+	]
 }

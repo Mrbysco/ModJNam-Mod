@@ -157,9 +157,9 @@ public class CactusBlockHandler {
         if (cactusSnowmanPattern == null)
         {
         	if(block == CactusBlocks.carved_cactus)
-            	cactusSnowmanPattern = FactoryBlockPattern.start().aisle("^", "#", "#").where('^', BlockWorldState.hasState(BlockStateMatcher.forBlock(CactusBlocks.carved_cactus))).where('#', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.SNOW))).build();
+            	cactusSnowmanPattern = FactoryBlockPattern.start().aisle("^", "#", "#").where('^', BlockWorldState.hasState(BlockStateMatcher.forBlock(CactusBlocks.carved_cactus))).where('#', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.CACTUS))).build();
         	else if(block == CactusBlocks.jacko_cactus)
-            	cactusSnowmanPattern = FactoryBlockPattern.start().aisle("^", "#", "#").where('^', BlockWorldState.hasState(BlockStateMatcher.forBlock(CactusBlocks.jacko_cactus))).where('#', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.SNOW))).build();
+            	cactusSnowmanPattern = FactoryBlockPattern.start().aisle("^", "#", "#").where('^', BlockWorldState.hasState(BlockStateMatcher.forBlock(CactusBlocks.jacko_cactus))).where('#', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.CACTUS))).build();
         }
 
         return cactusSnowmanPattern;

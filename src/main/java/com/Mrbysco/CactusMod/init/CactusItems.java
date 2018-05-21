@@ -115,6 +115,6 @@ public class CactusItems {
     public static void initOredict()
     {
     	OreDictionary.registerOre("slimeball", CactusItems.cactus_slimeball);
-    	OreDictionary.registerOre("stickWood", CactusItems.cactus_slimeball);
+    	OreDictionary.registerOre("stickWood", CactusItems.cactus_stick);
     }
 }

@@ -18,6 +18,9 @@ public class CactusConfig {
 	@Config.Comment({"World Gen settings."})
 	public static final WorldGen worldgen = new WorldGen();
 	
+	@Config.Comment({"World Gen settings."})
+	public static final ModCompat modcompat = new ModCompat();
+	
 	public static class General {
 		@Config.Comment("Decides if the Cactus Creeper spawns naturally")
 		public boolean creeperSpawn = true;
@@ -36,6 +39,9 @@ public class CactusConfig {
 		
 		@Config.Comment("Decides if the Cactus Skeleton spawns naturally")
 		public boolean skeletonSpawn = true;
+		
+		@Config.Comment("Decides if the Cactoni spawns naturally")
+		public boolean cactoniSpawn = false;
 	}
 	
 	public static class WorldGen {
@@ -47,6 +53,11 @@ public class CactusConfig {
 		
 		@Config.Comment("Decides the rarity in which the cactus plant spawns")
 		public int CactusPlantSpawnRarity = 20;
+	}
+	
+	public static class ModCompat {
+		@Config.Comment("While Statues is installed: If true right-clicking a cactus man with a Statues sombrero will spawn a Cactoni")
+		public boolean StatuesSombreroTocCactoni = true;
 	}
 	
 	@Mod.EventBusSubscriber(modid = Reference.MOD_ID)

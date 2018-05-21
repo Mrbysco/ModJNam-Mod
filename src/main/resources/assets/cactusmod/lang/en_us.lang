@@ -8,12 +8,13 @@ entity.cactusmod:cactuscart.name=Cactus Cart
 entity.cactusmod:cactustnt.name=Cactus Tnt
 entity.cactusmod:cactusspike.name=Cactus Spike
 entity.cactusmod:cactuscreeper.name=Cactus Creeper
-entity.cactusmod:cactussnowman.name=Cactus Snowman
+entity.cactusmod:cactussnowman.name=Cactus Man
 entity.cactusmod:cactusslime.name=Cactus Slime
 entity.cactusmod:cactussheep.name=Cactus Sheep
 entity.cactusmod:cactusspider.name=Cactus Spider
 entity.cactusmod:cactusskeleton.name=Cactus Skeleton
 entity.cactusmod:cactusboat.name=Cactus Boat
+entity.cactusmod:cactoni.name=Cactoni
 
 # Items
 item.cactusmod:cactusstick.name=Cactus Stick

@@ -5,6 +5,7 @@ import java.util.Random;
 import com.Mrbysco.CactusMod.blocks.plant.BlockCactusFlower;
 
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -47,5 +48,22 @@ public class CactusPlantGenerator implements IWorldGenerator
             }
         }
 		
+	}
+	
+	public EnumFacing randomFace(int randNumber)
+	{
+    	switch (randNumber) {
+			case 0:
+				return EnumFacing.NORTH;
+			case 1:
+				return EnumFacing.EAST;
+			case 2:
+				return EnumFacing.SOUTH;
+			case 3: 
+				return EnumFacing.WEST;
+	
+			default:
+				return EnumFacing.NORTH;
+		}
 	}
 }

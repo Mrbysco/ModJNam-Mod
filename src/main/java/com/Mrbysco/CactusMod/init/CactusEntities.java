@@ -4,6 +4,7 @@ import com.Mrbysco.CactusMod.CactusMod;
 import com.Mrbysco.CactusMod.Reference;
 import com.Mrbysco.CactusMod.entities.EntityActualSpike;
 import com.Mrbysco.CactusMod.entities.EntityCactiCart;
+import com.Mrbysco.CactusMod.entities.EntityCactoni;
 import com.Mrbysco.CactusMod.entities.EntityCactusBoat;
 import com.Mrbysco.CactusMod.entities.EntityCactusCow;
 import com.Mrbysco.CactusMod.entities.EntityCactusGolem;
@@ -41,6 +42,7 @@ public class CactusEntities {
 		registerEntity("cactus_spider", EntityCactusSpider.class, "cactusspider", 80, 3, true, 0xFF0f751b, 0xFF89132f);
 		registerEntity("cactus_skeleton", EntityCactusSkelly.class, "cactusskeleton", 80, 3, true, 0xFF0f751b, 0xFF89132f);
 		registerEntity("cactus_boat", EntityCactusBoat.class, "cactusboat", 80, 3, true);
+		registerEntity("cactoni", EntityCactoni.class, "cactoni", 80, 3, true, 0xFF0f751b, 0xFF89132f);
 
 		registerTileEntity(TileEntityCactusChest.class, "_cactus_chest");
 		registerTileEntity(TileEntityCactusHopper.class, "_cactus_hopper");

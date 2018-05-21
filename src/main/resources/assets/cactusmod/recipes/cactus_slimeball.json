@@ -9,7 +9,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
 	"S": {
-      "item": "minecraft:cactus_slimeblock"
+      "item": "cactusmod:cactus_slimeblock"
     }
   }
 }

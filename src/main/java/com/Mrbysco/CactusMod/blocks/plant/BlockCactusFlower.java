@@ -61,7 +61,7 @@ public class BlockCactusFlower extends Block{
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (!this.canSurvive(worldIn, pos))
+        if (!this.canSurviveAt(worldIn, pos))
         {
             worldIn.destroyBlock(pos, true);
         }
@@ -237,7 +237,7 @@ public class BlockCactusFlower extends Block{
      */
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
-        return super.canPlaceBlockAt(worldIn, pos) && this.canSurvive(worldIn, pos);
+        return super.canPlaceBlockAt(worldIn, pos) && this.canSurviveAt(worldIn, pos);
     }
 
     /**
@@ -247,13 +247,13 @@ public class BlockCactusFlower extends Block{
      */
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
-        if (!this.canSurvive(worldIn, pos))
+        if (!this.canSurviveAt(worldIn, pos))
         {
             worldIn.scheduleUpdate(pos, this, 1);
         }
     }
 
-    public boolean canSurvive(World worldIn, BlockPos pos)
+    public boolean canSurviveAt(World worldIn, BlockPos pos)
     {
         IBlockState iblockstate = worldIn.getBlockState(pos.down());
         Block block = iblockstate.getBlock();
