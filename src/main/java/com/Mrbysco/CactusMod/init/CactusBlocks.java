@@ -45,8 +45,8 @@ public class CactusBlocks {
 	public static BlockSlab cactus_brick_slab;
 	public static BlockSlab cactus_brick_double_slab;
 	
-	public static Block carved_cactus;
-	public static Block jacko_cactus;
+	public static BlockCarvedCactus carved_cactus;
+	public static BlockCarvedCactus jacko_cactus;
 	
 	public static Block cactus_carpet;
 	

@@ -34,6 +34,9 @@ public class CactusModCompatHandlers {
 					world.spawnEntity(cactoni);
 					cactoni.onInitialSpawn(world.getDifficultyForLocation(target.getPosition()), null);
 					target.setDead();
+					
+					if(!player.isCreative())
+						stack.shrink(1);
 				}
 			}
 		}
