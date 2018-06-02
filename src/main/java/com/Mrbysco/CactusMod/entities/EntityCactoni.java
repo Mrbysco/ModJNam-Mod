@@ -75,7 +75,7 @@ public class EntityCactoni extends EntityGolem implements ICactusMob
         if (soundevent != null)
         {
         	if(this.rand.nextInt(100) < 10)
-        		this.playSound(soundevent, this.getSoundVolume(), this.getSoundPitch());
+        		this.playSound(soundevent, 1F, 1F);
         }
     }
     
