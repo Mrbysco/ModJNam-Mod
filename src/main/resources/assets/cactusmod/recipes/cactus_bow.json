@@ -10,7 +10,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "C": {
-      "item": "minecraft:cactus"
+      "item": "cactusmod:cactus_stick"
     },
 	"S": {
       "item": "minecraft:string"

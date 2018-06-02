@@ -84,46 +84,49 @@ public class CactusMod {
 		for (Biome biome : Biome.REGISTRY) {
 			if(biome == Biomes.DESERT || biome == Biomes.DESERT_HILLS || biome == Biomes.MUTATED_DESERT || BiomeDictionary.hasType(biome, BiomeDictionary.Type.SANDY))
 			{
-				if(CactusConfig.general.cowSpawn)
+				if(!(BiomeDictionary.hasType(biome,  BiomeDictionary.Type.NETHER)))
 				{
-					logger.debug("Registering Cactus Cow spawn");
-					biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusCow.class, 8, 4, 4));
-				}
-				
-				if(CactusConfig.general.creeperSpawn)
-				{
-					logger.debug("Registering Cactus Creeper spawn");
-					biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusCreeper.class, 100, 4, 4));
-				}
-				
-				if(CactusConfig.general.slimeSpawn)
-				{
-					logger.debug("Registering Cactus Slime spawn");
-					biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusSlime.class, 100, 2, 2));
-				}
-				
-				if(CactusConfig.general.sheepSpawn)
-				{
-					logger.debug("Registering Cactus Sheep spawn");
-					biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusSheep.class, 12, 4, 4));
-				}
-				
-				if(CactusConfig.general.spiderSpawn)
-				{
-					logger.debug("Registering Cactus Spider spawn");
-					biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusSpider.class, 100, 4, 4));
-				}
-				
-				if(CactusConfig.general.skeletonSpawn)
-				{
-					logger.debug("Registering Cactus Skeleton spawn");
-					biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusSkelly.class, 100, 4, 4));
-				}
-				
-				if(CactusConfig.general.cactoniSpawn)
-				{
-					logger.debug("Registering Cactus Skeleton spawn");
-					biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusSkelly.class, 1, 2, 2));
+					if(CactusConfig.general.cowSpawn)
+					{
+						logger.debug("Registering Cactus Cow spawn");
+						biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusCow.class, 8, 4, 4));
+					}
+					
+					if(CactusConfig.general.creeperSpawn)
+					{
+						logger.debug("Registering Cactus Creeper spawn");
+						biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusCreeper.class, 100, 4, 4));
+					}
+					
+					if(CactusConfig.general.slimeSpawn)
+					{
+						logger.debug("Registering Cactus Slime spawn");
+						biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusSlime.class, 100, 2, 2));
+					}
+					
+					if(CactusConfig.general.sheepSpawn)
+					{
+						logger.debug("Registering Cactus Sheep spawn");
+						biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusSheep.class, 12, 4, 4));
+					}
+					
+					if(CactusConfig.general.spiderSpawn)
+					{
+						logger.debug("Registering Cactus Spider spawn");
+						biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusSpider.class, 100, 4, 4));
+					}
+					
+					if(CactusConfig.general.skeletonSpawn)
+					{
+						logger.debug("Registering Cactus Skeleton spawn");
+						biome.getSpawnableList(EnumCreatureType.MONSTER).add(new SpawnListEntry(EntityCactusSkelly.class, 100, 4, 4));
+					}
+					
+					if(CactusConfig.general.cactoniSpawn)
+					{
+						logger.debug("Registering Cactus Skeleton spawn");
+						biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusSkelly.class, 1, 2, 2));
+					}
 				}
 			}
 		}

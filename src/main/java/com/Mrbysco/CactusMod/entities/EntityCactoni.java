@@ -64,9 +64,21 @@ public class EntityCactoni extends EntityGolem implements ICactusMob
     @Nullable
     protected SoundEvent getAmbientSound()
     {
-        return SoundEvents.ENTITY_SNOWMAN_AMBIENT;
+        return CactusSounds.hat_music;
     }
 
+    @Override
+    public void playLivingSound()
+    {
+        SoundEvent soundevent = this.getAmbientSound();
+
+        if (soundevent != null)
+        {
+        	if(this.rand.nextInt(100) < 10)
+        		this.playSound(soundevent, this.getSoundVolume(), this.getSoundPitch());
+        }
+    }
+    
     @Nullable
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
     {
