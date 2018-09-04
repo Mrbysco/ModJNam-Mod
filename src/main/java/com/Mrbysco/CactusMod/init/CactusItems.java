@@ -97,7 +97,7 @@ public class CactusItems {
 		//Other
 		cactus_cart = registerItem(new ItemCactusCart("cactus_cart"));
 		cactus_boat = registerItem(new ItemCactusBoat("cactus_boat"));
-		
+				
 		cactus_juice = registerItem(new ItemCactusJuice("cactus_juice"));
 		cactus_fruit = registerItem(new ItemCactusFruit("cactus_fruit"));
 						
