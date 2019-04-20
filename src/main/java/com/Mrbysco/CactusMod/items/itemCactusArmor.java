@@ -1,10 +1,8 @@
-package com.Mrbysco.CactusMod.items;
+package com.mrbysco.cactusmod.items;
 
-import java.util.List;
-
-import com.Mrbysco.CactusMod.CactusMod;
-import com.Mrbysco.CactusMod.Reference;
-
+import com.mrbysco.cactusmod.CactusMod;
+import com.mrbysco.cactusmod.Reference;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,8 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ItemCactusArmor extends ItemArmor{
 
@@ -53,6 +52,6 @@ public class ItemCactusArmor extends ItemArmor{
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 		
-		tooltip.add(TextFormatting.GREEN + I18n.translateToLocal("cactus.armor.text"));
+		tooltip.add(TextFormatting.GREEN + I18n.format("cactus.armor.text"));
 	}
 }

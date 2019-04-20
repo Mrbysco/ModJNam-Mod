@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "particle": "cactusmod:blocks/cactus_workbench_side",
+        "down": "cactusmod:blocks/cactus_workbench_bottom",
+        "up": "cactusmod:blocks/cactus_workbench_top",
+        "north": "cactusmod:blocks/cactus_workbench_side",
+        "east": "cactusmod:blocks/cactus_workbench_side",
+        "south": "cactusmod:blocks/cactus_workbench_side",
+        "west": "cactusmod:blocks/cactus_workbench_side"
+    }
+}

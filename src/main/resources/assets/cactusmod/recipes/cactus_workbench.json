@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "cactusmod:cactus_crafting_table"
+  },
+  "pattern": [
+	"CC",
+    "CC"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "minecraft:cactus"
+    }
+  }
+}

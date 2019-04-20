@@ -71,6 +71,7 @@ tile.cactusmod:cactuscake.name=Cactus Cake
 tile.cactusmod:cactusflower.name=Cactus Flower
 tile.cactusmod:cactusplant.name=Cactus Plant
 tile.cactusmod:cactusslimeblock.name=Cactus Slime Block
+tile.cactusmod:cactuscraftingtable.name=Cactus Workbench
 
 cactus.cake.info=Probably looks better than it tastes
 cactus.cart.info=Painfully cheap
