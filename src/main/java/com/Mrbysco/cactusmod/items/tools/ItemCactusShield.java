@@ -29,7 +29,7 @@ public class ItemCactusShield extends ItemShield{
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return I18n.format("item.cactusmod:cactusshield.name");
+		return net.minecraft.util.text.translation.I18n.translateToLocal("item.cactusmod:cactusshield.name");
 	}
 	
 	@Override
