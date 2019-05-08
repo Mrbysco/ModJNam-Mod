@@ -12,6 +12,7 @@
             ]
         },
         {
+			"name": "sheep_drops",
             "rolls": 1,
             "entries": [
                 {

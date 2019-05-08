@@ -28,7 +28,7 @@ public class ItemCactusDoor extends ItemBlock
     
     @Override
     public CreativeTabs[] getCreativeTabs() {
-    	return new CreativeTabs[] {CreativeTabs.REDSTONE, CactusMod.cactustab};
+    	return new CreativeTabs[] {CreativeTabs.REDSTONE, CreativeTabs.DECORATIONS, CactusMod.cactustab};
     }
 
     @Override

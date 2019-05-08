@@ -44,9 +44,7 @@ import java.util.List;
 public class EntityCactusSheep extends EntityAnimal implements net.minecraftforge.common.IShearable, ICactusMob
 {
     private static final DataParameter<Boolean> SHEARED = EntityDataManager.<Boolean>createKey(EntityCactusSheep.class, DataSerializers.BOOLEAN);
-
-	private boolean sheepSheared;
-
+    
     /**
      * Used to control movement as well as wool regrowth. Set to 40 on handleHealthUpdate and counts down with each
      * tick.
@@ -214,23 +212,21 @@ public class EntityCactusSheep extends EntityAnimal implements net.minecraftforg
      */
     public boolean getSheared()
     {
-        return (Boolean)this.dataManager.get(SHEARED).booleanValue();
+        return this.dataManager.get(SHEARED);
     }
 
     public void setSheared(boolean sheared)
     {
-    	if (sheared)
-            this.dataManager.set(SHEARED, Boolean.valueOf(sheared));
-        else
-            this.dataManager.set(SHEARED, Boolean.valueOf(sheared));
+    	if(this.dataManager.get(SHEARED) != sheared) {
+            this.dataManager.set(SHEARED, sheared);
+        }
     }
 
     @Override
     public EntityCactusSheep createChild(EntityAgeable ageable)
     {
-        EntityCactusSheep EntityCactusSheep = (EntityCactusSheep)ageable;
-        EntityCactusSheep EntityCactusSheep1 = new EntityCactusSheep(this.world);
-        return EntityCactusSheep1;
+        EntityCactusSheep entityCactusSheep = new EntityCactusSheep(this.world);
+        return entityCactusSheep;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.mrbysco.cactusmod.entities.AI;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSand;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.init.Blocks;
@@ -35,7 +36,7 @@ public class EntityEatSand extends EntityAIBase
         else
         {
             BlockPos blockpos = new BlockPos(this.sandEaterEntity.posX, this.sandEaterEntity.posY, this.sandEaterEntity.posZ);
-            return this.entityWorld.getBlockState(blockpos).getBlock() == Blocks.DEADBUSH;
+            return this.entityWorld.getBlockState(blockpos).getBlock() instanceof BlockSand;
         }
     }
 
