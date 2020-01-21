@@ -12,7 +12,7 @@ public class BlockCactusDeco extends Block{
 		setHardness(0.4F);
 		setSoundType(SoundType.CLOTH);
 		
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 }

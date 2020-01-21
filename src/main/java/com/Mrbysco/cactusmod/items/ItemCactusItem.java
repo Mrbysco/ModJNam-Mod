@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 public class ItemCactusItem extends Item{
 
 	public ItemCactusItem(String registryName) {
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 	

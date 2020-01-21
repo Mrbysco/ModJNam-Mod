@@ -45,7 +45,7 @@ public class BlockCactusFlower extends Block{
 		setHardness(0.4F);
 		setSoundType(SoundType.WOOD);
 		
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 		this.setTickRandomly(true);
 	}
@@ -187,8 +187,8 @@ public class BlockCactusFlower extends Block{
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+		super.onEntityCollision(worldIn, pos, state, entityIn);
         entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
 	}
 	
@@ -306,7 +306,7 @@ public class BlockCactusFlower extends Block{
     }
 
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
+    public BlockRenderLayer getRenderLayer()
     {
         return BlockRenderLayer.CUTOUT;
     }

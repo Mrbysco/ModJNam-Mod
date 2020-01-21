@@ -23,7 +23,7 @@ public class BlockCactusDoor extends BlockDoor{
 		this.setHardness(0.4F);
 		this.setSoundType(SoundType.CLOTH);
 		
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 

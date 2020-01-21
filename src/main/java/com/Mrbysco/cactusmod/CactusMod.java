@@ -2,6 +2,7 @@ package com.mrbysco.cactusmod;
 
 import com.mrbysco.cactusmod.config.CactusConfig;
 import com.mrbysco.cactusmod.entities.EntityCactusCow;
+import com.mrbysco.cactusmod.entities.EntityCactusPig;
 import com.mrbysco.cactusmod.entities.EntityCactusSheep;
 import com.mrbysco.cactusmod.entities.EntityCactusSlime;
 import com.mrbysco.cactusmod.entities.hostile.EntityCactusCreeper;
@@ -112,7 +113,13 @@ public class CactusMod {
 						logger.debug("Registering Cactus Sheep spawn");
 						biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusSheep.class, 12, 4, 4));
 					}
-					
+
+					if(CactusConfig.general.pigSpawn)
+					{
+						logger.debug("Registering Cactus Pig spawn");
+						biome.getSpawnableList(EnumCreatureType.CREATURE).add(new SpawnListEntry(EntityCactusPig.class, 10, 4, 4));
+					}
+
 					if(CactusConfig.general.spiderSpawn)
 					{
 						logger.debug("Registering Cactus Spider spawn");

@@ -32,7 +32,7 @@ import java.util.Random;
 public class itemCactusBonemeal extends Item{
 
 	public itemCactusBonemeal(String registryName) {
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 	

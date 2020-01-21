@@ -20,7 +20,7 @@ public class ItemCactusPick extends ItemPickaxe{
 		this.material = CactusMod.cactusTool;
         this.maxStackSize = 1;
         
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 

@@ -38,7 +38,7 @@ public class BlockCactusDispenser extends Block{
 		
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TRIGGERED, Boolean.valueOf(false)));
 
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 
@@ -118,9 +118,9 @@ public class BlockCactusDispenser extends Block{
         {
 			EnumFacing facing = state.getValue(BlockCactusDispenser.FACING);
 			
-	        double d0 = pos.getX() + 0.7D * (double)facing.getFrontOffsetX();
-	        double d1 = pos.getY() + 0.7D * (double)facing.getFrontOffsetY();
-	        double d2 = pos.getZ() + 0.7D * (double)facing.getFrontOffsetZ();
+	        double d0 = pos.getX() + 0.7D * (double)facing.getXOffset();
+	        double d1 = pos.getY() + 0.7D * (double)facing.getYOffset();
+	        double d2 = pos.getZ() + 0.7D * (double)facing.getZOffset();
 
 			EntitySpike spike = new EntityActualSpike(worldIn, d0, d1 + 0.5, d2);
 			spike.setDamage(0.5);
@@ -134,7 +134,7 @@ public class BlockCactusDispenser extends Block{
 					break;
 	        }
 			
-			spike.shoot((double)facing.getFrontOffsetX(), (double)((float)facing.getFrontOffsetY() + 0.1F), (double)facing.getFrontOffsetZ(), 1.1F, 6.0F);
+			spike.shoot((double)facing.getXOffset(), (double)((float)facing.getYOffset() + 0.1F), (double)facing.getZOffset(), 1.1F, 6.0F);
 			spike.setKnockbackStrength(1);
 			
 			worldIn.spawnEntity(spike);
@@ -150,7 +150,7 @@ public class BlockCactusDispenser extends Block{
 	@Override
 	public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getFront(meta & 7)).withProperty(TRIGGERED, Boolean.valueOf((meta & 8) > 0));
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byIndex(meta & 7)).withProperty(TRIGGERED, Boolean.valueOf((meta & 8) > 0));
     }
 
 	@Override

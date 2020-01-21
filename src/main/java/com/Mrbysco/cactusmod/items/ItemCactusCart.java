@@ -30,7 +30,7 @@ public class ItemCactusCart extends Item{
 	public ItemCactusCart(String registryName) {
         this.maxStackSize = 1;
 
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, CART_DISPENSER_BEHAVIOR);
 	}
@@ -82,9 +82,9 @@ public class ItemCactusCart extends Item{
         {
             EnumFacing enumfacing = (EnumFacing)source.getBlockState().getValue(BlockDispenser.FACING);
             World world = source.getWorld();
-            double d0 = source.getX() + (double)enumfacing.getFrontOffsetX() * 1.125D;
-            double d1 = Math.floor(source.getY()) + (double)enumfacing.getFrontOffsetY();
-            double d2 = source.getZ() + (double)enumfacing.getFrontOffsetZ() * 1.125D;
+            double d0 = source.getX() + (double)enumfacing.getXOffset() * 1.125D;
+            double d1 = Math.floor(source.getY()) + (double)enumfacing.getYOffset();
+            double d2 = source.getZ() + (double)enumfacing.getZOffset() * 1.125D;
             BlockPos blockpos = source.getBlockPos().offset(enumfacing);
             IBlockState iblockstate = world.getBlockState(blockpos);
             BlockRailBase.EnumRailDirection blockrailbase$enumraildirection = iblockstate.getBlock() instanceof BlockRailBase ? ((BlockRailBase)iblockstate.getBlock()).getRailDirection(world, blockpos, iblockstate, null) : BlockRailBase.EnumRailDirection.NORTH_SOUTH;

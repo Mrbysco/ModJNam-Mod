@@ -16,7 +16,7 @@ public class ItemCactusSlab extends ItemSlab
     public CreativeTabs[] getCreativeTabs() {
     	CreativeTabs[] tabs = new CreativeTabs[] { getCreativeTab()} ;
     	
-    	if(!this.getUnlocalizedName().contains("double"))
+    	if(!this.getTranslationKey().contains("double"))
     		tabs = new CreativeTabs[] {CreativeTabs.DECORATIONS, CactusMod.cactustab};
     	
     	return tabs;

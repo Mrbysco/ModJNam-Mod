@@ -39,7 +39,7 @@ public class ItemCactusBow extends Item
         this.maxStackSize = 1;
         this.setMaxDamage(384);
                 
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
         this.addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter()
         {

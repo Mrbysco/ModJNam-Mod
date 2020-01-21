@@ -30,7 +30,7 @@ public class BlockCactusCake extends BlockCake{
 		
 		setCreativeTab(CactusMod.cactustab);
 	    
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 	
@@ -77,8 +77,8 @@ public class BlockCactusCake extends BlockCake{
     }
 	
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+		super.onEntityCollision(worldIn, pos, state, entityIn);
         entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
 	}
 	

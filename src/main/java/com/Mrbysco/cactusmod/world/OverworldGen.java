@@ -38,7 +38,7 @@ public class OverworldGen implements IWorldGenerator{
 
         BlockPos position;
 
-        Biome biome = world.getChunkFromBlockCoords(chunkPos).getBiome(chunkPos, world.getBiomeProvider());
+        Biome biome = world.getChunk(chunkPos).getBiome(chunkPos, world.getBiomeProvider());
 
         if (biome == null)
         {

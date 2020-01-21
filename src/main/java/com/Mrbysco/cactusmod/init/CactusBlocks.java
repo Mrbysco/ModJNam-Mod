@@ -8,7 +8,8 @@ import com.mrbysco.cactusmod.blocks.BlockCactusWorkbench;
 import com.mrbysco.cactusmod.blocks.BlockCarvedCactus;
 import com.mrbysco.cactusmod.blocks.BlockPricklyIron;
 import com.mrbysco.cactusmod.blocks.decorative.BlockCactusDeco;
-import com.mrbysco.cactusmod.blocks.decorative.BlockCactusSlab;
+import com.mrbysco.cactusmod.blocks.decorative.BlockCactusSlab.Double;
+import com.mrbysco.cactusmod.blocks.decorative.BlockCactusSlab.Half;
 import com.mrbysco.cactusmod.blocks.decorative.BlockCactusStairs;
 import com.mrbysco.cactusmod.blocks.plant.BlockCactusFlower;
 import com.mrbysco.cactusmod.blocks.plant.BlockCactusPlant;
@@ -80,8 +81,8 @@ public class CactusBlocks {
 	    
 	    cactus_brick_stair = registerDecorativeBlock(new BlockCactusStairs("cactus_brick_stair", cactus_brick.getDefaultState()));
 	    
-	    cactus_brick_slab = new BlockCactusSlab.Half("cactus_brick_slab");
-	    cactus_brick_double_slab = new BlockCactusSlab.Double("cactus_brick_double_slab");
+	    cactus_brick_slab = new Half("cactus_brick_slab");
+	    cactus_brick_double_slab = new Double("cactus_brick_double_slab");
 	    registerBlock(cactus_brick_double_slab);
 	    registerCactusSlab(cactus_brick_slab, cactus_brick_double_slab);
 
@@ -140,7 +141,7 @@ public class CactusBlocks {
     public static <T extends Block> T registerDoor(T block)
     {
     	ItemCactusDoor item = new ItemCactusDoor(block);
-    	item.setRegistryName(block.getRegistryName().getResourceDomain(), block.getRegistryName().getResourcePath() + "_item");
+    	item.setRegistryName(block.getRegistryName().getNamespace(), block.getRegistryName().getPath() + "_item");
 
     	CactusItems.ITEMS.add(item);
         BLOCKS.add(block);

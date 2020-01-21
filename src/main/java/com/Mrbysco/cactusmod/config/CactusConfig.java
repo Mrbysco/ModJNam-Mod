@@ -32,7 +32,10 @@ public class CactusConfig {
 		
 		@Config.Comment("Decides if the Cactus Sheep spawns naturally")
 		public boolean sheepSpawn = true;
-		
+
+		@Config.Comment("Decides if the Cactus Pig spawns naturally")
+		public boolean pigSpawn = true;
+
 		@Config.Comment("Decides if the Cactus Spider spawns naturally")
 		public boolean spiderSpawn = true;
 		

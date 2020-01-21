@@ -373,7 +373,7 @@ public class TileEntityCactusHopper extends TileEntityHopper{
 	private IInventory getInventoryForHopperTransfer()
     {
         EnumFacing enumfacing = BlockHopper.getFacing(this.getBlockMetadata());
-        return getInventoryAtPosition(this.getWorld(), this.getXPos() + (double)enumfacing.getFrontOffsetX(), this.getYPos() + (double)enumfacing.getFrontOffsetY(), this.getZPos() + (double)enumfacing.getFrontOffsetZ());
+        return getInventoryAtPosition(this.getWorld(), this.getXPos() + (double)enumfacing.getXOffset(), this.getYPos() + (double)enumfacing.getYOffset(), this.getZPos() + (double)enumfacing.getZOffset());
     }
 	
     public long getLastUpdateTime() { return tickedGameTime; } // Forge

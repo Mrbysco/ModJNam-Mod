@@ -10,9 +10,8 @@ public class CactusTab extends CreativeTabs{
 	public CactusTab() {
 		super(Reference.MOD_ID);
 	}
-
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(Blocks.CACTUS);
 	}
 

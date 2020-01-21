@@ -32,7 +32,7 @@ public class BlockCactusSlimeblock extends BlockBreakable{
 		this.setCreativeTab(CactusMod.cactustab);
 		setSoundType(SoundType.SLIME);
 
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 
@@ -42,7 +42,7 @@ public class BlockCactusSlimeblock extends BlockBreakable{
 	}
 	
 	@SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
+    public BlockRenderLayer getRenderLayer()
     {
         return BlockRenderLayer.TRANSLUCENT;
     }

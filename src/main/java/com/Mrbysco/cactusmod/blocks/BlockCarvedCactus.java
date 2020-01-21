@@ -59,13 +59,13 @@ public class BlockCarvedCactus extends BlockHorizontal{
 		setSoundType(SoundType.CLOTH);
 		setCreativeTab(CactusMod.cactustab);
 		
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+		super.onEntityCollision(worldIn, pos, state, entityIn);
         entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
 	}
 	
@@ -101,7 +101,7 @@ public class BlockCarvedCactus extends BlockHorizontal{
 	@Override
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
     }
 
 	@Override
@@ -129,7 +129,7 @@ public class BlockCarvedCactus extends BlockHorizontal{
     }
     
     @Override
-    public BlockRenderLayer getBlockLayer()
+    public BlockRenderLayer getRenderLayer()
     {
         return BlockRenderLayer.CUTOUT;
     }

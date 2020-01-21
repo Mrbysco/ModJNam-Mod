@@ -17,13 +17,13 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class ItemCactusArmor extends ItemArmor{
+public class ItemCactusArmor extends ItemArmor {
 
 	public ItemCactusArmor(String registryName, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) {
 		super(CactusMod.cactusArmor, renderIndexIn, equipmentSlotIn);
 		this.maxStackSize = 1;
 		
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 

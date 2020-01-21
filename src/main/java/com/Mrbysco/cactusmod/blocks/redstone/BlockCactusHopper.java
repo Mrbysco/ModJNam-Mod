@@ -30,7 +30,7 @@ public class BlockCactusHopper extends BlockHopper{
 	this.setSoundType(SoundType.CLOTH);
 	this.setHardness(1.0F);
 	
-	this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+	this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 	this.setRegistryName(registryName);
 	}
 	

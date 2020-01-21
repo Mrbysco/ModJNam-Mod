@@ -15,7 +15,7 @@ public class ItemCactusFruit extends ItemFood{
 	public ItemCactusFruit(String registryName) {
 		super(4, 0.3F, false);
 		
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 	

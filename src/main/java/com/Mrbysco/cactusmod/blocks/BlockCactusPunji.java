@@ -34,7 +34,7 @@ public class BlockCactusPunji extends Block{
 		this.setCreativeTab(CactusMod.cactustab);
 		this.setSoundType(SoundType.CLOTH);
 		
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 
@@ -93,8 +93,8 @@ public class BlockCactusPunji extends Block{
     }
     
     @Override
-    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-    	super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
+    public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+    	super.onEntityCollision(worldIn, pos, state, entityIn);
     	
     	if(entityIn instanceof EntityLiving)
     	{

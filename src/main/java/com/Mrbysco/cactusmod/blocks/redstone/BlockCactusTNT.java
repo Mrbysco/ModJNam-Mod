@@ -39,8 +39,8 @@ public class BlockCactusTNT extends BlockTNT
 		super();
 		this.setHardness(0.0F);
 		this.setSoundType(SoundType.CLOTH);
-		
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 	
@@ -48,23 +48,21 @@ public class BlockCactusTNT extends BlockTNT
 	public Material getMaterial(IBlockState state) {
 		return Material.CACTUS;
 	}
-	
+
 	@Override
-	public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn)
-    {
-        if (!worldIn.isRemote)
-        {
-            EntityCactusTnt cactusTNT = new EntityCactusTnt(worldIn, (double)((float)pos.getX() + 0.5F), (double)pos.getY(), (double)((float)pos.getZ() + 0.5F), explosionIn.getExplosivePlacedBy());
-            cactusTNT.setFuse((short)(worldIn.rand.nextInt(cactusTNT.getFuse() / 4) + cactusTNT.getFuse() / 8));
-            worldIn.spawnEntity(cactusTNT);
-        }
-    }
-	
+	public void onExplosionDestroy(World worldIn, BlockPos pos, Explosion explosionIn) {
+		if (!worldIn.isRemote)
+		{
+			EntityCactusTnt cactusTNT = new EntityCactusTnt(worldIn, (double)((float)pos.getX() + 0.5F), (double)pos.getY(), (double)((float)pos.getZ() + 0.5F), explosionIn.getExplosivePlacedBy());
+			cactusTNT.setFuse((short)(worldIn.rand.nextInt(cactusTNT.getFuse() / 4) + cactusTNT.getFuse() / 8));
+			worldIn.spawnEntity(cactusTNT);
+		}
+	}
+
 	@Override
-	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state)
-    {
-        this.explode(worldIn, pos, state, (EntityLivingBase)null);
-    }
+	public void onPlayerDestroy(World worldIn, BlockPos pos, IBlockState state) {
+		this.explode(worldIn, pos, state, (EntityLivingBase)null);
+	}
 	
 	@Override
     public void explode(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase igniter)
@@ -130,16 +128,15 @@ public class BlockCactusTNT extends BlockTNT
     {
         return false;
     }
-    
+
+	@Override
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.CUTOUT;
+	}
+
     @Override
-    public BlockRenderLayer getBlockLayer()
-    {
-        return BlockRenderLayer.CUTOUT;
-    }
-    
-    @Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+		super.onEntityCollision(worldIn, pos, state, entityIn);
         entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
 	}
 

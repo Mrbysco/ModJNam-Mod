@@ -24,7 +24,7 @@ public class ItemCactusSword extends ItemSword{
         this.setMaxDamage(material.getMaxUses());
         this.attackDamage = 3.0F + material.getAttackDamage();
         
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 	

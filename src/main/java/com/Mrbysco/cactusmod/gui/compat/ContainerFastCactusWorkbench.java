@@ -2,8 +2,6 @@ package com.mrbysco.cactusmod.gui.compat;
 
 import com.mrbysco.cactusmod.init.CactusBlocks;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import shadows.fastbench.gui.ContainerFastBench;

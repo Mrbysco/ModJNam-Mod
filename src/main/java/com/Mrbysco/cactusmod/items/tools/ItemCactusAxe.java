@@ -29,7 +29,7 @@ public class ItemCactusAxe extends ItemTool{
         this.attackDamage = 7.0F;
         this.attackSpeed = -3.2F;
         
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 	

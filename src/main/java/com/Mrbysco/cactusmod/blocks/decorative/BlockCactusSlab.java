@@ -33,7 +33,7 @@ public abstract class BlockCactusSlab extends BlockSlab {
 		setHardness(0.4F);
 		setSoundType(SoundType.CLOTH);
 		
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 
@@ -82,8 +82,8 @@ public abstract class BlockCactusSlab extends BlockSlab {
     }
 	
 	@Override
-	public String getUnlocalizedName(int meta) {
-        return super.getUnlocalizedName();
+	public String getTranslationKey(int meta) {
+        return super.getTranslationKey();
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public class ItemCactusShield extends ItemShield{
 	public ItemCactusShield(String registryName) {        
         this.setMaxDamage(97);
 
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 

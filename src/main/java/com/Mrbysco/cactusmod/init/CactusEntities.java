@@ -8,6 +8,7 @@ import com.mrbysco.cactusmod.entities.EntityCactoni;
 import com.mrbysco.cactusmod.entities.EntityCactusBoat;
 import com.mrbysco.cactusmod.entities.EntityCactusCow;
 import com.mrbysco.cactusmod.entities.EntityCactusGolem;
+import com.mrbysco.cactusmod.entities.EntityCactusPig;
 import com.mrbysco.cactusmod.entities.EntityCactusSheep;
 import com.mrbysco.cactusmod.entities.EntityCactusSlime;
 import com.mrbysco.cactusmod.entities.EntityCactusSnowman;
@@ -38,6 +39,7 @@ public class CactusEntities {
 		registerEntity("cactus_snowman", EntityCactusSnowman.class, "cactussnowman", 80, 3, true, 0xFF0f751b, 0xFF89132f);
 		registerEntity("cactus_slime", EntityCactusSlime.class, "cactusslime", 80, 3, true, 0xFF0f751b, 0xFF89132f);
 		registerEntity("cactus_sheep", EntityCactusSheep.class, "cactussheep", 80, 3, true, 0xFF0f751b, 0xFF89132f);
+		registerEntity("cactus_pig", EntityCactusPig.class, "cactuspig", 80, 3, true, 0xFF0f751b, 0xFF89132f);
 		registerEntity("cactus_spider", EntityCactusSpider.class, "cactusspider", 80, 3, true, 0xFF0f751b, 0xFF89132f);
 		registerEntity("cactus_skeleton", EntityCactusSkelly.class, "cactusskeleton", 80, 3, true, 0xFF0f751b, 0xFF89132f);
 		registerEntity("cactus_boat", EntityCactusBoat.class, "cactusboat", 80, 3, true);

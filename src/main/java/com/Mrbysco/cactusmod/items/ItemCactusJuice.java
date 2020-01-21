@@ -17,7 +17,7 @@ public class ItemCactusJuice extends ItemFood{
 		
         this.setMaxStackSize(1);
 
-		this.setUnlocalizedName(Reference.PREFIX + registryName.replaceAll("_", ""));
+		this.setTranslationKey(Reference.PREFIX + registryName.replaceAll("_", ""));
 		this.setRegistryName(registryName);
 	}
 	
