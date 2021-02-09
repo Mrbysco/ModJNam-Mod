@@ -1,14 +1,12 @@
 package com.mrbysco.cactusmod.items;
 
 import com.mrbysco.cactusmod.entities.SpikeEntity;
-import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.enchantment.IVanishable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;

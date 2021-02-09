@@ -8,7 +8,6 @@ import com.mrbysco.cactusmod.handlers.CactusToolHandler;
 import com.mrbysco.cactusmod.handlers.CactusWorkbenchHandler;
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import com.mrbysco.cactusmod.init.CactusSpawns;
-import com.mrbysco.cactusmod.compat.fastbench.FastBenchCompat;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;

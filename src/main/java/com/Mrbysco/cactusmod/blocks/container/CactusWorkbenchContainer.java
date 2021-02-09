@@ -1,7 +1,6 @@
 package com.mrbysco.cactusmod.blocks.container;
 
 import com.mrbysco.cactusmod.init.CactusRegistry;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ContainerType;
