@@ -1,12 +1,7 @@
 {
-	"forge_marker": 1,
 	"variants": {
-		"facing": {
-			"east": { "model": "cactusmod:cactus_chest", "y": 90},
-            "north": { "model": "cactusmod:cactus_chest"},
-			"west": { "model": "cactusmod:cactus_chest", "y": 270},
-			"south": { "model": "cactusmod:cactus_chest", "y": 180}
-		},
-		"inventory": { "model": "cactusmod:cactus_chest" }
+		"": {
+			"model": "cactusmod:block/cactus_chest"
+		}
 	}
 }

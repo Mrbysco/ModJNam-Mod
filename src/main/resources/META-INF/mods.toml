@@ -1,0 +1,15 @@
+modLoader="javafml"
+loaderVersion="[34,)"
+issueTrackerURL="https://github.com/Mrbysco/ModJNam-Mod/issues"
+license="MIT"
+
+[[mods]]
+modId="cactusmod"
+version="${file.jarVersion}"
+displayName="The Cactus Mod"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/the-cactus-mod"
+logoFile="logo.png"
+authors="Mrbysco"
+description='''
+A ModJam 2018.1 mod.
+'''

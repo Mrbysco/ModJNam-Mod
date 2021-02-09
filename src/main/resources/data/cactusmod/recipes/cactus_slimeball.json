@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "cactusmod:cactus_slimeball",
+	"count": 9
+  },
+  "pattern": [
+	"S"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+	"S": {
+      "item": "cactusmod:cactus_slime_block"
+    }
+  }
+}

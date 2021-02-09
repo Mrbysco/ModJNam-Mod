@@ -1,9 +1,9 @@
 {
     "ambientocclusion": false,
     "textures": {
-        "texture": "blocks/cactus_side",
-        "inside": "blocks/cactus_side",
-        "particle": "blocks/cactus_side"
+        "texture": "cactusmod:blocks/cactus_side_full",
+        "inside": "cactusmod:blocks/cactus_side_full",
+        "particle": "cactusmod:blocks/cactus_side"
     },
     "elements": [
         {   "from": [ 4, 4, 4 ],

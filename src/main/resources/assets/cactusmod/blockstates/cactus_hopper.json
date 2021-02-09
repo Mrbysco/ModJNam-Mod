@@ -1,20 +1,22 @@
 {
-	"forge_marker": 1,
-	"defaults": {
-        "transform": "forge:default-block",
-        "model": "cactusmod:cactus_hopper_down"
-	},
 	"variants": {
-		"enabled": {
-            "true": {},
-            "false": {}  
+		"facing=down": {
+			"model": "cactusmod:block/cactus_hopper_down"
 		},
-		"facing": {
-			"down": { "model": "cactusmod:cactus_hopper_down" },
-			"north": { "model": "cactusmod:cactus_hopper_side" },
-			"south": { "model": "cactusmod:cactus_hopper_side", "y": 180 },
-			"west": { "model": "cactusmod:cactus_hopper_side", "y": 270 },
-			"east": { "model": "cactusmod:cactus_hopper_side", "y": 90 }
+		"facing=east": {
+			"model": "cactusmod:block/cactus_hopper_side",
+			"y": 90
+		},
+		"facing=north": {
+			"model": "cactusmod:block/cactus_hopper_side"
+		},
+		"facing=south": {
+			"model": "cactusmod:block/cactus_hopper_side",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "cactusmod:block/cactus_hopper_side",
+			"y": 270
 		}
 	}
 }

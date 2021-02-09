@@ -1,5 +1,8 @@
 {
-    "parent": "cactusmod:block/cactus_chest",
+    "parent": "builtin/entity",
+    "textures": {
+        "particle": "block/cactus_side"
+    },
     "display": {
         "gui": {
             "rotation": [ 30, 45, 0 ],

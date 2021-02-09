@@ -1,40 +1,41 @@
 package com.mrbysco.cactusmod.handlers;
 
 import com.mrbysco.cactusmod.config.CactusConfig;
-import com.mrbysco.cactusmod.entities.EntityCactoni;
-import com.mrbysco.cactusmod.entities.EntityCactusSnowman;
+import com.mrbysco.cactusmod.entities.CactoniEntity;
+import com.mrbysco.cactusmod.entities.CactusSnowGolemEntity;
+import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class CactusModCompatHandlers {
-	@Optional.Method(modid = "statues")
 	@SubscribeEvent
-	public void SombreroToCactoniEvent(PlayerInteractEvent.EntityInteract event)
-	{		
-		if(CactusConfig.modcompat.StatuesSombreroTocCactoni)
-		{
-			EntityPlayer player = event.getEntityPlayer();
+	public void SombreroToCactoniEvent(PlayerInteractEvent.EntityInteract event) {
+		if(ModList.get().isLoaded("statues") && CactusConfig.COMMON.statuesCompat.get()) {
+			PlayerEntity player = event.getPlayer();
 			World world = player.world;
 			Entity target = event.getTarget();
 			ItemStack stack = event.getItemStack();
 
-			if(!world.isRemote)
-			{
-				if(stack.getItem() == Item.getByNameOrId("statues:blocksombrero") && target instanceof EntityCactusSnowman)
-				{
-					EntityCactoni cactoni = new EntityCactoni(world);
-					cactoni.setPositionAndRotation(target.posX, target.posY, target.posZ, target.rotationYaw, target.rotationPitch);
-					world.spawnEntity(cactoni);
-					cactoni.onInitialSpawn(world.getDifficultyForLocation(target.getPosition()), null);
-					target.setDead();
+			if(!world.isRemote) {
+				Item sombrero = ForgeRegistries.ITEMS.getValue(new ResourceLocation("statues", "sombrero"));
+				if(sombrero != null && stack.getItem() == sombrero && target instanceof CactusSnowGolemEntity) {
+					CactoniEntity cactoni = CactusRegistry.CACTONI.get().create(world);
+					cactoni.setPositionAndRotation(target.getPosX(), target.getPosY(), target.getPosZ(), target.rotationYaw, target.rotationPitch);
+					world.addEntity(cactoni);
+					cactoni.onInitialSpawn((ServerWorld)world, world.getDifficultyForLocation(target.getPosition()), SpawnReason.CONVERSION, null, null);
+					target.remove();
 
-					if(!player.isCreative())
+					if(!player.abilities.isCreativeMode)
 						stack.shrink(1);
 				}
 			}

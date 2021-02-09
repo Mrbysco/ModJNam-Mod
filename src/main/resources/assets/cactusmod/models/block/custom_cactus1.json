@@ -2,8 +2,8 @@
 	"__comment": "Designed by Mrbysco",
 	"ambientocclusion": false,
 	"textures": {
-		"particle": "blocks/cactus_side",
-		"cactus": "blocks/cactus_side"
+		"particle": "block/cactus_side",
+		"cactus": "block/cactus_side"
 	},
 	"elements": [ 	 
 		{

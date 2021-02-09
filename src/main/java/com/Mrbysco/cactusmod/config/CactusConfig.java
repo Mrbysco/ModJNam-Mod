@@ -1,74 +1,105 @@
 package com.mrbysco.cactusmod.config;
 
-import com.mrbysco.cactusmod.Reference;
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import com.mrbysco.cactusmod.CactusMod;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.config.ModConfig;
+import org.apache.commons.lang3.tuple.Pair;
 
-@Config(modid = Reference.MOD_ID)
-@Config.LangKey("cactusmod.config.title")
 public class CactusConfig {
-	
-	@Config.Comment({"General settings."})
-	public static final General general = new General();
-	
-	@Config.Comment({"World Gen settings."})
-	public static final WorldGen worldgen = new WorldGen();
-	
-	@Config.Comment({"World Gen settings."})
-	public static final ModCompat modcompat = new ModCompat();
-	
-	public static class General {
-		@Config.Comment("Decides if the Cactus Creeper spawns naturally")
-		public boolean creeperSpawn = true;
-		
-		@Config.Comment("Decides if the Cactus Cow spawns naturally")
-		public boolean cowSpawn = true;
-		
-		@Config.Comment("Decides if the Cactus Slime spawns naturally")
-		public boolean slimeSpawn = true;
-		
-		@Config.Comment("Decides if the Cactus Sheep spawns naturally")
-		public boolean sheepSpawn = true;
+	public static class Common {
+		public final BooleanValue creeperSpawn;
+		public final BooleanValue cowSpawn;
+		public final BooleanValue slimeSpawn;
+		public final BooleanValue sheepSpawn;
+		public final BooleanValue pigSpawn;
+		public final BooleanValue spiderSpawn;
+		public final BooleanValue skeletonSpawn;
+		public final BooleanValue cactoniSpawn;
 
-		@Config.Comment("Decides if the Cactus Pig spawns naturally")
-		public boolean pigSpawn = true;
+		public final BooleanValue statuesCompat;
 
-		@Config.Comment("Decides if the Cactus Spider spawns naturally")
-		public boolean spiderSpawn = true;
-		
-		@Config.Comment("Decides if the Cactus Skeleton spawns naturally")
-		public boolean skeletonSpawn = true;
-		
-		@Config.Comment("Decides if the Cactoni spawns naturally")
-		public boolean cactoniSpawn = false;
-	}
-	
-	public static class WorldGen {
-		@Config.Comment("Decides how low the cactus plants can generate")
-		public int seaLevel = 64;
-		
-		@Config.Comment("Decides if the Cactus Plant will generate")
-		public boolean generateCactusPlant = true;
-		
-		@Config.Comment("Decides the rarity in which the cactus plant spawns")
-		public int CactusPlantSpawnRarity = 20;
-	}
-	
-	public static class ModCompat {
-		@Config.Comment("While Statues is installed: If true right-clicking a cactus man with a Statues sombrero will spawn a Cactoni")
-		public boolean StatuesSombreroTocCactoni = true;
-	}
-	
-	@Mod.EventBusSubscriber(modid = Reference.MOD_ID)
-	private static class EventHandler {
-		@SubscribeEvent
-		public static void onConfigChanged(final ConfigChangedEvent.OnConfigChangedEvent event) {
-			if (event.getModID().equals(Reference.MOD_ID)) {
-				ConfigManager.sync(Reference.MOD_ID, Config.Type.INSTANCE);
-			}
+		public final BooleanValue generateCactusPlant;
+		public final IntValue cactusPlantRarity;
+
+		Common(ForgeConfigSpec.Builder builder) {
+			builder.comment("General settings")
+					.push("general");
+
+			creeperSpawn = builder
+					.comment("Decides if the Cactus Creeper spawns naturally [Default: true]")
+					.define("creeperSpawn", true);
+
+			cowSpawn = builder
+					.comment("Decides if the Cactus Cow spawns naturally [Default: true]")
+					.define("cowSpawn", true);
+
+			slimeSpawn = builder
+					.comment("Decides if the Cactus Slime spawns naturally [Default: true]")
+					.define("slimeSpawn", true);
+
+			sheepSpawn = builder
+					.comment("Decides if the Cactus Sheep spawns naturally [Default: true]")
+					.define("sheepSpawn", true);
+
+			pigSpawn = builder
+					.comment("Decides if the Cactus Pig spawns naturally [Default: true]")
+					.define("pigSpawn", true);
+
+			spiderSpawn = builder
+					.comment("Decides if the Cactus Spider spawns naturally [Default: true]")
+					.define("spiderSpawn", true);
+
+			skeletonSpawn = builder
+					.comment("Decides if the Cactus Skeleton spawns naturally [Default: true]")
+					.define("skeletonSpawn", true);
+
+			cactoniSpawn = builder
+					.comment("Decides if the Cactus Cactoni spawns naturally [Default: false]")
+					.define("cactoniSpawn", true);
+
+			builder.pop();
+			builder.comment("Compat settings")
+					.push("compat");
+
+			statuesCompat = builder
+					.comment("decides if right-clicking the Cactus Snow Man with a Statues sombrero will create a Cactoni [Default: true]")
+					.define("statuesCompat", true);
+
+			builder.pop();
+			builder.comment("Worldgen settings")
+					.push("worldgen");
+
+			generateCactusPlant = builder
+					.comment("Decides if the Cactus Plant will generate [Default: true]")
+					.define("generateCactusPlant", true);
+
+			cactusPlantRarity = builder
+					.comment("Decides the rarity in which the cactus plant spawns")
+					.defineInRange("cactusPlantRarity", 20, 1, Integer.MAX_VALUE);
+
+			builder.pop();
 		}
+	}
+
+	public static final ForgeConfigSpec commonSpec;
+	public static final Common COMMON;
+
+	static {
+		final Pair<Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Common::new);
+		commonSpec = specPair.getRight();
+		COMMON = specPair.getLeft();
+	}
+
+	@SubscribeEvent
+	public static void onLoad(final ModConfig.Loading configEvent) {
+		CactusMod.logger.debug("Loaded Cactus Mod's config file {}", configEvent.getConfig().getFileName());
+	}
+
+	@SubscribeEvent
+	public static void onFileChange(final ModConfig.Reloading configEvent) {
+		CactusMod.logger.fatal("Cactus Mod's config just got changed on the file system!");
 	}
 }

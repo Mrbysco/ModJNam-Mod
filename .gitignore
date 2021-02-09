@@ -20,6 +20,6 @@ build
 # other
 eclipse
 run
-lib
-classes
-scrappedcactus
+
+# Files from Forge MDK
+forge*changelog.txt

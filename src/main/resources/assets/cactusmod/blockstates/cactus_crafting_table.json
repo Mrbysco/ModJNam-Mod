@@ -1,5 +1,7 @@
 {
     "variants": {
-        "normal": { "model": "cactusmod:cactus_crafting_table" }
+        "": {
+            "model": "cactusmod:block/cactus_crafting_table"
+        }
     }
 }
