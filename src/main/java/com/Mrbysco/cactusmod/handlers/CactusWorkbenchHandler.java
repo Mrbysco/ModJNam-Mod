@@ -1,7 +1,7 @@
 package com.mrbysco.cactusmod.handlers;
 
+import com.mrbysco.cactusmod.blocks.container.CactusWorkbenchContainer;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.WorkbenchContainer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
@@ -15,11 +15,9 @@ public class CactusWorkbenchHandler {
         if(!world.isRemote) {
             ServerPlayerEntity playerMP = (ServerPlayerEntity)event.getPlayer();
             if(ModList.get().isLoaded("fastbench")) {
-                if(playerMP.openContainer instanceof shadows.fastbench.gui.ContainerFastBench) {
-                    playerMP.attackEntityFrom(DamageSource.CACTUS, 1.0F);
-                }
+                com.mrbysco.cactusmod.compat.fastbench.FastBenchHelper.onContainerMatch(playerMP);
             } else {
-                if(playerMP.openContainer instanceof WorkbenchContainer) {
+                if(playerMP.openContainer instanceof CactusWorkbenchContainer) {
                     playerMP.attackEntityFrom(DamageSource.CACTUS, 1.0F);
                 }
             }

@@ -2,8 +2,10 @@ package com.mrbysco.cactusmod.compat.fastbench;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -11,6 +13,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
 
 public class FastBenchHelper {
+
+	public static void onContainerMatch(ServerPlayerEntity playerMP) {
+		if(playerMP.openContainer instanceof com.mrbysco.cactusmod.blocks.container.CactusFastBenchContainer) {
+			playerMP.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+		}
+	}
 
 	public static com.mrbysco.cactusmod.blocks.container.CactusFastBenchContainer createFastBenchContainer(int id, PlayerEntity player, World world, BlockPos pos) {
 		if(ModList.get().isLoaded("fastbench"))
