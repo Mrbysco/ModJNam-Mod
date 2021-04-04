@@ -89,7 +89,7 @@ public class CactusCowEntity extends CowEntity implements IForgeShearable, ICact
     }
 
     @Override
-    public ActionResultType func_230254_b_(PlayerEntity playerIn, Hand handIn) {
+    public ActionResultType getEntityInteractionResult(PlayerEntity playerIn, Hand handIn) {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
         if (itemstack.getItem() == Items.GLASS_BOTTLE && !this.isChild()) {
             playerIn.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
@@ -97,7 +97,7 @@ public class CactusCowEntity extends CowEntity implements IForgeShearable, ICact
             playerIn.setHeldItem(handIn, itemstack1);
             return ActionResultType.func_233537_a_(this.world.isRemote);
         } else {
-            return super.func_230254_b_(playerIn, handIn);
+            return super.getEntityInteractionResult(playerIn, handIn);
         }
     }
 

@@ -62,7 +62,7 @@ public class CarvedCactusBlock extends BlockRotatable {
 
     @Override
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
-        if (!oldState.isIn(state.getBlock())) {
+        if (!oldState.matchesBlock(state.getBlock())) {
             this.trySpawnGolem(worldIn, pos);
         }
     }
@@ -87,7 +87,7 @@ public class CarvedCactusBlock extends BlockRotatable {
 
             for(int l = 0; l < this.getCactusSnowmanPattern().getThumbLength(); ++l) {
                 CachedBlockInfo cachedblockinfo3 = blockpattern$patternhelper.translateOffset(0, l, 0);
-                world.func_230547_a_(cachedblockinfo3.getPos(), Blocks.AIR);
+                world.updateBlock(cachedblockinfo3.getPos(), Blocks.AIR);
             }
         } else {
             blockpattern$patternhelper = this.getCactusGolemPattern().match(world, pos);
@@ -113,7 +113,7 @@ public class CarvedCactusBlock extends BlockRotatable {
                 for(int i1 = 0; i1 < this.getCactusGolemPattern().getPalmLength(); ++i1) {
                     for(int j1 = 0; j1 < this.getCactusGolemPattern().getThumbLength(); ++j1) {
                         CachedBlockInfo cachedblockinfo1 = blockpattern$patternhelper.translateOffset(i1, j1, 0);
-                        world.func_230547_a_(cachedblockinfo1.getPos(), Blocks.AIR);
+                        world.updateBlock(cachedblockinfo1.getPos(), Blocks.AIR);
                     }
                 }
             }

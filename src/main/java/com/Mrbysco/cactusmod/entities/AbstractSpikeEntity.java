@@ -176,7 +176,7 @@ public abstract class AbstractSpikeEntity extends ThrowableEntity {
 
                 if (raytraceresult != null && raytraceresult.getType() == RayTraceResult.Type.ENTITY) {
                     Entity entity = ((EntityRayTraceResult)raytraceresult).getEntity();
-                    Entity entity1 = this.func_234616_v_();
+                    Entity entity1 = this.getShooter();
                     if (entity instanceof PlayerEntity && entity1 instanceof PlayerEntity && !((PlayerEntity)entity1).canAttackPlayer((PlayerEntity)entity)) {
                         raytraceresult = null;
                         entityraytraceresult = null;
@@ -309,7 +309,7 @@ public abstract class AbstractSpikeEntity extends ThrowableEntity {
             i = (int)Math.min(j + (long)i, 2147483647L);
         }
 
-        Entity entity1 = this.func_234616_v_();
+        Entity entity1 = this.getShooter();
         DamageSource damagesource;
         if (entity1 == null) {
             damagesource = causeSpikeDamage(this, this);
@@ -351,7 +351,7 @@ public abstract class AbstractSpikeEntity extends ThrowableEntity {
 
                 this.arrowHit(livingentity);
                 if (entity1 != null && livingentity != entity1 && livingentity instanceof PlayerEntity && entity1 instanceof ServerPlayerEntity && !this.isSilent()) {
-                    ((ServerPlayerEntity)entity1).connection.sendPacket(new SChangeGameStatePacket(SChangeGameStatePacket.field_241770_g_, 0.0F));
+                    ((ServerPlayerEntity)entity1).connection.sendPacket(new SChangeGameStatePacket(SChangeGameStatePacket.HIT_PLAYER_ARROW, 0.0F));
                 }
 
                 if (!entity.isAlive() && this.hitEntities != null) {
@@ -592,7 +592,7 @@ public abstract class AbstractSpikeEntity extends ThrowableEntity {
     }
 
     public IPacket<?> createSpawnPacket() {
-        Entity entity = this.func_234616_v_();
+        Entity entity = this.getShooter();
         return new SSpawnObjectPacket(this, entity == null ? 0 : entity.getEntityId());
     }
 }

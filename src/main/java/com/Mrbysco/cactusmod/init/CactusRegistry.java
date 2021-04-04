@@ -79,7 +79,7 @@ public class CactusRegistry {
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, Reference.MOD_ID);
     public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, Reference.MOD_ID);
 
-    public static final RegistryObject<Feature<NoFeatureConfig>> CACTUS_PLANT_FEATURE = FEATURES.register("cactus_plant", () -> new CactusPlantFeature(NoFeatureConfig.field_236558_a_));
+    public static final RegistryObject<Feature<NoFeatureConfig>> CACTUS_PLANT_FEATURE = FEATURES.register("cactus_plant", () -> new CactusPlantFeature(NoFeatureConfig.CODEC));
 
     public static final RegistryObject<ContainerType<WorkbenchContainer>> CACTUS_WORKBENCH_CONTAINER = CONTAINERS.register("cactus_workbench", () -> IForgeContainerType.create((windowId, inv, data) -> new CactusWorkbenchContainer(windowId, inv)));
 
@@ -171,7 +171,7 @@ public class CactusRegistry {
     public static final RegistryObject<EntityType<CactusTNTEntity>> CACTUS_TNT_ENTITY = ENTITIES.register("cactus_tnt", () -> register("cactus_tnt", EntityType.Builder.<CactusTNTEntity>create(CactusTNTEntity::new, EntityClassification.MISC)
             .size(0.98F, 0.7F).trackingRange(8).setCustomClientFactory(CactusTNTEntity::new)));
     public static final RegistryObject<EntityType<SpikeEntity>> CACTUS_SPIKE = ENTITIES.register("cactus_spike", () -> register("cactus_spike", EntityType.Builder.<SpikeEntity>create(SpikeEntity::new, EntityClassification.MISC)
-            .size(0.5F, 0.5F).trackingRange(4).func_233608_b_(20).setCustomClientFactory(SpikeEntity::new)));
+            .size(0.5F, 0.5F).trackingRange(4).updateInterval(20).setCustomClientFactory(SpikeEntity::new)));
     public static final RegistryObject<EntityType<CactusCreeperEntity>> CACTUS_CREEPER = ENTITIES.register("cactus_creeper", () -> register("cactus_creeper", EntityType.Builder.<CactusCreeperEntity>create(CactusCreeperEntity::new, EntityClassification.MONSTER).size(0.6F, 1.7F).trackingRange(8)));
     public static final RegistryObject<EntityType<CactusSnowGolemEntity>> CACTUS_SNOW_GOLEM = ENTITIES.register("cactus_snow_golem", () -> register("cactus_snow_golem", EntityType.Builder.<CactusSnowGolemEntity>create(CactusSnowGolemEntity::new, EntityClassification.MISC).size(0.7F, 1.9F).trackingRange(8)));
     public static final RegistryObject<EntityType<CactusSlimeEntity>> CACTUS_SLIME = ENTITIES.register("cactus_slime", () -> register("cactus_slime", EntityType.Builder.<CactusSlimeEntity>create(CactusSlimeEntity::new, EntityClassification.MONSTER).size(2.04F, 2.04F).trackingRange(10)));

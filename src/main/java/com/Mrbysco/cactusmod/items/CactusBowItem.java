@@ -2,8 +2,6 @@ package com.mrbysco.cactusmod.items;
 
 import com.mrbysco.cactusmod.entities.SpikeEntity;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.enchantment.IVanishable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,8 +36,6 @@ public class CactusBowItem extends Item implements IVanishable {
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
         if (entityLiving instanceof PlayerEntity) {
             PlayerEntity playerentity = (PlayerEntity)entityLiving;
-            boolean flag = playerentity.abilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
-
             int i = this.getUseDuration(stack) - timeLeft;
             if (i < 0) return;
 
@@ -47,7 +43,7 @@ public class CactusBowItem extends Item implements IVanishable {
             if (!((double)f < 0.1D)) {
                 if (!worldIn.isRemote) {
                     SpikeEntity spike = new SpikeEntity(worldIn, entityLiving);
-                    spike.func_234612_a_(playerentity, playerentity.rotationPitch, playerentity.rotationYaw, 0.0F, f * 3.0F, 1.0F);
+                    spike.setDirectionAndMovement(playerentity, playerentity.rotationPitch, playerentity.rotationYaw, 0.0F, f * 3.0F, 1.0F);
                     spike.setDamage(0D);
                     spike.setKnockbackStrength(3);
 

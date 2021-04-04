@@ -199,7 +199,7 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
     }
 
     @Override
-    public CactusSheepEntity func_241840_a(ServerWorld worldIn, AgeableEntity p_241840_2_) {
+    public CactusSheepEntity createChild(ServerWorld worldIn, AgeableEntity p_241840_2_) {
         return CactusRegistry.CACTUS_SHEEP.get().create(worldIn);
     }
 

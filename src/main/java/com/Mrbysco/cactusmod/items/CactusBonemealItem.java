@@ -100,7 +100,7 @@ public class CactusBonemealItem extends Item{
         BlockPos blockpos = pos.up();
         if (worldIn.isAirBlock(blockpos)) {
             int i;
-            for(i = 1; worldIn.getBlockState(pos.down(i)).isIn(state.getBlock()); ++i) {
+            for(i = 1; worldIn.getBlockState(pos.down(i)).matchesBlock(state.getBlock()); ++i) {
                 ;
             }
 

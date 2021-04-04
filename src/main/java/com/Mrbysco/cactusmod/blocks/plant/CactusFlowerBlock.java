@@ -148,7 +148,7 @@ public class CactusFlowerBlock extends Block{
 
                 for(Direction direction : Direction.Plane.HORIZONTAL) {
                     BlockState blockstate1 = worldIn.getBlockState(pos.offset(direction));
-                    if (blockstate1.isIn(this.plantBlock.get())) {
+                    if (blockstate1.matchesBlock(this.plantBlock.get())) {
                         if (flag) {
                             return false;
                         }

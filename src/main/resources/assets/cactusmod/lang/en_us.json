@@ -61,7 +61,7 @@
     "cactus.bonemeal.info": "Can only bonemeal sand blocks",
 
     "_comment": "Blocks",
-    "block.cactusmod:prickly_iron": "Prickly Iron Block",
+    "block.cactusmod.prickly_iron": "Prickly Iron Block",
 
     "block.cactusmod.cactus_brick_block": "Cactus Brick",
     "block.cactusmod.cactus_brick_stair": "Cactus Brick stairs",

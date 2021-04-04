@@ -58,7 +58,7 @@ public class CactusPlantBlock extends SixWayBlock {
             worldIn.getPendingBlockTicks().scheduleTick(currentPos, this, 1);
             return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
         } else {
-            boolean flag = facingState.getBlock() == this || facingState.isIn(CactusRegistry.CACTUS_FLOWER.get()) || facing == Direction.DOWN && facingState.isIn(Tags.Blocks.SAND);
+            boolean flag = facingState.getBlock() == this || facingState.matchesBlock(CactusRegistry.CACTUS_FLOWER.get()) || facing == Direction.DOWN && facingState.isIn(Tags.Blocks.SAND);
             return stateIn.with(FACING_TO_PROPERTY_MAP.get(facing), Boolean.valueOf(flag));
         }
     }
