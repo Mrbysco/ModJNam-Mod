@@ -1,0 +1,103 @@
+{
+    "_comment": "Creative Tab",
+    "itemGroup.cactusmod": "El mod de cactus",
+
+    "_comment": "Entities",
+    "entity.cactusmod.cactus_golem": "Golem de cactus",
+    "entity.cactusmod.cactus_cow": "Cactus vaca",
+    "entity.cactusmod.cactus_cart": "Cactus carro",
+    "entity.cactusmod.cactus_tnt": "TNT de cactus",
+    "entity.cactusmod.cactus_spike": "Cactus Pico",
+    "entity.cactusmod.cactus_creeper": "Cactus Creeper",
+    "entity.cactusmod.cactus_snowman": "Muñeco cactus",
+    "entity.cactusmod.cactus_slime": "Cactus slime",
+    "entity.cactusmod.cactus_sheep": "Cactus oveja",
+    "entity.cactusmod.cactus_pig": "Cactus cerdo",
+    "entity.cactusmod.cactus_spider": "Cactus araña",
+    "entity.cactusmod.cactus_skeleton": "Cactus esqueleto",
+    "entity.cactusmod.cactus_boat": "Cactus bote",
+    "entity.cactusmod.cactoni": "Cactoni",
+
+    "_comment": "Items",
+    "item.cactusmod.cactus_stick": "Palo de cactus",
+    "item.cactusmod.cactus_brick": "Ladrillo de cactus",
+    "item.cactusmod.cactus_bone": "Hueso de cactus",
+    "item.cactusmod.cactus_bonemeal": "Polvo de huesos de cactus",
+    "item.cactusmod.cactus_slimeball": "Bola de slime de cactus",
+
+    "item.cactusmod.cactus_sword": "Espada de cactus",
+    "item.cactusmod.cactus_shovel": "Pala de cactus",
+    "item.cactusmod.cactus_pickaxe": "Pico de cactus",
+    "item.cactusmod.cactus_axe": "Hacha de cactus",
+    "item.cactusmod.cactus_hoe": "Azada de cactus",
+    "item.cactusmod.cactus_bow": "Arco de cactus",
+    "item.cactusmod.cactus_shield": "Escudo de cactus",
+
+    "item.cactusmod.cactus_helmet": "Casco de cactus",
+    "item.cactusmod.cactus_chestplate": "Peto de cactus",
+    "item.cactusmod.cactus_leggings": "Grebas de cactus",
+    "item.cactusmod.cactus_boots": "Botas de cactus",
+
+    "item.cactusmod.cactus_cart": "Carro de cactus",
+    "item.cactusmod.cactus_boat": "Barco Cactus",
+    "item.cactusmod.cactus_juice": "Jugo de cactus",
+
+    "item.cactusmod.cactus_fruit": "Fruta de cactus",
+
+    "item.cactusmod.cactus_golem_spawn_egg": "Generar golem de cactus",
+    "item.cactusmod.cactus_cow_spawn_egg": "Generar vaca de cactus",
+    "item.cactusmod.cactus_creeper_spawn_egg": "Generar creeper de cactus",
+    "item.cactusmod.cactus_snow_golem_spawn_egg": "Generar muñeco de cactus",
+    "item.cactusmod.cactus_slime_spawn_egg": "Generar slime de cactus",
+    "item.cactusmod.cactus_sheep_spawn_egg": "Generar oveja de cactus",
+    "item.cactusmod.cactus_pig_spawn_egg": "Generar cerdo de cactus",
+    "item.cactusmod.cactus_spider_spawn_egg": "Generar araña de cactus",
+    "item.cactusmod.cactus_skeleton_spawn_egg": "Generar esqueleto de cactus",
+
+    "cactus.armor.text": "Viene con 2 espinas cuando está elaborado.",
+
+    "cactus.shield.text": "Actúa más como un reflector",
+    "cactus.bow.text": "Dispara picos con retroceso",
+    "cactus.bonemeal.info": "Solo se pueden lijar bloques de polvo de huesos",
+
+    "_comment": "Blocks",
+    "block.cactusmod.prickly_iron": "Bloque de hierro espinoso",
+
+    "block.cactusmod.cactus_brick_block": "Ladrillo de cactus",
+    "block.cactusmod.cactus_brick_stair": "Escaleras de ladrillo de Cactus",
+    "block.cactusmod.cactus_brick_slab": "Losa de ladrillo de cactus",
+
+    "block.cactusmod.carved_cactus": "Cactus tallado",
+    "block.cactusmod.jacko_cactus": "Linterna de cactus",
+
+    "block.cactusmod.cactus_chest": "Cofre de cactus",
+    "block.cactusmod.cactus_dispenser": "Dispensador de cactus",
+    "block.cactusmod.cactus_tnt": "TNT de cactus",
+    "block.cactusmod.cactus_carpet": "Alfombra de cactus",
+
+    "block.cactusmod.cactus_hopper": "Tolva de cactus",
+    "block.cactusmod.cactus_door": "Puerta de cactus",
+    "block.cactusmod.cactus_cake": "Pastel De Cactus",
+
+    "block.cactusmod.cactus_flower": "flor de cactus",
+    "block.cactusmod.cactus_plant": "Planta de cactus",
+    "block.cactusmod.cactus_slime_block": "Bloque de slime de cactus",
+    "block.cactusmod.cactus_crafting_table": "Mesa de trabajo de cactus",
+
+    "cactus.cake.info": "Probablemente se vea mejor de lo que sabe",
+    "cactus.cart.info": "Dolorosamente barato",
+    "cactus.chest.info": "Elimina lentamente su inventario",
+    "cactus.hopper.info": "Elimina lentamente su inventario",
+    "cactus.tnt.info": "Dispara picos en todas las direcciones horizontales",
+    "cactus.carpet.info": "Lastima a los mobs que lo tocan, destruye los objetos que le tires",
+    "cactus.carpet.info2": "solo cuando tengan 2 minutos de tiempo",
+    "cactus.dispenser.info": "No tiene inventario, dispara picos",
+    "cactus.slimeblock.info": "Básicamente un bloque de slime pero menos poderoso",
+
+    "_comment": "Otros",
+    "container.cactus.chest": "Cofre de cactus",
+    "container.cactus.hopper": "Tolva de cactus",
+
+    "death.attack.spike": "%s se pinchó",
+    "death.attack.spike.player": "%1$s fue picado por %2$s"
+}
