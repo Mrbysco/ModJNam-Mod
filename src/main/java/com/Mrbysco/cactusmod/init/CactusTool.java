@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 public enum CactusTool implements IItemTier {
     CACTUS(0, 67, 3.0F, 0.2F, 20, () -> {
-        return Ingredient.fromStacks(new ItemStack(Items.CACTUS));
+        return Ingredient.of(new ItemStack(Items.CACTUS));
     });
 
     private final int harvestLevel;
@@ -29,27 +29,27 @@ public enum CactusTool implements IItemTier {
         this.repairMaterial = new LazyValue<>(repairMaterialIn);
     }
 
-    public int getMaxUses() {
+    public int getUses() {
         return this.maxUses;
     }
 
-    public float getEfficiency() {
+    public float getSpeed() {
         return this.efficiency;
     }
 
-    public float getAttackDamage() {
+    public float getAttackDamageBonus() {
         return this.attackDamage;
     }
 
-    public int getHarvestLevel() {
+    public int getLevel() {
         return this.harvestLevel;
     }
 
-    public int getEnchantability() {
+    public int getEnchantmentValue() {
         return this.enchantability;
     }
 
-    public Ingredient getRepairMaterial() {
-        return this.repairMaterial.getValue();
+    public Ingredient getRepairIngredient() {
+        return this.repairMaterial.get();
     }
 }

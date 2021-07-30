@@ -19,17 +19,17 @@ public class CactusShovelItem extends ShovelItem {
 	}
 
 	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos,
+	public boolean mineBlock(ItemStack stack, World worldIn, BlockState state, BlockPos pos,
 									LivingEntity entityLiving) {
-		if(worldIn.rand.nextInt(10) < 3)
-			entityLiving.attackEntityFrom(DamageSource.CACTUS, 1F);
-		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
+		if(worldIn.random.nextInt(10) < 3)
+			entityLiving.hurt(DamageSource.CACTUS, 1F);
+		return super.mineBlock(stack, worldIn, state, pos, entityLiving);
 	}
 
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
-		if(context.getWorld().rand.nextInt(10) < 3)
-			context.getPlayer().attackEntityFrom(DamageSource.CACTUS, 1F);
-		return super.onItemUse(context);
+	public ActionResultType useOn(ItemUseContext context) {
+		if(context.getLevel().random.nextInt(10) < 3)
+			context.getPlayer().hurt(DamageSource.CACTUS, 1F);
+		return super.useOn(context);
 	}
 }

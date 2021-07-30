@@ -17,8 +17,8 @@ public class CactusPlantFeature extends Feature<NoFeatureConfig> {
 		super(p_i231936_1_);
 	}
 
-	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config) {
-		if (reader.isAirBlock(pos) && reader.getBlockState(pos.down()).isIn(TagCollectionManager.getManager().getBlockTags().get(new ResourceLocation("sand")))) {
+	public boolean place(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config) {
+		if (reader.isEmptyBlock(pos) && reader.getBlockState(pos.below()).is(TagCollectionManager.getInstance().getBlocks().getTag(new ResourceLocation("sand")))) {
 			CactusFlowerBlock.generatePlant(reader, pos, rand, 8);
 			return true;
 		} else {

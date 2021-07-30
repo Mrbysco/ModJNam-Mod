@@ -18,8 +18,8 @@ public class CactusShieldItem extends ShieldItem {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		super.addInformation(stack, worldIn, tooltip, flagIn);
-		tooltip.add(new TranslationTextComponent("cactus.shield.text").mergeStyle(TextFormatting.GREEN));
+	public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+		tooltip.add(new TranslationTextComponent("cactus.shield.text").withStyle(TextFormatting.GREEN));
 	}
 }

@@ -57,16 +57,16 @@ import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
 public class CactusChestBlock extends AbstractChestBlock<CactusChestTile> implements IWaterLoggable {
-	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+	public static final DirectionProperty FACING = HorizontalBlock.FACING;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-	protected static final VoxelShape SHAPE = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
+	protected static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
 	private final Supplier<TileEntityType<? extends CactusChestTile>> tileEntityTypeSupplier = () -> CactusRegistry.CACTUS_CHEST_TILE.get();
 
 	public CactusChestBlock(AbstractBlock.Properties builder) {
 		super(builder, () -> {
 			return CactusRegistry.CACTUS_CHEST_TILE.get();
 		});
-		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
 	}
 
 	public TileEntityMerger.ICallbackWrapper<? extends CactusChestTile> getWrapper(BlockState state, World world, BlockPos pos, boolean override) {
@@ -78,7 +78,7 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestTile> implem
 			biPredicate = CactusChestBlock::isBlocked;
 		}
 
-		return TileEntityMerger.func_226924_a_(tileEntityTypeSupplier.get(), CactusChestBlock::getMergerType, CactusChestBlock::getDirectionToAttached, FACING, state, world, pos, biPredicate);
+		return TileEntityMerger.combineWithNeigbour(tileEntityTypeSupplier.get(), CactusChestBlock::getMergerType, CactusChestBlock::getDirectionToAttached, FACING, state, world, pos, biPredicate);
 	}
 
 	public static TileEntityMerger.Type getMergerType(BlockState blockState) {
@@ -86,24 +86,24 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestTile> implem
 	}
 
 	public static Direction getDirectionToAttached(BlockState state) {
-		Direction direction = state.get(FACING);
-		return direction.rotateYCCW();
+		Direction direction = state.getValue(FACING);
+		return direction.getCounterClockWise();
 	}
 
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader worldIn) {
+	public TileEntity newBlockEntity(IBlockReader worldIn) {
 		return new CactusChestTile();
 	}
 
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if (worldIn.isRemote) {
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if (worldIn.isClientSide) {
 			return ActionResultType.SUCCESS;
 		} else {
-			INamedContainerProvider inamedcontainerprovider = this.getContainer(state, worldIn, pos);
+			INamedContainerProvider inamedcontainerprovider = this.getMenuProvider(state, worldIn, pos);
 			if (inamedcontainerprovider != null) {
-				player.openContainer(inamedcontainerprovider);
-				player.addStat(this.getOpenStat());
+				player.openMenu(inamedcontainerprovider);
+				player.awardStat(this.getOpenStat());
 			}
 
 			return ActionResultType.CONSUME;
@@ -119,20 +119,20 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestTile> implem
 		return SHAPE;
 	}
 
-	public BlockRenderType getRenderType(BlockState state) {
+	public BlockRenderType getRenderShape(BlockState state) {
 		return BlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		FluidState fluidstate = context.getWorld().getFluidState(context.getPos());
-		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite()).with(WATERLOGGED, Boolean.valueOf(fluidstate.getFluid() == Fluids.WATER));
+		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
 	}
 
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		if (stack.hasDisplayName()) {
-			TileEntity tileentity = worldIn.getTileEntity(pos);
+	public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+		if (stack.hasCustomHoverName()) {
+			TileEntity tileentity = worldIn.getBlockEntity(pos);
 			if (tileentity instanceof CactusChestTile) {
-				((CactusChestTile)tileentity).setCustomName(stack.getDisplayName());
+				((CactusChestTile)tileentity).setCustomName(stack.getHoverName());
 			}
 		}
 	}
@@ -140,59 +140,59 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestTile> implem
 	@OnlyIn(Dist.CLIENT)
 	public static TileEntityMerger.ICallback<CactusChestTile, Float2FloatFunction> getLidRotationCallback(final IChestLid lid) {
 		return new TileEntityMerger.ICallback<CactusChestTile, Float2FloatFunction>() {
-			public Float2FloatFunction func_225539_a_(CactusChestTile p_225539_1_, CactusChestTile p_225539_2_) {
+			public Float2FloatFunction acceptDouble(CactusChestTile p_225539_1_, CactusChestTile p_225539_2_) {
 				return (angle) -> {
-					return Math.max(p_225539_1_.getLidAngle(angle), p_225539_2_.getLidAngle(angle));
+					return Math.max(p_225539_1_.getOpenNess(angle), p_225539_2_.getOpenNess(angle));
 				};
 			}
 
-			public Float2FloatFunction func_225538_a_(CactusChestTile p_225538_1_) {
-				return p_225538_1_::getLidAngle;
+			public Float2FloatFunction acceptSingle(CactusChestTile p_225538_1_) {
+				return p_225538_1_::getOpenNess;
 			}
 
-			public Float2FloatFunction func_225537_b_() {
-				return lid::getLidAngle;
+			public Float2FloatFunction acceptNone() {
+				return lid::getOpenNess;
 			}
 		};
 	}
 
-	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (!state.matchesBlock(newState.getBlock())) {
-			TileEntity tileentity = worldIn.getTileEntity(pos);
+	public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+		if (!state.is(newState.getBlock())) {
+			TileEntity tileentity = worldIn.getBlockEntity(pos);
 			if (tileentity instanceof IInventory) {
-				InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory)tileentity);
-				worldIn.updateComparatorOutputLevel(pos, this);
+				InventoryHelper.dropContents(worldIn, pos, (IInventory)tileentity);
+				worldIn.updateNeighbourForOutputSignal(pos, this);
 			}
 
-			super.onReplaced(state, worldIn, pos, newState, isMoving);
+			super.onRemove(state, worldIn, pos, newState, isMoving);
 		}
 	}
 
 	public BlockState rotate(BlockState state, Rotation rot) {
-		return state.with(FACING, rot.rotate(state.get(FACING)));
+		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
 	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return state.rotate(mirrorIn.toRotation(state.get(FACING)));
+		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(FACING, WATERLOGGED);
 	}
 
 	public FluidState getFluidState(BlockState state) {
-		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
-	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		if (stateIn.get(WATERLOGGED)) {
-			worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		if (stateIn.getValue(WATERLOGGED)) {
+			worldIn.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
 		}
 
-		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 
-	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+	public boolean isPathfindable(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
 		return false;
 	}
 
@@ -201,15 +201,15 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestTile> implem
 	}
 
 	private static boolean isBelowSolidBlock(IBlockReader reader, BlockPos worldIn) {
-		BlockPos blockpos = worldIn.up();
-		return reader.getBlockState(blockpos).isNormalCube(reader, blockpos);
+		BlockPos blockpos = worldIn.above();
+		return reader.getBlockState(blockpos).isRedstoneConductor(reader, blockpos);
 	}
 
 	private static boolean isCatSittingOn(IWorld world, BlockPos pos) {
-		List<CatEntity> list = world.getEntitiesWithinAABB(CatEntity.class, new AxisAlignedBB((double)pos.getX(), (double)(pos.getY() + 1), (double)pos.getZ(), (double)(pos.getX() + 1), (double)(pos.getY() + 2), (double)(pos.getZ() + 1)));
+		List<CatEntity> list = world.getEntitiesOfClass(CatEntity.class, new AxisAlignedBB((double)pos.getX(), (double)(pos.getY() + 1), (double)pos.getZ(), (double)(pos.getX() + 1), (double)(pos.getY() + 2), (double)(pos.getZ() + 1)));
 		if (!list.isEmpty()) {
 			for(CatEntity catentity : list) {
-				if (catentity.isEntitySleeping()) {
+				if (catentity.isInSittingPose()) {
 					return true;
 				}
 			}
@@ -218,16 +218,16 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestTile> implem
 		return false;
 	}
 
-	public boolean hasComparatorInputOverride(BlockState state) {
+	public boolean hasAnalogOutputSignal(BlockState state) {
 		return true;
 	}
 
-	public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
-		return Container.calcRedstoneFromInventory((IInventory) worldIn.getTileEntity(pos));
+	public int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
+		return Container.getRedstoneSignalFromContainer((IInventory) worldIn.getBlockEntity(pos));
 	}
 
 	@Override
 	public ICallbackWrapper<? extends ChestTileEntity> combine(BlockState state, World world, BlockPos pos, boolean override) {
-		return TileEntityMerger.ICallback::func_225537_b_;
+		return TileEntityMerger.ICallback::acceptNone;
 	}
 }

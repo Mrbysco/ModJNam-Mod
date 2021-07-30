@@ -38,7 +38,7 @@ public class DispenserCactusBlock extends Block{
 
 	public DispenserCactusBlock(AbstractBlock.Properties builder) {
 		super(builder);
-		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(TRIGGERED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TRIGGERED, Boolean.valueOf(false)));
 	}
 
 	public int tickRate() {
@@ -46,45 +46,45 @@ public class DispenserCactusBlock extends Block{
 	}
 
 	public static IPosition getDispensePosition(IBlockSource coords) {
-		Direction direction = coords.getBlockState().get(FACING);
-		double d0 = coords.getX() + 0.7D * (double)direction.getXOffset();
-		double d1 = coords.getY() + 0.7D * (double)direction.getYOffset();
-		double d2 = coords.getZ() + 0.7D * (double)direction.getZOffset();
+		Direction direction = coords.getBlockState().getValue(FACING);
+		double d0 = coords.x() + 0.7D * (double)direction.getStepX();
+		double d1 = coords.y() + 0.7D * (double)direction.getStepY();
+		double d2 = coords.z() + 0.7D * (double)direction.getStepZ();
 		return new Position(d0, d1, d2);
 	}
 
-	public BlockRenderType getRenderType(BlockState state) {
+	public BlockRenderType getRenderShape(BlockState state) {
 		return BlockRenderType.MODEL;
 	}
 
 
 	public BlockState rotate(BlockState state, Rotation rot) {
-		return state.with(FACING, rot.rotate(state.get(FACING)));
+		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
 	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return state.rotate(mirrorIn.toRotation(state.get(FACING)));
+		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(FACING, TRIGGERED);
 	}
 
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(FACING, context.getNearestLookingDirection().getOpposite());
+		return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite());
 	}
 
 	@Override
 	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-		boolean flag = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(pos.up());
-		boolean flag1 = state.get(TRIGGERED);
+		boolean flag = worldIn.hasNeighborSignal(pos) || worldIn.hasNeighborSignal(pos.above());
+		boolean flag1 = state.getValue(TRIGGERED);
 		if (flag && !flag1) {
-			worldIn.getPendingBlockTicks().scheduleTick(pos, this, 4);
-			worldIn.setBlockState(pos, state.with(TRIGGERED, Boolean.valueOf(true)), 4);
+			worldIn.getBlockTicks().scheduleTick(pos, this, 4);
+			worldIn.setBlock(pos, state.setValue(TRIGGERED, Boolean.valueOf(true)), 4);
 		} else if (!flag && flag1) {
-			worldIn.setBlockState(pos, state.with(TRIGGERED, Boolean.valueOf(false)), 4);
+			worldIn.setBlock(pos, state.setValue(TRIGGERED, Boolean.valueOf(false)), 4);
 		}
 	}
 
@@ -95,17 +95,17 @@ public class DispenserCactusBlock extends Block{
 	protected void dispense(ServerWorld worldIn, BlockPos pos) {
 		BlockState state = worldIn.getBlockState(pos);
 		if(state.getBlock() == this) {
-			Direction direction = state.get(DispenserBlock.FACING);
+			Direction direction = state.getValue(DispenserBlock.FACING);
 			SpikeEntity spikeEntity = new SpikeEntity(worldIn, pos.getX(), pos.getY(), pos.getZ());
 			spikeEntity.setKnockbackStrength(1);
-			spikeEntity.shoot((double)direction.getXOffset(), (double)((float)direction.getYOffset() + 0.1F), (double)direction.getZOffset(), 1.1F, 6.0F);
-			worldIn.addEntity(spikeEntity);
+			spikeEntity.shoot((double)direction.getStepX(), (double)((float)direction.getStepY() + 0.1F), (double)direction.getStepZ(), 1.1F, 6.0F);
+			worldIn.addFreshEntity(spikeEntity);
 		}
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		super.addInformation(stack, worldIn, tooltip, flagIn);
-		tooltip.add(new TranslationTextComponent("cactus.dispenser.info").mergeStyle(TextFormatting.GREEN));
+	public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+		tooltip.add(new TranslationTextComponent("cactus.dispenser.info").withStyle(TextFormatting.GREEN));
 	}
 }

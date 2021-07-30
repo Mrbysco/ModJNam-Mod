@@ -15,18 +15,18 @@ import net.minecraft.util.math.vector.Vector3f;
 public class CactusTNTRenderer extends EntityRenderer<CactusTNTEntity> {
     public CactusTNTRenderer(EntityRendererManager renderManager) {
 		super(renderManager);
-        this.shadowSize = 0.5F;
+        this.shadowRadius = 0.5F;
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(CactusTNTEntity entity)
+	public ResourceLocation getTextureLocation(CactusTNTEntity entity)
     {
-        return AtlasTexture.LOCATION_BLOCKS_TEXTURE;
+        return AtlasTexture.LOCATION_BLOCKS;
     }
 
     @Override
     public void render(CactusTNTEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        matrixStackIn.push();
+        matrixStackIn.pushPose();
         matrixStackIn.translate(0.0D, 0.5D, 0.0D);
         if ((float)entityIn.getFuse() - partialTicks + 1.0F < 10.0F) {
             float f = 1.0F - ((float)entityIn.getFuse() - partialTicks + 1.0F) / 10.0F;
@@ -37,11 +37,11 @@ public class CactusTNTRenderer extends EntityRenderer<CactusTNTEntity> {
             matrixStackIn.scale(f1, f1, f1);
         }
 
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-90.0F));
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
         matrixStackIn.translate(-0.5D, -0.5D, 0.5D);
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(90.0F));
-        TNTMinecartRenderer.renderTntFlash(CactusRegistry.CACTUS_TNT.get().getDefaultState(), matrixStackIn, bufferIn, packedLightIn, entityIn.getFuse() / 5 % 2 == 0);
-        matrixStackIn.pop();
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0F));
+        TNTMinecartRenderer.renderWhiteSolidBlock(CactusRegistry.CACTUS_TNT.get().defaultBlockState(), matrixStackIn, bufferIn, packedLightIn, entityIn.getFuse() / 5 % 2 == 0);
+        matrixStackIn.popPose();
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 }

@@ -29,21 +29,21 @@ public class CactusCakeBlock extends CakeBlock {
 	}
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        return super.use(state, worldIn, pos, player, handIn, hit);
     }
 
     @Override
-    public ActionResultType eatSlice(IWorld world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public ActionResultType eat(IWorld world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (!player.canEat(false)) {
             return ActionResultType.PASS;
         } else {
-            player.addStat(Stats.EAT_CAKE_SLICE);
-            player.attackEntityFrom(DamageSource.CACTUS, 1.0F);
-            player.getFoodStats().addStats(2, 0.1F);
-            int i = state.get(BITES);
+            player.awardStat(Stats.EAT_CAKE_SLICE);
+            player.hurt(DamageSource.CACTUS, 1.0F);
+            player.getFoodData().eat(2, 0.1F);
+            int i = state.getValue(BITES);
             if (i < 6) {
-                world.setBlockState(pos, state.with(BITES, Integer.valueOf(i + 1)), 3);
+                world.setBlock(pos, state.setValue(BITES, Integer.valueOf(i + 1)), 3);
             } else {
                 world.removeBlock(pos, false);
             }
@@ -53,13 +53,13 @@ public class CactusCakeBlock extends CakeBlock {
     }
 
     @Override
-    public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
-        entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+    public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+        entityIn.hurt(DamageSource.CACTUS, 1.0F);
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslationTextComponent("cactus.cake.info").mergeStyle(TextFormatting.GREEN));
+    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        tooltip.add(new TranslationTextComponent("cactus.cake.info").withStyle(TextFormatting.GREEN));
     }
 }

@@ -27,8 +27,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class CactusTNTBlock extends TNTBlock {
-	protected static final VoxelShape COLLISION_SHAPE = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
-	protected static final VoxelShape OUTLINE_SHAPE = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
+	protected static final VoxelShape COLLISION_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
+	protected static final VoxelShape OUTLINE_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
 	
 	public CactusTNTBlock(AbstractBlock.Properties properties) {
 		super(properties);
@@ -48,25 +48,25 @@ public class CactusTNTBlock extends TNTBlock {
 	}
 
 	@Override
-	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
-		entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
-		super.onEntityCollision(state, worldIn, pos, entityIn);
+	public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+		entityIn.hurt(DamageSource.CACTUS, 1.0F);
+		super.entityInside(state, worldIn, pos, entityIn);
 	}
 
 	public static void explode(World world, BlockPos worldIn) {
 		explode(world, worldIn, (LivingEntity)null);
 	}
 	public static void explode(World worldIn, BlockPos pos, @Nullable LivingEntity entityIn) {
-		if (!worldIn.isRemote) {
+		if (!worldIn.isClientSide) {
 			CactusTNTEntity cactusTNTEntity = new CactusTNTEntity(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, entityIn);
-			worldIn.addEntity(cactusTNTEntity);
-			worldIn.playSound((PlayerEntity)null, cactusTNTEntity.getPosX(), cactusTNTEntity.getPosY(), cactusTNTEntity.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+			worldIn.addFreshEntity(cactusTNTEntity);
+			worldIn.playSound((PlayerEntity)null, cactusTNTEntity.getX(), cactusTNTEntity.getY(), cactusTNTEntity.getZ(), SoundEvents.TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		}
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		super.addInformation(stack, worldIn, tooltip, flagIn);
-		tooltip.add(new TranslationTextComponent("cactus.tnt.info").mergeStyle(TextFormatting.GREEN));
+	public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+		tooltip.add(new TranslationTextComponent("cactus.tnt.info").withStyle(TextFormatting.GREEN));
 	}
 }

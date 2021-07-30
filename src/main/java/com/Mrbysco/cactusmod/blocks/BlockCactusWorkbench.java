@@ -28,23 +28,23 @@ public class BlockCactusWorkbench extends CraftingTableBlock {
 	}
 
 	@Override
-	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
-		entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+	public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+		entityIn.hurt(DamageSource.CACTUS, 1.0F);
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if (worldIn.isRemote) {
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if (worldIn.isClientSide) {
 			return ActionResultType.SUCCESS;
 		} else {
-			player.openContainer(state.getContainer(worldIn, pos));
-			player.addStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
+			player.openMenu(state.getMenuProvider(worldIn, pos));
+			player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
 			return ActionResultType.CONSUME;
 		}
 	}
 
 	@Override
-	public INamedContainerProvider getContainer(BlockState state, World worldIn, BlockPos pos) {
+	public INamedContainerProvider getMenuProvider(BlockState state, World worldIn, BlockPos pos) {
 		return new com.mrbysco.cactusmod.util.WorkBenchHelper().getContainer(state, worldIn, pos);
 	}
 }

@@ -17,7 +17,7 @@ public class CactusSkeletonRenderer extends BipedRenderer<CactusSkeletonEntity, 
 	}
 	
 	@Override
-	public ResourceLocation getEntityTexture(CactusSkeletonEntity entity) {
+	public ResourceLocation getTextureLocation(CactusSkeletonEntity entity) {
 		return texture;
 	}
 }

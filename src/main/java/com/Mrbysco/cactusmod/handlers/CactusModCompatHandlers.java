@@ -22,20 +22,20 @@ public class CactusModCompatHandlers {
 	public void SombreroToCactoniEvent(PlayerInteractEvent.EntityInteract event) {
 		if(ModList.get().isLoaded("statues") && CactusConfig.COMMON.statuesCompat.get()) {
 			PlayerEntity player = event.getPlayer();
-			World world = player.world;
+			World world = player.level;
 			Entity target = event.getTarget();
 			ItemStack stack = event.getItemStack();
 
-			if(!world.isRemote) {
+			if(!world.isClientSide) {
 				Item sombrero = ForgeRegistries.ITEMS.getValue(new ResourceLocation("statues", "sombrero"));
 				if(sombrero != null && stack.getItem() == sombrero && target instanceof CactusSnowGolemEntity) {
 					CactoniEntity cactoni = CactusRegistry.CACTONI.get().create(world);
-					cactoni.setPositionAndRotation(target.getPosX(), target.getPosY(), target.getPosZ(), target.rotationYaw, target.rotationPitch);
-					world.addEntity(cactoni);
-					cactoni.onInitialSpawn((ServerWorld)world, world.getDifficultyForLocation(target.getPosition()), SpawnReason.CONVERSION, null, null);
+					cactoni.absMoveTo(target.getX(), target.getY(), target.getZ(), target.yRot, target.xRot);
+					world.addFreshEntity(cactoni);
+					cactoni.finalizeSpawn((ServerWorld)world, world.getCurrentDifficultyAt(target.blockPosition()), SpawnReason.CONVERSION, null, null);
 					target.remove();
 
-					if(!player.abilities.isCreativeMode)
+					if(!player.abilities.instabuild)
 						stack.shrink(1);
 				}
 			}

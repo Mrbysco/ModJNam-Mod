@@ -16,7 +16,7 @@ public class CactusCowRenderer extends MobRenderer<CactusCowEntity, CowModel<Cac
 		this.addLayer(new LayerCactusCowCactus(this));
 	}
 
-	public ResourceLocation getEntityTexture(CactusCowEntity entity) {
+	public ResourceLocation getTextureLocation(CactusCowEntity entity) {
 		return COW_TEXTURES;
 	}
 }

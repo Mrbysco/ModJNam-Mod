@@ -27,73 +27,73 @@ public class CactusSkeletonEntity extends AbstractSkeletonEntity {
     }
 
     @Override
-    public void setCombatTask() {
-        if (this.world != null && !this.world.isRemote) {
-            this.goalSelector.removeGoal(this.aiAttackOnCollide);
+    public void reassessWeaponGoal() {
+        if (this.level != null && !this.level.isClientSide) {
+            this.goalSelector.removeGoal(this.meleeGoal);
             this.goalSelector.removeGoal(this.spikeAttackGoal);
-            ItemStack itemstack = this.getHeldItem(ProjectileHelper.getHandWith(this, CactusRegistry.CACTUS_BOW.get()));
+            ItemStack itemstack = this.getItemInHand(ProjectileHelper.getWeaponHoldingHand(this, CactusRegistry.CACTUS_BOW.get()));
             if (itemstack.getItem() instanceof net.minecraft.item.BowItem) {
                 int i = 20;
-                if (this.world.getDifficulty() != Difficulty.HARD) {
+                if (this.level.getDifficulty() != Difficulty.HARD) {
                     i = 40;
                 }
-                this.spikeAttackGoal.setAttackCooldown(i);
+                this.spikeAttackGoal.setMinAttackInterval(i);
                 this.goalSelector.addGoal(4, this.spikeAttackGoal);
             } else {
-                this.goalSelector.addGoal(4, this.aiAttackOnCollide);
+                this.goalSelector.addGoal(4, this.meleeGoal);
             }
         }
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        super.setEquipmentBasedOnDifficulty(difficulty);
-        this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(CactusRegistry.CACTUS_BOW.get()));
+    protected void populateDefaultEquipmentSlots(DifficultyInstance difficulty) {
+        super.populateDefaultEquipmentSlots(difficulty);
+        this.setItemSlot(EquipmentSlotType.MAINHAND, new ItemStack(CactusRegistry.CACTUS_BOW.get()));
     }
 
     @Override
-    public boolean func_230280_a_(ShootableItem p_230280_1_) {
+    public boolean canFireProjectileWeapon(ShootableItem p_230280_1_) {
         return p_230280_1_ == CactusRegistry.CACTUS_BOW.get();
     }
 
     @Override
     protected SoundEvent getAmbientSound()
     {
-        return SoundEvents.ENTITY_SKELETON_AMBIENT;
+        return SoundEvents.SKELETON_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
     {
-        return SoundEvents.ENTITY_SKELETON_HURT;
+        return SoundEvents.SKELETON_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound()
     {
-        return SoundEvents.ENTITY_SKELETON_DEATH;
+        return SoundEvents.SKELETON_DEATH;
     }
 
     @Override
     protected SoundEvent getStepSound()
     {
-        return SoundEvents.ENTITY_SKELETON_STEP;
+        return SoundEvents.SKELETON_STEP;
     }
 
     @Override
-    public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
+    public void performRangedAttack(LivingEntity target, float distanceFactor) {
         AbstractSpikeEntity spike = this.getSpike(distanceFactor);
-        double d0 = target.getPosX() - this.getPosX();
-        double d1 = target.getPosYHeight(0.3333333333333333D) - spike.getPosY();
-        double d2 = target.getPosZ() - this.getPosZ();
+        double d0 = target.getX() - this.getX();
+        double d1 = target.getY(0.3333333333333333D) - spike.getY();
+        double d2 = target.getZ() - this.getZ();
         double d3 = (double) MathHelper.sqrt(d0 * d0 + d2 * d2);
-        spike.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.world.getDifficulty().getId() * 4));
-        this.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-        this.world.addEntity(spike);
+        spike.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level.getDifficulty().getId() * 4));
+        this.playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.level.addFreshEntity(spike);
     }
 
     protected AbstractSpikeEntity getSpike(float p_190726_1_) {
-        SpikeEntity spike = new SpikeEntity(this.world, this);
+        SpikeEntity spike = new SpikeEntity(this.level, this);
         return spike;
     }
 }

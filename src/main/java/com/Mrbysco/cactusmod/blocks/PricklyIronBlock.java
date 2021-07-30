@@ -15,7 +15,7 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 
 public class PricklyIronBlock extends Block {
-    public static final VoxelShape ALMOST_FULL =  Block.makeCuboidShape(0.08, 0, 0.08, 15.98, 15.98, 15.98);
+    public static final VoxelShape ALMOST_FULL =  Block.box(0.08, 0, 0.08, 15.98, 15.98, 15.98);
 	public PricklyIronBlock(AbstractBlock.Properties builder) {
 		super(builder);
 	}
@@ -23,7 +23,7 @@ public class PricklyIronBlock extends Block {
 	@Override
 	public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, IPlantable plantable) {
 		if(facing == Direction.UP) {
-			PlantType plant = plantable.getPlantType(world, pos.offset(facing));
+			PlantType plant = plantable.getPlantType(world, pos.relative(facing));
 			return plant == PlantType.DESERT;
 		} else {
 			return false;
@@ -31,8 +31,8 @@ public class PricklyIronBlock extends Block {
 	}
 
 	@Override
-	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
-		entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+	public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+		entityIn.hurt(DamageSource.CACTUS, 1.0F);
 	}
 
 	@Override

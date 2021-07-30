@@ -17,7 +17,7 @@ public class CactusSnowmanRenderer extends MobRenderer<CactusSnowGolemEntity, Sn
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(CactusSnowGolemEntity entity) {
+	public ResourceLocation getTextureLocation(CactusSnowGolemEntity entity) {
 		return texture;
 	}
 }

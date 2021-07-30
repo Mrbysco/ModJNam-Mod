@@ -17,7 +17,7 @@ public class CactusPigRenderer extends MobRenderer<CactusPigEntity, PigModel<Cac
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(CactusPigEntity entity) {
+	public ResourceLocation getTextureLocation(CactusPigEntity entity) {
 		return texture;
 	}
 }

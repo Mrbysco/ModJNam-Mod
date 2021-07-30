@@ -21,13 +21,13 @@ public class CactusHopperBlock extends HopperBlock {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader worldIn) {
+	public TileEntity newBlockEntity(IBlockReader worldIn) {
 		return new CactusHopperTile();
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		super.addInformation(stack, worldIn, tooltip, flagIn);
-		tooltip.add(new TranslationTextComponent("cactus.hopper.info").mergeStyle(TextFormatting.GREEN));
+	public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+		tooltip.add(new TranslationTextComponent("cactus.hopper.info").withStyle(TextFormatting.GREEN));
 	}
 }

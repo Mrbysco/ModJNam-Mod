@@ -15,8 +15,8 @@ import net.minecraftforge.fml.ModList;
 public class FastBenchHelper {
 
 	public static void onContainerMatch(ServerPlayerEntity playerMP) {
-		if(playerMP.openContainer instanceof com.mrbysco.cactusmod.blocks.container.CactusFastBenchContainer) {
-			playerMP.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+		if(playerMP.containerMenu instanceof com.mrbysco.cactusmod.blocks.container.CactusFastBenchContainer) {
+			playerMP.hurt(DamageSource.CACTUS, 1.0F);
 		}
 	}
 

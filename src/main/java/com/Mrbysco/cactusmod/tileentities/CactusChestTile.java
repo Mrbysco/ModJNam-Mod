@@ -67,7 +67,7 @@ public class CactusChestTile extends LockableLootTileEntity implements IChestLid
 	/**
 	 * Returns the number of slots in the inventory.
 	 */
-	public int getSizeInventory() {
+	public int getContainerSize() {
 		return 27;
 	}
 
@@ -75,18 +75,18 @@ public class CactusChestTile extends LockableLootTileEntity implements IChestLid
 		return new TranslationTextComponent(Reference.MOD_ID, "container.cactus_chest");
 	}
 
-	public void read(BlockState state, CompoundNBT nbt) {
-		super.read(state, nbt);
-		this.chestContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
-		if (!this.checkLootAndRead(nbt)) {
+	public void load(BlockState state, CompoundNBT nbt) {
+		super.load(state, nbt);
+		this.chestContents = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+		if (!this.tryLoadLootTable(nbt)) {
 			ItemStackHelper.loadAllItems(nbt, this.chestContents);
 		}
 
 	}
 
-	public CompoundNBT write(CompoundNBT compound) {
-		super.write(compound);
-		if (!this.checkLootAndWrite(compound)) {
+	public CompoundNBT save(CompoundNBT compound) {
+		super.save(compound);
+		if (!this.trySaveLootTable(compound)) {
 			ItemStackHelper.saveAllItems(compound, this.chestContents);
 		}
 
@@ -94,26 +94,26 @@ public class CactusChestTile extends LockableLootTileEntity implements IChestLid
 	}
 
 	public void tick() {
-		int i = this.pos.getX();
-		int j = this.pos.getY();
-		int k = this.pos.getZ();
+		int i = this.worldPosition.getX();
+		int j = this.worldPosition.getY();
+		int k = this.worldPosition.getZ();
 		++this.ticksSinceSync;
 
-		this.numPlayersUsing = calculatePlayersUsingSync(this.world, this, this.ticksSinceSync, i, j, k, this.numPlayersUsing);
+		this.numPlayersUsing = calculatePlayersUsingSync(this.level, this, this.ticksSinceSync, i, j, k, this.numPlayersUsing);
 		this.prevLidAngle = this.lidAngle;
 		float f = 0.1F;
 		if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F) {
-			this.playSound(SoundEvents.BLOCK_CHEST_OPEN);
+			this.playSound(SoundEvents.CHEST_OPEN);
 		}
 
-		if(!this.world.isRemote) {
+		if(!this.level.isClientSide) {
 			++this.ticksSinceDeleted;
 			if(!this.isEmpty()) {
-				int randInt = this.world.rand.nextInt(getSizeInventory());
+				int randInt = this.level.random.nextInt(getContainerSize());
 				if(getItems().get(randInt) != ItemStack.EMPTY && this.ticksSinceDeleted >= 200) {
 					ItemStack stack = getItems().get(randInt);
 					int size = stack.getCount();
-					int minusSize = this.world.rand.nextInt(size+1);
+					int minusSize = this.level.random.nextInt(size+1);
 
 					stack.shrink(minusSize);
 					this.ticksSinceDeleted = 0;
@@ -135,7 +135,7 @@ public class CactusChestTile extends LockableLootTileEntity implements IChestLid
 
 			float f2 = 0.5F;
 			if (this.lidAngle < 0.5F && f1 >= 0.5F) {
-				this.playSound(SoundEvents.BLOCK_CHEST_CLOSE);
+				this.playSound(SoundEvents.CHEST_CLOSE);
 			}
 
 			if (this.lidAngle < 0.0F) {
@@ -146,7 +146,7 @@ public class CactusChestTile extends LockableLootTileEntity implements IChestLid
 	}
 
 	public static int calculatePlayersUsingSync(World p_213977_0_, LockableTileEntity p_213977_1_, int p_213977_2_, int p_213977_3_, int p_213977_4_, int p_213977_5_, int p_213977_6_) {
-		if (!p_213977_0_.isRemote && p_213977_6_ != 0 && (p_213977_2_ + p_213977_3_ + p_213977_4_ + p_213977_5_) % 200 == 0) {
+		if (!p_213977_0_.isClientSide && p_213977_6_ != 0 && (p_213977_2_ + p_213977_3_ + p_213977_4_ + p_213977_5_) % 200 == 0) {
 			p_213977_6_ = calculatePlayersUsing(p_213977_0_, p_213977_1_, p_213977_3_, p_213977_4_, p_213977_5_);
 		}
 
@@ -157,10 +157,10 @@ public class CactusChestTile extends LockableLootTileEntity implements IChestLid
 		int i = 0;
 		float f = 5.0F;
 
-		for(PlayerEntity playerentity : p_213976_0_.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB((double)((float)p_213976_2_ - 5.0F), (double)((float)p_213976_3_ - 5.0F), (double)((float)p_213976_4_ - 5.0F), (double)((float)(p_213976_2_ + 1) + 5.0F), (double)((float)(p_213976_3_ + 1) + 5.0F), (double)((float)(p_213976_4_ + 1) + 5.0F)))) {
-			if (playerentity.openContainer instanceof ChestContainer) {
-				IInventory iinventory = ((ChestContainer)playerentity.openContainer).getLowerChestInventory();
-				if (iinventory == p_213976_1_ || iinventory instanceof DoubleSidedInventory && ((DoubleSidedInventory)iinventory).isPartOfLargeChest(p_213976_1_)) {
+		for(PlayerEntity playerentity : p_213976_0_.getEntitiesOfClass(PlayerEntity.class, new AxisAlignedBB((double)((float)p_213976_2_ - 5.0F), (double)((float)p_213976_3_ - 5.0F), (double)((float)p_213976_4_ - 5.0F), (double)((float)(p_213976_2_ + 1) + 5.0F), (double)((float)(p_213976_3_ + 1) + 5.0F), (double)((float)(p_213976_4_ + 1) + 5.0F)))) {
+			if (playerentity.containerMenu instanceof ChestContainer) {
+				IInventory iinventory = ((ChestContainer)playerentity.containerMenu).getContainer();
+				if (iinventory == p_213976_1_ || iinventory instanceof DoubleSidedInventory && ((DoubleSidedInventory)iinventory).contains(p_213976_1_)) {
 					++i;
 				}
 			}
@@ -170,26 +170,26 @@ public class CactusChestTile extends LockableLootTileEntity implements IChestLid
 	}
 
 	private void playSound(SoundEvent soundIn) {
-		double d0 = (double)this.pos.getX();
-		double d1 = (double)this.pos.getY();
-		double d2 = (double)this.pos.getZ();
-		this.world.playSound((PlayerEntity)null, d0, d1, d2, soundIn, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+		double d0 = (double)this.worldPosition.getX();
+		double d1 = (double)this.worldPosition.getY();
+		double d2 = (double)this.worldPosition.getZ();
+		this.level.playSound((PlayerEntity)null, d0, d1, d2, soundIn, SoundCategory.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
 	}
 
 	/**
 	 * See {@link Block#eventReceived} for more information. This must return true serverside before it is called
 	 * clientside.
 	 */
-	public boolean receiveClientEvent(int id, int type) {
+	public boolean triggerEvent(int id, int type) {
 		if (id == 1) {
 			this.numPlayersUsing = type;
 			return true;
 		} else {
-			return super.receiveClientEvent(id, type);
+			return super.triggerEvent(id, type);
 		}
 	}
 
-	public void openInventory(PlayerEntity player) {
+	public void startOpen(PlayerEntity player) {
 		if (!player.isSpectator()) {
 			if (this.numPlayersUsing < 0) {
 				this.numPlayersUsing = 0;
@@ -201,7 +201,7 @@ public class CactusChestTile extends LockableLootTileEntity implements IChestLid
 
 	}
 
-	public void closeInventory(PlayerEntity player) {
+	public void stopOpen(PlayerEntity player) {
 		if (!player.isSpectator()) {
 			--this.numPlayersUsing;
 			this.onOpenOrClose();
@@ -212,8 +212,8 @@ public class CactusChestTile extends LockableLootTileEntity implements IChestLid
 	protected void onOpenOrClose() {
 		Block block = this.getBlockState().getBlock();
 		if (block instanceof CactusChestBlock) {
-			this.world.addBlockEvent(this.pos, block, 1, this.numPlayersUsing);
-			this.world.notifyNeighborsOfStateChange(this.pos, block);
+			this.level.blockEvent(this.worldPosition, block, 1, this.numPlayersUsing);
+			this.level.updateNeighborsAt(this.worldPosition, block);
 		}
 
 	}
@@ -227,14 +227,14 @@ public class CactusChestTile extends LockableLootTileEntity implements IChestLid
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public float getLidAngle(float partialTicks) {
+	public float getOpenNess(float partialTicks) {
 		return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
 	}
 
 	public static int getPlayersUsing(IBlockReader reader, BlockPos posIn) {
 		BlockState blockstate = reader.getBlockState(posIn);
 		if (blockstate.hasTileEntity()) {
-			TileEntity tileentity = reader.getTileEntity(posIn);
+			TileEntity tileentity = reader.getBlockEntity(posIn);
 			if (tileentity instanceof CactusChestTile) {
 				return ((CactusChestTile)tileentity).numPlayersUsing;
 			}
@@ -250,12 +250,12 @@ public class CactusChestTile extends LockableLootTileEntity implements IChestLid
 	}
 
 	protected Container createMenu(int id, PlayerInventory player) {
-		return ChestContainer.createGeneric9X3(id, player, this);
+		return ChestContainer.threeRows(id, player, this);
 	}
 
 	@Override
-	public void updateContainingBlockInfo() {
-		super.updateContainingBlockInfo();
+	public void clearCache() {
+		super.clearCache();
 		if (this.chestHandler != null) {
 			this.chestHandler.invalidate();
 			this.chestHandler = null;
@@ -264,7 +264,7 @@ public class CactusChestTile extends LockableLootTileEntity implements IChestLid
 
 	@Override
 	public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(net.minecraftforge.common.capabilities.Capability<T> cap, Direction side) {
-		if (!this.removed && cap == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (!this.remove && cap == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (this.chestHandler == null)
 				this.chestHandler = net.minecraftforge.common.util.LazyOptional.of(this::createHandler);
 			return this.chestHandler.cast();
@@ -277,7 +277,7 @@ public class CactusChestTile extends LockableLootTileEntity implements IChestLid
 		if (!(state.getBlock() instanceof CactusChestBlock)) {
 			return new net.minecraftforge.items.wrapper.InvWrapper(this);
 		}
-		IInventory inv = (IInventory) this.world.getTileEntity(pos);
+		IInventory inv = (IInventory) this.level.getBlockEntity(worldPosition);
 		return new net.minecraftforge.items.wrapper.InvWrapper(inv == null ? this : inv);
 	}
 

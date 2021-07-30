@@ -16,7 +16,7 @@ public class CactoniRenderer extends MobRenderer<CactoniEntity, CactoniModel<Cac
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(CactoniEntity entity) {
+	public ResourceLocation getTextureLocation(CactoniEntity entity) {
 		return texture;
 	}
 }

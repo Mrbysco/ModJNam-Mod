@@ -12,7 +12,7 @@ public class CactusSlimeEntity extends SlimeEntity implements ICactusMob{
         super(type, worldIn);
 	}
 
-    public static AttributeModifierMap.MutableAttribute func_234226_m_() {
-        return MonsterEntity.func_234295_eP_();
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MonsterEntity.createMonsterAttributes();
     }
 }

@@ -55,27 +55,27 @@ public class ClientHandler {
         RenderingRegistry.registerEntityRenderingHandler(CactusRegistry.CACTUS_BOAT_ENTITY.get(), CactusBoatRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(CactusRegistry.CACTONI.get(), CactoniRenderer::new);
 
-        RenderTypeLookup.setRenderLayer(CactusRegistry.CACTUS_SLIME_BLOCK.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(CactusRegistry.CACTUS_TNT.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(CactusRegistry.CARVED_CACTUS.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(CactusRegistry.CACTUS_SLIME_BLOCK.get(), RenderType.translucent());
+        RenderTypeLookup.setRenderLayer(CactusRegistry.CACTUS_TNT.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(CactusRegistry.CARVED_CACTUS.get(), RenderType.cutout());
 
         ClientRegistry.bindTileEntityRenderer(CactusRegistry.CACTUS_CHEST_TILE.get(), CactusChestTESR::new);
 
         if(!ModList.get().isLoaded("fastbench")) {
-            ScreenManager.registerFactory(CactusRegistry.CACTUS_WORKBENCH_CONTAINER.get(), new Factory());
+            ScreenManager.register(CactusRegistry.CACTUS_WORKBENCH_CONTAINER.get(), new Factory());
         } else {
-            ScreenManager.registerFactory(CactusRegistry.CACTUS_WORKBENCH_CONTAINER.get(), new FastFactory());
+            ScreenManager.register(CactusRegistry.CACTUS_WORKBENCH_CONTAINER.get(), new FastFactory());
         }
 
-        ItemModelsProperties.registerProperty(CactusRegistry.CACTUS_BOW.get(), new ResourceLocation("pull"), (stack, world, entity) -> {
+        ItemModelsProperties.register(CactusRegistry.CACTUS_BOW.get(), new ResourceLocation("pull"), (stack, world, entity) -> {
             if (entity == null) {
                 return 0.0F;
             } else {
-                return entity.getActiveItemStack() != stack ? 0.0F : (float)(stack.getUseDuration() - entity.getItemInUseCount()) / 20.0F;
+                return entity.getUseItem() != stack ? 0.0F : (float)(stack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0F;
             }
         });
-        ItemModelsProperties.registerProperty(CactusRegistry.CACTUS_BOW.get(), new ResourceLocation("pulling"), (p_239428_0_, p_239428_1_, p_239428_2_) -> {
-            return p_239428_2_ != null && p_239428_2_.isHandActive() && p_239428_2_.getActiveItemStack() == p_239428_0_ ? 1.0F : 0.0F;
+        ItemModelsProperties.register(CactusRegistry.CACTUS_BOW.get(), new ResourceLocation("pulling"), (p_239428_0_, p_239428_1_, p_239428_2_) -> {
+            return p_239428_2_ != null && p_239428_2_.isUsingItem() && p_239428_2_.getUseItem() == p_239428_0_ ? 1.0F : 0.0F;
         });
     }
 
@@ -95,7 +95,7 @@ public class ClientHandler {
 
     public static final ResourceLocation CACTUS_CHEST_LOCATION = new ResourceLocation(Reference.MOD_ID, "entity/cactus_chest");
     public static void preStitchEvent(TextureStitchEvent.Pre event) {
-        if(event.getMap().getTextureLocation().toString().equals("minecraft:textures/atlas/chest.png")) {
+        if(event.getMap().location().toString().equals("minecraft:textures/atlas/chest.png")) {
             event.addSprite(CACTUS_CHEST_LOCATION);
         }
     }

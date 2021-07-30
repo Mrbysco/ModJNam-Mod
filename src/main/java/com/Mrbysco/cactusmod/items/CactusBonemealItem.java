@@ -29,17 +29,17 @@ public class CactusBonemealItem extends Item{
     }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
-        World world = context.getWorld();
-        BlockPos blockpos = context.getPos();
-        if (applyBonemeal(context.getItem(), world, blockpos, context.getPlayer())) {
-            if (!world.isRemote) {
-                world.playEvent(2005, blockpos, 0);
+    public ActionResultType useOn(ItemUseContext context) {
+        World world = context.getLevel();
+        BlockPos blockpos = context.getClickedPos();
+        if (applyBonemeal(context.getItemInHand(), world, blockpos, context.getPlayer())) {
+            if (!world.isClientSide) {
+                world.levelEvent(2005, blockpos, 0);
             }
 
-            return ActionResultType.func_233537_a_(world.isRemote);
+            return ActionResultType.sidedSuccess(world.isClientSide);
         }
-        return super.onItemUse(context);
+        return super.useOn(context);
     }
 
     public static boolean applyBonemeal(ItemStack stack, World worldIn, BlockPos pos, net.minecraft.entity.player.PlayerEntity player) {
@@ -56,7 +56,7 @@ public class CactusBonemealItem extends Item{
 
                 return true;
             }
-        } else if(blockstate.getBlock().isIn(BlockTags.SAND)) {
+        } else if(blockstate.getBlock().is(BlockTags.SAND)) {
             if (worldIn instanceof ServerWorld) {
                 growBush(worldIn, pos, blockstate);
                 stack.shrink(1);
@@ -69,17 +69,17 @@ public class CactusBonemealItem extends Item{
     }
 
     public static boolean canGrow(World worldIn, BlockPos pos, BlockState state) {
-        BlockPos blockpos = pos.up();
+        BlockPos blockpos = pos.above();
 
-        if (worldIn.isAirBlock(blockpos)) {
+        if (worldIn.isEmptyBlock(blockpos)) {
             int i;
 
-            for (i = 1; worldIn.getBlockState(pos.down(i)).getBlock() instanceof CactusBlock; ++i) {
+            for (i = 1; worldIn.getBlockState(pos.below(i)).getBlock() instanceof CactusBlock; ++i) {
                 ;
             }
 
             if (i < 5) {
-                int j = (Integer) state.get(CactusBlock.AGE) + getInt(worldIn.rand, 3, 8);
+                int j = (Integer) state.getValue(CactusBlock.AGE) + getInt(worldIn.random, 3, 8);
                 int k = 15;
                 if (j > k) {
                     j = k;
@@ -97,22 +97,22 @@ public class CactusBonemealItem extends Item{
     }
 
     public static void growCactus(World worldIn, BlockPos pos, BlockState state) {
-        BlockPos blockpos = pos.up();
-        if (worldIn.isAirBlock(blockpos)) {
+        BlockPos blockpos = pos.above();
+        if (worldIn.isEmptyBlock(blockpos)) {
             int i;
-            for(i = 1; worldIn.getBlockState(pos.down(i)).matchesBlock(state.getBlock()); ++i) {
+            for(i = 1; worldIn.getBlockState(pos.below(i)).is(state.getBlock()); ++i) {
                 ;
             }
 
             if (i < 3) {
-                int j = state.get(CactusBlock.AGE) + getInt(worldIn.rand, 3, 8);
+                int j = state.getValue(CactusBlock.AGE) + getInt(worldIn.random, 3, 8);
                 if (j >= 15) {
-                    worldIn.setBlockState(blockpos, state.getBlock().getDefaultState());
-                    BlockState blockstate = state.with(CactusBlock.AGE, Integer.valueOf(0));
-                    worldIn.setBlockState(pos, blockstate, 4);
+                    worldIn.setBlockAndUpdate(blockpos, state.getBlock().defaultBlockState());
+                    BlockState blockstate = state.setValue(CactusBlock.AGE, Integer.valueOf(0));
+                    worldIn.setBlock(pos, blockstate, 4);
                     blockstate.neighborChanged(worldIn, blockpos, state.getBlock(), pos, false);
                 } else {
-                    worldIn.setBlockState(pos, state.with(CactusBlock.AGE, Integer.valueOf(j + 1)), 4);
+                    worldIn.setBlock(pos, state.setValue(CactusBlock.AGE, Integer.valueOf(j + 1)), 4);
                 }
             }
         }
@@ -120,23 +120,23 @@ public class CactusBonemealItem extends Item{
 
     public static void growBush(World worldIn, BlockPos pos, BlockState state) {
         final int range = 3;
-        if(!worldIn.isRemote) {
+        if(!worldIn.isClientSide) {
             List<BlockPos> validCoords = new ArrayList<>();
 
             for(int i = -range - 1; i < range; i++)
                 for(int j = -range - 1; j < range; j++) {
                     for(int k = 2; k >= -2; k--) {
-                        BlockPos pos_ = pos.add(i + 1, k + 1, j + 1);
-                        if(worldIn.isAirBlock(pos_) && (!worldIn.getDimensionType().isUltrawarm() || pos_.getY() < 255) && isValidGround(state))
+                        BlockPos pos_ = pos.offset(i + 1, k + 1, j + 1);
+                        if(worldIn.isEmptyBlock(pos_) && (!worldIn.dimensionType().ultraWarm() || pos_.getY() < 255) && isValidGround(state))
                             validCoords.add(pos_);
                     }
                 }
 
-            int bushCount = Math.min(validCoords.size(), worldIn.rand.nextBoolean() ? 3 : 4);
+            int bushCount = Math.min(validCoords.size(), worldIn.random.nextBoolean() ? 3 : 4);
             for(int i = 0; i < bushCount; i++) {
-                BlockPos coords = validCoords.get(worldIn.rand.nextInt(validCoords.size()));
-                if(isValidGround(worldIn.getBlockState(coords.down()))) {
-                    worldIn.setBlockState(coords, Blocks.DEAD_BUSH.getDefaultState());
+                BlockPos coords = validCoords.get(worldIn.random.nextInt(validCoords.size()));
+                if(isValidGround(worldIn.getBlockState(coords.below()))) {
+                    worldIn.setBlockAndUpdate(coords, Blocks.DEAD_BUSH.defaultBlockState());
                 }
                 validCoords.remove(coords);
             }
@@ -153,8 +153,8 @@ public class CactusBonemealItem extends Item{
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslationTextComponent("cactus.bonemeal.info").mergeStyle(TextFormatting.GREEN));
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        tooltip.add(new TranslationTextComponent("cactus.bonemeal.info").withStyle(TextFormatting.GREEN));
     }
 }

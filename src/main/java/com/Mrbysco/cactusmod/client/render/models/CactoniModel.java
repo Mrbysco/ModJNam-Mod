@@ -49,112 +49,112 @@ public class CactoniModel<T extends CactoniEntity> extends EntityModel<T> {
     public ModelRenderer cacti_arm22;
 
     public CactoniModel() {
-        this.textureWidth = 128;
-        this.textureHeight = 128;
+        this.texWidth = 128;
+        this.texHeight = 128;
         this.middle_bit7 = new ModelRenderer(this, 0, 86);
-        this.middle_bit7.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.middle_bit7.setPos(0.0F, 0.0F, 0.0F);
         this.middle_bit7.addBox(-6.0F, -8.0F, -7.0F, 1, 1, 1, 0.0F);
         this.cacti_arm11 = new ModelRenderer(this, 0, 44);
-        this.cacti_arm11.setRotationPoint(0.0F, 9.0F, 0.0F);
+        this.cacti_arm11.setPos(0.0F, 9.0F, 0.0F);
         this.cacti_arm11.addBox(10.5F, -14.0F, -3.0F, 6, 6, 6, 0.0F);
         this.middle_bit11 = new ModelRenderer(this, 0, 90);
-        this.middle_bit11.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.middle_bit11.setPos(0.0F, 0.0F, 0.0F);
         this.middle_bit11.addBox(-6.0F, -8.0F, 6.0F, 1, 1, 1, 0.0F);
         this.middle_bit1 = new ModelRenderer(this, 22, 84);
-        this.middle_bit1.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.middle_bit1.setPos(0.0F, 0.0F, 0.0F);
         this.middle_bit1.addBox(7.0F, -8.0F, -5.0F, 1, 1, 10, 0.0F);
         this.middle_bit8 = new ModelRenderer(this, 4, 86);
-        this.middle_bit8.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.middle_bit8.setPos(0.0F, 0.0F, 0.0F);
         this.middle_bit8.addBox(-7.0F, -8.0F, -6.0F, 1, 1, 1, 0.0F);
         this.middle_bit4 = new ModelRenderer(this, 22, 82);
-        this.middle_bit4.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.middle_bit4.setPos(0.0F, 0.0F, 0.0F);
         this.middle_bit4.addBox(-5.0F, -8.0F, 7.0F, 10, 1, 1, 0.0F);
         this.moostache5 = new ModelRenderer(this, 40, 0);
-        this.moostache5.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.moostache5.setPos(0.0F, 0.0F, 0.0F);
         this.moostache5.addBox(5.0F, -1.0F, -5.5F, 1, 1, 1, 0.0F);
         this.middle_bit12 = new ModelRenderer(this, 4, 90);
-        this.middle_bit12.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.middle_bit12.setPos(0.0F, 0.0F, 0.0F);
         this.middle_bit12.addBox(-7.0F, -8.0F, 5.0F, 1, 1, 1, 0.0F);
         this.moostache1 = new ModelRenderer(this, 40, 0);
-        this.moostache1.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.moostache1.setPos(0.0F, 0.0F, 0.0F);
         this.moostache1.addBox(1.0F, -2.0F, -5.5F, 2, 1, 1, 0.0F);
         this.cacti_arm22 = new ModelRenderer(this, 0, 44);
-        this.cacti_arm22.setRotationPoint(0.0F, 9.0F, 0.0F);
+        this.cacti_arm22.setPos(0.0F, 9.0F, 0.0F);
         this.cacti_arm22.addBox(-16.5F, -16.0F, -3.0F, 6, 6, 6, 0.0F);
         this.moostache3 = new ModelRenderer(this, 40, 0);
-        this.moostache3.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.moostache3.setPos(0.0F, 0.0F, 0.0F);
         this.moostache3.addBox(-5.0F, -0.0F, -5.5F, 4, 1, 1, 0.0F);
         this.middle_bit9 = new ModelRenderer(this, 0, 88);
-        this.middle_bit9.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.middle_bit9.setPos(0.0F, 0.0F, 0.0F);
         this.middle_bit9.addBox(6.0F, -8.0F, 5.0F, 1, 1, 1, 0.0F);
         this.top_bit1 = new ModelRenderer(this, 0, 95);
-        this.top_bit1.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.top_bit1.setPos(0.0F, 0.0F, 0.0F);
         this.top_bit1.addBox(-4.0F, -11.0F, -4.0F, 8, 4, 8, 0.0F);
         this.bottom_bit2 = new ModelRenderer(this, 0, 69);
-        this.bottom_bit2.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.bottom_bit2.setPos(0.0F, 0.0F, 0.0F);
         this.bottom_bit2.addBox(-5.0F, -7.0F, 6.0F, 10, 1, 1, 0.0F);
         this.moostache = new ModelRenderer(this, 40, 0);
-        this.moostache.setRotationPoint(0.0F, -6.0F, 0.0F);
+        this.moostache.setPos(0.0F, -6.0F, 0.0F);
         this.moostache.addBox(-3.0F, -1.0F, -5.5F, 7, 1, 1, 0.0F);
         this.middle_bit6 = new ModelRenderer(this, 4, 84);
-        this.middle_bit6.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.middle_bit6.setPos(0.0F, 0.0F, 0.0F);
         this.middle_bit6.addBox(5.0F, -8.0F, -7.0F, 1, 1, 1, 0.0F);
         this.cacti_m = new ModelRenderer(this, 0, 22);
-        this.cacti_m.setRotationPoint(0.0F, 15.0F, 0.0F);
+        this.cacti_m.setPos(0.0F, 15.0F, 0.0F);
         this.cacti_m.addBox(-5.0F, -13.0F, -5.0F, 10, 12, 10, -0.5F);
         this.moostache4 = new ModelRenderer(this, 40, 0);
-        this.moostache4.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.moostache4.setPos(0.0F, 0.0F, 0.0F);
         this.moostache4.addBox(2.0F, -0.0F, -5.5F, 4, 1, 1, 0.0F);
         this.bottom_bit4 = new ModelRenderer(this, 22, 71);
-        this.bottom_bit4.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.bottom_bit4.setPos(0.0F, 0.0F, 0.0F);
         this.bottom_bit4.addBox(6.0F, -7.0F, -5.0F, 1, 1, 10, 0.0F);
         this.cacti_t = new ModelRenderer(this, 0, 0);
-        this.cacti_t.setRotationPoint(0.0F, 6.0F, 0.0F);
+        this.cacti_t.setPos(0.0F, 6.0F, 0.0F);
         this.cacti_t.addBox(-5.0F, -13.0F, -5.0F, 10, 10, 10, -0.5F);
         this.middle_bit2 = new ModelRenderer(this, 0, 84);
-        this.middle_bit2.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.middle_bit2.setPos(0.0F, 0.0F, 0.0F);
         this.middle_bit2.addBox(-8.0F, -8.0F, -5.0F, 1, 1, 10, 0.0F);
         this.top_bit2 = new ModelRenderer(this, 0, 107);
-        this.top_bit2.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.top_bit2.setPos(0.0F, 0.0F, 0.0F);
         this.top_bit2.addBox(-3.0F, -15.0F, -3.0F, 6, 4, 6, 0.0F);
         this.moostache6 = new ModelRenderer(this, 40, 0);
-        this.moostache6.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.moostache6.setPos(0.0F, 0.0F, 0.0F);
         this.moostache6.addBox(-5.0F, -1.0F, -5.5F, 1, 1, 1, 0.0F);
         this.cacti_arm2 = new ModelRenderer(this, 0, 44);
-        this.cacti_arm2.setRotationPoint(0.0F, 9.0F, 0.0F);
+        this.cacti_arm2.setPos(0.0F, 9.0F, 0.0F);
         this.cacti_arm2.addBox(-10.5F, -1.0F, -3.0F, 6, 6, 6, 0.0F);
         this.bottom_bit3 = new ModelRenderer(this, 0, 71);
-        this.bottom_bit3.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.bottom_bit3.setPos(0.0F, 0.0F, 0.0F);
         this.bottom_bit3.addBox(-7.0F, -7.0F, -5.0F, 1, 1, 10, 0.0F);
         this.cacti_arm21 = new ModelRenderer(this, 0, 44);
-        this.cacti_arm21.setRotationPoint(0.0F, 9.0F, 0.0F);
+        this.cacti_arm21.setPos(0.0F, 9.0F, 0.0F);
         this.cacti_arm21.addBox(-16.5F, -10.0F, -3.0F, 6, 6, 6, 0.0F);
         this.bottom_bit1 = new ModelRenderer(this, 22, 69);
-        this.bottom_bit1.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.bottom_bit1.setPos(0.0F, 0.0F, 0.0F);
         this.bottom_bit1.addBox(-5.0F, -7.0F, -7.0F, 10, 1, 1, 0.0F);
         this.cacti_arm1 = new ModelRenderer(this, 0, 44);
-        this.cacti_arm1.setRotationPoint(0.0F, 9.0F, 0.0F);
+        this.cacti_arm1.setPos(0.0F, 9.0F, 0.0F);
         this.cacti_arm1.addBox(4.5F, -5.0F, -3.0F, 6, 6, 6, 0.0F);
         this.hat = new ModelRenderer(this, 0, 56);
-        this.hat.setRotationPoint(0.0F, -6.0F, 0.0F);
+        this.hat.setPos(0.0F, -6.0F, 0.0F);
         this.hat.addBox(-6.0F, -7.0F, -6.0F, 12, 1, 12, 0.0F);
         this.cacti_arm12 = new ModelRenderer(this, 0, 44);
-        this.cacti_arm12.setRotationPoint(0.0F, 9.0F, 0.0F);
+        this.cacti_arm12.setPos(0.0F, 9.0F, 0.0F);
         this.cacti_arm12.addBox(10.5F, -20.0F, -3.0F, 6, 6, 6, 0.0F);
         this.middle_bit5 = new ModelRenderer(this, 0, 84);
-        this.middle_bit5.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.middle_bit5.setPos(0.0F, 0.0F, 0.0F);
         this.middle_bit5.addBox(6.0F, -8.0F, -6.0F, 1, 1, 1, 0.0F);
         this.moostache2 = new ModelRenderer(this, 40, 0);
-        this.moostache2.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.moostache2.setPos(0.0F, 0.0F, 0.0F);
         this.moostache2.addBox(-2.0F, -2.0F, -5.5F, 2, 1, 1, 0.0F);
         this.cacti_b = new ModelRenderer(this, 40, 22);
-        this.cacti_b.setRotationPoint(0.0F, 24.0F, 0.0F);
+        this.cacti_b.setPos(0.0F, 24.0F, 0.0F);
         this.cacti_b.addBox(-5.0F, -11.0F, -5.0F, 10, 12, 10, -0.5F);
         this.middle_bit3 = new ModelRenderer(this, 0, 82);
-        this.middle_bit3.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.middle_bit3.setPos(0.0F, 0.0F, 0.0F);
         this.middle_bit3.addBox(-5.0F, -8.0F, -8.0F, 10, 1, 1, 0.0F);
         this.middle_bit10 = new ModelRenderer(this, 4, 88);
-        this.middle_bit10.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.middle_bit10.setPos(0.0F, 0.0F, 0.0F);
         this.middle_bit10.addBox(5.0F, -8.0F, 6.0F, 1, 1, 1, 0.0F);
         this.hat.addChild(this.middle_bit7);
         this.cacti_arm1.addChild(this.cacti_arm11);
@@ -189,7 +189,7 @@ public class CactoniModel<T extends CactoniEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         this.cacti_m.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         this.cacti_t.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         this.cacti_arm2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
@@ -198,12 +198,12 @@ public class CactoniModel<T extends CactoniEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.cacti_t.rotateAngleY = netHeadYaw * 0.017453292F;
-        this.cacti_t.rotateAngleX = headPitch * 0.017453292F;
-        this.cacti_arm2.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.8F * limbSwingAmount * 0.5F;
-        this.cacti_arm1.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
-        this.cacti_arm2.rotateAngleY = 0.0F;
-        this.cacti_arm1.rotateAngleY = 0.0F;
+    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.cacti_t.yRot = netHeadYaw * 0.017453292F;
+        this.cacti_t.xRot = headPitch * 0.017453292F;
+        this.cacti_arm2.xRot = MathHelper.cos(limbSwing * 0.6662F) * 0.8F * limbSwingAmount * 0.5F;
+        this.cacti_arm1.xRot = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
+        this.cacti_arm2.yRot = 0.0F;
+        this.cacti_arm1.yRot = 0.0F;
     }
 }

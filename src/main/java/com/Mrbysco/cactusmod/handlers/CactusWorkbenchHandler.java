@@ -11,14 +11,14 @@ import net.minecraftforge.fml.ModList;
 public class CactusWorkbenchHandler {
     @SubscribeEvent
     public void CraftedEvent(ItemCraftedEvent event) {
-        World world = event.getPlayer().world;
-        if(!world.isRemote) {
+        World world = event.getPlayer().level;
+        if(!world.isClientSide) {
             ServerPlayerEntity playerMP = (ServerPlayerEntity)event.getPlayer();
             if(ModList.get().isLoaded("fastbench")) {
                 com.mrbysco.cactusmod.compat.fastbench.FastBenchHelper.onContainerMatch(playerMP);
             } else {
-                if(playerMP.openContainer instanceof CactusWorkbenchContainer) {
-                    playerMP.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+                if(playerMP.containerMenu instanceof CactusWorkbenchContainer) {
+                    playerMP.hurt(DamageSource.CACTUS, 1.0F);
                 }
             }
         }

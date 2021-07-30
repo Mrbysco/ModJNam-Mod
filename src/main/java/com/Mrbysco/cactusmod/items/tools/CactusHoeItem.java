@@ -14,9 +14,9 @@ public class CactusHoeItem extends HoeItem {
 	}
 
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
-		if(context.getWorld().rand.nextInt(10) < 3)
-			context.getPlayer().attackEntityFrom(DamageSource.CACTUS, 1F);
-		return super.onItemUse(context);
+	public ActionResultType useOn(ItemUseContext context) {
+		if(context.getLevel().random.nextInt(10) < 3)
+			context.getPlayer().hurt(DamageSource.CACTUS, 1F);
+		return super.useOn(context);
 	}
 }

@@ -22,47 +22,47 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class CactusSpiderEntity extends SpiderEntity implements ICactusMob{
-    private static final DataParameter<Integer> SPIDER_SIZE = EntityDataManager.createKey(CactusSpiderEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> SPIDER_SIZE = EntityDataManager.defineId(CactusSpiderEntity.class, DataSerializers.INT);
 
 	public CactusSpiderEntity(EntityType<? extends SpiderEntity> type, World worldIn) {
         super(type, worldIn);
 	}
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MonsterEntity.func_234295_eP_().createMutableAttribute(Attributes.MAX_HEALTH, 16.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, (double)0.3F);
+        return MonsterEntity.createMonsterAttributes().add(Attributes.MAX_HEALTH, 16.0D).add(Attributes.MOVEMENT_SPEED, (double)0.3F);
     }
 
 	@Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(SPIDER_SIZE, 1);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(SPIDER_SIZE, 1);
     }
 	
 	@Override
-    public void notifyDataManagerChange(DataParameter<?> key) {
+    public void onSyncedDataUpdated(DataParameter<?> key) {
         if (SPIDER_SIZE.equals(key)) {
-            this.recalculateSize();
-            this.rotationYaw = this.rotationYawHead;
-            this.renderYawOffset = this.rotationYawHead;
-            if (this.isInWater() && this.rand.nextInt(20) == 0) {
+            this.refreshDimensions();
+            this.yRot = this.yHeadRot;
+            this.yBodyRot = this.yHeadRot;
+            if (this.isInWater() && this.random.nextInt(20) == 0) {
                 this.doWaterSplashEffect();
             }
         }
 
-        super.notifyDataManagerChange(key);
+        super.onSyncedDataUpdated(key);
     }
 
-    public void recalculateSize() {
-        double d0 = this.getPosX();
-        double d1 = this.getPosY();
-        double d2 = this.getPosZ();
-        super.recalculateSize();
-        this.setPosition(d0, d1, d2);
+    public void refreshDimensions() {
+        double d0 = this.getX();
+        double d1 = this.getY();
+        double d2 = this.getZ();
+        super.refreshDimensions();
+        this.setPos(d0, d1, d2);
     }
 
     public void setSpiderSize(int size, boolean resetHealth) {
-        this.recenterBoundingBox();
-        this.recalculateSize();
+        this.reapplyPosition();
+        this.refreshDimensions();
         if(isSmallSpider()) {
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(16.0D);
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
@@ -75,22 +75,22 @@ public class CactusSpiderEntity extends SpiderEntity implements ICactusMob{
             this.setHealth(this.getMaxHealth());
         }
 
-        this.experienceValue = size;
+        this.xpReward = size;
     }
 
     public int getSpiderSize() {
-        return this.dataManager.get(SPIDER_SIZE);
+        return this.entityData.get(SPIDER_SIZE);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putInt("Size", this.getSpiderSize() - 1);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         int i = compound.getInt("Size");
 
         if (i < 0) {
@@ -105,7 +105,7 @@ public class CactusSpiderEntity extends SpiderEntity implements ICactusMob{
 	}
 	
 	protected CactusSpiderEntity createInstance() {
-        return new CactusSpiderEntity(null, this.world);
+        return new CactusSpiderEntity(null, this.level);
     }
 
     public EntityType<? extends CactusSpiderEntity> getType() {
@@ -115,42 +115,42 @@ public class CactusSpiderEntity extends SpiderEntity implements ICactusMob{
     @Override
     public void remove(boolean keepData) {
         int i = this.getSpiderSize();
-        if (!this.world.isRemote && i > 1 && this.getShouldBeDead() && !this.removed) {
+        if (!this.level.isClientSide && i > 1 && this.isDeadOrDying() && !this.removed) {
             ITextComponent itextcomponent = this.getCustomName();
-            boolean flag = this.isAIDisabled();
+            boolean flag = this.isNoAi();
             float f = (float)i / 4.0F;
             int j = i / 2;
-            int k = 2 + this.rand.nextInt(3);
+            int k = 2 + this.random.nextInt(3);
 
             for(int l = 0; l < k; ++l) {
                 float f1 = ((float)(l % 2) - 0.5F) * f;
                 float f2 = ((float)(l / 2) - 0.5F) * f;
-                CactusSpiderEntity cactusSpider = this.getType().create(this.world);
-                if (this.isNoDespawnRequired()) {
-                    cactusSpider.enablePersistence();
+                CactusSpiderEntity cactusSpider = this.getType().create(this.level);
+                if (this.isPersistenceRequired()) {
+                    cactusSpider.setPersistenceRequired();
                 }
 
                 cactusSpider.setCustomName(itextcomponent);
-                cactusSpider.setNoAI(flag);
+                cactusSpider.setNoAi(flag);
                 cactusSpider.setInvulnerable(this.isInvulnerable());
                 cactusSpider.setSpiderSize(j, true);
-                cactusSpider.setLocationAndAngles(this.getPosX() + (double)f1, this.getPosY() + 0.5D, this.getPosZ() + (double)f2, this.rand.nextFloat() * 360.0F, 0.0F);
-                this.world.addEntity(cactusSpider);
+                cactusSpider.moveTo(this.getX() + (double)f1, this.getY() + 0.5D, this.getZ() + (double)f2, this.random.nextFloat() * 360.0F, 0.0F);
+                this.level.addFreshEntity(cactusSpider);
             }
         }
 
         super.remove(keepData);
     }
 
-    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         this.setSpiderSize(4, true);
-        return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+        return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
 	@Override
-	protected void collideWithEntity(Entity entityIn) {
-		super.collideWithEntity(entityIn);
+	protected void doPush(Entity entityIn) {
+		super.doPush(entityIn);
 		if(!(entityIn instanceof ICactusMob))
-			entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+			entityIn.hurt(DamageSource.CACTUS, 1.0F);
 	}
 }

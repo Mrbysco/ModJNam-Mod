@@ -13,7 +13,7 @@ public class SpikeRenderer extends AbstractSpikeRenderer<SpikeEntity> {
 	}
 	
 	@Override
-	public ResourceLocation getEntityTexture(SpikeEntity entity) {
+	public ResourceLocation getTextureLocation(SpikeEntity entity) {
 		return SPIKE;
 	}
 }

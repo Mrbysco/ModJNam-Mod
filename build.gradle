@@ -1,11 +1,11 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
+        // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
+        maven { url = 'https://maven.minecraftforge.net' }
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -15,7 +15,8 @@ version = "${version}"
 group = 'com.mrbysco.cactusmod' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "The-Cactus-Mod-${mc_version}"
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+// Mojang ships Java 16 to end users in 1.17+ instead of Java 8 in 1.16 or lower, so your mod should target Java 16.
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
@@ -84,20 +85,29 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven {
-        url = "https://www.cursemaven.com"
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
     }
     maven {
-        name 'DVS1 Maven FS'
-        url 'http://dvs1.progwml6.com/files/maven'
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.k-4u.nl"
+    }
+    maven {
+        url = "https://www.cursemaven.com"
     }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
-	
-    compile fg.deobf("mezz.jei:jei-1.16.4:${version_jei}")
-	deobf fg.deobf("curse.maven:fastworkbench-288885:3069047")
-	deobf fg.deobf("curse.maven:placebo-283644:3092113")
+
+    compileOnly fg.deobf("mezz.jei:jei-1.16.5:${version_jei}")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.16.5:${version_jei}")
+    compileOnly fg.deobf("curse.maven:fastworkbench-288885:3069047")
+    runtimeOnly fg.deobf("curse.maven:fastworkbench-288885:3069047")
+    compileOnly fg.deobf("curse.maven:placebo-283644:3092113")
+    runtimeOnly fg.deobf("curse.maven:placebo-283644:3092113")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

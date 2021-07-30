@@ -18,6 +18,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 
+import net.minecraft.entity.item.minecart.AbstractMinecartEntity.Type;
+
 public class CactiCartEntity extends AbstractMinecartEntity implements ICactusMob{
     private int timeInCart;
 
@@ -34,12 +36,12 @@ public class CactiCartEntity extends AbstractMinecartEntity implements ICactusMo
     }
 
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234226_m_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 4.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, (double)0.2F);
+    public static AttributeModifierMap.MutableAttribute createAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 4.0D).add(Attributes.MOVEMENT_SPEED, (double)0.2F);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class CactiCartEntity extends AbstractMinecartEntity implements ICactusMo
     }
 
     @Override
-	public boolean hasDisplayTile() {
+	public boolean hasCustomDisplay() {
 		return false;
 	}
 
@@ -68,14 +70,14 @@ public class CactiCartEntity extends AbstractMinecartEntity implements ICactusMo
     }
 
     @Override
-    public ActionResultType processInitialInteract(PlayerEntity player, Hand hand) {
-        ActionResultType ret = super.processInitialInteract(player, hand);
-        if (ret.isSuccessOrConsume()) return ret;
+    public ActionResultType interact(PlayerEntity player, Hand hand) {
+        ActionResultType ret = super.interact(player, hand);
+        if (ret.consumesAction()) return ret;
         if (player.isSecondaryUseActive()) {
             return ActionResultType.PASS;
-        } else if (this.isBeingRidden()) {
+        } else if (this.isVehicle()) {
             return ActionResultType.PASS;
-        } else if (!this.world.isRemote) {
+        } else if (!this.level.isClientSide) {
             return player.startRiding(this) ? ActionResultType.CONSUME : ActionResultType.PASS;
         } else {
             return ActionResultType.SUCCESS;
@@ -83,17 +85,17 @@ public class CactiCartEntity extends AbstractMinecartEntity implements ICactusMo
     }
 
     @Override
-    public void onActivatorRailPass(int x, int y, int z, boolean receivingPower) {
+    public void activateMinecart(int x, int y, int z, boolean receivingPower) {
         if (receivingPower) {
-            if (this.isBeingRidden()) {
-                this.removePassengers();
+            if (this.isVehicle()) {
+                this.ejectPassengers();
             }
 
-            if (this.getRollingAmplitude() == 0) {
-                this.setRollingDirection(-this.getRollingDirection());
-                this.setRollingAmplitude(10);
+            if (this.getHurtTime() == 0) {
+                this.setHurtDir(-this.getHurtDir());
+                this.setHurtTime(10);
                 this.setDamage(50.0F);
-                this.markVelocityChanged();
+                this.markHurt();
             }
         }
 
@@ -102,13 +104,13 @@ public class CactiCartEntity extends AbstractMinecartEntity implements ICactusMo
     @Override
     public void tick() {
         super.tick();
-        if(!this.world.isRemote) {
-            if(this.isBeingRidden()) {
+        if(!this.level.isClientSide) {
+            if(this.isVehicle()) {
                 Entity entity = this.getPassengers().get(0);
                 if(entity instanceof LivingEntity && !(entity instanceof ICactusMob)) {
                     ++this.timeInCart;
                     if(this.timeInCart >= 40) {
-                        entity.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+                        entity.hurt(DamageSource.CACTUS, 1.0F);
                         this.timeInCart = 0;
                     }
                 }

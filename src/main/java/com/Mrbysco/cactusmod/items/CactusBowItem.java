@@ -33,7 +33,7 @@ public class CactusBowItem extends Item implements IVanishable {
     }
 
     @Override
-    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+    public void releaseUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
         if (entityLiving instanceof PlayerEntity) {
             PlayerEntity playerentity = (PlayerEntity)entityLiving;
             int i = this.getUseDuration(stack) - timeLeft;
@@ -41,21 +41,21 @@ public class CactusBowItem extends Item implements IVanishable {
 
             float f = getSpikeVelocity(i);
             if (!((double)f < 0.1D)) {
-                if (!worldIn.isRemote) {
+                if (!worldIn.isClientSide) {
                     SpikeEntity spike = new SpikeEntity(worldIn, entityLiving);
-                    spike.setDirectionAndMovement(playerentity, playerentity.rotationPitch, playerentity.rotationYaw, 0.0F, f * 3.0F, 1.0F);
+                    spike.shootFromRotation(playerentity, playerentity.xRot, playerentity.yRot, 0.0F, f * 3.0F, 1.0F);
                     spike.setDamage(0D);
                     spike.setKnockbackStrength(3);
 
-                    stack.damageItem(1, playerentity, (p_220009_1_) -> {
-                        p_220009_1_.sendBreakAnimation(playerentity.getActiveHand());
+                    stack.hurtAndBreak(1, playerentity, (p_220009_1_) -> {
+                        p_220009_1_.broadcastBreakEvent(playerentity.getUsedItemHand());
                     });
 
-                    worldIn.addEntity(spike);
+                    worldIn.addFreshEntity(spike);
                 }
 
-                worldIn.playSound((PlayerEntity)null, playerentity.getPosX(), playerentity.getPosY(), playerentity.getPosZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-                playerentity.addStat(Stats.ITEM_USED.get(this));
+                worldIn.playSound((PlayerEntity)null, playerentity.getX(), playerentity.getY(), playerentity.getZ(), SoundEvents.ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+                playerentity.awardStat(Stats.ITEM_USED.get(this));
             }
         }
     }
@@ -75,20 +75,20 @@ public class CactusBowItem extends Item implements IVanishable {
     }
 
     @Override
-    public UseAction getUseAction(ItemStack stack) {
+    public UseAction getUseAnimation(ItemStack stack) {
         return UseAction.BOW;
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
-        playerIn.setActiveHand(handIn);
+    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack itemstack = playerIn.getItemInHand(handIn);
+        playerIn.startUsingItem(handIn);
         return new ActionResult<ItemStack>(ActionResultType.SUCCESS, itemstack);
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslationTextComponent("cactus.bow.text").mergeStyle(TextFormatting.GREEN));
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        tooltip.add(new TranslationTextComponent("cactus.bow.text").withStyle(TextFormatting.GREEN));
     }
 }

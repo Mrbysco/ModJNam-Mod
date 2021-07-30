@@ -25,23 +25,23 @@ public class CactusArmorItem extends ArmorItem {
 	}
 	
 	@Override
-	public void onCreated(ItemStack stack, World worldIn, PlayerEntity playerIn) {
-		stack.addEnchantment(Enchantments.THORNS, 2);
-		super.onCreated(stack, worldIn, playerIn);
+	public void onCraftedBy(ItemStack stack, World worldIn, PlayerEntity playerIn) {
+		stack.enchant(Enchantments.THORNS, 2);
+		super.onCraftedBy(stack, worldIn, playerIn);
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		ItemStack stack = playerIn.getHeldItem(handIn);
+	public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+		ItemStack stack = playerIn.getItemInHand(handIn);
 		if(!stack.isEnchanted()) {
-			stack.addEnchantment(Enchantments.THORNS, 2);
+			stack.enchant(Enchantments.THORNS, 2);
 		}
-		return super.onItemRightClick(worldIn, playerIn, handIn);
+		return super.use(worldIn, playerIn, handIn);
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		super.addInformation(stack, worldIn, tooltip, flagIn);
-		tooltip.add(new TranslationTextComponent("cactus.armor.text").mergeStyle(TextFormatting.GREEN));
+	public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+		tooltip.add(new TranslationTextComponent("cactus.armor.text").withStyle(TextFormatting.GREEN));
 	}
 }

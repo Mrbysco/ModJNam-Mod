@@ -43,20 +43,20 @@ public class CactoniEntity extends GolemEntity implements ICactusMob {
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, (double)0.20000000298023224D);
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, (double)0.20000000298023224D);
     }
 
     @Override
-    public void onCollideWithPlayer(PlayerEntity entityIn) {
-        super.onCollideWithPlayer(entityIn);
-        if(getRNG().nextBoolean()) {
-            entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+    public void playerTouch(PlayerEntity entityIn) {
+        super.playerTouch(entityIn);
+        if(getRandom().nextBoolean()) {
+            entityIn.hurt(DamageSource.CACTUS, 1.0F);
         }
     }
 
     @Override
 	@Nullable
-	protected ResourceLocation getLootTable() {
+	protected ResourceLocation getDefaultLootTable() {
 		return new ResourceLocation(Reference.PREFIX + "entities/cactoni");
 	}
 
@@ -72,26 +72,26 @@ public class CactoniEntity extends GolemEntity implements ICactusMob {
 
     @Override
     public void playAmbientSound() {
-        if(this.rand.nextInt(100) < 10)
+        if(this.random.nextInt(100) < 10)
             super.playAmbientSound();
     }
     
     @Nullable
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
     {
-        return SoundEvents.ENTITY_SNOW_GOLEM_HURT;
+        return SoundEvents.SNOW_GOLEM_HURT;
     }
 
     @Nullable
     protected SoundEvent getDeathSound()
     {
-        return SoundEvents.ENTITY_SNOW_GOLEM_DEATH;
+        return SoundEvents.SNOW_GOLEM_DEATH;
     }
 
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         this.playSound(CactusRegistry.HAT_MUSIC.get(), 1F, 1F);
-        return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+        return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 }

@@ -16,17 +16,17 @@ public class CactusGolem extends IronGolemEntity implements ICactusMob{
 	}
 
 	public static AttributeModifierMap.MutableAttribute createAttributes() {
-		return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 100.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D).createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1.0D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 15.0D);
+		return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 100.0D).add(Attributes.MOVEMENT_SPEED, 0.25D).add(Attributes.KNOCKBACK_RESISTANCE, 1.0D).add(Attributes.ATTACK_DAMAGE, 15.0D);
 	}
 
 	@Override
-	protected void collideWithEntity(Entity entityIn) {
-		super.collideWithEntity(entityIn);
+	protected void doPush(Entity entityIn) {
+		super.doPush(entityIn);
 		if(!(entityIn instanceof ICactusMob))
-			entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+			entityIn.hurt(DamageSource.CACTUS, 1.0F);
 	}
 
     @Override
-    public void setHoldingRose(boolean holdingRose) {
+    public void offerFlower(boolean holdingRose) {
     }
 }

@@ -23,15 +23,15 @@ public class CactusPigEntity extends PigEntity implements ICactusMob {
 		super(entityType, worldIn);
 	}
 
-	public CactusPigEntity func_241840_a(ServerWorld worldIn, AgeableEntity p_241840_2_) {
+	public CactusPigEntity getBreedOffspring(ServerWorld worldIn, AgeableEntity p_241840_2_) {
 		return CactusRegistry.CACTUS_PIG.get().create(worldIn);
 	}
 
 	public static AttributeModifierMap.MutableAttribute createAttributes() {
-		return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 10.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D);
+		return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.MOVEMENT_SPEED, 0.25D);
 	}
 
 	public static boolean canAnimalSpawn(EntityType<? extends AnimalEntity> animal, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random) {
-		return worldIn.getBlockState(pos.down()).isIn(Blocks.SAND) && worldIn.getLightSubtracted(pos, 0) > 8;
+		return worldIn.getBlockState(pos.below()).is(Blocks.SAND) && worldIn.getRawBrightness(pos, 0) > 8;
 	}
 }

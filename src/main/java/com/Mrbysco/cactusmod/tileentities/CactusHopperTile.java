@@ -22,26 +22,26 @@ public class CactusHopperTile extends HopperTileEntity {
 
 	@Override
 	public void tick() {
-   		if (this.world != null && !this.world.isRemote) {
-			--this.transferCooldown;
+   		if (this.level != null && !this.level.isClientSide) {
+			--this.cooldownTime;
 			++this.ticksSinceDeleted;
-			this.tickedGameTime = this.world.getGameTime();
-			if (!this.isOnTransferCooldown()) {
-				this.setTransferCooldown(0);
-				this.updateHopper(() -> {
-					return pullItems(this);
+			this.tickedGameTime = this.level.getGameTime();
+			if (!this.isOnCooldown()) {
+				this.setCooldown(0);
+				this.tryMoveItems(() -> {
+					return suckInItems(this);
 				});
 			}
 			if(!this.isEmpty() && this.ticksSinceDeleted > 60) {
-				int randInt = this.world.rand.nextInt(this.getSizeInventory());
+				int randInt = this.level.random.nextInt(this.getContainerSize());
 
-				if(this.inventory.get(randInt) != ItemStack.EMPTY) {
+				if(this.items.get(randInt) != ItemStack.EMPTY) {
 					ItemStack stack = getItems().get(randInt);
-					stack.shrink(this.world.rand.nextInt(4) + 1);
-					this.setInventorySlotContents(randInt, stack);
+					stack.shrink(this.level.random.nextInt(4) + 1);
+					this.setItem(randInt, stack);
 					this.ticksSinceDeleted = 0;
-					this.updateHopper(() -> {
-						return pullItems(this);
+					this.tryMoveItems(() -> {
+						return suckInItems(this);
 					});
 				}
 			}

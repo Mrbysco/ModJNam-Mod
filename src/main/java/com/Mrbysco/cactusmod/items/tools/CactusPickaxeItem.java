@@ -16,10 +16,10 @@ public class CactusPickaxeItem extends PickaxeItem {
 	}
     
 	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos,
+	public boolean mineBlock(ItemStack stack, World worldIn, BlockState state, BlockPos pos,
 									LivingEntity entityLiving) {
-		if(worldIn.rand.nextInt(10) < 3)
-			entityLiving.attackEntityFrom(DamageSource.CACTUS, 1F);
-		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
+		if(worldIn.random.nextInt(10) < 3)
+			entityLiving.hurt(DamageSource.CACTUS, 1F);
+		return super.mineBlock(stack, worldIn, state, pos, entityLiving);
 	}
 }

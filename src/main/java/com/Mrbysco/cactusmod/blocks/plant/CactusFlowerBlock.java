@@ -23,46 +23,46 @@ import java.util.Random;
 import java.util.function.Supplier;
 
 public class CactusFlowerBlock extends Block{
-    public static final IntegerProperty AGE = BlockStateProperties.AGE_0_5;
+    public static final IntegerProperty AGE = BlockStateProperties.AGE_5;
     private final Supplier<CactusPlantBlock> plantBlock;
 
 	public CactusFlowerBlock(Supplier<CactusPlantBlock> plantBlock, AbstractBlock.Properties builder) {
         super(builder);
         this.plantBlock = plantBlock;
-        this.setDefaultState(this.stateContainer.getBaseState().with(AGE, Integer.valueOf(0)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(AGE, Integer.valueOf(0)));
 	}
 
     @Override
     public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
-        if (!state.isValidPosition(worldIn, pos)) {
+        if (!state.canSurvive(worldIn, pos)) {
             worldIn.destroyBlock(pos, true);
         }
     }
 
     @Override
-    public boolean ticksRandomly(BlockState state) {
-        return state.get(AGE) < 5;
+    public boolean isRandomlyTicking(BlockState state) {
+        return state.getValue(AGE) < 5;
     }
 
     @Override
     public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
-        BlockPos blockpos = pos.up();
-        if (worldIn.isAirBlock(blockpos) && blockpos.getY() < 256) {
-            int i = state.get(AGE);
+        BlockPos blockpos = pos.above();
+        if (worldIn.isEmptyBlock(blockpos) && blockpos.getY() < 256) {
+            int i = state.getValue(AGE);
             if (i < 5 && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, blockpos, state, true)) {
                 boolean flag = false;
                 boolean flag1 = false;
-                BlockState blockstate = worldIn.getBlockState(pos.down());
+                BlockState blockstate = worldIn.getBlockState(pos.below());
                 Block block = blockstate.getBlock();
-                if (block.isIn(Tags.Blocks.SAND)) {
+                if (block.is(Tags.Blocks.SAND)) {
                     flag = true;
                 } else if (block == this.plantBlock) {
                     int j = 1;
 
                     for(int k = 0; k < 4; ++k) {
-                        Block block1 = worldIn.getBlockState(pos.down(j + 1)).getBlock();
+                        Block block1 = worldIn.getBlockState(pos.below(j + 1)).getBlock();
                         if (block1 != this.plantBlock) {
-                            if (block1.isIn(Tags.Blocks.SAND)) {
+                            if (block1.is(Tags.Blocks.SAND)) {
                                 flag1 = true;
                             }
                             break;
@@ -74,12 +74,12 @@ public class CactusFlowerBlock extends Block{
                     if (j < 2 || j <= random.nextInt(flag1 ? 5 : 4)) {
                         flag = true;
                     }
-                } else if (blockstate.isAir(worldIn, pos.down())) {
+                } else if (blockstate.isAir(worldIn, pos.below())) {
                     flag = true;
                 }
 
-                if (flag && areAllNeighborsEmpty(worldIn, blockpos, (Direction)null) && worldIn.isAirBlock(pos.up(2))) {
-                    worldIn.setBlockState(pos, this.plantBlock.get().makeConnections(worldIn, pos), 2);
+                if (flag && areAllNeighborsEmpty(worldIn, blockpos, (Direction)null) && worldIn.isEmptyBlock(pos.above(2))) {
+                    worldIn.setBlock(pos, this.plantBlock.get().makeConnections(worldIn, pos), 2);
                     this.placeGrownFlower(worldIn, blockpos, i);
                 } else if (i < 4) {
                     int l = random.nextInt(4);
@@ -90,16 +90,16 @@ public class CactusFlowerBlock extends Block{
                     boolean flag2 = false;
 
                     for(int i1 = 0; i1 < l; ++i1) {
-                        Direction direction = Direction.Plane.HORIZONTAL.random(random);
-                        BlockPos blockpos1 = pos.offset(direction);
-                        if (worldIn.isAirBlock(blockpos1) && worldIn.isAirBlock(blockpos1.down()) && areAllNeighborsEmpty(worldIn, blockpos1, direction.getOpposite())) {
+                        Direction direction = Direction.Plane.HORIZONTAL.getRandomDirection(random);
+                        BlockPos blockpos1 = pos.relative(direction);
+                        if (worldIn.isEmptyBlock(blockpos1) && worldIn.isEmptyBlock(blockpos1.below()) && areAllNeighborsEmpty(worldIn, blockpos1, direction.getOpposite())) {
                             this.placeGrownFlower(worldIn, blockpos1, i + 1);
                             flag2 = true;
                         }
                     }
 
                     if (flag2) {
-                        worldIn.setBlockState(pos, this.plantBlock.get().makeConnections(worldIn, pos), 2);
+                        worldIn.setBlock(pos, this.plantBlock.get().makeConnections(worldIn, pos), 2);
                     } else {
                         this.placeDeadFlower(worldIn, pos);
                     }
@@ -112,49 +112,49 @@ public class CactusFlowerBlock extends Block{
     }
 
     private void placeGrownFlower(World worldIn, BlockPos pos, int age) {
-        worldIn.setBlockState(pos, this.getDefaultState().with(AGE, Integer.valueOf(age)), 2);
-        worldIn.playEvent(1033, pos, 0);
+        worldIn.setBlock(pos, this.defaultBlockState().setValue(AGE, Integer.valueOf(age)), 2);
+        worldIn.levelEvent(1033, pos, 0);
     }
 
     private void placeDeadFlower(World worldIn, BlockPos pos) {
-        worldIn.setBlockState(pos, this.getDefaultState().with(AGE, Integer.valueOf(5)), 2);
-        worldIn.playEvent(1034, pos, 0);
+        worldIn.setBlock(pos, this.defaultBlockState().setValue(AGE, Integer.valueOf(5)), 2);
+        worldIn.levelEvent(1034, pos, 0);
     }
 
     private static boolean areAllNeighborsEmpty(IWorldReader worldIn, BlockPos pos, @Nullable Direction excludingSide) {
         for(Direction direction : Direction.Plane.HORIZONTAL) {
-            if (direction != excludingSide && !worldIn.isAirBlock(pos.offset(direction))) {
+            if (direction != excludingSide && !worldIn.isEmptyBlock(pos.relative(direction))) {
                 return false;
             }
         }
         return true;
     }
 
-    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        if (facing != Direction.UP && !stateIn.isValidPosition(worldIn, currentPos)) {
-            worldIn.getPendingBlockTicks().scheduleTick(currentPos, this, 1);
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (facing != Direction.UP && !stateIn.canSurvive(worldIn, currentPos)) {
+            worldIn.getBlockTicks().scheduleTick(currentPos, this, 1);
         }
 
-        return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+        return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-        BlockState blockstate = worldIn.getBlockState(pos.down());
-        if (blockstate.getBlock() != this.plantBlock && !blockstate.isIn(Tags.Blocks.SAND)) {
-            if (!blockstate.isAir(worldIn, pos.down())) {
+    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+        BlockState blockstate = worldIn.getBlockState(pos.below());
+        if (blockstate.getBlock() != this.plantBlock && !blockstate.is(Tags.Blocks.SAND)) {
+            if (!blockstate.isAir(worldIn, pos.below())) {
                 return false;
             } else {
                 boolean flag = false;
 
                 for(Direction direction : Direction.Plane.HORIZONTAL) {
-                    BlockState blockstate1 = worldIn.getBlockState(pos.offset(direction));
-                    if (blockstate1.matchesBlock(this.plantBlock.get())) {
+                    BlockState blockstate1 = worldIn.getBlockState(pos.relative(direction));
+                    if (blockstate1.is(this.plantBlock.get())) {
                         if (flag) {
                             return false;
                         }
 
                         flag = true;
-                    } else if (!blockstate1.isAir(worldIn, pos.offset(direction))) {
+                    } else if (!blockstate1.isAir(worldIn, pos.relative(direction))) {
                         return false;
                     }
                 }
@@ -166,12 +166,12 @@ public class CactusFlowerBlock extends Block{
         }
     }
 
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(AGE);
     }
 
     public static void generatePlant(IWorld worldIn, BlockPos pos, Random rand, int maxHorizontalDistance) {
-        worldIn.setBlockState(pos, ((CactusPlantBlock)CactusRegistry.CACTUS_PLANT.get()).makeConnections(worldIn, pos), 2);
+        worldIn.setBlock(pos, ((CactusPlantBlock)CactusRegistry.CACTUS_PLANT.get()).makeConnections(worldIn, pos), 2);
         growTreeRecursive(worldIn, pos, rand, pos, maxHorizontalDistance, 0);
     }
 
@@ -183,13 +183,13 @@ public class CactusFlowerBlock extends Block{
         }
 
         for(int j = 0; j < i; ++j) {
-            BlockPos blockpos = branchPos.up(j + 1);
+            BlockPos blockpos = branchPos.above(j + 1);
             if (!areAllNeighborsEmpty(worldIn, blockpos, (Direction)null)) {
                 return;
             }
 
-            worldIn.setBlockState(blockpos, CactusPlantBlock.makeConnections(worldIn, blockpos), 2);
-            worldIn.setBlockState(blockpos.down(), CactusPlantBlock.makeConnections(worldIn, blockpos.down()), 2);
+            worldIn.setBlock(blockpos, CactusPlantBlock.makeConnections(worldIn, blockpos), 2);
+            worldIn.setBlock(blockpos.below(), CactusPlantBlock.makeConnections(worldIn, blockpos.below()), 2);
         }
 
         boolean flag = false;
@@ -200,25 +200,25 @@ public class CactusFlowerBlock extends Block{
             }
 
             for(int k = 0; k < l; ++k) {
-                Direction direction = Direction.Plane.HORIZONTAL.random(rand);
-                BlockPos blockpos1 = branchPos.up(i).offset(direction);
-                if (Math.abs(blockpos1.getX() - originalBranchPos.getX()) < maxHorizontalDistance && Math.abs(blockpos1.getZ() - originalBranchPos.getZ()) < maxHorizontalDistance && worldIn.isAirBlock(blockpos1) && worldIn.isAirBlock(blockpos1.down()) && areAllNeighborsEmpty(worldIn, blockpos1, direction.getOpposite())) {
+                Direction direction = Direction.Plane.HORIZONTAL.getRandomDirection(rand);
+                BlockPos blockpos1 = branchPos.above(i).relative(direction);
+                if (Math.abs(blockpos1.getX() - originalBranchPos.getX()) < maxHorizontalDistance && Math.abs(blockpos1.getZ() - originalBranchPos.getZ()) < maxHorizontalDistance && worldIn.isEmptyBlock(blockpos1) && worldIn.isEmptyBlock(blockpos1.below()) && areAllNeighborsEmpty(worldIn, blockpos1, direction.getOpposite())) {
                     flag = true;
-                    worldIn.setBlockState(blockpos1, CactusPlantBlock.makeConnections(worldIn, blockpos1), 2);
-                    worldIn.setBlockState(blockpos1.offset(direction.getOpposite()), CactusPlantBlock.makeConnections(worldIn, blockpos1.offset(direction.getOpposite())), 2);
+                    worldIn.setBlock(blockpos1, CactusPlantBlock.makeConnections(worldIn, blockpos1), 2);
+                    worldIn.setBlock(blockpos1.relative(direction.getOpposite()), CactusPlantBlock.makeConnections(worldIn, blockpos1.relative(direction.getOpposite())), 2);
                     growTreeRecursive(worldIn, blockpos1, rand, originalBranchPos, maxHorizontalDistance, iterations + 1);
                 }
             }
         }
 
         if (!flag) {
-            worldIn.setBlockState(branchPos.up(i), CactusRegistry.CACTUS_FLOWER.get().getDefaultState().with(AGE, Integer.valueOf(5)), 2);
+            worldIn.setBlock(branchPos.above(i), CactusRegistry.CACTUS_FLOWER.get().defaultBlockState().setValue(AGE, Integer.valueOf(5)), 2);
         }
     }
 
-    public void onProjectileCollision(World worldIn, BlockState state, BlockRayTraceResult hit, ProjectileEntity projectile) {
-        if (projectile.getType().isContained(EntityTypeTags.IMPACT_PROJECTILES)) {
-            BlockPos blockpos = hit.getPos();
+    public void onProjectileHit(World worldIn, BlockState state, BlockRayTraceResult hit, ProjectileEntity projectile) {
+        if (projectile.getType().is(EntityTypeTags.IMPACT_PROJECTILES)) {
+            BlockPos blockpos = hit.getBlockPos();
             worldIn.destroyBlock(blockpos, true, projectile);
         }
     }

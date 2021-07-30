@@ -21,38 +21,38 @@ public class CactusMobHandler {
 		
 		if(event.getEntityLiving() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
-			World world = player.getEntityWorld();
+			World world = player.getCommandSenderWorld();
 			
 			if(event.getSource() == DamageSource.CACTUS) {
-				boolean slot1 = player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == CactusRegistry.CACTUS_HELMET.get();
-				boolean slot2 = player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == CactusRegistry.CACTUS_CHESTPLATE.get();
-				boolean slot3 = player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem() == CactusRegistry.CACTUS_LEGGINGS.get();
-				boolean slot4 = player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem() == CactusRegistry.CACTUS_BOOTS.get();
+				boolean slot1 = player.getItemBySlot(EquipmentSlotType.HEAD).getItem() == CactusRegistry.CACTUS_HELMET.get();
+				boolean slot2 = player.getItemBySlot(EquipmentSlotType.CHEST).getItem() == CactusRegistry.CACTUS_CHESTPLATE.get();
+				boolean slot3 = player.getItemBySlot(EquipmentSlotType.LEGS).getItem() == CactusRegistry.CACTUS_LEGGINGS.get();
+				boolean slot4 = player.getItemBySlot(EquipmentSlotType.FEET).getItem() == CactusRegistry.CACTUS_BOOTS.get();
 				
 				if(slot1 && slot2 && slot3 && slot4) {
 					ArrayList<ItemStack> armorList = new ArrayList<>();
-					armorList.add(player.getItemStackFromSlot(EquipmentSlotType.HEAD));
-					armorList.add(player.getItemStackFromSlot(EquipmentSlotType.CHEST));
-					armorList.add(player.getItemStackFromSlot(EquipmentSlotType.LEGS));
-					armorList.add(player.getItemStackFromSlot(EquipmentSlotType.FEET));
+					armorList.add(player.getItemBySlot(EquipmentSlotType.HEAD));
+					armorList.add(player.getItemBySlot(EquipmentSlotType.CHEST));
+					armorList.add(player.getItemBySlot(EquipmentSlotType.LEGS));
+					armorList.add(player.getItemBySlot(EquipmentSlotType.FEET));
 
-					int i = world.rand.nextInt(4);
+					int i = world.random.nextInt(4);
 					ItemStack stack = armorList.get(i);
-					stack.damageItem(world.rand.nextInt(2), player, (p_214023_1_) -> {
-						player.sendBreakAnimation(EquipmentSlotType.fromSlotTypeAndIndex(EquipmentSlotType.Group.ARMOR, i));
+					stack.hurtAndBreak(world.random.nextInt(2), player, (p_214023_1_) -> {
+						player.broadcastBreakEvent(EquipmentSlotType.byTypeAndIndex(EquipmentSlotType.Group.ARMOR, i));
 					});
 					event.setCanceled(true);
 				}
 			}
 		}
 		
-		if(event.getSource().getTrueSource() instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
-			World world = player.getEntityWorld();
+		if(event.getSource().getEntity() instanceof PlayerEntity) {
+			PlayerEntity player = (PlayerEntity) event.getSource().getEntity();
+			World world = player.getCommandSenderWorld();
 			
 			if(event.getEntityLiving() instanceof ICactusMob) {
-				if(world.rand.nextInt(10) < 4)
-					player.attackEntityFrom(DamageSource.CACTUS, 1F);
+				if(world.random.nextInt(10) < 4)
+					player.hurt(DamageSource.CACTUS, 1F);
 			}
 		}
 	}

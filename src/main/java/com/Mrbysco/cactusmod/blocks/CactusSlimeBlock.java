@@ -35,31 +35,31 @@ public class CactusSlimeBlock extends BreakableBlock {
      * Block's chance to react to a living entity falling on it.
      */
 	@Override
-    public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
-        if (entityIn.isSneaking()) {
-            super.onFallenUpon(worldIn, pos, entityIn, fallDistance * 0.5F);
+    public void fallOn(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
+        if (entityIn.isShiftKeyDown()) {
+            super.fallOn(worldIn, pos, entityIn, fallDistance * 0.5F);
         } else {
-            entityIn.onLivingFall(fallDistance, 0.0F);
+            entityIn.causeFallDamage(fallDistance, 0.0F);
         }
     }
 
     @Override
-    public void onLanded(IBlockReader worldIn, Entity entityIn) {
+    public void updateEntityAfterFallOn(IBlockReader worldIn, Entity entityIn) {
         if (entityIn.isSuppressingBounce()) {
-            super.onLanded(worldIn, entityIn);
+            super.updateEntityAfterFallOn(worldIn, entityIn);
         } else {
             this.bounceEntity(entityIn);
         }
     }
 
     private void bounceEntity(Entity entity) {
-        if(entity.world.rand.nextInt(40) < 1)
-            entity.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+        if(entity.level.random.nextInt(40) < 1)
+            entity.hurt(DamageSource.CACTUS, 1.0F);
 
-        Vector3d vector3d = entity.getMotion();
+        Vector3d vector3d = entity.getDeltaMovement();
         if (vector3d.y < 0.0D) {
             double d0 = entity instanceof LivingEntity ? 1.0D : 0.8D;
-            entity.setMotion(vector3d.x, -vector3d.y * d0, vector3d.z);
+            entity.setDeltaMovement(vector3d.x, -vector3d.y * d0, vector3d.z);
         }
     }
 
@@ -67,19 +67,19 @@ public class CactusSlimeBlock extends BreakableBlock {
      * Called when the given entity walks on this Block
      */
 	@Override
-    public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
-        double d0 = Math.abs(entityIn.getMotion().y);
+    public void stepOn(World worldIn, BlockPos pos, Entity entityIn) {
+        double d0 = Math.abs(entityIn.getDeltaMovement().y);
         if (d0 < 0.1D && !entityIn.isSteppingCarefully()) {
             double d1 = 0.4D + d0 * 0.2D;
-            entityIn.setMotion(entityIn.getMotion().mul(d1, 1.0D, d1));
+            entityIn.setDeltaMovement(entityIn.getDeltaMovement().multiply(d1, 1.0D, d1));
         }
 
-        super.onEntityWalk(worldIn, pos, entityIn);
+        super.stepOn(worldIn, pos, entityIn);
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslationTextComponent("cactus.slimeblock.info").mergeStyle(TextFormatting.GREEN));
+    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        tooltip.add(new TranslationTextComponent("cactus.slimeblock.info").withStyle(TextFormatting.GREEN));
     }
 }

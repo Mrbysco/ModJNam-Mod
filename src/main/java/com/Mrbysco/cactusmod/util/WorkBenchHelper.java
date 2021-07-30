@@ -17,7 +17,7 @@ public class WorkBenchHelper {
 	public INamedContainerProvider getContainer(BlockState state, World worldIn, BlockPos pos) {
 		if(!ModList.get().isLoaded("fastbench")) {
 			return new SimpleNamedContainerProvider((id, inventory, player) -> {
-				return new CactusWorkbenchContainer(id, inventory, IWorldPosCallable.of(worldIn, pos));
+				return new CactusWorkbenchContainer(id, inventory, IWorldPosCallable.create(worldIn, pos));
 			}, CONTAINER_NAME);
 		} else {
 			return new com.mrbysco.cactusmod.compat.fastbench.FastBenchHelper().getContainer(state, worldIn, pos);

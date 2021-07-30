@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class CactusTabs {
 	public static final ItemGroup CACTUS_TAB = new ItemGroup(Reference.MOD_ID) {
 		@OnlyIn(Dist.CLIENT)
-		public ItemStack createIcon() {
+		public ItemStack makeIcon() {
 			return new ItemStack(Blocks.CACTUS);
 		}
 	};

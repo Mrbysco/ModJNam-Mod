@@ -41,7 +41,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class CactusSnowGolemEntity extends GolemEntity implements IRangedAttackMob, IForgeShearable, ICactusMob{
-    private static final DataParameter<Byte> CACTUS_EQUIPPED = EntityDataManager.<Byte>createKey(CactusSnowGolemEntity.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> CACTUS_EQUIPPED = EntityDataManager.<Byte>defineId(CactusSnowGolemEntity.class, DataSerializers.BYTE);
 
 	public CactusSnowGolemEntity(EntityType<? extends GolemEntity> type, World world) {
         super(type, world);
@@ -58,57 +58,57 @@ public class CactusSnowGolemEntity extends GolemEntity implements IRangedAttackM
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 4.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, (double)0.20000000298023224D);
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 4.0D).add(Attributes.MOVEMENT_SPEED, (double)0.20000000298023224D);
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(CACTUS_EQUIPPED, (byte)16);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(CACTUS_EQUIPPED, (byte)16);
     }
 
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putBoolean("Cactus", this.isCactusEquipped());
     }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         if (compound.contains("Pumpkin")) {
             this.setCactusEquipped(compound.getBoolean("Cactus"));
         }
     }
 
-    public boolean isWaterSensitive() {
+    public boolean isSensitiveToWater() {
         return true;
     }
 
-    public void livingTick() {
-        super.livingTick();
-        if (!this.world.isRemote) {
-            int i = MathHelper.floor(this.getPosX());
-            int j = MathHelper.floor(this.getPosY());
-            int k = MathHelper.floor(this.getPosZ());
-            if (this.world.getBiome(new BlockPos(i, 0, k)).getTemperature(new BlockPos(i, j, k)) > 1.0F) {
-                this.attackEntityFrom(DamageSource.ON_FIRE, 1.0F);
+    public void aiStep() {
+        super.aiStep();
+        if (!this.level.isClientSide) {
+            int i = MathHelper.floor(this.getX());
+            int j = MathHelper.floor(this.getY());
+            int k = MathHelper.floor(this.getZ());
+            if (this.level.getBiome(new BlockPos(i, 0, k)).getTemperature(new BlockPos(i, j, k)) > 1.0F) {
+                this.hurt(DamageSource.ON_FIRE, 1.0F);
             }
 
-            if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)) {
+            if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level, this)) {
                 return;
             }
 
-            BlockState blockstate = Blocks.SNOW.getDefaultState();
+            BlockState blockstate = Blocks.SNOW.defaultBlockState();
 
             for(int l = 0; l < 4; ++l) {
-                i = MathHelper.floor(this.getPosX() + (double)((float)(l % 2 * 2 - 1) * 0.25F));
-                j = MathHelper.floor(this.getPosY());
-                k = MathHelper.floor(this.getPosZ() + (double)((float)(l / 2 % 2 * 2 - 1) * 0.25F));
+                i = MathHelper.floor(this.getX() + (double)((float)(l % 2 * 2 - 1) * 0.25F));
+                j = MathHelper.floor(this.getY());
+                k = MathHelper.floor(this.getZ() + (double)((float)(l / 2 % 2 * 2 - 1) * 0.25F));
                 BlockPos blockpos = new BlockPos(i, j, k);
-                if (this.world.isAirBlock(blockpos) && this.world.getBiome(blockpos).getTemperature(blockpos) < 0.8F && blockstate.isValidPosition(this.world, blockpos)) {
-                    this.world.setBlockState(blockpos, blockstate);
+                if (this.level.isEmptyBlock(blockpos) && this.level.getBiome(blockpos).getTemperature(blockpos) < 0.8F && blockstate.canSurvive(this.level, blockpos)) {
+                    this.level.setBlockAndUpdate(blockpos, blockstate);
                 }
             }
         }
@@ -116,17 +116,17 @@ public class CactusSnowGolemEntity extends GolemEntity implements IRangedAttackM
     }
 
     @Override
-    public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
-        AbstractSpikeEntity spike = CactusRegistry.CACTUS_SPIKE.get().create(world);
+    public void performRangedAttack(LivingEntity target, float distanceFactor) {
+        AbstractSpikeEntity spike = CactusRegistry.CACTUS_SPIKE.get().create(level);
         if(spike != null) {
-            double d0 = target.getPosYEye() - (double)1.1F;
-            double d1 = target.getPosX() - this.getPosX();
-            double d2 = d0 - spike.getPosY();
-            double d3 = target.getPosZ() - this.getPosZ();
+            double d0 = target.getEyeY() - (double)1.1F;
+            double d1 = target.getX() - this.getX();
+            double d2 = d0 - spike.getY();
+            double d3 = target.getZ() - this.getZ();
             float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
             spike.shoot(d1, d2 + (double)f, d3, 1.6F, 12.0F);
-            this.playSound(SoundEvents.ENTITY_SNOW_GOLEM_SHOOT, 1.0F, 0.4F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-            this.world.addEntity(spike);
+            this.playSound(SoundEvents.SNOW_GOLEM_SHOOT, 1.0F, 0.4F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+            this.level.addFreshEntity(spike);
         }
     }
     
@@ -135,15 +135,15 @@ public class CactusSnowGolemEntity extends GolemEntity implements IRangedAttackM
     }
     
     public boolean isCactusEquipped() {
-        return (this.dataManager.get(CACTUS_EQUIPPED) & 16) != 0;
+        return (this.entityData.get(CACTUS_EQUIPPED) & 16) != 0;
     }
 
     public void setCactusEquipped(boolean cactusEquipped) {
-        byte b0 = this.dataManager.get(CACTUS_EQUIPPED);
+        byte b0 = this.entityData.get(CACTUS_EQUIPPED);
         if (cactusEquipped) {
-            this.dataManager.set(CACTUS_EQUIPPED, (byte)(b0 | 16));
+            this.entityData.set(CACTUS_EQUIPPED, (byte)(b0 | 16));
         } else {
-            this.dataManager.set(CACTUS_EQUIPPED, (byte)(b0 & -17));
+            this.entityData.set(CACTUS_EQUIPPED, (byte)(b0 & -17));
         }
     }
 
@@ -155,8 +155,8 @@ public class CactusSnowGolemEntity extends GolemEntity implements IRangedAttackM
     @Nonnull
     @Override
     public List<ItemStack> onSheared(@Nullable PlayerEntity player, @Nonnull ItemStack item, World world, BlockPos pos, int fortune) {
-        world.playMovingSound(null, this, SoundEvents.ENTITY_SNOW_GOLEM_SHEAR, player == null ? SoundCategory.BLOCKS : SoundCategory.PLAYERS, 1.0F, 1.0F);
-        if (!world.isRemote()) {
+        world.playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, player == null ? SoundCategory.BLOCKS : SoundCategory.PLAYERS, 1.0F, 1.0F);
+        if (!world.isClientSide()) {
             setCactusEquipped(false);
             return java.util.Collections.singletonList(new ItemStack(CactusRegistry.CARVED_CACTUS.get()));
         }
@@ -164,8 +164,8 @@ public class CactusSnowGolemEntity extends GolemEntity implements IRangedAttackM
     }
 
     @OnlyIn(Dist.CLIENT)
-    public Vector3d func_241205_ce_() {
-        return new Vector3d(0.0D, (double)(0.75F * this.getEyeHeight()), (double)(this.getWidth() * 0.4F));
+    public Vector3d getLeashOffset() {
+        return new Vector3d(0.0D, (double)(0.75F * this.getEyeHeight()), (double)(this.getBbWidth() * 0.4F));
     }
 
     protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
@@ -174,16 +174,16 @@ public class CactusSnowGolemEntity extends GolemEntity implements IRangedAttackM
 
     @Nullable
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_SNOW_GOLEM_AMBIENT;
+        return SoundEvents.SNOW_GOLEM_AMBIENT;
     }
 
     @Nullable
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_SNOW_GOLEM_HURT;
+        return SoundEvents.SNOW_GOLEM_HURT;
     }
 
     @Nullable
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_SNOW_GOLEM_DEATH;
+        return SoundEvents.SNOW_GOLEM_DEATH;
     }
 }

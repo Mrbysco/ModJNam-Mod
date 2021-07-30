@@ -18,27 +18,27 @@ public class CactusCreeperEntity extends CreeperEntity implements ICactusMob{
 	}
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MonsterEntity.func_234295_eP_().createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D);
+        return MonsterEntity.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D);
     }
 
     @Override
-    public void explode() {
-        if (!this.world.isRemote) {
+    public void explodeCreeper() {
+        if (!this.level.isClientSide) {
             float f = 4.0F;
-            ExplosionHelper.arrowExplosion(this, this.getPosX(), this.getPosY() + (double)(this.getHeight() / 16.0F), this.getPosZ(), f, false);
+            ExplosionHelper.arrowExplosion(this, this.getX(), this.getY() + (double)(this.getBbHeight() / 16.0F), this.getZ(), f, false);
             this.remove();
         }
     }
 	
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+	public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putByte("ExplosionRadius", (byte)this.explosionRadius);
 	}
 	
 	@Override
-	public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+	public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
 
         if (compound.contains("ExplosionRadius", 99)) {
             this.explosionRadius = compound.getByte("ExplosionRadius");

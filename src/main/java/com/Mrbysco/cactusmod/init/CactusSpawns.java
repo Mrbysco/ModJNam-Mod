@@ -37,7 +37,7 @@ import net.minecraftforge.fml.common.Mod;
 public class CactusSpawns {
     @SubscribeEvent(priority =  EventPriority.HIGH)
     public static void addSpawn(BiomeLoadingEvent event) {
-        RegistryKey<Biome> biomeKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName());
+        RegistryKey<Biome> biomeKey = RegistryKey.create(Registry.BIOME_REGISTRY, event.getName());
         if(BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.SANDY) && !(BiomeDictionary.hasType(biomeKey, BiomeDictionary.Type.NETHER))) {
             if(CactusConfig.COMMON.cowSpawn.get()) {
                 CactusMod.logger.debug("Registering Cactus Cow spawn");
@@ -83,33 +83,33 @@ public class CactusSpawns {
                 CactusMod.logger.debug("Registering Cactus Plant generation");
                 BiomeGenerationSettingsBuilder builder = event.getGeneration();
                 if(!builder.getFeatures(Decoration.VEGETAL_DECORATION).contains(CactusFeatureConfig.CACTUS_PLANT)) {
-                    builder.withFeature(Decoration.VEGETAL_DECORATION, CactusFeatureConfig.CACTUS_PLANT.withPlacement(Placement.CHANCE.configure(new ChanceConfig(CactusConfig.COMMON.cactusPlantRarity.get()))));
+                    builder.addFeature(Decoration.VEGETAL_DECORATION, CactusFeatureConfig.CACTUS_PLANT.decorated(Placement.CHANCE.configured(new ChanceConfig(CactusConfig.COMMON.cactusPlantRarity.get()))));
                 }
             }
         }
     }
 
     public static void entityAttributes() {
-        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_GOLEM.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canSpawnOn);
+        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_GOLEM.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::checkMobSpawnRules);
         EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_COW.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, CactusCowEntity::canAnimalSpawn);
-        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_CREEPER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
-        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_SNOW_GOLEM.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canSpawnOn);
-        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_SLIME.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canSpawnOn);
+        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_CREEPER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::checkMonsterSpawnRules);
+        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_SNOW_GOLEM.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::checkMobSpawnRules);
+        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_SLIME.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::checkMobSpawnRules);
         EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_SHEEP.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, CactusSheepEntity::canAnimalSpawn);
         EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_PIG.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, CactusPigEntity::canAnimalSpawn);
-        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_SPIDER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
-        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_SKELETON.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
-        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTONI.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canSpawnOn);
+        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_SPIDER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::checkMonsterSpawnRules);
+        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTUS_SKELETON.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::checkMonsterSpawnRules);
+        EntitySpawnPlacementRegistry.register(CactusRegistry.CACTONI.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::checkMobSpawnRules);
 
-        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_GOLEM.get(), CactusGolem.createAttributes().create());
-        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_COW.get(), CactusCowEntity.createAttributes().create());
-        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_CREEPER.get(), CactusCreeperEntity.createAttributes().create());
-        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_SNOW_GOLEM.get(), CactusSnowGolemEntity.createAttributes().create());
-        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_SLIME.get(), MonsterEntity.func_234295_eP_().create());
-        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_SHEEP.get(), CactusSheepEntity.createAttributes().create());
-        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_PIG.get(), CactusPigEntity.createAttributes().create());
-        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_SPIDER.get(), CactusSpiderEntity.createAttributes().create());
-        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_SKELETON.get(), AbstractSkeletonEntity.registerAttributes().create());
-        GlobalEntityTypeAttributes.put(CactusRegistry.CACTONI.get(), CactoniEntity.createAttributes().create());
+        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_GOLEM.get(), CactusGolem.createAttributes().build());
+        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_COW.get(), CactusCowEntity.createAttributes().build());
+        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_CREEPER.get(), CactusCreeperEntity.createAttributes().build());
+        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_SNOW_GOLEM.get(), CactusSnowGolemEntity.createAttributes().build());
+        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_SLIME.get(), MonsterEntity.createMonsterAttributes().build());
+        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_SHEEP.get(), CactusSheepEntity.createAttributes().build());
+        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_PIG.get(), CactusPigEntity.createAttributes().build());
+        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_SPIDER.get(), CactusSpiderEntity.createAttributes().build());
+        GlobalEntityTypeAttributes.put(CactusRegistry.CACTUS_SKELETON.get(), AbstractSkeletonEntity.createAttributes().build());
+        GlobalEntityTypeAttributes.put(CactusRegistry.CACTONI.get(), CactoniEntity.createAttributes().build());
     }
 }

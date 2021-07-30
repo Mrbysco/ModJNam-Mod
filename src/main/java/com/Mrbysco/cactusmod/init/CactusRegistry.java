@@ -83,28 +83,28 @@ public class CactusRegistry {
 
     public static final RegistryObject<ContainerType<WorkbenchContainer>> CACTUS_WORKBENCH_CONTAINER = CONTAINERS.register("cactus_workbench", () -> IForgeContainerType.create((windowId, inv, data) -> new CactusWorkbenchContainer(windowId, inv)));
 
-    public static final RegistryObject<Block> PRICKLY_IRON = BLOCKS.register("prickly_iron", () -> new PricklyIronBlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(2.0F, 7.0F).sound(SoundType.METAL)));
-    public static final RegistryObject<Block> CACTUS_BRICK_BLOCK = BLOCKS.register("cactus_brick_block", () -> new Block(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.4F).sound(SoundType.CLOTH)));
-    public static final RegistryObject<Block> CACTUS_BRICK_STAIR = BLOCKS.register("cactus_brick_stair", () -> new StairsBlock(() -> CACTUS_BRICK_BLOCK.get().getDefaultState(), AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.4F).sound(SoundType.CLOTH)));
-    public static final RegistryObject<Block> CACTUS_BRICK_SLAB = BLOCKS.register("cactus_brick_slab", () -> new SlabBlock(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.4F).sound(SoundType.CLOTH)));
-    public static final RegistryObject<Block> CARVED_CACTUS = BLOCKS.register("carved_cactus", () -> new CarvedCactusBlock(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.4F).sound(SoundType.CLOTH)));
-    public static final RegistryObject<Block> JACKO_CACTUS = BLOCKS.register("jacko_cactus", () -> new CarvedCactusBlock(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.4F).sound(SoundType.CLOTH).setLightLevel((state) -> {
+    public static final RegistryObject<Block> PRICKLY_IRON = BLOCKS.register("prickly_iron", () -> new PricklyIronBlock(AbstractBlock.Properties.of(Material.METAL).strength(2.0F, 7.0F).sound(SoundType.METAL)));
+    public static final RegistryObject<Block> CACTUS_BRICK_BLOCK = BLOCKS.register("cactus_brick_block", () -> new Block(AbstractBlock.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
+    public static final RegistryObject<Block> CACTUS_BRICK_STAIR = BLOCKS.register("cactus_brick_stair", () -> new StairsBlock(() -> CACTUS_BRICK_BLOCK.get().defaultBlockState(), AbstractBlock.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
+    public static final RegistryObject<Block> CACTUS_BRICK_SLAB = BLOCKS.register("cactus_brick_slab", () -> new SlabBlock(AbstractBlock.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
+    public static final RegistryObject<Block> CARVED_CACTUS = BLOCKS.register("carved_cactus", () -> new CarvedCactusBlock(AbstractBlock.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
+    public static final RegistryObject<Block> JACKO_CACTUS = BLOCKS.register("jacko_cactus", () -> new CarvedCactusBlock(AbstractBlock.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL).lightLevel((state) -> {
         return 15;
     })));
-    public static final RegistryObject<Block> CACTUS_CARPET = BLOCKS.register("cactus_carpet", () -> new PunjiCactusBlock(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.25F).sound(SoundType.CLOTH)));
-    public static final RegistryObject<Block> CACTUS_CAKE = BLOCKS.register("cactus_cake", () -> new CactusCakeBlock(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.5F).sound(SoundType.CLOTH)));
-    public static final RegistryObject<Block> CACTUS_DISPENSER = BLOCKS.register("cactus_dispenser", () -> new DispenserCactusBlock(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.4F).sound(SoundType.CLOTH)));
-    public static final RegistryObject<Block> CACTUS_CRAFTING_TABLE = BLOCKS.register("cactus_crafting_table", () -> new BlockCactusWorkbench(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.4F).sound(SoundType.CLOTH)));
-    public static final RegistryObject<Block> CACTUS_CHEST = BLOCKS.register("cactus_chest", () -> new CactusChestBlock(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.4F).sound(SoundType.CLOTH)));
-    public static final RegistryObject<Block> CACTUS_HOPPER = BLOCKS.register("cactus_hopper", () -> new CactusHopperBlock(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(1.0F, 0.4F).sound(SoundType.CLOTH)));
-    public static final RegistryObject<Block> CACTUS_TNT = BLOCKS.register("cactus_tnt", () -> new CactusTNTBlock(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.0F).sound(SoundType.CLOTH)));
-    public static final RegistryObject<Block> CACTUS_DOOR = BLOCKS.register("cactus_door", () -> new CactusDoorBlock(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.4F).sound(SoundType.CLOTH).notSolid()));
-    public static final RegistryObject<Block> CACTUS_SLIME_BLOCK = BLOCKS.register("cactus_slime_block", () -> new CactusSlimeBlock(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.25F).sound(SoundType.SLIME).notSolid()));
-    public static final RegistryObject<Block> CACTUS_PLANT = BLOCKS.register("cactus_plant", () -> new CactusPlantBlock(AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.4F).sound(SoundType.CLOTH).notSolid()));
-    public static final RegistryObject<Block> CACTUS_FLOWER = BLOCKS.register("cactus_flower", () -> new CactusFlowerBlock(() -> (CactusPlantBlock)CACTUS_PLANT.get(), AbstractBlock.Properties.create(Material.CACTUS).hardnessAndResistance(0.4F).sound(SoundType.WOOD).tickRandomly().notSolid()));
+    public static final RegistryObject<Block> CACTUS_CARPET = BLOCKS.register("cactus_carpet", () -> new PunjiCactusBlock(AbstractBlock.Properties.of(Material.CACTUS).strength(0.25F).sound(SoundType.WOOL)));
+    public static final RegistryObject<Block> CACTUS_CAKE = BLOCKS.register("cactus_cake", () -> new CactusCakeBlock(AbstractBlock.Properties.of(Material.CACTUS).strength(0.5F).sound(SoundType.WOOL)));
+    public static final RegistryObject<Block> CACTUS_DISPENSER = BLOCKS.register("cactus_dispenser", () -> new DispenserCactusBlock(AbstractBlock.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
+    public static final RegistryObject<Block> CACTUS_CRAFTING_TABLE = BLOCKS.register("cactus_crafting_table", () -> new BlockCactusWorkbench(AbstractBlock.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
+    public static final RegistryObject<Block> CACTUS_CHEST = BLOCKS.register("cactus_chest", () -> new CactusChestBlock(AbstractBlock.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
+    public static final RegistryObject<Block> CACTUS_HOPPER = BLOCKS.register("cactus_hopper", () -> new CactusHopperBlock(AbstractBlock.Properties.of(Material.CACTUS).strength(1.0F, 0.4F).sound(SoundType.WOOL)));
+    public static final RegistryObject<Block> CACTUS_TNT = BLOCKS.register("cactus_tnt", () -> new CactusTNTBlock(AbstractBlock.Properties.of(Material.CACTUS).strength(0.0F).sound(SoundType.WOOL)));
+    public static final RegistryObject<Block> CACTUS_DOOR = BLOCKS.register("cactus_door", () -> new CactusDoorBlock(AbstractBlock.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL).noOcclusion()));
+    public static final RegistryObject<Block> CACTUS_SLIME_BLOCK = BLOCKS.register("cactus_slime_block", () -> new CactusSlimeBlock(AbstractBlock.Properties.of(Material.CACTUS).strength(0.25F).sound(SoundType.SLIME_BLOCK).noOcclusion()));
+    public static final RegistryObject<Block> CACTUS_PLANT = BLOCKS.register("cactus_plant", () -> new CactusPlantBlock(AbstractBlock.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL).noOcclusion()));
+    public static final RegistryObject<Block> CACTUS_FLOWER = BLOCKS.register("cactus_flower", () -> new CactusFlowerBlock(() -> (CactusPlantBlock)CACTUS_PLANT.get(), AbstractBlock.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOD).randomTicks().noOcclusion()));
 
-    public static final RegistryObject<TileEntityType<CactusChestTile>> CACTUS_CHEST_TILE = TILE_ENTITIES.register("cactus_chest", () -> TileEntityType.Builder.create(() -> new CactusChestTile(), CACTUS_CHEST.get()).build(null));
-    public static final RegistryObject<TileEntityType<CactusHopperTile>> CACTUS_HOPPER_TILE = TILE_ENTITIES.register("cactus_hopper", () -> TileEntityType.Builder.create(() -> new CactusHopperTile(), CACTUS_HOPPER.get()).build(null));
+    public static final RegistryObject<TileEntityType<CactusChestTile>> CACTUS_CHEST_TILE = TILE_ENTITIES.register("cactus_chest", () -> TileEntityType.Builder.of(() -> new CactusChestTile(), CACTUS_CHEST.get()).build(null));
+    public static final RegistryObject<TileEntityType<CactusHopperTile>> CACTUS_HOPPER_TILE = TILE_ENTITIES.register("cactus_hopper", () -> TileEntityType.Builder.of(() -> new CactusHopperTile(), CACTUS_HOPPER.get()).build(null));
 
     public static final RegistryObject<Item> PRICKLY_IRON_ITEM = ITEMS.register("prickly_iron", () -> new BlockItem(PRICKLY_IRON.get(), itemBuilder()));
     public static final RegistryObject<Item> CACTUS_BRICK_BLOCK_ITEM = ITEMS.register("cactus_brick_block", () -> new BlockItem(CACTUS_BRICK_BLOCK.get(), itemBuilder()));
@@ -135,14 +135,14 @@ public class CactusRegistry {
     public static final RegistryObject<Item> CACTUS_PICKAXE = ITEMS.register("cactus_pickaxe", () -> new CactusPickaxeItem(CactusTool.CACTUS, 1, -2.8F, itemBuilder()));
     public static final RegistryObject<Item> CACTUS_AXE = ITEMS.register("cactus_axe", () -> new CactusAxeItem(CactusTool.CACTUS, 6.0F, -3.2F, itemBuilder()));
     public static final RegistryObject<Item> CACTUS_HOE = ITEMS.register("cactus_hoe", () -> new CactusHoeItem(CactusTool.CACTUS, 0, -3.0F, itemBuilder()));
-    public static final RegistryObject<Item> CACTUS_SHIELD = ITEMS.register("cactus_shield", () -> new CactusShieldItem(itemBuilder().maxDamage(97)));
+    public static final RegistryObject<Item> CACTUS_SHIELD = ITEMS.register("cactus_shield", () -> new CactusShieldItem(itemBuilder().durability(97)));
 
     public static final RegistryObject<Item> CACTUS_HELMET = ITEMS.register("cactus_helmet", () -> new CactusArmorItem(CactusArmor.CACTUS, EquipmentSlotType.HEAD, itemBuilder()));
     public static final RegistryObject<Item> CACTUS_CHESTPLATE = ITEMS.register("cactus_chestplate", () -> new CactusArmorItem(CactusArmor.CACTUS, EquipmentSlotType.CHEST, itemBuilder()));
     public static final RegistryObject<Item> CACTUS_LEGGINGS = ITEMS.register("cactus_leggings", () -> new CactusArmorItem(CactusArmor.CACTUS, EquipmentSlotType.LEGS, itemBuilder()));
     public static final RegistryObject<Item> CACTUS_BOOTS = ITEMS.register("cactus_boots", () -> new CactusArmorItem(CactusArmor.CACTUS, EquipmentSlotType.FEET, itemBuilder()));
 
-    public static final RegistryObject<Item> CACTUS_BOW = ITEMS.register("cactus_bow", () -> new CactusBowItem(itemBuilder().maxDamage(384)));
+    public static final RegistryObject<Item> CACTUS_BOW = ITEMS.register("cactus_bow", () -> new CactusBowItem(itemBuilder().durability(384)));
     public static final RegistryObject<Item> CACTUS_CART = ITEMS.register("cactus_cart", () -> new CactusCartItem(itemBuilder()));
     public static final RegistryObject<Item> CACTUS_BOAT = ITEMS.register("cactus_boat", () -> new CactusBoatItem(itemBuilder()));
     public static final RegistryObject<Item> CACTUS_JUICE = ITEMS.register("cactus_juice", () -> new CactusJuiceItem(itemBuilder().food(CactusFoods.JUICE)));
@@ -159,29 +159,29 @@ public class CactusRegistry {
     public static final RegistryObject<Item> CACTUS_SKELETON_GOLEM_SPAWN_EGG = ITEMS.register("cactus_skeleton_spawn_egg", () -> new CustomSpawnEggItem(() -> CactusRegistry.CACTUS_SKELETON.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
 
     private static Item.Properties itemBuilder() {
-        return new Item.Properties().group(CactusTabs.CACTUS_TAB);
+        return new Item.Properties().tab(CactusTabs.CACTUS_TAB);
     }
 
     public static final RegistryObject<SoundEvent> HAT_MUSIC = SOUND_EVENTS.register("hat.music", () -> new SoundEvent(new ResourceLocation(Reference.MOD_ID, "hat.music")));
 
-    public static final RegistryObject<EntityType<CactusGolem>> CACTUS_GOLEM = ENTITIES.register("cactus_golem", () -> register("cactus_golem", EntityType.Builder.<CactusGolem>create(CactusGolem::new, EntityClassification.MISC).size(1.4F, 2.7F).trackingRange(10)));
-    public static final RegistryObject<EntityType<CactusCowEntity>> CACTUS_COW = ENTITIES.register("cactus_cow", () -> register("cactus_cow", EntityType.Builder.<CactusCowEntity>create(CactusCowEntity::new, EntityClassification.CREATURE).size(0.9F, 1.4F).trackingRange(10)));
-    public static final RegistryObject<EntityType<CactiCartEntity>> CACTUS_CART_ENTITY = ENTITIES.register("cactus_cart", () -> register("cactus_cart", EntityType.Builder.<CactiCartEntity>create(CactiCartEntity::new, EntityClassification.MISC)
-            .size(0.98F, 0.7F).trackingRange(8).setCustomClientFactory(CactiCartEntity::new)));
-    public static final RegistryObject<EntityType<CactusTNTEntity>> CACTUS_TNT_ENTITY = ENTITIES.register("cactus_tnt", () -> register("cactus_tnt", EntityType.Builder.<CactusTNTEntity>create(CactusTNTEntity::new, EntityClassification.MISC)
-            .size(0.98F, 0.7F).trackingRange(8).setCustomClientFactory(CactusTNTEntity::new)));
-    public static final RegistryObject<EntityType<SpikeEntity>> CACTUS_SPIKE = ENTITIES.register("cactus_spike", () -> register("cactus_spike", EntityType.Builder.<SpikeEntity>create(SpikeEntity::new, EntityClassification.MISC)
-            .size(0.5F, 0.5F).trackingRange(4).updateInterval(20).setCustomClientFactory(SpikeEntity::new)));
-    public static final RegistryObject<EntityType<CactusCreeperEntity>> CACTUS_CREEPER = ENTITIES.register("cactus_creeper", () -> register("cactus_creeper", EntityType.Builder.<CactusCreeperEntity>create(CactusCreeperEntity::new, EntityClassification.MONSTER).size(0.6F, 1.7F).trackingRange(8)));
-    public static final RegistryObject<EntityType<CactusSnowGolemEntity>> CACTUS_SNOW_GOLEM = ENTITIES.register("cactus_snow_golem", () -> register("cactus_snow_golem", EntityType.Builder.<CactusSnowGolemEntity>create(CactusSnowGolemEntity::new, EntityClassification.MISC).size(0.7F, 1.9F).trackingRange(8)));
-    public static final RegistryObject<EntityType<CactusSlimeEntity>> CACTUS_SLIME = ENTITIES.register("cactus_slime", () -> register("cactus_slime", EntityType.Builder.<CactusSlimeEntity>create(CactusSlimeEntity::new, EntityClassification.MONSTER).size(2.04F, 2.04F).trackingRange(10)));
-    public static final RegistryObject<EntityType<CactusSheepEntity>> CACTUS_SHEEP = ENTITIES.register("cactus_sheep", () -> register("cactus_sheep", EntityType.Builder.<CactusSheepEntity>create(CactusSheepEntity::new, EntityClassification.CREATURE).size(0.9F, 1.3F).trackingRange(10)));
-    public static final RegistryObject<EntityType<CactusPigEntity>> CACTUS_PIG = ENTITIES.register("cactus_pig", () -> register("cactus_pig", EntityType.Builder.<CactusPigEntity>create(CactusPigEntity::new, EntityClassification.CREATURE).size(0.9F, 0.9F).trackingRange(10)));
-    public static final RegistryObject<EntityType<CactusSpiderEntity>> CACTUS_SPIDER = ENTITIES.register("cactus_spider", () -> register("cactus_spider", EntityType.Builder.<CactusSpiderEntity>create(CactusSpiderEntity::new, EntityClassification.MONSTER).size(1.4F, 0.9F).trackingRange(8)));
-    public static final RegistryObject<EntityType<CactusSkeletonEntity>> CACTUS_SKELETON = ENTITIES.register("cactus_skeleton", () -> register("cactus_skeleton", EntityType.Builder.<CactusSkeletonEntity>create(CactusSkeletonEntity::new, EntityClassification.MONSTER).size(0.6F, 1.99F).trackingRange(8)));
-    public static final RegistryObject<EntityType<CactusBoatEntity>> CACTUS_BOAT_ENTITY = ENTITIES.register("cactus_boat", () -> register("cactus_boat", EntityType.Builder.<CactusBoatEntity>create(CactusBoatEntity::new, EntityClassification.MISC)
-            .size(1.375F, 0.5625F).trackingRange(10).setCustomClientFactory(CactusBoatEntity::new)));
-    public static final RegistryObject<EntityType<CactoniEntity>> CACTONI = ENTITIES.register("cactoni", () -> register("cactoni", EntityType.Builder.<CactoniEntity>create(CactoniEntity::new, EntityClassification.MISC).size(0.7F, 2.4F).trackingRange(8)));
+    public static final RegistryObject<EntityType<CactusGolem>> CACTUS_GOLEM = ENTITIES.register("cactus_golem", () -> register("cactus_golem", EntityType.Builder.<CactusGolem>of(CactusGolem::new, EntityClassification.MISC).sized(1.4F, 2.7F).clientTrackingRange(10)));
+    public static final RegistryObject<EntityType<CactusCowEntity>> CACTUS_COW = ENTITIES.register("cactus_cow", () -> register("cactus_cow", EntityType.Builder.<CactusCowEntity>of(CactusCowEntity::new, EntityClassification.CREATURE).sized(0.9F, 1.4F).clientTrackingRange(10)));
+    public static final RegistryObject<EntityType<CactiCartEntity>> CACTUS_CART_ENTITY = ENTITIES.register("cactus_cart", () -> register("cactus_cart", EntityType.Builder.<CactiCartEntity>of(CactiCartEntity::new, EntityClassification.MISC)
+            .sized(0.98F, 0.7F).clientTrackingRange(8).setCustomClientFactory(CactiCartEntity::new)));
+    public static final RegistryObject<EntityType<CactusTNTEntity>> CACTUS_TNT_ENTITY = ENTITIES.register("cactus_tnt", () -> register("cactus_tnt", EntityType.Builder.<CactusTNTEntity>of(CactusTNTEntity::new, EntityClassification.MISC)
+            .sized(0.98F, 0.7F).clientTrackingRange(8).setCustomClientFactory(CactusTNTEntity::new)));
+    public static final RegistryObject<EntityType<SpikeEntity>> CACTUS_SPIKE = ENTITIES.register("cactus_spike", () -> register("cactus_spike", EntityType.Builder.<SpikeEntity>of(SpikeEntity::new, EntityClassification.MISC)
+            .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).setCustomClientFactory(SpikeEntity::new)));
+    public static final RegistryObject<EntityType<CactusCreeperEntity>> CACTUS_CREEPER = ENTITIES.register("cactus_creeper", () -> register("cactus_creeper", EntityType.Builder.<CactusCreeperEntity>of(CactusCreeperEntity::new, EntityClassification.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)));
+    public static final RegistryObject<EntityType<CactusSnowGolemEntity>> CACTUS_SNOW_GOLEM = ENTITIES.register("cactus_snow_golem", () -> register("cactus_snow_golem", EntityType.Builder.<CactusSnowGolemEntity>of(CactusSnowGolemEntity::new, EntityClassification.MISC).sized(0.7F, 1.9F).clientTrackingRange(8)));
+    public static final RegistryObject<EntityType<CactusSlimeEntity>> CACTUS_SLIME = ENTITIES.register("cactus_slime", () -> register("cactus_slime", EntityType.Builder.<CactusSlimeEntity>of(CactusSlimeEntity::new, EntityClassification.MONSTER).sized(2.04F, 2.04F).clientTrackingRange(10)));
+    public static final RegistryObject<EntityType<CactusSheepEntity>> CACTUS_SHEEP = ENTITIES.register("cactus_sheep", () -> register("cactus_sheep", EntityType.Builder.<CactusSheepEntity>of(CactusSheepEntity::new, EntityClassification.CREATURE).sized(0.9F, 1.3F).clientTrackingRange(10)));
+    public static final RegistryObject<EntityType<CactusPigEntity>> CACTUS_PIG = ENTITIES.register("cactus_pig", () -> register("cactus_pig", EntityType.Builder.<CactusPigEntity>of(CactusPigEntity::new, EntityClassification.CREATURE).sized(0.9F, 0.9F).clientTrackingRange(10)));
+    public static final RegistryObject<EntityType<CactusSpiderEntity>> CACTUS_SPIDER = ENTITIES.register("cactus_spider", () -> register("cactus_spider", EntityType.Builder.<CactusSpiderEntity>of(CactusSpiderEntity::new, EntityClassification.MONSTER).sized(1.4F, 0.9F).clientTrackingRange(8)));
+    public static final RegistryObject<EntityType<CactusSkeletonEntity>> CACTUS_SKELETON = ENTITIES.register("cactus_skeleton", () -> register("cactus_skeleton", EntityType.Builder.<CactusSkeletonEntity>of(CactusSkeletonEntity::new, EntityClassification.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8)));
+    public static final RegistryObject<EntityType<CactusBoatEntity>> CACTUS_BOAT_ENTITY = ENTITIES.register("cactus_boat", () -> register("cactus_boat", EntityType.Builder.<CactusBoatEntity>of(CactusBoatEntity::new, EntityClassification.MISC)
+            .sized(1.375F, 0.5625F).clientTrackingRange(10).setCustomClientFactory(CactusBoatEntity::new)));
+    public static final RegistryObject<EntityType<CactoniEntity>> CACTONI = ENTITIES.register("cactoni", () -> register("cactoni", EntityType.Builder.<CactoniEntity>of(CactoniEntity::new, EntityClassification.MISC).sized(0.7F, 2.4F).clientTrackingRange(8)));
 
     public static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
         return builder.build(id);

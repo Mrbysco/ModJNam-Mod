@@ -19,15 +19,15 @@ public class CactusToolHandler {
 	
 	@SubscribeEvent
 	public void CactusSwordEvent(LivingAttackEvent event) {
-		boolean flag = event.getSource().getTrueSource() instanceof PlayerEntity;
-		if(event.getSource().getDamageType() == "player" && flag) {
-			PlayerEntity player = (PlayerEntity)event.getSource().getTrueSource();
-			ItemStack stack = player.getHeldItemMainhand();
-			World world = player.world;
+		boolean flag = event.getSource().getEntity() instanceof PlayerEntity;
+		if(event.getSource().getMsgId() == "player" && flag) {
+			PlayerEntity player = (PlayerEntity)event.getSource().getEntity();
+			ItemStack stack = player.getMainHandItem();
+			World world = player.level;
 			
-			if(stack.getItem() == CactusRegistry.CACTUS_SWORD.get() && !world.isRemote) {
-				if(world.rand.nextInt(10) < 3)
-					player.attackEntityFrom(DamageSource.CACTUS, 1F);
+			if(stack.getItem() == CactusRegistry.CACTUS_SWORD.get() && !world.isClientSide) {
+				if(world.random.nextInt(10) < 3)
+					player.hurt(DamageSource.CACTUS, 1F);
 			}
 		}
 	}
@@ -36,16 +36,16 @@ public class CactusToolHandler {
 	public void CactusShieldEvent(LivingHurtEvent event) {
 		if(event.getEntityLiving() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity)event.getEntityLiving();
-			ItemStack heldStack = player.getActiveItemStack();
-			World world = player.world;
+			ItemStack heldStack = player.getUseItem();
+			World world = player.level;
 
 			if(!heldStack.isEmpty() && heldStack.getItem() == CactusRegistry.CACTUS_SHIELD.get()) {
 				if(canBlockDamageSource(event.getSource(), player)) {
 					damageShield(player, event.getAmount());
 
-					if(world.rand.nextInt(10) <= 5) {
-						Entity trueSource = event.getSource().getTrueSource();
-						trueSource.attackEntityFrom(DamageSource.GENERIC, 1F + MathHelper.floor(event.getAmount()));
+					if(world.random.nextInt(10) <= 5) {
+						Entity trueSource = event.getSource().getEntity();
+						trueSource.hurt(DamageSource.GENERIC, 1F + MathHelper.floor(event.getAmount()));
 					}
 				}
 			}
@@ -54,15 +54,15 @@ public class CactusToolHandler {
 	
 	private boolean canBlockDamageSource(DamageSource damageSourceIn, LivingEntity player)
     {
-        if (!damageSourceIn.isUnblockable() && player.isActiveItemStackBlocking()) {
-			Vector3d vec3d = damageSourceIn.getDamageLocation();
+        if (!damageSourceIn.isBypassArmor() && player.isBlocking()) {
+			Vector3d vec3d = damageSourceIn.getSourcePosition();
 
             if (vec3d != null) {
-				Vector3d vec3d1 = player.getLook(1.0F);
-				Vector3d vec3d2 = vec3d.subtractReverse(new Vector3d(player.getPosX(), player.getPosY(), player.getPosZ())).normalize();
+				Vector3d vec3d1 = player.getViewVector(1.0F);
+				Vector3d vec3d2 = vec3d.vectorTo(new Vector3d(player.getX(), player.getY(), player.getZ())).normalize();
                 vec3d2 = new Vector3d(vec3d2.x, 0.0D, vec3d2.z);
 
-                if (vec3d2.dotProduct(vec3d1) < 0.0D) {
+                if (vec3d2.dot(vec3d1) < 0.0D) {
                     return true;
                 }
             }
@@ -73,18 +73,18 @@ public class CactusToolHandler {
 	
 	public static void damageShield(PlayerEntity player, float damage)
 	{
-		ItemStack shield = player.getActiveItemStack();
-		Hand handIn = player.getActiveHand();
-		shield.damageItem(1 + MathHelper.floor(damage), player,
+		ItemStack shield = player.getUseItem();
+		Hand handIn = player.getUsedItemHand();
+		shield.hurtAndBreak(1 + MathHelper.floor(damage), player,
 				(p_213833_1_) -> {
-					p_213833_1_.sendBreakAnimation(handIn);
+					p_213833_1_.broadcastBreakEvent(handIn);
 					net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, shield, handIn);
 				});
 
 		if (shield.getCount() <= 0)
         {
-            ForgeEventFactory.onPlayerDestroyItem(player, shield, player.getActiveHand());
-            player.setHeldItem(player.getActiveHand(), ItemStack.EMPTY);
+            ForgeEventFactory.onPlayerDestroyItem(player, shield, player.getUsedItemHand());
+            player.setItemInHand(player.getUsedItemHand(), ItemStack.EMPTY);
         }
 	}
 }

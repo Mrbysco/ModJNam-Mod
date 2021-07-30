@@ -11,7 +11,7 @@ import net.minecraft.world.gen.feature.IFeatureConfig;
 
 public class CactusFeatureConfig {
 	public static final ConfiguredFeature<?, ?> CACTUS_PLANT = register("chorus_plant",
-			CactusRegistry.CACTUS_PLANT_FEATURE.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).variableCount(4));
+			CactusRegistry.CACTUS_PLANT_FEATURE.get().configured(IFeatureConfig.NONE).decorated(Features.Placements.HEIGHTMAP_SQUARE).countRandom(4));
 
 	private static <FC extends IFeatureConfig> ConfiguredFeature<FC, ?> register(String key, ConfiguredFeature<FC, ?> feature) {
 		return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, key), feature);

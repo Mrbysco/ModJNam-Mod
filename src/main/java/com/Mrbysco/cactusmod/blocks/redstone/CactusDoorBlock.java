@@ -17,8 +17,8 @@ public class CactusDoorBlock extends DoorBlock {
 	}
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        player.attackEntityFrom(DamageSource.CACTUS, 1.0F);
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        player.hurt(DamageSource.CACTUS, 1.0F);
+        return super.use(state, worldIn, pos, player, handIn, hit);
     }
 }

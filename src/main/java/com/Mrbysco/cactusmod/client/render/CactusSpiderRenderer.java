@@ -18,22 +18,22 @@ public class CactusSpiderRenderer<T extends CactusSpiderEntity> extends MobRende
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(CactusSpiderEntity entity) {
+	public ResourceLocation getTextureLocation(CactusSpiderEntity entity) {
 		return texture;
 	}
 
-	protected float getDeathMaxRotation(T entityLivingBaseIn) {
+	protected float getFlipDegrees(T entityLivingBaseIn) {
 		return 180.0F;
 	}
 
 	@Override
 	public void render(T entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		this.shadowSize = 0.25F * (float)entityIn.getSpiderSize();
+		this.shadowRadius = 0.25F * (float)entityIn.getSpiderSize();
 		super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 
 	@Override
-	protected void preRenderCallback(T entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
+	protected void scale(T entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
 		float f = 0.999F;
 		matrixStackIn.scale(0.999F, 0.999F, 0.999F);
 		float f1 = (float)entitylivingbaseIn.getSpiderSize();

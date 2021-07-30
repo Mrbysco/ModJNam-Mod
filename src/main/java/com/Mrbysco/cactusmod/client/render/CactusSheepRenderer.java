@@ -17,7 +17,7 @@ public class CactusSheepRenderer extends MobRenderer<CactusSheepEntity, CactusSh
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(CactusSheepEntity entity) {
+	public ResourceLocation getTextureLocation(CactusSheepEntity entity) {
 		return texture;
 	}
 }

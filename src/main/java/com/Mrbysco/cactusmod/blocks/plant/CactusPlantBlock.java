@@ -25,26 +25,26 @@ public class CactusPlantBlock extends SixWayBlock {
     
 	public CactusPlantBlock(AbstractBlock.Properties builder) {
         super(0.3125F, builder);
-        this.setDefaultState(this.stateContainer.getBaseState().with(NORTH, Boolean.valueOf(false)).with(EAST, Boolean.valueOf(false)).with(SOUTH, Boolean.valueOf(false)).with(WEST, Boolean.valueOf(false)).with(UP, Boolean.valueOf(false)).with(DOWN, Boolean.valueOf(false)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.valueOf(false)).setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false)).setValue(WEST, Boolean.valueOf(false)).setValue(UP, Boolean.valueOf(false)).setValue(DOWN, Boolean.valueOf(false)));
 	}
 
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.makeConnections(context.getWorld(), context.getPos());
+        return this.makeConnections(context.getLevel(), context.getClickedPos());
     }
 
     @Override
-    public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
-        entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+    public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+        entityIn.hurt(DamageSource.CACTUS, 1.0F);
     }
 
     public BlockState makeConnections(IBlockReader blockReader, BlockPos pos) {
-        Block block = blockReader.getBlockState(pos.down()).getBlock();
-        Block block1 = blockReader.getBlockState(pos.up()).getBlock();
+        Block block = blockReader.getBlockState(pos.below()).getBlock();
+        Block block1 = blockReader.getBlockState(pos.above()).getBlock();
         Block block2 = blockReader.getBlockState(pos.north()).getBlock();
         Block block3 = blockReader.getBlockState(pos.east()).getBlock();
         Block block4 = blockReader.getBlockState(pos.south()).getBlock();
         Block block5 = blockReader.getBlockState(pos.west()).getBlock();
-        return this.getDefaultState().with(DOWN, Boolean.valueOf(block == this || block == CactusRegistry.CACTUS_FLOWER.get() || block.isIn(Tags.Blocks.SAND))).with(UP, Boolean.valueOf(block1 == this || block1 == CactusRegistry.CACTUS_FLOWER.get())).with(NORTH, Boolean.valueOf(block2 == this || block2 == CactusRegistry.CACTUS_FLOWER.get())).with(EAST, Boolean.valueOf(block3 == this || block3 == CactusRegistry.CACTUS_FLOWER.get())).with(SOUTH, Boolean.valueOf(block4 == this || block4 == CactusRegistry.CACTUS_FLOWER.get())).with(WEST, Boolean.valueOf(block5 == this || block5 == CactusRegistry.CACTUS_FLOWER.get()));
+        return this.defaultBlockState().setValue(DOWN, Boolean.valueOf(block == this || block == CactusRegistry.CACTUS_FLOWER.get() || block.is(Tags.Blocks.SAND))).setValue(UP, Boolean.valueOf(block1 == this || block1 == CactusRegistry.CACTUS_FLOWER.get())).setValue(NORTH, Boolean.valueOf(block2 == this || block2 == CactusRegistry.CACTUS_FLOWER.get())).setValue(EAST, Boolean.valueOf(block3 == this || block3 == CactusRegistry.CACTUS_FLOWER.get())).setValue(SOUTH, Boolean.valueOf(block4 == this || block4 == CactusRegistry.CACTUS_FLOWER.get())).setValue(WEST, Boolean.valueOf(block5 == this || block5 == CactusRegistry.CACTUS_FLOWER.get()));
     }
 
     /**
@@ -53,51 +53,51 @@ public class CactusPlantBlock extends SixWayBlock {
      * returns its solidified counterpart.
      * Note that this method should ideally consider only the specific face passed in.
      */
-    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        if (!stateIn.isValidPosition(worldIn, currentPos)) {
-            worldIn.getPendingBlockTicks().scheduleTick(currentPos, this, 1);
-            return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (!stateIn.canSurvive(worldIn, currentPos)) {
+            worldIn.getBlockTicks().scheduleTick(currentPos, this, 1);
+            return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
         } else {
-            boolean flag = facingState.getBlock() == this || facingState.matchesBlock(CactusRegistry.CACTUS_FLOWER.get()) || facing == Direction.DOWN && facingState.isIn(Tags.Blocks.SAND);
-            return stateIn.with(FACING_TO_PROPERTY_MAP.get(facing), Boolean.valueOf(flag));
+            boolean flag = facingState.getBlock() == this || facingState.is(CactusRegistry.CACTUS_FLOWER.get()) || facing == Direction.DOWN && facingState.is(Tags.Blocks.SAND);
+            return stateIn.setValue(PROPERTY_BY_DIRECTION.get(facing), Boolean.valueOf(flag));
         }
     }
 
     public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
-        if (!state.isValidPosition(worldIn, pos)) {
+        if (!state.canSurvive(worldIn, pos)) {
             worldIn.destroyBlock(pos, true);
         }
 
     }
 
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-        BlockState blockstate = worldIn.getBlockState(pos.down());
-        boolean flag = !worldIn.getBlockState(pos.up()).isAir() && !blockstate.isAir();
+    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+        BlockState blockstate = worldIn.getBlockState(pos.below());
+        boolean flag = !worldIn.getBlockState(pos.above()).isAir() && !blockstate.isAir();
 
         for(Direction direction : Direction.Plane.HORIZONTAL) {
-            BlockPos blockpos = pos.offset(direction);
+            BlockPos blockpos = pos.relative(direction);
             Block block = worldIn.getBlockState(blockpos).getBlock();
             if (block == this) {
                 if (flag) {
                     return false;
                 }
 
-                Block block1 = worldIn.getBlockState(blockpos.down()).getBlock();
-                if (block1 == this || block1.isIn(Tags.Blocks.SAND)) {
+                Block block1 = worldIn.getBlockState(blockpos.below()).getBlock();
+                if (block1 == this || block1.is(Tags.Blocks.SAND)) {
                     return true;
                 }
             }
         }
 
         Block block2 = blockstate.getBlock();
-        return block2 == this || block2.isIn(Tags.Blocks.SAND);
+        return block2 == this || block2.is(Tags.Blocks.SAND);
     }
 
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(NORTH, EAST, SOUTH, WEST, UP, DOWN);
     }
 
-    public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+    public boolean isPathfindable(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
         return false;
     }
 }

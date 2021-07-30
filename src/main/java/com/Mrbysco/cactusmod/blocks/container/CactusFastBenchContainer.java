@@ -23,7 +23,7 @@ public class CactusFastBenchContainer extends shadows.fastbench.gui.ContainerFas
 	}
 
 	@Override
-	public boolean canInteractWith(PlayerEntity playerIn) {
-		return isWithinUsableDistance(this.worldPosCallable, playerIn, CactusRegistry.CACTUS_CRAFTING_TABLE.get());
+	public boolean stillValid(PlayerEntity playerIn) {
+		return stillValid(this.access, playerIn, CactusRegistry.CACTUS_CRAFTING_TABLE.get());
 	}
 }

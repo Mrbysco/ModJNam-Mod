@@ -16,28 +16,28 @@ public class SpikeEntity extends AbstractSpikeEntity {
 	
 	public SpikeEntity(World worldIn, double x, double y, double z) {
         this(CactusRegistry.CACTUS_SPIKE.get(), worldIn);
-        this.setPosition(x, y, z);
+        this.setPos(x, y, z);
     }
 	
 	public SpikeEntity(World worldIn, LivingEntity shooter) {
-        this(worldIn, shooter.getPosX(), shooter.getPosY() + (double)shooter.getEyeHeight() - 0.10000000149011612D, shooter.getPosZ());
-        this.setShooter(shooter);
+        this(worldIn, shooter.getX(), shooter.getY() + (double)shooter.getEyeHeight() - 0.10000000149011612D, shooter.getZ());
+        this.setOwner(shooter);
     }
 
     public SpikeEntity(FMLPlayMessages.SpawnEntity spawnEntity, World worldIn) {
         this(CactusRegistry.CACTUS_SPIKE.get(), worldIn);
     }
 
-    protected void onImpact(RayTraceResult result) {
-        super.onImpact(result);
-        if (!this.world.isRemote) {
-            this.world.setEntityState(this, (byte)3);
+    protected void onHit(RayTraceResult result) {
+        super.onHit(result);
+        if (!this.level.isClientSide) {
+            this.level.broadcastEntityEvent(this, (byte)3);
             this.remove();
         }
     }
 
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 }

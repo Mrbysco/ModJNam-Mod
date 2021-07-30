@@ -52,7 +52,7 @@ import java.util.List;
 import java.util.Random;
 
 public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, ICactusMob {
-    private static final DataParameter<Boolean> SHEARED = EntityDataManager.<Boolean>createKey(CactusSheepEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> SHEARED = EntityDataManager.<Boolean>defineId(CactusSheepEntity.class, DataSerializers.BOOLEAN);
     
     /**
      * Used to control movement as well as wool regrowth. Set to 40 on handleHealthUpdate and counts down with each
@@ -71,7 +71,7 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, Ingredient.fromItems(Items.WHEAT), false));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, Ingredient.of(Items.WHEAT), false));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(5, this.eatSandGoal);
         this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
@@ -80,10 +80,10 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
     }
     
     @Override
-    protected void updateAITasks()
+    protected void customServerAiStep()
     {
         this.sheepTimer = this.eatSandGoal.getEatingSandTimer();
-        super.updateAITasks();
+        super.customServerAiStep();
     }
 
     /**
@@ -91,21 +91,21 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
      * use this to react to sunlight and start to burn.
      */
     @Override
-    public void livingTick() {
-        if (this.world.isRemote) {
+    public void aiStep() {
+        if (this.level.isClientSide) {
             this.sheepTimer = Math.max(0, this.sheepTimer - 1);
         }
 
-        super.livingTick();
+        super.aiStep();
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, (double)0.23F);
+        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, (double)0.23F);
     }
 
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(SHEARED, false);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(SHEARED, false);
     }
 
     /**
@@ -113,11 +113,11 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
      */
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void handleStatusUpdate(byte id) {
+    public void handleEntityEvent(byte id) {
         if (id == 10) {
             this.sheepTimer = 40;
         } else {
-            super.handleStatusUpdate(id);
+            super.handleEntityEvent(id);
         }
     }
 
@@ -138,7 +138,7 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
             float f = ((float)(this.sheepTimer - 4) - p_70890_1_) / 32.0F;
             return ((float)Math.PI / 5F) + 0.21991149F * MathHelper.sin(f * 28.7F);
         } else {
-            return this.sheepTimer > 0 ? ((float)Math.PI / 5F) : this.rotationPitch * ((float)Math.PI / 180F);
+            return this.sheepTimer > 0 ? ((float)Math.PI / 5F) : this.xRot * ((float)Math.PI / 180F);
         }
     }
 
@@ -146,8 +146,8 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-      super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+      super.addAdditionalSaveData(compound);
       compound.putBoolean("Sheared", this.getSheared());
     }
 
@@ -155,51 +155,51 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.setSheared(compound.getBoolean("Sheared"));
     }
 
     @Override
     protected SoundEvent getAmbientSound()
     {
-        return SoundEvents.ENTITY_SHEEP_AMBIENT;
+        return SoundEvents.SHEEP_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn)
     {
-        return SoundEvents.ENTITY_SHEEP_HURT;
+        return SoundEvents.SHEEP_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound()
     {
-        return SoundEvents.ENTITY_SHEEP_DEATH;
+        return SoundEvents.SHEEP_DEATH;
     }
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
-        this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.SHEEP_STEP, 0.15F, 1.0F);
     }
 
     public boolean isShearable() {
-        return this.isAlive() && !this.getSheared() && !this.isChild();
+        return this.isAlive() && !this.getSheared() && !this.isBaby();
     }
 
     /**
      * returns true if a sheeps wool has been sheared
      */
     public boolean getSheared() {
-        return this.dataManager.get(SHEARED);
+        return this.entityData.get(SHEARED);
     }
 
     public void setSheared(boolean sheared) {
-        this.dataManager.set(SHEARED, sheared);
+        this.entityData.set(SHEARED, sheared);
     }
 
     @Override
-    public CactusSheepEntity createChild(ServerWorld worldIn, AgeableEntity p_241840_2_) {
+    public CactusSheepEntity getBreedOffspring(ServerWorld worldIn, AgeableEntity p_241840_2_) {
         return CactusRegistry.CACTUS_SHEEP.get().create(worldIn);
     }
 
@@ -209,8 +209,8 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
      */
     public void eatSandBonus() {
         this.setSheared(false);
-        if (this.isChild()) {
-            this.addGrowth(60);
+        if (this.isBaby()) {
+            this.ageUp(60);
         }
     }
 
@@ -222,10 +222,10 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
     @Nonnull
     @Override
     public List<ItemStack> onSheared(@Nullable PlayerEntity player, @Nonnull ItemStack item, World world, BlockPos pos, int fortune) {
-        world.playMovingSound(null, this, SoundEvents.ENTITY_SHEEP_SHEAR, player == null ? SoundCategory.BLOCKS : SoundCategory.PLAYERS, 1.0F, 1.0F);
-        if (!world.isRemote) {
+        world.playSound(null, this, SoundEvents.SHEEP_SHEAR, player == null ? SoundCategory.BLOCKS : SoundCategory.PLAYERS, 1.0F, 1.0F);
+        if (!world.isClientSide) {
             this.setSheared(true);
-            int i = 1 + this.rand.nextInt(3);
+            int i = 1 + this.random.nextInt(3);
 
             java.util.List<ItemStack> items = new java.util.ArrayList<>();
             for (int j = 0; j < i; ++j) {
@@ -243,7 +243,7 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
     
     @Override
 	@Nullable
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
     	if(this.getSheared())
     		return new ResourceLocation(Reference.PREFIX + "entities/cactus_sheep");
     	else
@@ -251,14 +251,14 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
     }
     
     @Override
-	protected void collideWithEntity(Entity entityIn) {
+	protected void doPush(Entity entityIn) {
     	if(!this.getSheared() && !(entityIn instanceof ICactusMob))
-    		entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+    		entityIn.hurt(DamageSource.CACTUS, 1.0F);
 		
-		super.collideWithEntity(entityIn);
+		super.doPush(entityIn);
 	}
 
     public static boolean canAnimalSpawn(EntityType<? extends AnimalEntity> animal, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random) {
-        return worldIn.getBlockState(pos.down()).isIn(Tags.Blocks.SAND) && worldIn.getLightSubtracted(pos, 0) > 8;
+        return worldIn.getBlockState(pos.below()).is(Tags.Blocks.SAND) && worldIn.getRawBrightness(pos, 0) > 8;
     }
 }

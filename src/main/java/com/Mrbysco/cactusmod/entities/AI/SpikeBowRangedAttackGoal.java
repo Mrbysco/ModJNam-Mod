@@ -14,7 +14,7 @@ public class SpikeBowRangedAttackGoal<T extends MonsterEntity & IRangedAttackMob
     }
 
     @Override
-    protected boolean isBowInMainhand() {
-        return this.entity.func_233634_a_(item -> item instanceof CactusBowItem);
+    protected boolean isHoldingBow() {
+        return this.entity.isHolding(item -> item instanceof CactusBowItem);
     }
 }

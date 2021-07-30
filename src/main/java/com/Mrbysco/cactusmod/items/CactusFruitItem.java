@@ -14,19 +14,19 @@ public class CactusFruitItem extends Item {
 	}
 
 	@Override
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
-        ItemStack itemstack = super.onItemUseFinish(stack, worldIn, entityLiving);
+	public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity entityLiving) {
+        ItemStack itemstack = super.finishUsingItem(stack, worldIn, entityLiving);
 
-        if (!worldIn.isRemote) {
-        	if(worldIn.rand.nextInt(10) < 5)
-    			entityLiving.attackEntityFrom(DamageSource.CACTUS, 1F);
+        if (!worldIn.isClientSide) {
+        	if(worldIn.random.nextInt(10) < 5)
+    			entityLiving.hurt(DamageSource.CACTUS, 1F);
         }
 
         return itemstack;
     }
 	
 	@Override
-	public UseAction getUseAction(ItemStack stack) {
+	public UseAction getUseAnimation(ItemStack stack) {
 		return UseAction.DRINK;
 	}
 }
