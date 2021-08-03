@@ -1,18 +1,23 @@
 package com.mrbysco.cactusmod.client.render.layers;
 
 import com.mrbysco.cactusmod.entities.hostile.CactusCreeperEntity;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.EnergyLayer;
-import net.minecraft.client.renderer.entity.model.CreeperModel;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.model.CreeperModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.EnergySwirlLayer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.monster.Creeper;
 
-public class LayerCactusCreeperCharge extends EnergyLayer<CactusCreeperEntity, CreeperModel<CactusCreeperEntity>> {
+public class LayerCactusCreeperCharge extends EnergySwirlLayer<CactusCreeperEntity, CreeperModel<CactusCreeperEntity>> {
 	private static final ResourceLocation LIGHTNING_TEXTURE = new ResourceLocation("textures/entity/creeper/creeper_armor.png");
-	private final CreeperModel<CactusCreeperEntity> creeperModel = new CreeperModel<>(2.0F);
+	private final CreeperModel<CactusCreeperEntity> creeperModel;
 
-	public LayerCactusCreeperCharge(IEntityRenderer<CactusCreeperEntity, CreeperModel<CactusCreeperEntity>> p_i50947_1_) {
-		super(p_i50947_1_);
+
+	public LayerCactusCreeperCharge(RenderLayerParent<CactusCreeperEntity, CreeperModel<CactusCreeperEntity>> layerParent, EntityModelSet modelSet) {
+		super(layerParent);
+		this.creeperModel = new CreeperModel(modelSet.bakeLayer(ModelLayers.CREEPER_ARMOR));
 	}
 
 	protected float xOffset(float p_225634_1_) {

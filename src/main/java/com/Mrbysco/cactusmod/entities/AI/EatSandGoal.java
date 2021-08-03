@@ -1,11 +1,11 @@
 package com.mrbysco.cactusmod.entities.AI;
 
 import com.mrbysco.cactusmod.entities.CactusSheepEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
 
 import java.util.EnumSet;
@@ -14,7 +14,7 @@ public class EatSandGoal extends Goal {
     /** The entity owner of this AITask */
     private final CactusSheepEntity sandEaterEntity;
     /** The world the sand eater entity is eating from */
-    private final World entityWorld;
+    private final Level entityWorld;
     /** Number of ticks since the entity started to eat sand */
     private int eatingSandTimer;
 

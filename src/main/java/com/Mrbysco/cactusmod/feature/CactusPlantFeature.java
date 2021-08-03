@@ -2,24 +2,27 @@ package com.mrbysco.cactusmod.feature;
 
 import com.mojang.serialization.Codec;
 import com.mrbysco.cactusmod.blocks.plant.CactusFlowerBlock;
-import net.minecraft.tags.TagCollectionManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import java.util.Random;
 
-public class CactusPlantFeature extends Feature<NoFeatureConfig> {
-	public CactusPlantFeature(Codec<NoFeatureConfig> p_i231936_1_) {
-		super(p_i231936_1_);
+public class CactusPlantFeature extends Feature<NoneFeatureConfiguration> {
+	public CactusPlantFeature(Codec<NoneFeatureConfiguration> configurationCodec) {
+		super(configurationCodec);
 	}
 
-	public boolean place(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config) {
-		if (reader.isEmptyBlock(pos) && reader.getBlockState(pos.below()).is(TagCollectionManager.getInstance().getBlocks().getTag(new ResourceLocation("sand")))) {
-			CactusFlowerBlock.generatePlant(reader, pos, rand, 8);
+	@Override
+	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> featurePlaceContext) {
+		WorldGenLevel level = featurePlaceContext.level();
+		BlockPos pos = featurePlaceContext.origin();
+		Random random = featurePlaceContext.random();
+		if (level.isEmptyBlock(pos) && level.getBlockState(pos.below()).is(Blocks.SAND)) {
+			CactusFlowerBlock.generatePlant(level, pos, random, 8);
 			return true;
 		} else {
 			return false;

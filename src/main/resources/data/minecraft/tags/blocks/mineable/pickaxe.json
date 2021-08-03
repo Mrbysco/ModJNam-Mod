@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "cactusmod:prickly_iron",
+    "cactusmod:cactus_brick_block",
+    "cactusmod:cactus_brick_stair",
+    "cactusmod:cactus_brick_slab"
+  ]
+}

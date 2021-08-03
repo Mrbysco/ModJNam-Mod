@@ -5,25 +5,25 @@ import com.mrbysco.cactusmod.entities.CactusGolem;
 import com.mrbysco.cactusmod.entities.CactusSnowGolemEntity;
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.pattern.BlockMaterialMatcher;
-import net.minecraft.block.pattern.BlockPattern;
-import net.minecraft.block.pattern.BlockPatternBuilder;
-import net.minecraft.block.pattern.BlockStateMatcher;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.CachedBlockInfo;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.pattern.BlockInWorld;
+import net.minecraft.world.level.block.state.pattern.BlockPattern;
+import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
+import net.minecraft.world.level.block.state.predicate.BlockMaterialPredicate;
+import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
@@ -36,42 +36,40 @@ public class CarvedCactusBlock extends BlockRotatable {
     @Nullable
     private static BlockPattern cactusSnowmanPattern;
 
-    private static final java.util.function.Predicate<BlockState> IS_CARVED_CACTUS = (state) -> {
-        return state != null && (state.getBlock() == CactusRegistry.CARVED_CACTUS.get() || state.getBlock() == CactusRegistry.JACKO_CACTUS.get());
-    };
+    private static final java.util.function.Predicate<BlockState> IS_CARVED_CACTUS = (state) -> state != null && (state.getBlock() == CactusRegistry.CARVED_CACTUS.get() || state.getBlock() == CactusRegistry.JACKO_CACTUS.get());
 
     
-	public CarvedCactusBlock(AbstractBlock.Properties builder) {
+	public CarvedCactusBlock(BlockBehaviour.Properties builder) {
 		super(builder);
 	}
 
     @Override
-    public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
         entityIn.hurt(DamageSource.CACTUS, 1.0F);
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return COLLISION_SHAPE;
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return OUTLINE_SHAPE;
     }
 
     @Override
-    public void onPlace(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
+    public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (!oldState.is(state.getBlock())) {
             this.trySpawnGolem(worldIn, pos);
         }
     }
 
-    private void trySpawnGolem(World world, BlockPos pos) {
-        BlockPattern.PatternHelper blockpattern$patternhelper = this.getCactusSnowmanPattern().find(world, pos);
+    private void trySpawnGolem(Level world, BlockPos pos) {
+        BlockPattern.BlockPatternMatch blockpattern$patternhelper = this.getCactusSnowmanPattern().find(world, pos);
         if (blockpattern$patternhelper != null) {
             for(int i = 0; i < this.getCactusSnowmanPattern().getHeight(); ++i) {
-                CachedBlockInfo cachedblockinfo = blockpattern$patternhelper.getBlock(0, i, 0);
+                BlockInWorld cachedblockinfo = blockpattern$patternhelper.getBlock(0, i, 0);
                 world.setBlock(cachedblockinfo.getPos(), Blocks.AIR.defaultBlockState(), 2);
                 world.levelEvent(2001, cachedblockinfo.getPos(), Block.getId(cachedblockinfo.getState()));
             }
@@ -81,12 +79,12 @@ public class CarvedCactusBlock extends BlockRotatable {
             cactusSnowman.moveTo((double)blockpos1.getX() + 0.5D, (double)blockpos1.getY() + 0.05D, (double)blockpos1.getZ() + 0.5D, 0.0F, 0.0F);
             world.addFreshEntity(cactusSnowman);
 
-            for(ServerPlayerEntity serverplayerentity : world.getEntitiesOfClass(ServerPlayerEntity.class, cactusSnowman.getBoundingBox().inflate(5.0D))) {
+            for(ServerPlayer serverplayerentity : world.getEntitiesOfClass(ServerPlayer.class, cactusSnowman.getBoundingBox().inflate(5.0D))) {
                 CriteriaTriggers.SUMMONED_ENTITY.trigger(serverplayerentity, cactusSnowman);
             }
 
             for(int l = 0; l < this.getCactusSnowmanPattern().getHeight(); ++l) {
-                CachedBlockInfo cachedblockinfo3 = blockpattern$patternhelper.getBlock(0, l, 0);
+                BlockInWorld cachedblockinfo3 = blockpattern$patternhelper.getBlock(0, l, 0);
                 world.blockUpdated(cachedblockinfo3.getPos(), Blocks.AIR);
             }
         } else {
@@ -94,7 +92,7 @@ public class CarvedCactusBlock extends BlockRotatable {
             if (blockpattern$patternhelper != null) {
                 for(int j = 0; j < this.getCactusGolemPattern().getWidth(); ++j) {
                     for(int k = 0; k < this.getCactusGolemPattern().getHeight(); ++k) {
-                        CachedBlockInfo cachedblockinfo2 = blockpattern$patternhelper.getBlock(j, k, 0);
+                        BlockInWorld cachedblockinfo2 = blockpattern$patternhelper.getBlock(j, k, 0);
                         world.setBlock(cachedblockinfo2.getPos(), Blocks.AIR.defaultBlockState(), 2);
                         world.levelEvent(2001, cachedblockinfo2.getPos(), Block.getId(cachedblockinfo2.getState()));
                     }
@@ -106,13 +104,13 @@ public class CarvedCactusBlock extends BlockRotatable {
                 cactusGolem.moveTo((double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.05D, (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
                 world.addFreshEntity(cactusGolem);
 
-                for(ServerPlayerEntity serverplayerentity1 : world.getEntitiesOfClass(ServerPlayerEntity.class, cactusGolem.getBoundingBox().inflate(5.0D))) {
+                for(ServerPlayer serverplayerentity1 : world.getEntitiesOfClass(ServerPlayer.class, cactusGolem.getBoundingBox().inflate(5.0D))) {
                     CriteriaTriggers.SUMMONED_ENTITY.trigger(serverplayerentity1, cactusGolem);
                 }
 
                 for(int i1 = 0; i1 < this.getCactusGolemPattern().getWidth(); ++i1) {
                     for(int j1 = 0; j1 < this.getCactusGolemPattern().getHeight(); ++j1) {
-                        CachedBlockInfo cachedblockinfo1 = blockpattern$patternhelper.getBlock(i1, j1, 0);
+                        BlockInWorld cachedblockinfo1 = blockpattern$patternhelper.getBlock(i1, j1, 0);
                         world.blockUpdated(cachedblockinfo1.getPos(), Blocks.AIR);
                     }
                 }
@@ -121,18 +119,18 @@ public class CarvedCactusBlock extends BlockRotatable {
     }
     
     protected BlockPattern getCactusSnowmanPattern() {
-        if (this.cactusSnowmanPattern == null) {
-        	cactusSnowmanPattern = BlockPatternBuilder.start().aisle("^", "#", "#").where('^', CachedBlockInfo.hasState(IS_CARVED_CACTUS)).where('#', CachedBlockInfo.hasState(BlockStateMatcher.forBlock(Blocks.CACTUS))).build();
+        if (cactusSnowmanPattern == null) {
+        	cactusSnowmanPattern = BlockPatternBuilder.start().aisle("^", "#", "#").where('^', BlockInWorld.hasState(IS_CARVED_CACTUS)).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.CACTUS))).build();
         }
 
-        return this.cactusSnowmanPattern;
+        return cactusSnowmanPattern;
     }
     
     protected BlockPattern getCactusGolemPattern() {
-        if (this.cactusGolemPattern == null) {
-    		cactusGolemPattern = BlockPatternBuilder.start().aisle("~^~", "###", "~#~").where('^', CachedBlockInfo.hasState(IS_CARVED_CACTUS)).where('#', CachedBlockInfo.hasState(BlockStateMatcher.forBlock(CactusRegistry.PRICKLY_IRON.get()))).where('~', CachedBlockInfo.hasState(BlockMaterialMatcher.forMaterial(Material.AIR))).build();
+        if (cactusGolemPattern == null) {
+    		cactusGolemPattern = BlockPatternBuilder.start().aisle("~^~", "###", "~#~").where('^', BlockInWorld.hasState(IS_CARVED_CACTUS)).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(CactusRegistry.PRICKLY_IRON.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
         }
 
-        return this.cactusGolemPattern;
+        return cactusGolemPattern;
     }
 }

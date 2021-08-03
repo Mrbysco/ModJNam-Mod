@@ -1,50 +1,57 @@
 package com.mrbysco.cactusmod.blocks.plant;
 
 import com.mrbysco.cactusmod.init.CactusRegistry;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SixWayBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.pathfinding.PathType;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.PipeBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraftforge.common.Tags;
 
 import java.util.Random;
 
-public class CactusPlantBlock extends SixWayBlock {
+public class CactusPlantBlock extends PipeBlock {
     
-	public CactusPlantBlock(AbstractBlock.Properties builder) {
+	public CactusPlantBlock(BlockBehaviour.Properties builder) {
         super(0.3125F, builder);
         this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.valueOf(false)).setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false)).setValue(WEST, Boolean.valueOf(false)).setValue(UP, Boolean.valueOf(false)).setValue(DOWN, Boolean.valueOf(false)));
 	}
 
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.makeConnections(context.getLevel(), context.getClickedPos());
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.getStateForPlacement(context.getLevel(), context.getClickedPos());
+    }
+
+    public BlockState getStateForPlacement(BlockGetter getter, BlockPos pos) {
+        BlockState blockstate = getter.getBlockState(pos.below());
+        BlockState blockstate1 = getter.getBlockState(pos.above());
+        BlockState blockstate2 = getter.getBlockState(pos.north());
+        BlockState blockstate3 = getter.getBlockState(pos.east());
+        BlockState blockstate4 = getter.getBlockState(pos.south());
+        BlockState blockstate5 = getter.getBlockState(pos.west());
+        return this.defaultBlockState()
+                .setValue(DOWN, Boolean.valueOf(blockstate.is(this) || blockstate.is(CactusRegistry.CACTUS_PLANT.get()) || blockstate.is(Tags.Blocks.SAND)))
+                .setValue(UP, Boolean.valueOf(blockstate1.is(this) || blockstate1.is(CactusRegistry.CACTUS_PLANT.get())))
+                .setValue(NORTH, Boolean.valueOf(blockstate2.is(this) || blockstate2.is(CactusRegistry.CACTUS_PLANT.get())))
+                .setValue(EAST, Boolean.valueOf(blockstate3.is(this) || blockstate3.is(CactusRegistry.CACTUS_PLANT.get())))
+                .setValue(SOUTH, Boolean.valueOf(blockstate4.is(this) || blockstate4.is(CactusRegistry.CACTUS_PLANT.get())))
+                .setValue(WEST, Boolean.valueOf(blockstate5.is(this) || blockstate5.is(CactusRegistry.CACTUS_PLANT.get())));
     }
 
     @Override
-    public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
         entityIn.hurt(DamageSource.CACTUS, 1.0F);
-    }
-
-    public BlockState makeConnections(IBlockReader blockReader, BlockPos pos) {
-        Block block = blockReader.getBlockState(pos.below()).getBlock();
-        Block block1 = blockReader.getBlockState(pos.above()).getBlock();
-        Block block2 = blockReader.getBlockState(pos.north()).getBlock();
-        Block block3 = blockReader.getBlockState(pos.east()).getBlock();
-        Block block4 = blockReader.getBlockState(pos.south()).getBlock();
-        Block block5 = blockReader.getBlockState(pos.west()).getBlock();
-        return this.defaultBlockState().setValue(DOWN, Boolean.valueOf(block == this || block == CactusRegistry.CACTUS_FLOWER.get() || block.is(Tags.Blocks.SAND))).setValue(UP, Boolean.valueOf(block1 == this || block1 == CactusRegistry.CACTUS_FLOWER.get())).setValue(NORTH, Boolean.valueOf(block2 == this || block2 == CactusRegistry.CACTUS_FLOWER.get())).setValue(EAST, Boolean.valueOf(block3 == this || block3 == CactusRegistry.CACTUS_FLOWER.get())).setValue(SOUTH, Boolean.valueOf(block4 == this || block4 == CactusRegistry.CACTUS_FLOWER.get())).setValue(WEST, Boolean.valueOf(block5 == this || block5 == CactusRegistry.CACTUS_FLOWER.get()));
     }
 
     /**
@@ -53,51 +60,50 @@ public class CactusPlantBlock extends SixWayBlock {
      * returns its solidified counterpart.
      * Note that this method should ideally consider only the specific face passed in.
      */
-    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        if (!stateIn.canSurvive(worldIn, currentPos)) {
-            worldIn.getBlockTicks().scheduleTick(currentPos, this, 1);
-            return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
+        if (!stateIn.canSurvive(level, currentPos)) {
+            level.getBlockTicks().scheduleTick(currentPos, this, 1);
+            return super.updateShape(stateIn, facing, facingState, level, currentPos, facingPos);
         } else {
-            boolean flag = facingState.getBlock() == this || facingState.is(CactusRegistry.CACTUS_FLOWER.get()) || facing == Direction.DOWN && facingState.is(Tags.Blocks.SAND);
+            boolean flag = facingState.is(this) || facingState.is(CactusRegistry.CACTUS_FLOWER.get()) || facing == Direction.DOWN && facingState.is(Tags.Blocks.SAND);
             return stateIn.setValue(PROPERTY_BY_DIRECTION.get(facing), Boolean.valueOf(flag));
         }
     }
 
-    public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
-        if (!state.canSurvive(worldIn, pos)) {
-            worldIn.destroyBlock(pos, true);
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rand) {
+        if (!state.canSurvive(level, pos)) {
+            level.destroyBlock(pos, true);
         }
-
     }
 
-    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
-        BlockState blockstate = worldIn.getBlockState(pos.below());
-        boolean flag = !worldIn.getBlockState(pos.above()).isAir() && !blockstate.isAir();
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        BlockState blockstate = level.getBlockState(pos.below());
+        boolean flag = !level.getBlockState(pos.above()).isAir() && !blockstate.isAir();
 
         for(Direction direction : Direction.Plane.HORIZONTAL) {
             BlockPos blockpos = pos.relative(direction);
-            Block block = worldIn.getBlockState(blockpos).getBlock();
-            if (block == this) {
+            BlockState blockstate1 = level.getBlockState(blockpos);
+            if (blockstate1.is(this)) {
                 if (flag) {
                     return false;
                 }
 
-                Block block1 = worldIn.getBlockState(blockpos.below()).getBlock();
-                if (block1 == this || block1.is(Tags.Blocks.SAND)) {
+                BlockState blockstate2 = level.getBlockState(blockpos.below());
+                if (blockstate2.is(this) || blockstate2.is(Tags.Blocks.SAND)) {
                     return true;
                 }
             }
         }
 
         Block block2 = blockstate.getBlock();
-        return block2 == this || block2.is(Tags.Blocks.SAND);
+        return block2 == this || blockstate.is(Tags.Blocks.SAND);
     }
 
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(NORTH, EAST, SOUTH, WEST, UP, DOWN);
     }
 
-    public boolean isPathfindable(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+    public boolean isPathfindable(BlockState state, BlockGetter worldIn, BlockPos pos, PathComputationType type) {
         return false;
     }
 }

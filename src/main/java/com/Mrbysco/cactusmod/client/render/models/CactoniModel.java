@@ -1,209 +1,98 @@
 package com.mrbysco.cactusmod.client.render.models;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mrbysco.cactusmod.entities.CactoniEntity;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
 
-/**
- * ModelCactoni - Mrbysco
- * Created using Tabula 7.0.0
- */
-public class CactoniModel<T extends CactoniEntity> extends EntityModel<T> {
-    public ModelRenderer cacti_t;
-    public ModelRenderer cacti_arm1;
-    public ModelRenderer cacti_arm2;
-    public ModelRenderer cacti_m;
-    public ModelRenderer cacti_b;
-    public ModelRenderer hat;
-    public ModelRenderer moostache;
-    public ModelRenderer bottom_bit1;
-    public ModelRenderer bottom_bit2;
-    public ModelRenderer bottom_bit3;
-    public ModelRenderer bottom_bit4;
-    public ModelRenderer middle_bit1;
-    public ModelRenderer middle_bit2;
-    public ModelRenderer middle_bit3;
-    public ModelRenderer middle_bit4;
-    public ModelRenderer middle_bit5;
-    public ModelRenderer middle_bit6;
-    public ModelRenderer middle_bit7;
-    public ModelRenderer middle_bit8;
-    public ModelRenderer middle_bit9;
-    public ModelRenderer middle_bit10;
-    public ModelRenderer middle_bit11;
-    public ModelRenderer middle_bit12;
-    public ModelRenderer top_bit1;
-    public ModelRenderer top_bit2;
-    public ModelRenderer moostache1;
-    public ModelRenderer moostache2;
-    public ModelRenderer moostache3;
-    public ModelRenderer moostache4;
-    public ModelRenderer moostache5;
-    public ModelRenderer moostache6;
-    public ModelRenderer cacti_arm11;
-    public ModelRenderer cacti_arm12;
-    public ModelRenderer cacti_arm21;
-    public ModelRenderer cacti_arm22;
+public class CactoniModel<T extends CactoniEntity> extends HierarchicalModel<T> {
+    private final ModelPart root;
+    private final ModelPart head;
+    private final ModelPart torso;
+    private final ModelPart left_arm;
+    private final ModelPart right_arm;
 
-    public CactoniModel() {
-        this.texWidth = 128;
-        this.texHeight = 128;
-        this.middle_bit7 = new ModelRenderer(this, 0, 86);
-        this.middle_bit7.setPos(0.0F, 0.0F, 0.0F);
-        this.middle_bit7.addBox(-6.0F, -8.0F, -7.0F, 1, 1, 1, 0.0F);
-        this.cacti_arm11 = new ModelRenderer(this, 0, 44);
-        this.cacti_arm11.setPos(0.0F, 9.0F, 0.0F);
-        this.cacti_arm11.addBox(10.5F, -14.0F, -3.0F, 6, 6, 6, 0.0F);
-        this.middle_bit11 = new ModelRenderer(this, 0, 90);
-        this.middle_bit11.setPos(0.0F, 0.0F, 0.0F);
-        this.middle_bit11.addBox(-6.0F, -8.0F, 6.0F, 1, 1, 1, 0.0F);
-        this.middle_bit1 = new ModelRenderer(this, 22, 84);
-        this.middle_bit1.setPos(0.0F, 0.0F, 0.0F);
-        this.middle_bit1.addBox(7.0F, -8.0F, -5.0F, 1, 1, 10, 0.0F);
-        this.middle_bit8 = new ModelRenderer(this, 4, 86);
-        this.middle_bit8.setPos(0.0F, 0.0F, 0.0F);
-        this.middle_bit8.addBox(-7.0F, -8.0F, -6.0F, 1, 1, 1, 0.0F);
-        this.middle_bit4 = new ModelRenderer(this, 22, 82);
-        this.middle_bit4.setPos(0.0F, 0.0F, 0.0F);
-        this.middle_bit4.addBox(-5.0F, -8.0F, 7.0F, 10, 1, 1, 0.0F);
-        this.moostache5 = new ModelRenderer(this, 40, 0);
-        this.moostache5.setPos(0.0F, 0.0F, 0.0F);
-        this.moostache5.addBox(5.0F, -1.0F, -5.5F, 1, 1, 1, 0.0F);
-        this.middle_bit12 = new ModelRenderer(this, 4, 90);
-        this.middle_bit12.setPos(0.0F, 0.0F, 0.0F);
-        this.middle_bit12.addBox(-7.0F, -8.0F, 5.0F, 1, 1, 1, 0.0F);
-        this.moostache1 = new ModelRenderer(this, 40, 0);
-        this.moostache1.setPos(0.0F, 0.0F, 0.0F);
-        this.moostache1.addBox(1.0F, -2.0F, -5.5F, 2, 1, 1, 0.0F);
-        this.cacti_arm22 = new ModelRenderer(this, 0, 44);
-        this.cacti_arm22.setPos(0.0F, 9.0F, 0.0F);
-        this.cacti_arm22.addBox(-16.5F, -16.0F, -3.0F, 6, 6, 6, 0.0F);
-        this.moostache3 = new ModelRenderer(this, 40, 0);
-        this.moostache3.setPos(0.0F, 0.0F, 0.0F);
-        this.moostache3.addBox(-5.0F, -0.0F, -5.5F, 4, 1, 1, 0.0F);
-        this.middle_bit9 = new ModelRenderer(this, 0, 88);
-        this.middle_bit9.setPos(0.0F, 0.0F, 0.0F);
-        this.middle_bit9.addBox(6.0F, -8.0F, 5.0F, 1, 1, 1, 0.0F);
-        this.top_bit1 = new ModelRenderer(this, 0, 95);
-        this.top_bit1.setPos(0.0F, 0.0F, 0.0F);
-        this.top_bit1.addBox(-4.0F, -11.0F, -4.0F, 8, 4, 8, 0.0F);
-        this.bottom_bit2 = new ModelRenderer(this, 0, 69);
-        this.bottom_bit2.setPos(0.0F, 0.0F, 0.0F);
-        this.bottom_bit2.addBox(-5.0F, -7.0F, 6.0F, 10, 1, 1, 0.0F);
-        this.moostache = new ModelRenderer(this, 40, 0);
-        this.moostache.setPos(0.0F, -6.0F, 0.0F);
-        this.moostache.addBox(-3.0F, -1.0F, -5.5F, 7, 1, 1, 0.0F);
-        this.middle_bit6 = new ModelRenderer(this, 4, 84);
-        this.middle_bit6.setPos(0.0F, 0.0F, 0.0F);
-        this.middle_bit6.addBox(5.0F, -8.0F, -7.0F, 1, 1, 1, 0.0F);
-        this.cacti_m = new ModelRenderer(this, 0, 22);
-        this.cacti_m.setPos(0.0F, 15.0F, 0.0F);
-        this.cacti_m.addBox(-5.0F, -13.0F, -5.0F, 10, 12, 10, -0.5F);
-        this.moostache4 = new ModelRenderer(this, 40, 0);
-        this.moostache4.setPos(0.0F, 0.0F, 0.0F);
-        this.moostache4.addBox(2.0F, -0.0F, -5.5F, 4, 1, 1, 0.0F);
-        this.bottom_bit4 = new ModelRenderer(this, 22, 71);
-        this.bottom_bit4.setPos(0.0F, 0.0F, 0.0F);
-        this.bottom_bit4.addBox(6.0F, -7.0F, -5.0F, 1, 1, 10, 0.0F);
-        this.cacti_t = new ModelRenderer(this, 0, 0);
-        this.cacti_t.setPos(0.0F, 6.0F, 0.0F);
-        this.cacti_t.addBox(-5.0F, -13.0F, -5.0F, 10, 10, 10, -0.5F);
-        this.middle_bit2 = new ModelRenderer(this, 0, 84);
-        this.middle_bit2.setPos(0.0F, 0.0F, 0.0F);
-        this.middle_bit2.addBox(-8.0F, -8.0F, -5.0F, 1, 1, 10, 0.0F);
-        this.top_bit2 = new ModelRenderer(this, 0, 107);
-        this.top_bit2.setPos(0.0F, 0.0F, 0.0F);
-        this.top_bit2.addBox(-3.0F, -15.0F, -3.0F, 6, 4, 6, 0.0F);
-        this.moostache6 = new ModelRenderer(this, 40, 0);
-        this.moostache6.setPos(0.0F, 0.0F, 0.0F);
-        this.moostache6.addBox(-5.0F, -1.0F, -5.5F, 1, 1, 1, 0.0F);
-        this.cacti_arm2 = new ModelRenderer(this, 0, 44);
-        this.cacti_arm2.setPos(0.0F, 9.0F, 0.0F);
-        this.cacti_arm2.addBox(-10.5F, -1.0F, -3.0F, 6, 6, 6, 0.0F);
-        this.bottom_bit3 = new ModelRenderer(this, 0, 71);
-        this.bottom_bit3.setPos(0.0F, 0.0F, 0.0F);
-        this.bottom_bit3.addBox(-7.0F, -7.0F, -5.0F, 1, 1, 10, 0.0F);
-        this.cacti_arm21 = new ModelRenderer(this, 0, 44);
-        this.cacti_arm21.setPos(0.0F, 9.0F, 0.0F);
-        this.cacti_arm21.addBox(-16.5F, -10.0F, -3.0F, 6, 6, 6, 0.0F);
-        this.bottom_bit1 = new ModelRenderer(this, 22, 69);
-        this.bottom_bit1.setPos(0.0F, 0.0F, 0.0F);
-        this.bottom_bit1.addBox(-5.0F, -7.0F, -7.0F, 10, 1, 1, 0.0F);
-        this.cacti_arm1 = new ModelRenderer(this, 0, 44);
-        this.cacti_arm1.setPos(0.0F, 9.0F, 0.0F);
-        this.cacti_arm1.addBox(4.5F, -5.0F, -3.0F, 6, 6, 6, 0.0F);
-        this.hat = new ModelRenderer(this, 0, 56);
-        this.hat.setPos(0.0F, -6.0F, 0.0F);
-        this.hat.addBox(-6.0F, -7.0F, -6.0F, 12, 1, 12, 0.0F);
-        this.cacti_arm12 = new ModelRenderer(this, 0, 44);
-        this.cacti_arm12.setPos(0.0F, 9.0F, 0.0F);
-        this.cacti_arm12.addBox(10.5F, -20.0F, -3.0F, 6, 6, 6, 0.0F);
-        this.middle_bit5 = new ModelRenderer(this, 0, 84);
-        this.middle_bit5.setPos(0.0F, 0.0F, 0.0F);
-        this.middle_bit5.addBox(6.0F, -8.0F, -6.0F, 1, 1, 1, 0.0F);
-        this.moostache2 = new ModelRenderer(this, 40, 0);
-        this.moostache2.setPos(0.0F, 0.0F, 0.0F);
-        this.moostache2.addBox(-2.0F, -2.0F, -5.5F, 2, 1, 1, 0.0F);
-        this.cacti_b = new ModelRenderer(this, 40, 22);
-        this.cacti_b.setPos(0.0F, 24.0F, 0.0F);
-        this.cacti_b.addBox(-5.0F, -11.0F, -5.0F, 10, 12, 10, -0.5F);
-        this.middle_bit3 = new ModelRenderer(this, 0, 82);
-        this.middle_bit3.setPos(0.0F, 0.0F, 0.0F);
-        this.middle_bit3.addBox(-5.0F, -8.0F, -8.0F, 10, 1, 1, 0.0F);
-        this.middle_bit10 = new ModelRenderer(this, 4, 88);
-        this.middle_bit10.setPos(0.0F, 0.0F, 0.0F);
-        this.middle_bit10.addBox(5.0F, -8.0F, 6.0F, 1, 1, 1, 0.0F);
-        this.hat.addChild(this.middle_bit7);
-        this.cacti_arm1.addChild(this.cacti_arm11);
-        this.hat.addChild(this.middle_bit11);
-        this.hat.addChild(this.middle_bit1);
-        this.hat.addChild(this.middle_bit8);
-        this.hat.addChild(this.middle_bit4);
-        this.moostache.addChild(this.moostache5);
-        this.hat.addChild(this.middle_bit12);
-        this.moostache.addChild(this.moostache1);
-        this.cacti_arm2.addChild(this.cacti_arm22);
-        this.moostache.addChild(this.moostache3);
-        this.hat.addChild(this.middle_bit9);
-        this.hat.addChild(this.top_bit1);
-        this.hat.addChild(this.bottom_bit2);
-        this.cacti_t.addChild(this.moostache);
-        this.hat.addChild(this.middle_bit6);
-        this.moostache.addChild(this.moostache4);
-        this.hat.addChild(this.bottom_bit4);
-        this.hat.addChild(this.middle_bit2);
-        this.hat.addChild(this.top_bit2);
-        this.moostache.addChild(this.moostache6);
-        this.hat.addChild(this.bottom_bit3);
-        this.cacti_arm2.addChild(this.cacti_arm21);
-        this.hat.addChild(this.bottom_bit1);
-        this.cacti_t.addChild(this.hat);
-        this.cacti_arm1.addChild(this.cacti_arm12);
-        this.hat.addChild(this.middle_bit5);
-        this.moostache.addChild(this.moostache2);
-        this.hat.addChild(this.middle_bit3);
-        this.hat.addChild(this.middle_bit10);
+    public CactoniModel(ModelPart part) {
+        this.root = part;
+
+        this.head = part.getChild("head");
+        this.torso = part.getChild("torso");
+        this.left_arm = part.getChild("left_arm");
+        this.right_arm = part.getChild("right_arm");
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        partdefinition.addOrReplaceChild("head", CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-5.0F, -9.0F, -5.0F, 10.0F, 10.0F, 10.0F, new CubeDeformation(-0.5F))
+                        .texOffs(4, 88).addBox(5.0F, -10.0F, 6.0F, 1.0F, 1.0F, 1.0F)
+                        .texOffs(0, 82).addBox(-5.0F, -10.0F, -8.0F, 10.0F, 1.0F, 1.0F)
+                        .texOffs(0, 84).addBox(6.0F, -10.0F, -6.0F, 1.0F, 1.0F, 1.0F)
+                        .texOffs(22, 69).addBox(-5.0F, -9.0F, -7.0F, 10.0F, 1.0F, 1.0F)
+                        .texOffs(0, 71).addBox(-7.0F, -9.0F, -5.0F, 1.0F, 1.0F, 10.0F)
+                        .texOffs(0, 107).addBox(-3.0F, -17.0F, -3.0F, 6.0F, 4.0F, 6.0F)
+                        .texOffs(0, 84).addBox(-8.0F, -10.0F, -5.0F, 1.0F, 1.0F, 10.0F)
+                        .texOffs(22, 71).addBox(6.0F, -9.0F, -5.0F, 1.0F, 1.0F, 10.0F)
+                        .texOffs(4, 84).addBox(5.0F, -10.0F, -7.0F, 1.0F, 1.0F, 1.0F)
+                        .texOffs(0, 69).addBox(-5.0F, -9.0F, 6.0F, 10.0F, 1.0F, 1.0F)
+                        .texOffs(0, 95).addBox(-4.0F, -13.0F, -4.0F, 8.0F, 4.0F, 8.0F)
+                        .texOffs(0, 88).addBox(6.0F, -10.0F, 5.0F, 1.0F, 1.0F, 1.0F)
+                        .texOffs(4, 90).addBox(-7.0F, -10.0F, 5.0F, 1.0F, 1.0F, 1.0F)
+                        .texOffs(22, 82).addBox(-5.0F, -10.0F, 7.0F, 10.0F, 1.0F, 1.0F)
+                        .texOffs(4, 86).addBox(-7.0F, -10.0F, -6.0F, 1.0F, 1.0F, 1.0F)
+                        .texOffs(22, 84).addBox(7.0F, -10.0F, -5.0F, 1.0F, 1.0F, 10.0F)
+                        .texOffs(0, 90).addBox(-6.0F, -10.0F, 6.0F, 1.0F, 1.0F, 1.0F)
+                        .texOffs(0, 86).addBox(-6.0F, -10.0F, -7.0F, 1.0F, 1.0F, 1.0F)
+                        .texOffs(0, 56).addBox(-6.0F, -9.0F, -6.0F, 12.0F, 1.0F, 12.0F)
+                        .texOffs(40, 0).addBox(-2.0F, -4.0F, -5.5F, 2.0F, 1.0F, 1.0F)
+                        .texOffs(40, 0).addBox(-5.0F, -3.0F, -5.5F, 1.0F, 1.0F, 1.0F)
+                        .texOffs(40, 0).addBox(2.0F, -2.0F, -5.5F, 4.0F, 1.0F, 1.0F)
+                        .texOffs(40, 0).addBox(-5.0F, -2.0F, -5.5F, 4.0F, 1.0F, 1.0F)
+                        .texOffs(40, 0).addBox(1.0F, -4.0F, -5.5F, 2.0F, 1.0F, 1.0F)
+                        .texOffs(40, 0).addBox(5.0F, -3.0F, -5.5F, 1.0F, 1.0F, 1.0F)
+                        .texOffs(40, 0).addBox(-3.0F, -3.0F, -5.5F, 7.0F, 1.0F, 1.0F),
+                PartPose.offset(0.0F, 1.0F, 0.0F));
+
+        partdefinition.addOrReplaceChild("torso", CubeListBuilder.create()
+                        .texOffs(0, 22).addBox(-5.0F, -11.5F, -5.0F, 10.0F, 12.0F, 10.0F, new CubeDeformation(-0.5F))
+                        .texOffs(40, 22).addBox(-5.0F, -0.5F, -5.0F, 10.0F, 12.0F, 10.0F, new CubeDeformation(-0.5F)),
+                PartPose.offset(0.0F, 12.5F, 0.0F));
+
+        partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create()
+                        .texOffs(0, 44).addBox(-0.5F, -3.5F, -3.0F, 6.0F, 6.0F, 6.0F)
+                        .texOffs(0, 44).addBox(5.5F, -3.5F, -3.0F, 6.0F, 6.0F, 6.0F)
+                        .texOffs(0, 44).addBox(5.5F, -9.5F, -3.0F, 6.0F, 6.0F, 6.0F),
+                PartPose.offset(5.0F, 6.5F, 0.0F));
+
+        partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create()
+                        .texOffs(0, 44).addBox(-6.5F, -3.0F, -3.0F, 6.0F, 6.0F, 6.0F)
+                        .texOffs(0, 44).addBox(-12.5F, -9.0F, -3.0F, 6.0F, 6.0F, 6.0F)
+                        .texOffs(0, 44).addBox(-12.5F, -3.0F, -3.0F, 6.0F, 6.0F, 6.0F),
+                PartPose.offset(-4.0F, 10.0F, 0.0F));
+
+        return LayerDefinition.create(meshdefinition, 128, 128);
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.cacti_m.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        this.cacti_t.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        this.cacti_arm2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        this.cacti_arm1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        this.cacti_b.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+    public ModelPart root() {
+        return root;
     }
 
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.cacti_t.yRot = netHeadYaw * 0.017453292F;
-        this.cacti_t.xRot = headPitch * 0.017453292F;
-        this.cacti_arm2.xRot = MathHelper.cos(limbSwing * 0.6662F) * 0.8F * limbSwingAmount * 0.5F;
-        this.cacti_arm1.xRot = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
-        this.cacti_arm2.yRot = 0.0F;
-        this.cacti_arm1.yRot = 0.0F;
+        this.head.yRot = netHeadYaw * 0.017453292F;
+        this.head.xRot = headPitch * 0.017453292F;
+        this.left_arm.xRot = Mth.cos(limbSwing * 0.6662F) * 0.8F * limbSwingAmount * 0.5F;
+        this.right_arm.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
+        this.left_arm.yRot = 0.0F;
+        this.right_arm.yRot = 0.0F;
     }
 }

@@ -3,44 +3,44 @@ package com.mrbysco.cactusmod.entities;
 import com.mrbysco.cactusmod.Reference;
 import com.mrbysco.cactusmod.entities.AI.EatSandGoal;
 import com.mrbysco.cactusmod.init.CactusRegistry;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowParentGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.TemptGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.FollowParentGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IForgeShearable;
@@ -51,8 +51,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, ICactusMob {
-    private static final DataParameter<Boolean> SHEARED = EntityDataManager.<Boolean>defineId(CactusSheepEntity.class, DataSerializers.BOOLEAN);
+public class CactusSheepEntity extends Animal implements IForgeShearable, ICactusMob {
+    private static final EntityDataAccessor<Boolean> SHEARED = SynchedEntityData.<Boolean>defineId(CactusSheepEntity.class, EntityDataSerializers.BOOLEAN);
     
     /**
      * Used to control movement as well as wool regrowth. Set to 40 on handleHealthUpdate and counts down with each
@@ -61,22 +61,22 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
     private int sheepTimer;
     private EatSandGoal eatSandGoal;
 
-    public CactusSheepEntity(EntityType<? extends CactusSheepEntity> type, World worldIn) {
+    public CactusSheepEntity(EntityType<? extends CactusSheepEntity> type, Level worldIn) {
         super(type, worldIn);
     }
 
     @Override
     protected void registerGoals() {
         this.eatSandGoal = new EatSandGoal(this);
-        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, Ingredient.of(Items.WHEAT), false));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(5, this.eatSandGoal);
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
     }
     
     @Override
@@ -99,8 +99,8 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
         super.aiStep();
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, (double)0.23F);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, (double)0.23F);
     }
 
     protected void defineSynchedData() {
@@ -108,9 +108,6 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
         this.entityData.define(SHEARED, false);
     }
 
-    /**
-     * Handler for {@link World#setEntityState}
-     */
     @Override
     @OnlyIn(Dist.CLIENT)
     public void handleEntityEvent(byte id) {
@@ -136,9 +133,9 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
     public float getHeadRotationAngleX(float p_70890_1_) {
         if (this.sheepTimer > 4 && this.sheepTimer <= 36) {
             float f = ((float)(this.sheepTimer - 4) - p_70890_1_) / 32.0F;
-            return ((float)Math.PI / 5F) + 0.21991149F * MathHelper.sin(f * 28.7F);
+            return ((float)Math.PI / 5F) + 0.21991149F * Mth.sin(f * 28.7F);
         } else {
-            return this.sheepTimer > 0 ? ((float)Math.PI / 5F) : this.xRot * ((float)Math.PI / 180F);
+            return this.sheepTimer > 0 ? ((float)Math.PI / 5F) : this.getXRot() * ((float)Math.PI / 180F);
         }
     }
 
@@ -146,7 +143,7 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
       super.addAdditionalSaveData(compound);
       compound.putBoolean("Sheared", this.getSheared());
     }
@@ -155,7 +152,7 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setSheared(compound.getBoolean("Sheared"));
     }
@@ -199,8 +196,8 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
     }
 
     @Override
-    public CactusSheepEntity getBreedOffspring(ServerWorld worldIn, AgeableEntity p_241840_2_) {
-        return CactusRegistry.CACTUS_SHEEP.get().create(worldIn);
+    public CactusSheepEntity getBreedOffspring(ServerLevel level, AgeableMob ageableMob) {
+        return CactusRegistry.CACTUS_SHEEP.get().create(level);
     }
 
     /**
@@ -215,14 +212,14 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
     }
 
     @Override
-    public boolean isShearable(@Nonnull ItemStack item, World world, BlockPos pos) {
+    public boolean isShearable(@Nonnull ItemStack item, Level world, BlockPos pos) {
         return isShearable();
     }
 
     @Nonnull
     @Override
-    public List<ItemStack> onSheared(@Nullable PlayerEntity player, @Nonnull ItemStack item, World world, BlockPos pos, int fortune) {
-        world.playSound(null, this, SoundEvents.SHEEP_SHEAR, player == null ? SoundCategory.BLOCKS : SoundCategory.PLAYERS, 1.0F, 1.0F);
+    public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack item, Level world, BlockPos pos, int fortune) {
+        world.playSound(null, this, SoundEvents.SHEEP_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
         if (!world.isClientSide) {
             this.setSheared(true);
             int i = 1 + this.random.nextInt(3);
@@ -237,7 +234,7 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
     }
 
     @Override
-    protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
+    protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
         return 0.95F * sizeIn.height;
     }
     
@@ -245,9 +242,9 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
 	@Nullable
     protected ResourceLocation getDefaultLootTable() {
     	if(this.getSheared())
-    		return new ResourceLocation(Reference.PREFIX + "entities/cactus_sheep");
+    		return new ResourceLocation(Reference.MOD_ID, "entities/cactus_sheep");
     	else
-    		return new ResourceLocation(Reference.PREFIX + "entities/cactus_sheep1");
+    		return new ResourceLocation(Reference.MOD_ID, "entities/cactus_sheep1");
     }
     
     @Override
@@ -258,7 +255,7 @@ public class CactusSheepEntity extends AnimalEntity implements IForgeShearable, 
 		super.doPush(entityIn);
 	}
 
-    public static boolean canAnimalSpawn(EntityType<? extends AnimalEntity> animal, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random) {
+    public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random random) {
         return worldIn.getBlockState(pos.below()).is(Tags.Blocks.SAND) && worldIn.getRawBrightness(pos, 0) > 8;
     }
 }

@@ -1,35 +1,35 @@
 package com.mrbysco.cactusmod.entities.hostile;
 
 import com.mrbysco.cactusmod.entities.ICactusMob;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.SpiderEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Spider;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 
 import javax.annotation.Nullable;
 
-public class CactusSpiderEntity extends SpiderEntity implements ICactusMob{
-    private static final DataParameter<Integer> SPIDER_SIZE = EntityDataManager.defineId(CactusSpiderEntity.class, DataSerializers.INT);
+public class CactusSpiderEntity extends Spider implements ICactusMob{
+    private static final EntityDataAccessor<Integer> SPIDER_SIZE = SynchedEntityData.defineId(CactusSpiderEntity.class, EntityDataSerializers.INT);
 
-	public CactusSpiderEntity(EntityType<? extends SpiderEntity> type, World worldIn) {
+	public CactusSpiderEntity(EntityType<? extends Spider> type, Level worldIn) {
         super(type, worldIn);
 	}
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MonsterEntity.createMonsterAttributes().add(Attributes.MAX_HEALTH, 16.0D).add(Attributes.MOVEMENT_SPEED, (double)0.3F);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 16.0D).add(Attributes.MOVEMENT_SPEED, (double)0.3F);
     }
 
 	@Override
@@ -39,10 +39,10 @@ public class CactusSpiderEntity extends SpiderEntity implements ICactusMob{
     }
 	
 	@Override
-    public void onSyncedDataUpdated(DataParameter<?> key) {
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         if (SPIDER_SIZE.equals(key)) {
             this.refreshDimensions();
-            this.yRot = this.yHeadRot;
+            this.setYRot(this.yHeadRot);
             this.yBodyRot = this.yHeadRot;
             if (this.isInWater() && this.random.nextInt(20) == 0) {
                 this.doWaterSplashEffect();
@@ -83,13 +83,13 @@ public class CactusSpiderEntity extends SpiderEntity implements ICactusMob{
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Size", this.getSpiderSize() - 1);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         int i = compound.getInt("Size");
 
@@ -115,8 +115,8 @@ public class CactusSpiderEntity extends SpiderEntity implements ICactusMob{
     @Override
     public void remove(boolean keepData) {
         int i = this.getSpiderSize();
-        if (!this.level.isClientSide && i > 1 && this.isDeadOrDying() && !this.removed) {
-            ITextComponent itextcomponent = this.getCustomName();
+        if (!this.level.isClientSide && i > 1 && this.isDeadOrDying() && this.getRemovalReason() == null) {
+            Component itextcomponent = this.getCustomName();
             boolean flag = this.isNoAi();
             float f = (float)i / 4.0F;
             int j = i / 2;
@@ -142,7 +142,7 @@ public class CactusSpiderEntity extends SpiderEntity implements ICactusMob{
         super.remove(keepData);
     }
 
-    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
         this.setSpiderSize(4, true);
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }

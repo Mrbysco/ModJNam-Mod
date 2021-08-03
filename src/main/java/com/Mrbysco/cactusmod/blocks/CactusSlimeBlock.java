@@ -1,50 +1,44 @@
 package com.mrbysco.cactusmod.blocks;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BreakableBlock;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.HalfTransparentBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class CactusSlimeBlock extends BreakableBlock {
+public class CactusSlimeBlock extends HalfTransparentBlock {
 	
-	public CactusSlimeBlock(AbstractBlock.Properties properties) {
-        super(properties);
+	public CactusSlimeBlock(BlockBehaviour.Properties properties) {
+        super(properties.friction(0.5F));
     }
 
-    @Override
-    public float getSlipperiness(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity entity) {
-        return 0.5F;
-    }
-    
-	/**
+    /**
      * Block's chance to react to a living entity falling on it.
      */
-	@Override
-    public void fallOn(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
-        if (entityIn.isShiftKeyDown()) {
-            super.fallOn(worldIn, pos, entityIn, fallDistance * 0.5F);
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+        if (entity.isShiftKeyDown()) {
+            super.fallOn(level, state, pos, entity, fallDistance * 0.5F);
         } else {
-            entityIn.causeFallDamage(fallDistance, 0.0F);
+            entity.causeFallDamage(fallDistance, 0.0F, DamageSource.CACTUS);
         }
     }
 
     @Override
-    public void updateEntityAfterFallOn(IBlockReader worldIn, Entity entityIn) {
+    public void updateEntityAfterFallOn(BlockGetter worldIn, Entity entityIn) {
         if (entityIn.isSuppressingBounce()) {
             super.updateEntityAfterFallOn(worldIn, entityIn);
         } else {
@@ -56,7 +50,7 @@ public class CactusSlimeBlock extends BreakableBlock {
         if(entity.level.random.nextInt(40) < 1)
             entity.hurt(DamageSource.CACTUS, 1.0F);
 
-        Vector3d vector3d = entity.getDeltaMovement();
+        Vec3 vector3d = entity.getDeltaMovement();
         if (vector3d.y < 0.0D) {
             double d0 = entity instanceof LivingEntity ? 1.0D : 0.8D;
             entity.setDeltaMovement(vector3d.x, -vector3d.y * d0, vector3d.z);
@@ -67,19 +61,19 @@ public class CactusSlimeBlock extends BreakableBlock {
      * Called when the given entity walks on this Block
      */
 	@Override
-    public void stepOn(World worldIn, BlockPos pos, Entity entityIn) {
+    public void stepOn(Level worldIn, BlockPos pos, BlockState state, Entity entityIn) {
         double d0 = Math.abs(entityIn.getDeltaMovement().y);
         if (d0 < 0.1D && !entityIn.isSteppingCarefully()) {
             double d1 = 0.4D + d0 * 0.2D;
             entityIn.setDeltaMovement(entityIn.getDeltaMovement().multiply(d1, 1.0D, d1));
         }
 
-        super.stepOn(worldIn, pos, entityIn);
+        super.stepOn(worldIn, pos, state, entityIn);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslationTextComponent("cactus.slimeblock.info").withStyle(TextFormatting.GREEN));
+        tooltip.add(new TranslatableComponent("cactus.slimeblock.info").withStyle(ChatFormatting.GREEN));
     }
 }

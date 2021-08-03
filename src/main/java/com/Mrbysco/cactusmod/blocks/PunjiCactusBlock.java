@@ -1,32 +1,32 @@
 package com.mrbysco.cactusmod.blocks;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CarpetBlock;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.WoolCarpetBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class PunjiCactusBlock extends CarpetBlock {
+public class PunjiCactusBlock extends WoolCarpetBlock {
     protected static final VoxelShape SHAPE = Stream.of(
             Block.box(1, 0, 1, 15, 1, 15),
             Block.box(4, 1, 5, 5, 2, 6),
@@ -52,30 +52,29 @@ public class PunjiCactusBlock extends CarpetBlock {
             Block.box(3, 1, 1, 4, 2, 2),
             Block.box(7, 1, 1, 8, 2, 2),
             Block.box(11, 1, 1, 12, 2, 2)
-    ).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
+    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
-	public PunjiCactusBlock(AbstractBlock.Properties builder) {
+	public PunjiCactusBlock(BlockBehaviour.Properties builder) {
 		super(DyeColor.GREEN, builder);
 	}
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
         super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
     }
 
     @Override
-    public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
         super.entityInside(state, worldIn, pos, entityIn);
 
-        if(entityIn instanceof MobEntity) {
+        if(entityIn instanceof Mob) {
             entityIn.hurt(DamageSource.CACTUS, 1.0F);
-        } else if (entityIn instanceof ItemEntity) {
-            ItemEntity item = (ItemEntity)entityIn;
+        } else if (entityIn instanceof ItemEntity item) {
             if(item.tickCount >= 2400) {
                 entityIn.hurt(DamageSource.CACTUS, 1.0F);
             }
@@ -83,9 +82,9 @@ public class PunjiCactusBlock extends CarpetBlock {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslationTextComponent("cactus.carpet.info").withStyle(TextFormatting.GREEN));
-        tooltip.add(new TranslationTextComponent("cactus.carpet.info2").withStyle(TextFormatting.GREEN));
+        tooltip.add(new TranslatableComponent("cactus.carpet.info").withStyle(ChatFormatting.GREEN));
+        tooltip.add(new TranslatableComponent("cactus.carpet.info2").withStyle(ChatFormatting.GREEN));
     }
 }

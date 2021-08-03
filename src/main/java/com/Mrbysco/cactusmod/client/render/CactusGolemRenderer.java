@@ -1,19 +1,20 @@
 package com.mrbysco.cactusmod.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import com.mrbysco.cactusmod.Reference;
 import com.mrbysco.cactusmod.entities.CactusGolem;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.model.IronGolemModel;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.model.IronGolemModel;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
 
 public class CactusGolemRenderer extends MobRenderer<CactusGolem, IronGolemModel<CactusGolem>> {
-	private static final ResourceLocation texture = new ResourceLocation(Reference.PREFIX + "textures/entity/cactus_villager_golem.png");
+	private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID,  "textures/entity/cactus_villager_golem.png");
 
-	public CactusGolemRenderer(EntityRendererManager rendermanagerIn) {
-        super(rendermanagerIn, new IronGolemModel(), 0.5F);
+	public CactusGolemRenderer(EntityRendererProvider.Context context) {
+        super(context, new IronGolemModel(context.bakeLayer(ModelLayers.IRON_GOLEM)), 0.5F);
 	}
 
 	@Override
@@ -21,7 +22,7 @@ public class CactusGolemRenderer extends MobRenderer<CactusGolem, IronGolemModel
 		return texture;
 	}
 
-	protected void setupRotations(CactusGolem entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+	protected void setupRotations(CactusGolem entityLiving, PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
 		super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
 		if (!((double)entityLiving.animationSpeed < 0.01D)) {
 			float f = 13.0F;

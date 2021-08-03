@@ -1,41 +1,41 @@
 package com.mrbysco.cactusmod.entities;
 
 import com.mrbysco.cactusmod.init.CactusRegistry;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.BoatEntity;
-import net.minecraft.item.Item;
-import net.minecraft.network.IPacket;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
-public class CactusBoatEntity extends BoatEntity implements ICactusMob {
+public class CactusBoatEntity extends Boat implements ICactusMob {
     private int timeInBoat;
     private int timeInBoat2;
 
-    public CactusBoatEntity(EntityType<? extends BoatEntity> type, World world) {
+    public CactusBoatEntity(EntityType<? extends Boat> type, Level world) {
         super(type, world);
     }
 
-    public CactusBoatEntity(World worldIn, double x, double y, double z) {
+    public CactusBoatEntity(Level worldIn, double x, double y, double z) {
         this(CactusRegistry.CACTUS_BOAT_ENTITY.get(), worldIn);
         this.setPos(x, y, z);
-        this.setDeltaMovement(Vector3d.ZERO);
+        this.setDeltaMovement(Vec3.ZERO);
         this.xo = x;
         this.yo = y;
         this.zo = z;
     }
 
-    public CactusBoatEntity(FMLPlayMessages.SpawnEntity spawnEntity, World worldIn) {
+    public CactusBoatEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level worldIn) {
         this(CactusRegistry.CACTUS_BOAT_ENTITY.get(), worldIn);
     }
 
     @Override
-    public IPacket<?> getAddEntityPacket() {
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
     

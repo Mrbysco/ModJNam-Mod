@@ -2,23 +2,23 @@ package com.mrbysco.cactusmod.entities.hostile;
 
 import com.mrbysco.cactusmod.entities.ICactusMob;
 import com.mrbysco.cactusmod.util.ExplosionHelper;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.Level;
 
-public class CactusCreeperEntity extends CreeperEntity implements ICactusMob{
+public class CactusCreeperEntity extends Creeper implements ICactusMob{
     private int explosionRadius = 2;
 
-	public CactusCreeperEntity(EntityType<? extends CreeperEntity> type, World worldIn) {
+	public CactusCreeperEntity(EntityType<? extends Creeper> type, Level worldIn) {
         super(type, worldIn);
 	}
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MonsterEntity.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D);
     }
 
     @Override
@@ -26,18 +26,18 @@ public class CactusCreeperEntity extends CreeperEntity implements ICactusMob{
         if (!this.level.isClientSide) {
             float f = 4.0F;
             ExplosionHelper.arrowExplosion(this, this.getX(), this.getY() + (double)(this.getBbHeight() / 16.0F), this.getZ(), f, false);
-            this.remove();
+            this.discard();
         }
     }
 	
 	@Override
-	public void addAdditionalSaveData(CompoundNBT compound) {
+	public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putByte("ExplosionRadius", (byte)this.explosionRadius);
 	}
 	
 	@Override
-	public void readAdditionalSaveData(CompoundNBT compound) {
+	public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
 
         if (compound.contains("ExplosionRadius", 99)) {

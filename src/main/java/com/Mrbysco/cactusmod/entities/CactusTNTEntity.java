@@ -2,45 +2,45 @@ package com.mrbysco.cactusmod.entities;
 
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import com.mrbysco.cactusmod.util.ExplosionHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.Pose;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
 public class CactusTNTEntity extends Entity {
-    private static final DataParameter<Integer> FUSE = EntityDataManager.defineId(CactusTNTEntity.class, DataSerializers.INT);
+    private static final EntityDataAccessor<Integer> FUSE = SynchedEntityData.defineId(CactusTNTEntity.class, EntityDataSerializers.INT);
     @Nullable
     private LivingEntity tntPlacedBy;
     private int fuse = 80;
 
-    public CactusTNTEntity(EntityType<? extends CactusTNTEntity> type, World worldIn) {
-        super(type, worldIn);
+    public CactusTNTEntity(EntityType<? extends CactusTNTEntity> type, Level level) {
+        super(type, level);
         this.blocksBuilding = true;
     }
 
-    public CactusTNTEntity(FMLPlayMessages.SpawnEntity spawnEntity, World worldIn) {
-        this(CactusRegistry.CACTUS_TNT_ENTITY.get(), worldIn);
+    public CactusTNTEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level level) {
+        this(CactusRegistry.CACTUS_TNT_ENTITY.get(), level);
     }
 
     @Override
-    public IPacket<?> getAddEntityPacket() {
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    public CactusTNTEntity(World worldIn, double x, double y, double z, @Nullable LivingEntity igniter) {
+    public CactusTNTEntity(Level worldIn, double x, double y, double z, @Nullable LivingEntity igniter) {
         this(CactusRegistry.CACTUS_TNT_ENTITY.get(), worldIn);
         this.setPos(x, y, z);
         double d0 = worldIn.random.nextDouble() * (double)((float)Math.PI * 2F);
@@ -57,16 +57,15 @@ public class CactusTNTEntity extends Entity {
     {
         this.entityData.define(FUSE, Integer.valueOf(80));
     }
-    
+
     @Override
-    protected boolean isMovementNoisy()
-    {
-        return false;
+    protected MovementEmission getMovementEmission() {
+        return Entity.MovementEmission.NONE;
     }
-    
+
     @Override
     public boolean isPickable() {
-        return !this.removed;
+        return this.getRemovalReason() != null;
     }
 
     @Override
@@ -83,7 +82,7 @@ public class CactusTNTEntity extends Entity {
 
         --this.fuse;
         if (this.fuse <= 0) {
-            this.remove();
+            this.discard();
             if (!this.level.isClientSide) {
                 this.explode();
             }
@@ -100,11 +99,11 @@ public class CactusTNTEntity extends Entity {
         ExplosionHelper.arrowExplosion(this, this.getX(), this.getY() + (double)(this.getBbHeight() / 16.0F), this.getZ(), f, true);
     }
 
-    protected void addAdditionalSaveData(CompoundNBT compound) {
+    protected void addAdditionalSaveData(CompoundTag compound) {
         compound.putShort("Fuse", (short)this.getFuse());
     }
 
-    protected void readAdditionalSaveData(CompoundNBT compound) {
+    protected void readAdditionalSaveData(CompoundTag compound) {
         this.setFuse(compound.getShort("Fuse"));
     }
 
@@ -113,7 +112,7 @@ public class CactusTNTEntity extends Entity {
         return this.tntPlacedBy;
     }
 
-    protected float getEyeHeight(Pose poseIn, EntitySize sizeIn) {
+    protected float getEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
         return 0.15F;
     }
 
@@ -122,7 +121,7 @@ public class CactusTNTEntity extends Entity {
         this.fuse = fuseIn;
     }
 
-    public void onSyncedDataUpdated(DataParameter<?> key) {
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         if (FUSE.equals(key)) {
             this.fuse = this.getFuseDataManager();
         }

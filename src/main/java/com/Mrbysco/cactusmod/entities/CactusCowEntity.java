@@ -1,29 +1,29 @@
 package com.mrbysco.cactusmod.entities;
 
 import com.mrbysco.cactusmod.init.CactusRegistry;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DrinkHelper;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.Tags.Blocks;
 
@@ -32,22 +32,22 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class CactusCowEntity extends CowEntity implements IForgeShearable, ICactusMob{
+public class CactusCowEntity extends Cow implements IForgeShearable, ICactusMob{
 
-	public CactusCowEntity(EntityType<? extends CowEntity> type, World worldIn) {
+	public CactusCowEntity(EntityType<? extends Cow> type, Level worldIn) {
         super(type, worldIn);
 	}
 
-    public CactusCowEntity getBreedOffspring(ServerWorld worldIn, AgeableEntity p_241840_2_) {
-        return CactusRegistry.CACTUS_COW.get().create(worldIn);
+    public CactusCowEntity getBreedOffspring(ServerLevel level, AgeableMob ageableMob) {
+        return CactusRegistry.CACTUS_COW.get().create(level);
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.MOVEMENT_SPEED, (double)0.2F);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.MOVEMENT_SPEED, (double)0.2F);
     }
 
     @Override
-    public boolean isShearable(@Nonnull ItemStack item, World world, BlockPos pos) {
+    public boolean isShearable(@Nonnull ItemStack item, Level world, BlockPos pos) {
         return isShearable();
     }
 
@@ -57,13 +57,13 @@ public class CactusCowEntity extends CowEntity implements IForgeShearable, ICact
 
     @Nonnull
     @Override
-    public List<ItemStack> onSheared(@Nullable PlayerEntity player, @Nonnull ItemStack item, World world, BlockPos pos, int fortune) {
-        world.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, player == null ? SoundCategory.BLOCKS : SoundCategory.PLAYERS, 1.0F, 1.0F);
+    public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack item, Level world, BlockPos pos, int fortune) {
+        world.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
         if (!world.isClientSide()) {
-            ((ServerWorld)this.level).sendParticles(ParticleTypes.EXPLOSION, this.getX(), this.getY(0.5D), this.getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
-            this.remove();
-            CowEntity cowentity = EntityType.COW.create(this.level);
-            cowentity.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, this.xRot);
+            ((ServerLevel)this.level).sendParticles(ParticleTypes.EXPLOSION, this.getX(), this.getY(0.5D), this.getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+            this.discard();
+            Cow cowentity = EntityType.COW.create(this.level);
+            cowentity.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
             cowentity.setHealth(this.getHealth());
             cowentity.yBodyRot = this.yBodyRot;
             if (this.hasCustomName()) {
@@ -89,23 +89,23 @@ public class CactusCowEntity extends CowEntity implements IForgeShearable, ICact
     }
 
     @Override
-    public ActionResultType mobInteract(PlayerEntity playerIn, Hand handIn) {
+    public InteractionResult mobInteract(Player playerIn, InteractionHand handIn) {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
         if (itemstack.getItem() == Items.GLASS_BOTTLE && !this.isBaby()) {
             playerIn.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
-            ItemStack itemstack1 = DrinkHelper.createFilledResult(itemstack, playerIn, CactusRegistry.CACTUS_JUICE.get().getDefaultInstance());
+            ItemStack itemstack1 = ItemUtils.createFilledResult(itemstack, playerIn, CactusRegistry.CACTUS_JUICE.get().getDefaultInstance());
             playerIn.setItemInHand(handIn, itemstack1);
-            return ActionResultType.sidedSuccess(this.level.isClientSide);
+            return InteractionResult.sidedSuccess(this.level.isClientSide);
         } else {
             return super.mobInteract(playerIn, handIn);
         }
     }
 
-    protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
+    protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
         return this.isBaby() ? sizeIn.height * 0.95F : 1.3F;
     }
 
-    public static boolean canAnimalSpawn(EntityType<? extends AnimalEntity> animal, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random) {
+    public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random random) {
         return worldIn.getBlockState(pos.below()).is(Blocks.SAND) && worldIn.getRawBrightness(pos, 0) > 8;
     }
 }

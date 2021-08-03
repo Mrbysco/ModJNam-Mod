@@ -1,18 +1,18 @@
 package com.mrbysco.cactusmod.entities;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.SlimeEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.level.Level;
 
-public class CactusSlimeEntity extends SlimeEntity implements ICactusMob{
+public class CactusSlimeEntity extends Slime implements ICactusMob{
 	
-	public CactusSlimeEntity(EntityType<? extends SlimeEntity> type, World worldIn) {
+	public CactusSlimeEntity(EntityType<? extends Slime> type, Level worldIn) {
         super(type, worldIn);
 	}
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MonsterEntity.createMonsterAttributes();
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes();
     }
 }

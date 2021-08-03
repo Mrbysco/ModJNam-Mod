@@ -12,7 +12,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
@@ -35,23 +34,22 @@ public class CactusMod {
 		CactusRegistry.BLOCKS.register(eventBus);
 		CactusRegistry.ITEMS.register(eventBus);
 		CactusRegistry.ENTITIES.register(eventBus);
-		CactusRegistry.TILE_ENTITIES.register(eventBus);
+		CactusRegistry.BLOCK_ENTITIES.register(eventBus);
 		CactusRegistry.SOUND_EVENTS.register(eventBus);
+		CactusRegistry.CONTAINERS.register(eventBus);
 
-		if(ModList.get().isLoaded("fastbench")) {
-			com.mrbysco.cactusmod.compat.fastbench.FastBenchCompat.CONTAINERS.register(eventBus);
-		} else {
-			CactusRegistry.CONTAINERS.register(eventBus);
-		}
 		eventBus.addListener(this::setup);
+		eventBus.addListener(CactusSpawns::registerEntityAttributes);
 
 		MinecraftForge.EVENT_BUS.register(new CactusWorkbenchHandler());
 		MinecraftForge.EVENT_BUS.register(new CactusToolHandler());
 		MinecraftForge.EVENT_BUS.register(new CactusMobHandler());
 		MinecraftForge.EVENT_BUS.register(new CactusModCompatHandlers());
 
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			eventBus.addListener(ClientHandler::registerRenders);
+			eventBus.addListener(ClientHandler::registerEntityRenders);
+			eventBus.addListener(ClientHandler::registerLayerDefinitions);
 			eventBus.addListener(ClientHandler::preStitchEvent);
 			eventBus.addListener(ClientHandler::registerItemColors);
 		});

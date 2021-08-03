@@ -1,15 +1,15 @@
 package com.mrbysco.cactusmod.items;
 
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.UseAction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.level.Level;
 
 public class CactusJuiceItem extends Item {
 
@@ -17,22 +17,22 @@ public class CactusJuiceItem extends Item {
 		super(properties);
 	}
 
-	public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity entityLiving) {
-		super.finishUsingItem(stack, worldIn, entityLiving);
-		if (entityLiving instanceof ServerPlayerEntity) {
-			ServerPlayerEntity serverplayerentity = (ServerPlayerEntity)entityLiving;
-			CriteriaTriggers.CONSUME_ITEM.trigger(serverplayerentity, stack);
-			serverplayerentity.awardStat(Stats.ITEM_USED.get(this));
+	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
+		super.finishUsingItem(stack, level, livingEntity);
+		if (livingEntity instanceof ServerPlayer) {
+			ServerPlayer serverPlayer = (ServerPlayer)livingEntity;
+			CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
+			serverPlayer.awardStat(Stats.ITEM_USED.get(this));
 		}
 
 		if (stack.isEmpty()) {
 			return new ItemStack(Items.GLASS_BOTTLE);
 		} else {
-			if (entityLiving instanceof PlayerEntity && !((PlayerEntity)entityLiving).abilities.instabuild) {
-				ItemStack itemstack = new ItemStack(Items.GLASS_BOTTLE);
-				PlayerEntity playerentity = (PlayerEntity)entityLiving;
-				if (!playerentity.inventory.add(itemstack)) {
-					playerentity.drop(itemstack, false);
+			if (livingEntity instanceof Player && !((Player)livingEntity).getAbilities().instabuild) {
+				ItemStack glassStack = new ItemStack(Items.GLASS_BOTTLE);
+				Player player = (Player)livingEntity;
+				if (!player.getInventory().add(glassStack)) {
+					player.drop(glassStack, false);
 				}
 			}
 
@@ -41,7 +41,7 @@ public class CactusJuiceItem extends Item {
 	}
 	
 	@Override
-	public UseAction getUseAnimation(ItemStack stack) {
-		return UseAction.DRINK;
+	public UseAnim getUseAnimation(ItemStack stack) {
+		return UseAnim.DRINK;
 	}
 }

@@ -1,21 +1,21 @@
 package com.mrbysco.cactusmod.items;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CactusBlock;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CactusBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -29,35 +29,35 @@ public class CactusBonemealItem extends Item{
     }
 
     @Override
-    public ActionResultType useOn(ItemUseContext context) {
-        World world = context.getLevel();
+    public InteractionResult useOn(UseOnContext context) {
+        Level world = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         if (applyBonemeal(context.getItemInHand(), world, blockpos, context.getPlayer())) {
             if (!world.isClientSide) {
                 world.levelEvent(2005, blockpos, 0);
             }
 
-            return ActionResultType.sidedSuccess(world.isClientSide);
+            return InteractionResult.sidedSuccess(world.isClientSide);
         }
         return super.useOn(context);
     }
 
-    public static boolean applyBonemeal(ItemStack stack, World worldIn, BlockPos pos, net.minecraft.entity.player.PlayerEntity player) {
+    public static boolean applyBonemeal(ItemStack stack, Level worldIn, BlockPos pos, net.minecraft.world.entity.player.Player player) {
         BlockState blockstate = worldIn.getBlockState(pos);
         int hook = net.minecraftforge.event.ForgeEventFactory.onApplyBonemeal(player, worldIn, pos, blockstate, stack);
         if (hook != 0) return hook > 0;
 
         if (blockstate.getBlock() instanceof CactusBlock) {
             if (canGrow(worldIn, pos, blockstate)) {
-                if (worldIn instanceof ServerWorld) {
+                if (worldIn instanceof ServerLevel) {
                     growCactus(worldIn, pos, blockstate);
                     stack.shrink(1);
                 }
 
                 return true;
             }
-        } else if(blockstate.getBlock().is(BlockTags.SAND)) {
-            if (worldIn instanceof ServerWorld) {
+        } else if(blockstate.is(BlockTags.SAND)) {
+            if (worldIn instanceof ServerLevel) {
                 growBush(worldIn, pos, blockstate);
                 stack.shrink(1);
             }
@@ -68,7 +68,7 @@ public class CactusBonemealItem extends Item{
         return false;
     }
 
-    public static boolean canGrow(World worldIn, BlockPos pos, BlockState state) {
+    public static boolean canGrow(Level worldIn, BlockPos pos, BlockState state) {
         BlockPos blockpos = pos.above();
 
         if (worldIn.isEmptyBlock(blockpos)) {
@@ -96,7 +96,7 @@ public class CactusBonemealItem extends Item{
         return false;
     }
 
-    public static void growCactus(World worldIn, BlockPos pos, BlockState state) {
+    public static void growCactus(Level worldIn, BlockPos pos, BlockState state) {
         BlockPos blockpos = pos.above();
         if (worldIn.isEmptyBlock(blockpos)) {
             int i;
@@ -118,7 +118,7 @@ public class CactusBonemealItem extends Item{
         }
     }
 
-    public static void growBush(World worldIn, BlockPos pos, BlockState state) {
+    public static void growBush(Level worldIn, BlockPos pos, BlockState state) {
         final int range = 3;
         if(!worldIn.isClientSide) {
             List<BlockPos> validCoords = new ArrayList<>();
@@ -153,8 +153,8 @@ public class CactusBonemealItem extends Item{
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslationTextComponent("cactus.bonemeal.info").withStyle(TextFormatting.GREEN));
+        tooltip.add(new TranslatableComponent("cactus.bonemeal.info").withStyle(ChatFormatting.GREEN));
     }
 }
