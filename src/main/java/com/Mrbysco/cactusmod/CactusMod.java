@@ -51,7 +51,6 @@ public class CactusMod {
 			eventBus.addListener(ClientHandler::registerEntityRenders);
 			eventBus.addListener(ClientHandler::registerLayerDefinitions);
 			eventBus.addListener(ClientHandler::preStitchEvent);
-			eventBus.addListener(ClientHandler::registerItemColors);
 		});
 	}
 

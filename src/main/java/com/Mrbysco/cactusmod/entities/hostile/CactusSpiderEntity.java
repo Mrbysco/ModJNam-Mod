@@ -113,7 +113,7 @@ public class CactusSpiderEntity extends Spider implements ICactusMob{
     }
 
     @Override
-    public void remove(boolean keepData) {
+    public void remove(RemovalReason reason) {
         int i = this.getSpiderSize();
         if (!this.level.isClientSide && i > 1 && this.isDeadOrDying() && this.getRemovalReason() == null) {
             Component itextcomponent = this.getCustomName();
@@ -138,8 +138,7 @@ public class CactusSpiderEntity extends Spider implements ICactusMob{
                 this.level.addFreshEntity(cactusSpider);
             }
         }
-
-        super.remove(keepData);
+        super.remove(reason);
     }
 
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {

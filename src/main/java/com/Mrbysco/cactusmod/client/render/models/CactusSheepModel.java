@@ -2,7 +2,6 @@ package com.mrbysco.cactusmod.client.render.models;
 
 import com.mrbysco.cactusmod.entities.CactusSheepEntity;
 import net.minecraft.client.model.QuadrupedModel;
-import net.minecraft.client.model.SheepModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;

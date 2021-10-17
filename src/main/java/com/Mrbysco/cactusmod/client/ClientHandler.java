@@ -22,8 +22,6 @@ import com.mrbysco.cactusmod.client.render.models.CactusSheepModel;
 import com.mrbysco.cactusmod.client.render.models.CactusSpiderModel;
 import com.mrbysco.cactusmod.client.render.models.CactusWoolModel;
 import com.mrbysco.cactusmod.init.CactusRegistry;
-import com.mrbysco.cactusmod.items.CustomSpawnEggItem;
-import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.MenuScreens.ScreenConstructor;
 import net.minecraft.client.gui.screens.inventory.CraftingScreen;
@@ -35,7 +33,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -102,14 +99,6 @@ public class ClientHandler {
     public static void preStitchEvent(TextureStitchEvent.Pre event) {
         if(event.getMap().location().toString().equals("minecraft:textures/atlas/chest.png")) {
             event.addSprite(CACTUS_CHEST_LOCATION);
-        }
-    }
-
-    public static void registerItemColors(final ColorHandlerEvent.Item event) {
-        ItemColors colors = event.getItemColors();
-
-        for(CustomSpawnEggItem item : CustomSpawnEggItem.getEggs()) {
-            colors.register((stack, tintIndex) -> item.getColor(tintIndex), item);
         }
     }
 }

@@ -6,6 +6,7 @@ import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stat;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.Container;
@@ -54,6 +55,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
@@ -233,5 +235,13 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
 		return level.isClientSide ? createTickerHelper(blockEntityType, CactusRegistry.CACTUS_CHEST_BLOCK_ENTITY.get(), CactusChestBlockEntity::lidAnimateTick) : createTickerHelper(blockEntityType, CactusRegistry.CACTUS_CHEST_BLOCK_ENTITY.get(), CactusChestBlockEntity::serverTick);
+	}
+
+	@Override
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+		BlockEntity blockentity = level.getBlockEntity(pos);
+		if (blockentity instanceof CactusChestBlockEntity) {
+			((CactusChestBlockEntity)blockentity).recheckOpen();
+		}
 	}
 }

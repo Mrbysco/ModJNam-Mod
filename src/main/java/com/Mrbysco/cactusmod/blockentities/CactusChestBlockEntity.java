@@ -208,7 +208,7 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 	}
 
 	@Override
-	protected void invalidateCaps() {
+	public void invalidateCaps() {
 		super.invalidateCaps();
 		if (chestHandler != null)
 			chestHandler.invalidate();
