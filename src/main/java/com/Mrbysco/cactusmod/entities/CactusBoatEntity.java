@@ -10,8 +10,8 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PlayMessages.SpawnEntity;
 
 public class CactusBoatEntity extends Boat implements ICactusMob {
     private int timeInBoat;
@@ -30,7 +30,7 @@ public class CactusBoatEntity extends Boat implements ICactusMob {
         this.zo = z;
     }
 
-    public CactusBoatEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level worldIn) {
+    public CactusBoatEntity(SpawnEntity spawnEntity, Level worldIn) {
         this(CactusRegistry.CACTUS_BOAT_ENTITY.get(), worldIn);
     }
 
@@ -62,8 +62,7 @@ public class CactusBoatEntity extends Boat implements ICactusMob {
                     this.timeInBoat2 = 0;
             }
 
-            if(!this.getPassengers().isEmpty() && this.getPassengers().get(0) instanceof LivingEntity && this.timeInBoat >= 120) {
-                LivingEntity entity = (LivingEntity) this.getPassengers().get(0);
+            if(!this.getPassengers().isEmpty() && this.getPassengers().get(0) instanceof LivingEntity entity && this.timeInBoat >= 120) {
                 if(!(entity instanceof ICactusMob))
                     entity.hurt(DamageSource.GENERIC, 1.0F);
 
@@ -71,8 +70,7 @@ public class CactusBoatEntity extends Boat implements ICactusMob {
             }
 
 
-            if(this.getPassengers().size() == 2 && this.getPassengers().get(1) instanceof LivingEntity && this.timeInBoat2 >= 120) {
-                LivingEntity entity2 = (LivingEntity) this.getPassengers().get(1);
+            if(this.getPassengers().size() == 2 && this.getPassengers().get(1) instanceof LivingEntity entity2 && this.timeInBoat2 >= 120) {
                 if(!(entity2 instanceof ICactusMob))
                     entity2.hurt(DamageSource.CACTUS, 1.0F);
 

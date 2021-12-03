@@ -97,7 +97,7 @@ public class ClientHandler {
 
     public static final ResourceLocation CACTUS_CHEST_LOCATION = new ResourceLocation(Reference.MOD_ID, "entity/cactus_chest");
     public static void preStitchEvent(TextureStitchEvent.Pre event) {
-        if(event.getMap().location().toString().equals("minecraft:textures/atlas/chest.png")) {
+        if(event.getAtlas().location().toString().equals("minecraft:textures/atlas/chest.png")) {
             event.addSprite(CACTUS_CHEST_LOCATION);
         }
     }

@@ -46,8 +46,7 @@ public class CactusChestRenderer<T extends BlockEntity & LidBlockEntity> impleme
 		BlockState blockstate = flag ? blockEntity.getBlockState() : CactusRegistry.CACTUS_CHEST.get().defaultBlockState().setValue(CactusChestBlock.FACING, Direction.SOUTH);
 		Block block = blockstate.getBlock();
 
-		if (block instanceof CactusChestBlock) {
-			CactusChestBlock abstractchestblock = (CactusChestBlock)block;
+		if (block instanceof CactusChestBlock abstractchestblock) {
 
 			poseStack.pushPose();
 			float f = blockstate.getValue(CactusChestBlock.FACING).toYRot();

@@ -6,8 +6,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PlayMessages.SpawnEntity;
 
 public class SpikeEntity extends AbstractSpikeEntity {
 	public SpikeEntity(EntityType<? extends SpikeEntity> type, Level world) {
@@ -24,7 +24,7 @@ public class SpikeEntity extends AbstractSpikeEntity {
         this.setOwner(shooter);
     }
 
-    public SpikeEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level worldIn) {
+    public SpikeEntity(SpawnEntity spawnEntity, Level worldIn) {
         this(CactusRegistry.CACTUS_SPIKE.get(), worldIn);
     }
 

@@ -78,7 +78,7 @@ public class CactusDispenserBlock extends Block{
 		boolean flag = worldIn.hasNeighborSignal(pos) || worldIn.hasNeighborSignal(pos.above());
 		boolean flag1 = state.getValue(TRIGGERED);
 		if (flag && !flag1) {
-			worldIn.getBlockTicks().scheduleTick(pos, this, 4);
+			worldIn.scheduleTick(pos, this, 4);
 			worldIn.setBlock(pos, state.setValue(TRIGGERED, Boolean.valueOf(true)), 4);
 		} else if (!flag && flag1) {
 			worldIn.setBlock(pos, state.setValue(TRIGGERED, Boolean.valueOf(false)), 4);

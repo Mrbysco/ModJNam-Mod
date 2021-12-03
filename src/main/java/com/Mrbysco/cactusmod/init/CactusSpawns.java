@@ -11,7 +11,7 @@ import com.mrbysco.cactusmod.entities.CactusSheepEntity;
 import com.mrbysco.cactusmod.entities.CactusSnowGolemEntity;
 import com.mrbysco.cactusmod.entities.hostile.CactusCreeperEntity;
 import com.mrbysco.cactusmod.entities.hostile.CactusSpiderEntity;
-import com.mrbysco.cactusmod.feature.CactusFeatureConfig;
+import com.mrbysco.cactusmod.feature.CactusPlacements;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Mob;
@@ -23,8 +23,6 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.placement.ChanceDecoratorConfiguration;
-import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -82,8 +80,8 @@ public class CactusSpawns {
             if(CactusConfig.COMMON.generateCactusPlant.get()) {
                 CactusMod.logger.debug("Registering Cactus Plant generation");
                 BiomeGenerationSettingsBuilder builder = event.getGeneration();
-                if(!builder.getFeatures(Decoration.VEGETAL_DECORATION).contains(CactusFeatureConfig.CACTUS_PLANT)) {
-                    builder.addFeature(Decoration.VEGETAL_DECORATION, CactusFeatureConfig.CACTUS_PLANT.decorated(FeatureDecorator.CHANCE.configured(new ChanceDecoratorConfiguration(CactusConfig.COMMON.cactusPlantRarity.get()))));
+                if(!builder.getFeatures(Decoration.VEGETAL_DECORATION).contains(CactusPlacements.CACTUS_PLANT)) {
+                    builder.addFeature(Decoration.VEGETAL_DECORATION, CactusPlacements.CACTUS_PLANT);
                 }
             }
         }

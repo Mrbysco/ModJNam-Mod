@@ -34,8 +34,7 @@ public class CactusToolHandler {
 	
 	@SubscribeEvent
 	public void CactusShieldEvent(LivingHurtEvent event) {
-		if(event.getEntityLiving() instanceof Player) {
-			Player player = (Player)event.getEntityLiving();
+		if(event.getEntityLiving() instanceof Player player) {
 			ItemStack heldStack = player.getUseItem();
 			Level world = player.level;
 

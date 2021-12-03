@@ -19,8 +19,7 @@ public class CactusJuiceItem extends Item {
 
 	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
 		super.finishUsingItem(stack, level, livingEntity);
-		if (livingEntity instanceof ServerPlayer) {
-			ServerPlayer serverPlayer = (ServerPlayer)livingEntity;
+		if (livingEntity instanceof ServerPlayer serverPlayer) {
 			CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
 			serverPlayer.awardStat(Stats.ITEM_USED.get(this));
 		}
@@ -28,9 +27,8 @@ public class CactusJuiceItem extends Item {
 		if (stack.isEmpty()) {
 			return new ItemStack(Items.GLASS_BOTTLE);
 		} else {
-			if (livingEntity instanceof Player && !((Player)livingEntity).getAbilities().instabuild) {
+			if (livingEntity instanceof Player player && !((Player)livingEntity).getAbilities().instabuild) {
 				ItemStack glassStack = new ItemStack(Items.GLASS_BOTTLE);
-				Player player = (Player)livingEntity;
 				if (!player.getInventory().add(glassStack)) {
 					player.drop(glassStack, false);
 				}

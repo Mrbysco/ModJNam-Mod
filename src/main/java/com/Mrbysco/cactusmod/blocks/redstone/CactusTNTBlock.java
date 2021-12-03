@@ -46,7 +46,7 @@ public class CactusTNTBlock extends TntBlock {
 	}
 
 	@Override
-	public void catchFire(BlockState state, Level world, BlockPos pos, @Nullable Direction face, @Nullable LivingEntity igniter) {
+	public void onCaughtFire(BlockState state, Level world, BlockPos pos, @Nullable Direction face, @Nullable LivingEntity igniter) {
 		this.explode(world, pos, igniter);
 	}
 

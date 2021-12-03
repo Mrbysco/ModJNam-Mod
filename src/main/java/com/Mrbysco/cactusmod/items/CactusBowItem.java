@@ -34,8 +34,7 @@ public class CactusBowItem extends Item implements Vanishable {
 
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeLeft) {
-        if (livingEntity instanceof Player) {
-            Player playerentity = (Player)livingEntity;
+        if (livingEntity instanceof Player playerentity) {
             int i = this.getUseDuration(stack) - timeLeft;
             if (i < 0) return;
 

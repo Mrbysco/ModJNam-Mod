@@ -19,8 +19,7 @@ public class CactusMobHandler {
 			event.setCanceled(true);
 		}
 		
-		if(event.getEntityLiving() instanceof Player) {
-			Player player = (Player) event.getEntityLiving();
+		if(event.getEntityLiving() instanceof Player player) {
 			Level world = player.getCommandSenderWorld();
 			
 			if(event.getSource() == DamageSource.CACTUS) {
@@ -46,8 +45,7 @@ public class CactusMobHandler {
 			}
 		}
 		
-		if(event.getSource().getEntity() instanceof Player) {
-			Player player = (Player) event.getSource().getEntity();
+		if(event.getSource().getEntity() instanceof Player player) {
 			Level world = player.getCommandSenderWorld();
 			
 			if(event.getEntityLiving() instanceof ICactusMob) {

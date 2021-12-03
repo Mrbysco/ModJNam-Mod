@@ -131,7 +131,7 @@ public class CactusFlowerBlock extends Block{
 
     public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
         if (facing != Direction.UP && !stateIn.canSurvive(level, currentPos)) {
-            level.getBlockTicks().scheduleTick(currentPos, this, 1);
+            level.scheduleTick(currentPos, this, 1);
         }
 
         return super.updateShape(stateIn, facing, facingState, level, currentPos, facingPos);

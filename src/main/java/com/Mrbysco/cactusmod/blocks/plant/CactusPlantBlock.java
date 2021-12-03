@@ -61,7 +61,7 @@ public class CactusPlantBlock extends PipeBlock {
      */
     public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
         if (!stateIn.canSurvive(level, currentPos)) {
-            level.getBlockTicks().scheduleTick(currentPos, this, 1);
+            level.scheduleTick(currentPos, this, 1);
             return super.updateShape(stateIn, facing, facingState, level, currentPos, facingPos);
         } else {
             boolean flag = facingState.is(this) || facingState.is(CactusRegistry.CACTUS_FLOWER.get()) || facing == Direction.DOWN && facingState.is(Tags.Blocks.SAND);

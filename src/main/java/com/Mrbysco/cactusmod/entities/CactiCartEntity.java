@@ -15,8 +15,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PlayMessages.SpawnEntity;
 
 public class CactiCartEntity extends AbstractMinecart implements ICactusMob{
     private int timeInCart;
@@ -29,7 +29,7 @@ public class CactiCartEntity extends AbstractMinecart implements ICactusMob{
         super(CactusRegistry.CACTUS_CART_ENTITY.get(), worldIn, x, y, z);
     }
 
-    public CactiCartEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level worldIn) {
+    public CactiCartEntity(SpawnEntity spawnEntity, Level worldIn) {
         this(CactusRegistry.CACTUS_CART_ENTITY.get(), worldIn);
     }
 

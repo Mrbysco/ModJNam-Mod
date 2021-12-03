@@ -2,6 +2,7 @@ package com.mrbysco.cactusmod;
 
 import com.mrbysco.cactusmod.client.ClientHandler;
 import com.mrbysco.cactusmod.config.CactusConfig;
+import com.mrbysco.cactusmod.feature.CactusFeatureConfig;
 import com.mrbysco.cactusmod.handlers.CactusMobHandler;
 import com.mrbysco.cactusmod.handlers.CactusModCompatHandlers;
 import com.mrbysco.cactusmod.handlers.CactusToolHandler;
@@ -56,5 +57,6 @@ public class CactusMod {
 
 	private void setup(final FMLCommonSetupEvent event) {
 		CactusSpawns.entityAttributes();
+		CactusFeatureConfig.initialize();
 	}
 }
