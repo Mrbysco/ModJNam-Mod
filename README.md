@@ -1,3 +1,5 @@
+[![build](https://github.com/Mrbysco/ModJNam-Mod/actions/workflows/build.yml/badge.svg)](https://github.com/Mrbysco/ModJNam-Mod/actions/workflows/build.yml) [![](http://cf.way2muchnoise.eu/versions/291433.svg)](https://www.curseforge.com/minecraft/mc-mods/the-cactus-mod)
+
 # The Cactus Mod #
 
 ## About ##
@@ -10,4 +12,4 @@ This is a silly mod I created for the 2018.1 ModJam ModJnam.
 
 ## Downloads
 
-Downloads can be found on https://minecraft.curseforge.com/projects/the-cactus-mod
+Downloads can be found on [CurseForge]https://www.curseforge.com/minecraft/mc-mods/the-cactus-mod)
