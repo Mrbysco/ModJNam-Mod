@@ -93,11 +93,10 @@ public class CactusDispenserBlock extends Block{
 		BlockState state = level.getBlockState(pos);
 		if(state.getBlock() == this) {
 			Direction direction = state.getValue(DispenserBlock.FACING);
-			System.out.println(pos);
+			
 			double x = pos.getX() + 0.7D * (double)direction.getStepX() + 0.5;
 			double y = pos.getY() + 0.7D * (double)direction.getStepY() - 0.5;
 			double z = pos.getZ() + 0.7D * (double)direction.getStepZ() + 0.5;
-			System.out.println(String.format("x=%s, y=%s, z=%s", x, y, z));
 
 
 			SpikeEntity spikeEntity = new SpikeEntity(level, z, y, z);

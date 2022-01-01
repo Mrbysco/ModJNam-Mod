@@ -46,7 +46,7 @@ public class CactusChestBER<T extends BlockEntity & LidBlockEntity> implements B
 		BlockState blockstate = flag ? blockEntity.getBlockState() : CactusRegistry.CACTUS_CHEST.get().defaultBlockState().setValue(CactusChestBlock.FACING, Direction.SOUTH);
 		Block block = blockstate.getBlock();
 
-		if (block instanceof CactusChestBlock abstractchestblock) {
+		if (block instanceof CactusChestBlock cactusChestBlock) {
 
 			poseStack.pushPose();
 			float f = blockstate.getValue(CactusChestBlock.FACING).toYRot();
@@ -56,7 +56,7 @@ public class CactusChestBER<T extends BlockEntity & LidBlockEntity> implements B
 
 			DoubleBlockCombiner.NeighborCombineResult<? extends CactusChestBlockEntity> icallbackwrapper;
 			if (flag) {
-				icallbackwrapper = abstractchestblock.getWrapper(blockstate, world, blockEntity.getBlockPos(), true);
+				icallbackwrapper = cactusChestBlock.getWrapper(blockstate, world, blockEntity.getBlockPos(), true);
 			} else {
 				icallbackwrapper = DoubleBlockCombiner.Combiner::acceptNone;
 			}
