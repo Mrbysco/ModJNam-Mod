@@ -5,6 +5,7 @@ import com.mojang.math.Vector3f;
 import com.mrbysco.cactusmod.entities.CactusCowEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.CowModel;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -40,6 +41,10 @@ public class LayerCactusCowCactus <T extends CactusCowEntity> extends RenderLaye
 			renderDispatcher.renderSingleBlock(blockstate, poseStack, bufferSource, packedLightIn, i);
 			poseStack.popPose();
 			poseStack.pushPose();
+
+			ModelPart head = this.getParentModel().getHead();
+			poseStack.translate((double)(head.x / 16.0F), (double)(head.y / 16.0F), (double)(head.z / 16.0F));
+
 			poseStack.scale(-1.0F, -1.0F, 1.0F);
 			poseStack.translate(0.0F, 0.7F, -0.2F);
 			poseStack.mulPose(Vector3f.YP.rotationDegrees(-12F));

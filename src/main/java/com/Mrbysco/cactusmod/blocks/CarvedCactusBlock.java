@@ -78,7 +78,6 @@ public class CarvedCactusBlock extends BlockRotatable {
     private void trySpawnGolem(Level world, BlockPos pos) {
         BlockPattern.BlockPatternMatch patternMatch = this.getOrCreateCactusGolemFull().find(world, pos);
         if (patternMatch != null) {
-            System.out.println(patternMatch);
             for(int i = 0; i < this.getOrCreateCactusGolemFull().getHeight(); ++i) {
                 BlockInWorld blockInWorld = patternMatch.getBlock(0, i, 0);
                 world.setBlock(blockInWorld.getPos(), Blocks.AIR.defaultBlockState(), 2);
