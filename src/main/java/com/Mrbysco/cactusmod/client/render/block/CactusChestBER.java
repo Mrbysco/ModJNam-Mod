@@ -26,12 +26,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CactusChestRenderer<T extends BlockEntity & LidBlockEntity> implements BlockEntityRenderer<T> {
+public class CactusChestBER<T extends BlockEntity & LidBlockEntity> implements BlockEntityRenderer<T> {
 	private final ModelPart lid;
 	private final ModelPart bottom;
 	private final ModelPart lock;
 
-	public CactusChestRenderer(BlockEntityRendererProvider.Context context) {
+	public CactusChestBER(BlockEntityRendererProvider.Context context) {
 		ModelPart modelpart = context.bakeLayer(ModelLayers.CHEST);
 		this.bottom = modelpart.getChild("bottom");
 		this.lid = modelpart.getChild("lid");

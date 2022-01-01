@@ -16,7 +16,7 @@ import com.mrbysco.cactusmod.client.render.CactusSnowmanRenderer;
 import com.mrbysco.cactusmod.client.render.CactusSpiderRenderer;
 import com.mrbysco.cactusmod.client.render.CactusTNTRenderer;
 import com.mrbysco.cactusmod.client.render.SpikeRenderer;
-import com.mrbysco.cactusmod.client.render.block.CactusChestRenderer;
+import com.mrbysco.cactusmod.client.render.block.CactusChestBER;
 import com.mrbysco.cactusmod.client.render.models.CactoniModel;
 import com.mrbysco.cactusmod.client.render.models.CactusSheepModel;
 import com.mrbysco.cactusmod.client.render.models.CactusSpiderModel;
@@ -63,7 +63,7 @@ public class ClientHandler {
     }
 
     public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(CactusRegistry.CACTUS_CHEST_BLOCK_ENTITY.get(), CactusChestRenderer::new);
+        event.registerBlockEntityRenderer(CactusRegistry.CACTUS_CHEST_BLOCK_ENTITY.get(), CactusChestBER::new);
 
         event.registerEntityRenderer(CactusRegistry.CACTUS_GOLEM.get(), CactusGolemRenderer::new);
         event.registerEntityRenderer(CactusRegistry.CACTUS_COW.get(), CactusCowRenderer::new);

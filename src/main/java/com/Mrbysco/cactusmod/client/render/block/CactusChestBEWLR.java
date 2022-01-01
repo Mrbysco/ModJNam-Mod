@@ -12,11 +12,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class CactusChestItemRenderer extends BlockEntityWithoutLevelRenderer {
+public class CactusChestBEWLR extends BlockEntityWithoutLevelRenderer {
 	private CactusChestBlockEntity cactusChest = null;
 	private BlockEntityRenderDispatcher blockEntityRenderDispatcher = null;
 
-	public CactusChestItemRenderer() {
+	public CactusChestBEWLR() {
 		super(null, null);
 	}
 

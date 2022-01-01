@@ -1,6 +1,6 @@
 package com.mrbysco.cactusmod.items.block;
 
-import com.mrbysco.cactusmod.client.render.block.CactusChestItemRenderer;
+import com.mrbysco.cactusmod.client.render.block.CactusChestBEWLR;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
@@ -16,7 +16,7 @@ public class CactusChestBlockItem extends BlockItem {
 	@Override
 	public void initializeClient(Consumer<IItemRenderProperties> consumer) {
 		consumer.accept(new IItemRenderProperties() {
-			final BlockEntityWithoutLevelRenderer renderer = new CactusChestItemRenderer();
+			final BlockEntityWithoutLevelRenderer renderer = new CactusChestBEWLR();
 
 			@Override
 			public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
