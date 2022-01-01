@@ -18,8 +18,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-import net.minecraft.entity.item.minecart.AbstractMinecartEntity.Type;
-
 public class CactiCartEntity extends AbstractMinecartEntity implements ICactusMob{
     private int timeInCart;
 

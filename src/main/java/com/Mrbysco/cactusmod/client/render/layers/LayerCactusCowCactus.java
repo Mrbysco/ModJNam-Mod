@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.CowModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.vector.Vector3f;
 
 public class LayerCactusCowCactus <T extends CactusCowEntity> extends LayerRenderer<T, CowModel<T>> {
@@ -40,7 +41,10 @@ public class LayerCactusCowCactus <T extends CactusCowEntity> extends LayerRende
 			blockrendererdispatcher.renderSingleBlock(blockstate, matrixStackIn, bufferIn, packedLightIn, i);
 			matrixStackIn.popPose();
 			matrixStackIn.pushPose();
-			this.getParentModel().getHead().translateAndRotate(matrixStackIn);
+
+			ModelRenderer head = this.getParentModel().getHead();
+			matrixStackIn.translate((double)(head.x / 16.0F), (double)(head.y / 16.0F), (double)(head.z / 16.0F));
+
 			matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
 			matrixStackIn.translate(0.0F, 0.7F, -0.2F);
 			matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-12F));

@@ -57,7 +57,7 @@ public class CactusConfig {
 					.define("skeletonSpawn", true);
 
 			cactoniSpawn = builder
-					.comment("Decides if the Cactus Cactoni spawns naturally [Default: false]")
+					.comment("Decides if the Cactus Cactoni spawns naturally [Default: true]")
 					.define("cactoniSpawn", true);
 
 			builder.pop();

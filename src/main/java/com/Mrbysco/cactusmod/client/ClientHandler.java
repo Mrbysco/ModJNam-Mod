@@ -18,19 +18,16 @@ import com.mrbysco.cactusmod.client.render.CactusTNTRenderer;
 import com.mrbysco.cactusmod.client.render.SpikeRenderer;
 import com.mrbysco.cactusmod.client.render.block.CactusChestTESR;
 import com.mrbysco.cactusmod.init.CactusRegistry;
-import com.mrbysco.cactusmod.items.CustomSpawnEggItem;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.ScreenManager.IScreenFactory;
 import net.minecraft.client.gui.screen.inventory.CraftingScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -74,8 +71,8 @@ public class ClientHandler {
                 return entity.getUseItem() != stack ? 0.0F : (float)(stack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0F;
             }
         });
-        ItemModelsProperties.register(CactusRegistry.CACTUS_BOW.get(), new ResourceLocation("pulling"), (p_239428_0_, p_239428_1_, p_239428_2_) -> {
-            return p_239428_2_ != null && p_239428_2_.isUsingItem() && p_239428_2_.getUseItem() == p_239428_0_ ? 1.0F : 0.0F;
+        ItemModelsProperties.register(CactusRegistry.CACTUS_BOW.get(), new ResourceLocation("pulling"), (stack, world, entity) -> {
+            return entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F;
         });
     }
 
@@ -97,16 +94,6 @@ public class ClientHandler {
     public static void preStitchEvent(TextureStitchEvent.Pre event) {
         if(event.getMap().location().toString().equals("minecraft:textures/atlas/chest.png")) {
             event.addSprite(CACTUS_CHEST_LOCATION);
-        }
-    }
-
-    public static void registerItemColors(final ColorHandlerEvent.Item event) {
-        ItemColors colors = event.getItemColors();
-
-        for(CustomSpawnEggItem item : CustomSpawnEggItem.getEggs()) {
-            colors.register((p_198141_1_, p_198141_2_) -> {
-                return item.getColor(p_198141_2_);
-            }, item);
         }
     }
 }

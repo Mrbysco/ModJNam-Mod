@@ -13,3 +13,10 @@ authors="Mrbysco"
 description='''
 A ModJam 2018.1 mod.
 '''
+
+[[dependencies.cactusmod]]
+modId="forge"
+mandatory=true
+versionRange="[36.2.17,)"
+ordering="NONE"
+side="BOTH"

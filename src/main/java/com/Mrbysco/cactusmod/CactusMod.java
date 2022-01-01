@@ -53,7 +53,6 @@ public class CactusMod {
 		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
 			eventBus.addListener(ClientHandler::registerRenders);
 			eventBus.addListener(ClientHandler::preStitchEvent);
-			eventBus.addListener(ClientHandler::registerItemColors);
 		});
 	}
 

@@ -37,7 +37,6 @@ import com.mrbysco.cactusmod.items.CactusBowItem;
 import com.mrbysco.cactusmod.items.CactusCartItem;
 import com.mrbysco.cactusmod.items.CactusFruitItem;
 import com.mrbysco.cactusmod.items.CactusJuiceItem;
-import com.mrbysco.cactusmod.items.CustomSpawnEggItem;
 import com.mrbysco.cactusmod.items.tools.CactusAxeItem;
 import com.mrbysco.cactusmod.items.tools.CactusHoeItem;
 import com.mrbysco.cactusmod.items.tools.CactusPickaxeItem;
@@ -65,6 +64,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -148,15 +148,15 @@ public class CactusRegistry {
     public static final RegistryObject<Item> CACTUS_JUICE = ITEMS.register("cactus_juice", () -> new CactusJuiceItem(itemBuilder().food(CactusFoods.JUICE)));
     public static final RegistryObject<Item> CACTUS_FRUIT = ITEMS.register("cactus_fruit", () -> new CactusFruitItem(itemBuilder().food(CactusFoods.FRUIT)));
 
-    public static final RegistryObject<Item> CACTUS_GOLEM_SPAWN_EGG = ITEMS.register("cactus_golem_spawn_egg", () -> new CustomSpawnEggItem(() -> CactusRegistry.CACTUS_GOLEM.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
-    public static final RegistryObject<Item> CACTUS_COW_SPAWN_EGG = ITEMS.register("cactus_cow_spawn_egg", () -> new CustomSpawnEggItem(() -> CactusRegistry.CACTUS_COW.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
-    public static final RegistryObject<Item> CACTUS_CREEPER_SPAWN_EGG = ITEMS.register("cactus_creeper_spawn_egg", () -> new CustomSpawnEggItem(() -> CactusRegistry.CACTUS_CREEPER.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
-    public static final RegistryObject<Item> CACTUS_SNOW_GOLEM_SPAWN_EGG = ITEMS.register("cactus_snow_golem_spawn_egg", () -> new CustomSpawnEggItem(() -> CactusRegistry.CACTUS_SNOW_GOLEM.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
-    public static final RegistryObject<Item> CACTUS_SLIME_SPAWN_EGG = ITEMS.register("cactus_slime_spawn_egg", () -> new CustomSpawnEggItem(() -> CactusRegistry.CACTUS_SLIME.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
-    public static final RegistryObject<Item> CACTUS_SHEEP_SPAWN_EGG = ITEMS.register("cactus_sheep_spawn_egg", () -> new CustomSpawnEggItem(() -> CactusRegistry.CACTUS_SHEEP.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
-    public static final RegistryObject<Item> CACTUS_PIG_SPAWN_EGG = ITEMS.register("cactus_pig_spawn_egg", () -> new CustomSpawnEggItem(() -> CactusRegistry.CACTUS_PIG.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
-    public static final RegistryObject<Item> CACTUS_SPIDER_SPAWN_EGG = ITEMS.register("cactus_spider_spawn_egg", () -> new CustomSpawnEggItem(() -> CactusRegistry.CACTUS_SPIDER.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
-    public static final RegistryObject<Item> CACTUS_SKELETON_GOLEM_SPAWN_EGG = ITEMS.register("cactus_skeleton_spawn_egg", () -> new CustomSpawnEggItem(() -> CactusRegistry.CACTUS_SKELETON.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
+    public static final RegistryObject<Item> CACTUS_GOLEM_SPAWN_EGG = ITEMS.register("cactus_golem_spawn_egg", () -> new ForgeSpawnEggItem(() -> CactusRegistry.CACTUS_GOLEM.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
+    public static final RegistryObject<Item> CACTUS_COW_SPAWN_EGG = ITEMS.register("cactus_cow_spawn_egg", () -> new ForgeSpawnEggItem(() -> CactusRegistry.CACTUS_COW.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
+    public static final RegistryObject<Item> CACTUS_CREEPER_SPAWN_EGG = ITEMS.register("cactus_creeper_spawn_egg", () -> new ForgeSpawnEggItem(() -> CactusRegistry.CACTUS_CREEPER.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
+    public static final RegistryObject<Item> CACTUS_SNOW_GOLEM_SPAWN_EGG = ITEMS.register("cactus_snow_golem_spawn_egg", () -> new ForgeSpawnEggItem(() -> CactusRegistry.CACTUS_SNOW_GOLEM.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
+    public static final RegistryObject<Item> CACTUS_SLIME_SPAWN_EGG = ITEMS.register("cactus_slime_spawn_egg", () -> new ForgeSpawnEggItem(() -> CactusRegistry.CACTUS_SLIME.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
+    public static final RegistryObject<Item> CACTUS_SHEEP_SPAWN_EGG = ITEMS.register("cactus_sheep_spawn_egg", () -> new ForgeSpawnEggItem(() -> CactusRegistry.CACTUS_SHEEP.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
+    public static final RegistryObject<Item> CACTUS_PIG_SPAWN_EGG = ITEMS.register("cactus_pig_spawn_egg", () -> new ForgeSpawnEggItem(() -> CactusRegistry.CACTUS_PIG.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
+    public static final RegistryObject<Item> CACTUS_SPIDER_SPAWN_EGG = ITEMS.register("cactus_spider_spawn_egg", () -> new ForgeSpawnEggItem(() -> CactusRegistry.CACTUS_SPIDER.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
+    public static final RegistryObject<Item> CACTUS_SKELETON_GOLEM_SPAWN_EGG = ITEMS.register("cactus_skeleton_spawn_egg", () -> new ForgeSpawnEggItem(() -> CactusRegistry.CACTUS_SKELETON.get(), 0xFF649832, 0xFF39581a, itemBuilder()));
 
     private static Item.Properties itemBuilder() {
         return new Item.Properties().tab(CactusTabs.CACTUS_TAB);
