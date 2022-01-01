@@ -9,9 +9,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -26,18 +26,24 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
+import java.util.function.Predicate;
 
 public class CarvedCactusBlock extends BlockRotatable {
     protected static final VoxelShape COLLISION_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
     protected static final VoxelShape OUTLINE_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
 
     @Nullable
-    private static BlockPattern cactusGolemPattern;
+    private BlockPattern cactusGolemBase;
     @Nullable
-    private static BlockPattern cactusSnowmanPattern;
+    private BlockPattern cactusGolemFull;
+    @Nullable
+    private BlockPattern cactusIronGolemBase;
+    @Nullable
+    private BlockPattern cactusIronGolemFull;
 
-    private static final java.util.function.Predicate<BlockState> IS_CARVED_CACTUS = (state) -> state != null && (state.getBlock() == CactusRegistry.CARVED_CACTUS.get() || state.getBlock() == CactusRegistry.JACKO_CACTUS.get());
-
+    private static final Predicate<BlockState> CARVED_PREDICATE = (state) -> {
+        return state != null && (state.is(CactusRegistry.CARVED_CACTUS.get()) || state.is(CactusRegistry.JACKO_CACTUS.get()));
+    };
     
 	public CarvedCactusBlock(BlockBehaviour.Properties builder) {
 		super(builder);
@@ -65,72 +71,93 @@ public class CarvedCactusBlock extends BlockRotatable {
         }
     }
 
+    public boolean canSpawnGolem(LevelReader reader, BlockPos pos) {
+        return this.getOrCreateCactusGolemBase().find(reader, pos) != null || this.getOrCreateCactusIronGolemBase().find(reader, pos) != null;
+    }
+
     private void trySpawnGolem(Level world, BlockPos pos) {
-        BlockPattern.BlockPatternMatch blockpattern$patternhelper = this.getCactusSnowmanPattern().find(world, pos);
-        if (blockpattern$patternhelper != null) {
-            for(int i = 0; i < this.getCactusSnowmanPattern().getHeight(); ++i) {
-                BlockInWorld cachedblockinfo = blockpattern$patternhelper.getBlock(0, i, 0);
-                world.setBlock(cachedblockinfo.getPos(), Blocks.AIR.defaultBlockState(), 2);
-                world.levelEvent(2001, cachedblockinfo.getPos(), Block.getId(cachedblockinfo.getState()));
+        BlockPattern.BlockPatternMatch patternMatch = this.getOrCreateCactusGolemFull().find(world, pos);
+        if (patternMatch != null) {
+            System.out.println(patternMatch);
+            for(int i = 0; i < this.getOrCreateCactusGolemFull().getHeight(); ++i) {
+                BlockInWorld blockInWorld = patternMatch.getBlock(0, i, 0);
+                world.setBlock(blockInWorld.getPos(), Blocks.AIR.defaultBlockState(), 2);
+                world.levelEvent(2001, blockInWorld.getPos(), Block.getId(blockInWorld.getState()));
             }
 
-            CactusSnowGolemEntity cactusSnowman = null;//EntityType.SNOW_GOLEM.create(world);
-            BlockPos blockpos1 = blockpattern$patternhelper.getBlock(0, 2, 0).getPos();
-            cactusSnowman.moveTo((double)blockpos1.getX() + 0.5D, (double)blockpos1.getY() + 0.05D, (double)blockpos1.getZ() + 0.5D, 0.0F, 0.0F);
-            world.addFreshEntity(cactusSnowman);
+            CactusSnowGolemEntity cactusSnowGolem = CactusRegistry.CACTUS_SNOW_GOLEM.get().create(world);
+            BlockPos blockpos1 = patternMatch.getBlock(0, 2, 0).getPos();
+            cactusSnowGolem.moveTo((double)blockpos1.getX() + 0.5D, (double)blockpos1.getY() + 0.05D, (double)blockpos1.getZ() + 0.5D, 0.0F, 0.0F);
+            world.addFreshEntity(cactusSnowGolem);
 
-            for(ServerPlayer serverplayerentity : world.getEntitiesOfClass(ServerPlayer.class, cactusSnowman.getBoundingBox().inflate(5.0D))) {
-                CriteriaTriggers.SUMMONED_ENTITY.trigger(serverplayerentity, cactusSnowman);
+            for(ServerPlayer serverPlayer : world.getEntitiesOfClass(ServerPlayer.class, cactusSnowGolem.getBoundingBox().inflate(5.0D))) {
+                CriteriaTriggers.SUMMONED_ENTITY.trigger(serverPlayer, cactusSnowGolem);
             }
 
-            for(int l = 0; l < this.getCactusSnowmanPattern().getHeight(); ++l) {
-                BlockInWorld cachedblockinfo3 = blockpattern$patternhelper.getBlock(0, l, 0);
-                world.blockUpdated(cachedblockinfo3.getPos(), Blocks.AIR);
+            for(int l = 0; l < this.getOrCreateCactusGolemFull().getHeight(); ++l) {
+                BlockInWorld matchBlock = patternMatch.getBlock(0, l, 0);
+                world.blockUpdated(matchBlock.getPos(), Blocks.AIR);
             }
         } else {
-            blockpattern$patternhelper = this.getCactusGolemPattern().find(world, pos);
-            if (blockpattern$patternhelper != null) {
-                for(int j = 0; j < this.getCactusGolemPattern().getWidth(); ++j) {
-                    for(int k = 0; k < this.getCactusGolemPattern().getHeight(); ++k) {
-                        BlockInWorld cachedblockinfo2 = blockpattern$patternhelper.getBlock(j, k, 0);
+            patternMatch = this.getOrCreateCactusIronGolemFull().find(world, pos);
+            if (patternMatch != null) {
+                for(int j = 0; j < this.getOrCreateCactusIronGolemFull().getWidth(); ++j) {
+                    for(int k = 0; k < this.getOrCreateCactusIronGolemFull().getHeight(); ++k) {
+                        BlockInWorld cachedblockinfo2 = patternMatch.getBlock(j, k, 0);
                         world.setBlock(cachedblockinfo2.getPos(), Blocks.AIR.defaultBlockState(), 2);
                         world.levelEvent(2001, cachedblockinfo2.getPos(), Block.getId(cachedblockinfo2.getState()));
                     }
                 }
 
-                BlockPos blockpos = blockpattern$patternhelper.getBlock(1, 2, 0).getPos();
-                CactusGolem cactusGolem = (CactusGolem)EntityType.IRON_GOLEM.create(world);
+                BlockPos blockpos = patternMatch.getBlock(1, 2, 0).getPos();
+                CactusGolem cactusGolem = CactusRegistry.CACTUS_GOLEM.get().create(world);
                 cactusGolem.setPlayerCreated(true);
                 cactusGolem.moveTo((double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.05D, (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
                 world.addFreshEntity(cactusGolem);
 
-                for(ServerPlayer serverplayerentity1 : world.getEntitiesOfClass(ServerPlayer.class, cactusGolem.getBoundingBox().inflate(5.0D))) {
-                    CriteriaTriggers.SUMMONED_ENTITY.trigger(serverplayerentity1, cactusGolem);
+                for(ServerPlayer serverPlayer : world.getEntitiesOfClass(ServerPlayer.class, cactusGolem.getBoundingBox().inflate(5.0D))) {
+                    CriteriaTriggers.SUMMONED_ENTITY.trigger(serverPlayer, cactusGolem);
                 }
 
-                for(int i1 = 0; i1 < this.getCactusGolemPattern().getWidth(); ++i1) {
-                    for(int j1 = 0; j1 < this.getCactusGolemPattern().getHeight(); ++j1) {
-                        BlockInWorld cachedblockinfo1 = blockpattern$patternhelper.getBlock(i1, j1, 0);
-                        world.blockUpdated(cachedblockinfo1.getPos(), Blocks.AIR);
+                for(int i1 = 0; i1 < this.getOrCreateCactusIronGolemFull().getWidth(); ++i1) {
+                    for(int j1 = 0; j1 < this.getOrCreateCactusIronGolemFull().getHeight(); ++j1) {
+                        BlockInWorld matchBlock = patternMatch.getBlock(i1, j1, 0);
+                        world.blockUpdated(matchBlock.getPos(), Blocks.AIR);
                     }
                 }
             }
         }
     }
-    
-    protected BlockPattern getCactusSnowmanPattern() {
-        if (cactusSnowmanPattern == null) {
-        	cactusSnowmanPattern = BlockPatternBuilder.start().aisle("^", "#", "#").where('^', BlockInWorld.hasState(IS_CARVED_CACTUS)).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.CACTUS))).build();
+
+    private BlockPattern getOrCreateCactusGolemBase() {
+        if (this.cactusGolemBase == null) {
+            this.cactusGolemBase = BlockPatternBuilder.start().aisle(" ", "#", "#").where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.SNOW_BLOCK))).build();
         }
 
-        return cactusSnowmanPattern;
+        return this.cactusGolemBase;
     }
-    
-    protected BlockPattern getCactusGolemPattern() {
-        if (cactusGolemPattern == null) {
-    		cactusGolemPattern = BlockPatternBuilder.start().aisle("~^~", "###", "~#~").where('^', BlockInWorld.hasState(IS_CARVED_CACTUS)).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(CactusRegistry.PRICKLY_IRON.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
+
+    private BlockPattern getOrCreateCactusGolemFull() {
+        if (this.cactusGolemFull == null) {
+            this.cactusGolemFull = BlockPatternBuilder.start().aisle("^", "#", "#").where('^', BlockInWorld.hasState(CARVED_PREDICATE)).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.SNOW_BLOCK))).build();
         }
 
-        return cactusGolemPattern;
+        return this.cactusGolemFull;
+    }
+
+    private BlockPattern getOrCreateCactusIronGolemBase() {
+        if (this.cactusIronGolemBase == null) {
+            this.cactusIronGolemBase = BlockPatternBuilder.start().aisle("~ ~", "###", "~#~").where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(CactusRegistry.PRICKLY_IRON.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
+        }
+
+        return this.cactusIronGolemBase;
+    }
+
+    private BlockPattern getOrCreateCactusIronGolemFull() {
+        if (this.cactusIronGolemFull == null) {
+            this.cactusIronGolemFull = BlockPatternBuilder.start().aisle("~^~", "###", "~#~").where('^', BlockInWorld.hasState(CARVED_PREDICATE)).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(CactusRegistry.PRICKLY_IRON.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
+        }
+
+        return this.cactusIronGolemFull;
     }
 }
