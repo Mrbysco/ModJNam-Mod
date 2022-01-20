@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[38,)"
+loaderVersion="[39,)"
 issueTrackerURL="https://github.com/Mrbysco/ModJNam-Mod/issues"
 license="MIT"
 
@@ -22,6 +22,6 @@ side="BOTH"
 [[dependencies.cactusmod]]
 modId="forge"
 mandatory=true
-versionRange="[38,)"
+versionRange="[39.0.45,)"
 ordering="NONE"
 side="BOTH"

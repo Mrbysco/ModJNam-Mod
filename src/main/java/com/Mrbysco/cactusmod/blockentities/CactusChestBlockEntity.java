@@ -87,13 +87,12 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 
 	}
 
-	public CompoundTag save(CompoundTag tag) {
-		super.save(tag);
-		if (!this.trySaveLootTable(tag)) {
-			ContainerHelper.saveAllItems(tag, this.items);
+	@Override
+	protected void saveAdditional(CompoundTag compoundTag) {
+		super.saveAdditional(compoundTag);
+		if (!this.trySaveLootTable(compoundTag)) {
+			ContainerHelper.saveAllItems(compoundTag, this.items);
 		}
-
-		return tag;
 	}
 
 	public static void lidAnimateTick(Level level, BlockPos pos, BlockState state, CactusChestBlockEntity chestBlockEntity) {
