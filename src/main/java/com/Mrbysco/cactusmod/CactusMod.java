@@ -38,11 +38,7 @@ public class CactusMod {
 		CactusRegistry.TILE_ENTITIES.register(eventBus);
 		CactusRegistry.SOUND_EVENTS.register(eventBus);
 
-		if(ModList.get().isLoaded("fastbench")) {
-			com.mrbysco.cactusmod.compat.fastbench.FastBenchCompat.CONTAINERS.register(eventBus);
-		} else {
-			CactusRegistry.CONTAINERS.register(eventBus);
-		}
+		CactusRegistry.CONTAINERS.register(eventBus);
 		eventBus.addListener(this::setup);
 
 		MinecraftForge.EVENT_BUS.register(new CactusWorkbenchHandler());

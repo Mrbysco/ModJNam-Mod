@@ -29,11 +29,9 @@ import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import shadows.fastbench.gui.GuiFastBench;
 
 public class ClientHandler {
     public static void registerRenders(FMLClientSetupEvent event) {
@@ -58,11 +56,7 @@ public class ClientHandler {
 
         ClientRegistry.bindTileEntityRenderer(CactusRegistry.CACTUS_CHEST_TILE.get(), CactusChestTESR::new);
 
-        if(!ModList.get().isLoaded("fastbench")) {
-            ScreenManager.register(CactusRegistry.CACTUS_WORKBENCH_CONTAINER.get(), new Factory());
-        } else {
-            ScreenManager.register(CactusRegistry.CACTUS_WORKBENCH_CONTAINER.get(), new FastFactory());
-        }
+        ScreenManager.register(CactusRegistry.CACTUS_WORKBENCH_CONTAINER.get(), new Factory());
 
         ItemModelsProperties.register(CactusRegistry.CACTUS_BOW.get(), new ResourceLocation("pull"), (stack, world, entity) -> {
             if (entity == null) {
@@ -80,13 +74,6 @@ public class ClientHandler {
         @Override
         public CraftingScreen create(Container container, PlayerInventory pInv, ITextComponent name) {
             return new CraftingScreen((CactusWorkbenchContainer) container, pInv, name);
-        }
-    }
-
-    private static class FastFactory implements IScreenFactory {
-        @Override
-        public GuiFastBench create(Container container, PlayerInventory pInv, ITextComponent name) {
-            return new shadows.fastbench.gui.GuiFastBench((com.mrbysco.cactusmod.blocks.container.CactusFastBenchContainer) container, pInv, name);
         }
     }
 

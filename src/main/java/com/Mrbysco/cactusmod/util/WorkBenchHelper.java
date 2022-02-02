@@ -15,12 +15,8 @@ public class WorkBenchHelper {
 	private static final ITextComponent CONTAINER_NAME = new TranslationTextComponent("container.crafting");
 
 	public INamedContainerProvider getContainer(BlockState state, World worldIn, BlockPos pos) {
-		if(!ModList.get().isLoaded("fastbench")) {
-			return new SimpleNamedContainerProvider((id, inventory, player) -> {
-				return new CactusWorkbenchContainer(id, inventory, IWorldPosCallable.create(worldIn, pos));
-			}, CONTAINER_NAME);
-		} else {
-			return new com.mrbysco.cactusmod.compat.fastbench.FastBenchHelper().getContainer(state, worldIn, pos);
-		}
+		return new SimpleNamedContainerProvider((id, inventory, player) -> {
+			return new CactusWorkbenchContainer(id, inventory, IWorldPosCallable.create(worldIn, pos));
+		}, CONTAINER_NAME);
 	}
 }

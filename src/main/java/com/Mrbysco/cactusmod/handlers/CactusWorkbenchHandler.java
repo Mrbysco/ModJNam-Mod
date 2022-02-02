@@ -14,12 +14,8 @@ public class CactusWorkbenchHandler {
         World world = event.getPlayer().level;
         if(!world.isClientSide) {
             ServerPlayerEntity playerMP = (ServerPlayerEntity)event.getPlayer();
-            if(ModList.get().isLoaded("fastbench")) {
-                com.mrbysco.cactusmod.compat.fastbench.FastBenchHelper.onContainerMatch(playerMP);
-            } else {
-                if(playerMP.containerMenu instanceof CactusWorkbenchContainer) {
-                    playerMP.hurt(DamageSource.CACTUS, 1.0F);
-                }
+            if(playerMP.containerMenu instanceof CactusWorkbenchContainer) {
+                playerMP.hurt(DamageSource.CACTUS, 1.0F);
             }
         }
     }
