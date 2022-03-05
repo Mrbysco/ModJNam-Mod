@@ -43,7 +43,7 @@ public class CactiCartEntity extends AbstractMinecart implements ICactusMob{
     }
 
     @Override
-    public ItemStack getCartItem() {
+    public ItemStack getPickResult() {
         return new ItemStack(CactusRegistry.CACTUS_CART.get());
     }
 
