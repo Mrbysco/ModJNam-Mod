@@ -12,7 +12,7 @@ public class CactoniRenderer extends MobRenderer<CactoniEntity, CactoniModel<Cac
 	private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, "textures/entity/cactoni.png");
 
 	public CactoniRenderer(EntityRendererProvider.Context context) {
-        super(context, new CactoniModel(context.bakeLayer(ClientHandler.CACTONI)), 0.5F);
+		super(context, new CactoniModel(context.bakeLayer(ClientHandler.CACTONI)), 0.5F);
 //		this.addLayer(new LayerCactusSnowmanHead(this));
 	}
 

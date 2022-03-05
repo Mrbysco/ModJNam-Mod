@@ -22,14 +22,14 @@ public class CactusChestBEWLR extends BlockEntityWithoutLevelRenderer {
 
 	@Override
 	public void renderByItem(ItemStack itemStackIn, ItemTransforms.TransformType transformType, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLightIn, int combinedOverlayIn) {
-		if(cactusChest == null) {
+		if (cactusChest == null) {
 			this.cactusChest = new CactusChestBlockEntity(BlockPos.ZERO, CactusRegistry.CACTUS_CHEST.get().defaultBlockState());
 		}
-		if(blockEntityRenderDispatcher == null) {
+		if (blockEntityRenderDispatcher == null) {
 			final Minecraft minecraft = Minecraft.getInstance();
 			blockEntityRenderDispatcher = minecraft.getBlockEntityRenderDispatcher();
 		}
-		if(blockEntityRenderDispatcher != null) {
+		if (blockEntityRenderDispatcher != null) {
 			blockEntityRenderDispatcher.renderItem((BlockEntity) cactusChest, poseStack, bufferSource, combinedLightIn, combinedOverlayIn);
 		}
 	}

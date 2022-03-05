@@ -11,14 +11,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class CactusPickaxeItem extends PickaxeItem {
-    public CactusPickaxeItem(Tier tier, int attackDamageIn, float attackSpeedIn, Item.Properties builder) {
+	public CactusPickaxeItem(Tier tier, int attackDamageIn, float attackSpeedIn, Item.Properties builder) {
 		super(tier, attackDamageIn, attackSpeedIn, builder);
 	}
-    
+
 	@Override
 	public boolean mineBlock(ItemStack stack, Level worldIn, BlockState state, BlockPos pos,
-									LivingEntity entityLiving) {
-		if(worldIn.random.nextInt(10) < 3)
+							 LivingEntity entityLiving) {
+		if (worldIn.random.nextInt(10) < 3)
 			entityLiving.hurt(DamageSource.CACTUS, 1F);
 		return super.mineBlock(stack, worldIn, state, pos, entityLiving);
 	}

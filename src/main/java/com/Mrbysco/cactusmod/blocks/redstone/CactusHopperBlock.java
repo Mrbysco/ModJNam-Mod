@@ -21,9 +21,9 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class CactusHopperBlock extends HopperBlock {
-	
+
 	public CactusHopperBlock(BlockBehaviour.Properties builder) {
-        super(builder);
+		super(builder);
 	}
 
 	@Override

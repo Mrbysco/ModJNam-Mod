@@ -49,6 +49,7 @@ public class BlockCactusWorkbench extends CraftingTableBlock {
 	}
 
 	private static final Component CONTAINER_NAME = new TranslatableComponent("container.crafting");
+
 	@Override
 	public MenuProvider getMenuProvider(BlockState state, Level worldIn, BlockPos pos) {
 		return new SimpleMenuProvider((id, inventory, player) -> {

@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.layers.SaddleLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class CactusPigRenderer extends MobRenderer<CactusPigEntity, PigModel<CactusPigEntity>> {
-	private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID,  "textures/entity/cactus_pig.png");
+	private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, "textures/entity/cactus_pig.png");
 
 	public CactusPigRenderer(EntityRendererProvider.Context context) {
 		super(context, new PigModel<>(context.bakeLayer(ModelLayers.PIG)), 0.7F);

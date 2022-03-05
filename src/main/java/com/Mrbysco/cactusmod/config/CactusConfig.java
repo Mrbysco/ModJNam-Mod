@@ -100,6 +100,6 @@ public class CactusConfig {
 
 	@SubscribeEvent
 	public static void onFileChange(final ModConfigEvent.Reloading configEvent) {
-		CactusMod.logger.fatal("Cactus Mod's config just got changed on the file system!");
+		CactusMod.logger.warn("Cactus Mod's config just got changed on the file system!");
 	}
 }

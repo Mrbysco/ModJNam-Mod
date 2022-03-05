@@ -10,11 +10,11 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class CactusSnowmanRenderer extends MobRenderer<CactusSnowGolemEntity, SnowGolemModel<CactusSnowGolemEntity>> {
-	private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID,  "textures/entity/cactus_snowman.png");
+	private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, "textures/entity/cactus_snowman.png");
 
 	public CactusSnowmanRenderer(EntityRendererProvider.Context context) {
-        super(context, new SnowGolemModel(context.bakeLayer(ModelLayers.SNOW_GOLEM)), 0.5F);
-        this.addLayer(new LayerCactusSnowmanHead(this));
+		super(context, new SnowGolemModel(context.bakeLayer(ModelLayers.SNOW_GOLEM)), 0.5F);
+		this.addLayer(new LayerCactusSnowmanHead(this));
 	}
 
 	@Override

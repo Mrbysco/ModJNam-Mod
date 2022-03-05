@@ -23,17 +23,17 @@ public class CactusArmorItem extends ArmorItem {
 	public CactusArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Item.Properties builderIn) {
 		super(materialIn, slot, builderIn);
 	}
-	
+
 	@Override
 	public void onCraftedBy(ItemStack stack, Level worldIn, Player playerIn) {
 		stack.enchant(Enchantments.THORNS, 2);
 		super.onCraftedBy(stack, worldIn, playerIn);
 	}
-	
+
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
 		ItemStack stack = playerIn.getItemInHand(handIn);
-		if(!stack.isEnchanted()) {
+		if (!stack.isEnchanted()) {
 			stack.enchant(Enchantments.THORNS, 2);
 		}
 		return super.use(worldIn, playerIn, handIn);

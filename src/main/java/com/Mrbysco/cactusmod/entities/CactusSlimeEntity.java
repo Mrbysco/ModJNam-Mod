@@ -6,13 +6,13 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.level.Level;
 
-public class CactusSlimeEntity extends Slime implements ICactusMob{
-	
+public class CactusSlimeEntity extends Slime implements ICactusMob {
+
 	public CactusSlimeEntity(EntityType<? extends Slime> type, Level worldIn) {
-        super(type, worldIn);
+		super(type, worldIn);
 	}
 
-    public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes();
-    }
+	public static AttributeSupplier.Builder createAttributes() {
+		return Monster.createMonsterAttributes();
+	}
 }

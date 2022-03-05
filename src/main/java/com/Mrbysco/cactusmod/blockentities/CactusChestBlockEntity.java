@@ -51,8 +51,8 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 			if (!(player.containerMenu instanceof ChestMenu)) {
 				return false;
 			} else {
-				Container container = ((ChestMenu)player.containerMenu).getContainer();
-				return container == CactusChestBlockEntity.this || container instanceof CompoundContainer && ((CompoundContainer)container).contains(CactusChestBlockEntity.this);
+				Container container = ((ChestMenu) player.containerMenu).getContainer();
+				return container == CactusChestBlockEntity.this || container instanceof CompoundContainer && ((CompoundContainer) container).contains(CactusChestBlockEntity.this);
 			}
 		}
 	};
@@ -101,12 +101,12 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, CactusChestBlockEntity chestBlockEntity) {
 		++chestBlockEntity.ticksSinceDeleted;
-		if(!chestBlockEntity.isEmpty()) {
+		if (!chestBlockEntity.isEmpty()) {
 			int randInt = level.random.nextInt(chestBlockEntity.getContainerSize());
-			if(chestBlockEntity.getItems().get(randInt) != ItemStack.EMPTY && chestBlockEntity.ticksSinceDeleted >= 200) {
+			if (chestBlockEntity.getItems().get(randInt) != ItemStack.EMPTY && chestBlockEntity.ticksSinceDeleted >= 200) {
 				ItemStack stack = chestBlockEntity.getItems().get(randInt);
 				int size = stack.getCount();
-				int minusSize = level.random.nextInt(size+1);
+				int minusSize = level.random.nextInt(size + 1);
 
 				stack.shrink(minusSize);
 				chestBlockEntity.ticksSinceDeleted = 0;
@@ -115,10 +115,10 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 	}
 
 	static void playSound(Level level, BlockPos pos, BlockState state, SoundEvent soundEvent) {
-		double d0 = (double)pos.getX() + 0.5D;
-		double d1 = (double)pos.getY() + 0.5D;
-		double d2 = (double)pos.getZ() + 0.5D;
-		level.playSound((Player)null, d0, d1, d2, soundEvent, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
+		double d0 = (double) pos.getX() + 0.5D;
+		double d1 = (double) pos.getY() + 0.5D;
+		double d2 = (double) pos.getZ() + 0.5D;
+		level.playSound((Player) null, d0, d1, d2, soundEvent, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
 	}
 
 	public boolean triggerEvent(int p_59114_, int p_59115_) {
@@ -159,7 +159,7 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 		if (blockstate.hasBlockEntity()) {
 			BlockEntity blockentity = getter.getBlockEntity(pos);
 			if (blockentity instanceof CactusChestBlockEntity) {
-				return ((CactusChestBlockEntity)blockentity).openersCounter.getOpenerCount();
+				return ((CactusChestBlockEntity) blockentity).openersCounter.getOpenerCount();
 			}
 		}
 
@@ -177,6 +177,7 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 	}
 
 	private net.minecraftforge.common.util.LazyOptional<net.minecraftforge.items.IItemHandlerModifiable> chestHandler;
+
 	@Override
 	public void setBlockState(BlockState state) {
 		super.setBlockState(state);

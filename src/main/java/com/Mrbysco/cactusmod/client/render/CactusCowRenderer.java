@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class CactusCowRenderer extends MobRenderer<CactusCowEntity, CowModel<CactusCowEntity>> {
-	private static final ResourceLocation COW_TEXTURES = new ResourceLocation(Reference.MOD_ID,  "textures/entity/cactus_cow.png");
+	private static final ResourceLocation COW_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/entity/cactus_cow.png");
 
 	public CactusCowRenderer(EntityRendererProvider.Context context) {
 		super(context, new CowModel<>(context.bakeLayer(ModelLayers.COW)), 0.7F);

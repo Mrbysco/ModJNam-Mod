@@ -76,7 +76,7 @@ public class CactusChestBER<T extends BlockEntity & LidBlockEntity> implements B
 	}
 
 	private void render(PoseStack poseStack, VertexConsumer consumer, ModelPart part, ModelPart part1, ModelPart part2, float p_112375_, int p_112376_, int combinedOverlayIn) {
-		part.xRot = -(p_112375_ * ((float)Math.PI / 2F));
+		part.xRot = -(p_112375_ * ((float) Math.PI / 2F));
 		part1.xRot = part.xRot;
 		part.render(poseStack, consumer, p_112376_, combinedOverlayIn);
 		part1.render(poseStack, consumer, p_112376_, combinedOverlayIn);

@@ -15,7 +15,7 @@ public class CactusHoeItem extends HoeItem {
 
 	@Override
 	public InteractionResult useOn(UseOnContext context) {
-		if(context.getLevel().random.nextInt(10) < 3)
+		if (context.getLevel().random.nextInt(10) < 3)
 			context.getPlayer().hurt(DamageSource.CACTUS, 1F);
 		return super.useOn(context);
 	}

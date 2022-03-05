@@ -27,7 +27,7 @@ public class CactusJuiceItem extends Item {
 		if (stack.isEmpty()) {
 			return new ItemStack(Items.GLASS_BOTTLE);
 		} else {
-			if (livingEntity instanceof Player player && !((Player)livingEntity).getAbilities().instabuild) {
+			if (livingEntity instanceof Player player && !((Player) livingEntity).getAbilities().instabuild) {
 				ItemStack glassStack = new ItemStack(Items.GLASS_BOTTLE);
 				if (!player.getInventory().add(glassStack)) {
 					player.drop(glassStack, false);
@@ -37,7 +37,7 @@ public class CactusJuiceItem extends Item {
 			return stack;
 		}
 	}
-	
+
 	@Override
 	public UseAnim getUseAnimation(ItemStack stack) {
 		return UseAnim.DRINK;

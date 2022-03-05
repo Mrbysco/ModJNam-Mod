@@ -10,11 +10,11 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class CactusSheepRenderer extends MobRenderer<CactusSheepEntity, CactusSheepModel<CactusSheepEntity>> {
-	private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID,  "textures/entity/cactus_sheep.png");
+	private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, "textures/entity/cactus_sheep.png");
 
 	public CactusSheepRenderer(EntityRendererProvider.Context context) {
-        super(context, new CactusSheepModel(context.bakeLayer(ClientHandler.CACTUS_SHEEP)), 0.7F);
-        this.addLayer(new LayerCactusSheep(this, context.getModelSet()));
+		super(context, new CactusSheepModel(context.bakeLayer(ClientHandler.CACTUS_SHEEP)), 0.7F);
+		this.addLayer(new LayerCactusSheep(this, context.getModelSet()));
 	}
 
 	@Override

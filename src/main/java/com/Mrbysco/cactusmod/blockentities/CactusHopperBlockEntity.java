@@ -25,7 +25,7 @@ public class CactusHopperBlockEntity extends HopperBlockEntity {
 
 	@Override
 	protected Component getDefaultName() {
-		return new TranslatableComponent(Reference.MOD_ID,  "container.cactus_hopper");
+		return new TranslatableComponent(Reference.MOD_ID, "container.cactus_hopper");
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, CactusHopperBlockEntity chestBlockEntity) {
@@ -36,10 +36,10 @@ public class CactusHopperBlockEntity extends HopperBlockEntity {
 			chestBlockEntity.setCooldown(0);
 			tryMoveItems(level, pos, state, chestBlockEntity, () -> suckInItems(level, chestBlockEntity));
 		}
-		if(!chestBlockEntity.isEmpty() && chestBlockEntity.ticksSinceDeleted > 60) {
+		if (!chestBlockEntity.isEmpty() && chestBlockEntity.ticksSinceDeleted > 60) {
 			int randInt = level.random.nextInt(chestBlockEntity.getContainerSize());
 
-			if(chestBlockEntity.items.get(randInt) != ItemStack.EMPTY) {
+			if (chestBlockEntity.items.get(randInt) != ItemStack.EMPTY) {
 				ItemStack stack = chestBlockEntity.getItems().get(randInt);
 				stack.shrink(level.random.nextInt(4) + 1);
 				chestBlockEntity.setItem(randInt, stack);

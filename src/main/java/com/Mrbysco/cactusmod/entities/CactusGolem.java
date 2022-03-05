@@ -9,10 +9,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.level.Level;
 
-public class CactusGolem extends IronGolem implements ICactusMob{
+public class CactusGolem extends IronGolem implements ICactusMob {
 
 	public CactusGolem(EntityType<? extends CactusGolem> type, Level worldIn) {
-        super(type, worldIn);
+		super(type, worldIn);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
@@ -22,11 +22,11 @@ public class CactusGolem extends IronGolem implements ICactusMob{
 	@Override
 	protected void doPush(Entity entityIn) {
 		super.doPush(entityIn);
-		if(!(entityIn instanceof ICactusMob))
+		if (!(entityIn instanceof ICactusMob))
 			entityIn.hurt(DamageSource.CACTUS, 1.0F);
 	}
 
-    @Override
-    public void offerFlower(boolean holdingRose) {
-    }
+	@Override
+	public void offerFlower(boolean holdingRose) {
+	}
 }

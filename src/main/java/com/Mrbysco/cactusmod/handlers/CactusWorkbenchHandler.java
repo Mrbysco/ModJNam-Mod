@@ -8,18 +8,18 @@ import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class CactusWorkbenchHandler {
-    @SubscribeEvent
-    public void CraftedEvent(ItemCraftedEvent event) {
-        Level world = event.getPlayer().level;
-        if(!world.isClientSide) {
-            ServerPlayer playerMP = (ServerPlayer)event.getPlayer();
+	@SubscribeEvent
+	public void CraftedEvent(ItemCraftedEvent event) {
+		Level world = event.getPlayer().level;
+		if (!world.isClientSide) {
+			ServerPlayer playerMP = (ServerPlayer) event.getPlayer();
 //            if(ModList.get().isLoaded("fastbench")) {
 //                com.mrbysco.cactusmod.compat.fastbench.FastBenchHelper.onContainerMatch(playerMP);
 //            } else {
-                if(playerMP.containerMenu instanceof CactusWorkbenchContainer) {
-                    playerMP.hurt(DamageSource.CACTUS, 1.0F);
-                }
+			if (playerMP.containerMenu instanceof CactusWorkbenchContainer) {
+				playerMP.hurt(DamageSource.CACTUS, 1.0F);
+			}
 //            }
-        }
-    }
+		}
+	}
 }

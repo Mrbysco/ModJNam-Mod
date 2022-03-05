@@ -74,8 +74,7 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 		BiPredicate<LevelAccessor, BlockPos> biPredicate;
 		if (override) {
 			biPredicate = (p_226918_0_, p_226918_1_) -> false;
-		}
-		else {
+		} else {
 			biPredicate = CactusChestBlock::isBlocked;
 		}
 
@@ -133,7 +132,7 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 		if (stack.hasCustomHoverName()) {
 			BlockEntity tileentity = worldIn.getBlockEntity(pos);
 			if (tileentity instanceof CactusChestBlockEntity) {
-				((CactusChestBlockEntity)tileentity).setCustomName(stack.getHoverName());
+				((CactusChestBlockEntity) tileentity).setCustomName(stack.getHoverName());
 			}
 		}
 	}
@@ -161,7 +160,7 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 		if (!state.is(newState.getBlock())) {
 			BlockEntity blockEntity = level.getBlockEntity(pos);
 			if (blockEntity instanceof Container) {
-				Containers.dropContents(level, pos, (Container)blockEntity);
+				Containers.dropContents(level, pos, (Container) blockEntity);
 				level.updateNeighbourForOutputSignal(pos, this);
 			}
 
@@ -207,9 +206,9 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 	}
 
 	private static boolean isCatSittingOn(LevelAccessor world, BlockPos pos) {
-		List<Cat> list = world.getEntitiesOfClass(Cat.class, new AABB((double)pos.getX(), (double)(pos.getY() + 1), (double)pos.getZ(), (double)(pos.getX() + 1), (double)(pos.getY() + 2), (double)(pos.getZ() + 1)));
+		List<Cat> list = world.getEntitiesOfClass(Cat.class, new AABB((double) pos.getX(), (double) (pos.getY() + 1), (double) pos.getZ(), (double) (pos.getX() + 1), (double) (pos.getY() + 2), (double) (pos.getZ() + 1)));
 		if (!list.isEmpty()) {
-			for(Cat catentity : list) {
+			for (Cat catentity : list) {
 				if (catentity.isInSittingPose()) {
 					return true;
 				}
@@ -241,7 +240,7 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
 		BlockEntity blockentity = level.getBlockEntity(pos);
 		if (blockentity instanceof CactusChestBlockEntity) {
-			((CactusChestBlockEntity)blockentity).recheckOpen();
+			((CactusChestBlockEntity) blockentity).recheckOpen();
 		}
 	}
 }

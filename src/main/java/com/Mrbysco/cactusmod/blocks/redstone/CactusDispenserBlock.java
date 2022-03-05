@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class CactusDispenserBlock extends Block{
+public class CactusDispenserBlock extends Block {
 	public static final DirectionProperty FACING = DirectionalBlock.FACING;
 	public static final BooleanProperty TRIGGERED = BlockStateProperties.TRIGGERED;
 
@@ -44,9 +44,9 @@ public class CactusDispenserBlock extends Block{
 
 	public static BlockPos getDispensePosition(BlockState state, BlockPos pos) {
 		Direction direction = state.getValue(FACING);
-		double d0 = pos.getX() + 0.7D * (double)direction.getStepX();
-		double d1 = pos.getY() + 0.7D * (double)direction.getStepY();
-		double d2 = pos.getZ() + 0.7D * (double)direction.getStepZ();
+		double d0 = pos.getX() + 0.7D * (double) direction.getStepX();
+		double d1 = pos.getY() + 0.7D * (double) direction.getStepY();
+		double d2 = pos.getZ() + 0.7D * (double) direction.getStepZ();
 		return new BlockPos(d0, d1, d2);
 	}
 
@@ -91,18 +91,18 @@ public class CactusDispenserBlock extends Block{
 
 	protected void dispenseFrom(ServerLevel level, BlockPos pos) {
 		BlockState state = level.getBlockState(pos);
-		if(state.getBlock() == this) {
+		if (state.getBlock() == this) {
 			Direction direction = state.getValue(DispenserBlock.FACING);
-			
-			double x = pos.getX() + 0.7D * (double)direction.getStepX() + 0.5;
-			double y = pos.getY() + 0.7D * (double)direction.getStepY() - 0.5;
-			double z = pos.getZ() + 0.7D * (double)direction.getStepZ() + 0.5;
+
+			double x = pos.getX() + 0.7D * (double) direction.getStepX() + 0.5;
+			double y = pos.getY() + 0.7D * (double) direction.getStepY() - 0.5;
+			double z = pos.getZ() + 0.7D * (double) direction.getStepZ() + 0.5;
 
 
 			SpikeEntity spikeEntity = new SpikeEntity(level, z, y, z);
 			spikeEntity.setPos(x, y + 1, z);
 			spikeEntity.setKnockbackStrength(1);
-			spikeEntity.shoot((double)direction.getStepX(), (double)((float)direction.getStepY() + 0.1F), (double)direction.getStepZ(), 1.1F, 6.0F);
+			spikeEntity.shoot((double) direction.getStepX(), (double) ((float) direction.getStepY() + 0.1F), (double) direction.getStepZ(), 1.1F, 6.0F);
 
 			level.addFreshEntity(spikeEntity);
 		}

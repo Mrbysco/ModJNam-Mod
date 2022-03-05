@@ -6,15 +6,15 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 
 public class SpikeBowRangedAttackGoal<T extends Monster & RangedAttackMob> extends RangedBowAttackGoal {
-    private final T entity;
+	private final T entity;
 
-    public SpikeBowRangedAttackGoal(T mob, double moveSpeedAmpIn, int attackCooldownIn, float maxAttackDistanceIn) {
-        super(mob, moveSpeedAmpIn, attackCooldownIn, maxAttackDistanceIn);
-        this.entity = mob;
-    }
+	public SpikeBowRangedAttackGoal(T mob, double moveSpeedAmpIn, int attackCooldownIn, float maxAttackDistanceIn) {
+		super(mob, moveSpeedAmpIn, attackCooldownIn, maxAttackDistanceIn);
+		this.entity = mob;
+	}
 
-    @Override
-    protected boolean isHoldingBow() {
-        return this.entity.isHolding(stack -> stack.getItem() instanceof CactusBowItem);
-    }
+	@Override
+	protected boolean isHoldingBow() {
+		return this.entity.isHolding(stack -> stack.getItem() instanceof CactusBowItem);
+	}
 }

@@ -32,7 +32,7 @@ import java.util.List;
 public class CactusTNTBlock extends TntBlock {
 	protected static final VoxelShape COLLISION_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
 	protected static final VoxelShape OUTLINE_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
-	
+
 	public CactusTNTBlock(BlockBehaviour.Properties properties) {
 		super(properties);
 	}
@@ -57,19 +57,20 @@ public class CactusTNTBlock extends TntBlock {
 	}
 
 	public static void explode(Level world, BlockPos worldIn) {
-		explode(world, worldIn, (LivingEntity)null);
+		explode(world, worldIn, (LivingEntity) null);
 	}
+
 	public static void explode(Level worldIn, BlockPos pos, @Nullable LivingEntity entityIn) {
 		if (!worldIn.isClientSide) {
-			CactusTNTEntity cactusTNTEntity = new CactusTNTEntity(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, entityIn);
+			CactusTNTEntity cactusTNTEntity = new CactusTNTEntity(worldIn, (double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, entityIn);
 			worldIn.addFreshEntity(cactusTNTEntity);
-			worldIn.playSound((Player)null, cactusTNTEntity.getX(), cactusTNTEntity.getY(), cactusTNTEntity.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
+			worldIn.playSound((Player) null, cactusTNTEntity.getX(), cactusTNTEntity.getY(), cactusTNTEntity.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
 		}
 	}
 
 	@Override
 	public void onProjectileHit(Level level, BlockState state, BlockHitResult hitResult, Projectile projectile) {
-		if(projectile instanceof AbstractSpikeEntity) {
+		if (projectile instanceof AbstractSpikeEntity) {
 			level.destroyBlock(hitResult.getBlockPos(), false, null);
 			explode(level, hitResult.getBlockPos());
 		}

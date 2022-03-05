@@ -10,14 +10,14 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class CactusSkeletonRenderer extends HumanoidMobRenderer<CactusSkeletonEntity, SkeletonModel<CactusSkeletonEntity>> {
-	private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID,  "textures/entity/cactus_skeleton.png");
+	private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, "textures/entity/cactus_skeleton.png");
 
 	public CactusSkeletonRenderer(EntityRendererProvider.Context context) {
-        super(context, new SkeletonModel(context.bakeLayer(ModelLayers.SKELETON)), 0.5F);
+		super(context, new SkeletonModel(context.bakeLayer(ModelLayers.SKELETON)), 0.5F);
 		this.addLayer(new HumanoidArmorLayer<>(this, new SkeletonModel(context.bakeLayer(ModelLayers.SKELETON_INNER_ARMOR)),
 				new SkeletonModel(context.bakeLayer(ModelLayers.SKELETON_OUTER_ARMOR))));
 	}
-	
+
 	@Override
 	public ResourceLocation getTextureLocation(CactusSkeletonEntity entity) {
 		return texture;

@@ -26,7 +26,7 @@ public class CactusWoolModel<T extends CactusSheepEntity> extends QuadrupedModel
 
 		partdefinition.addOrReplaceChild("body", CubeListBuilder.create()
 				.texOffs(28, 8).addBox(-4.0F, -10.0F, -7.0F, 8.0F, 16.0F, 6.0F,
-						new CubeDeformation(1.75F)), PartPose.offsetAndRotation(0.0F, 5.0F, 2.0F, ((float)Math.PI / 2F), 0.0F, 0.0F));
+						new CubeDeformation(1.75F)), PartPose.offsetAndRotation(0.0F, 5.0F, 2.0F, ((float) Math.PI / 2F), 0.0F, 0.0F));
 
 		CubeListBuilder cubelistbuilder = CubeListBuilder.create()
 				.texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 6.0F, 4.0F,

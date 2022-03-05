@@ -5,11 +5,13 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mrbysco.cactusmod.Reference;
 import com.mrbysco.cactusmod.init.CactusRegistry;
+import com.mrbysco.cactusmod.init.CactusTags;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.data.loot.EntityLoot;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -42,6 +44,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.RegistryObject;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,6 +62,7 @@ public class CactusDatagen {
 
 		if (event.includeServer()) {
 			generator.addProvider(new Loots(generator));
+			generator.addProvider(new CactusBlockTags(generator, helper));
 		}
 		if (event.includeClient()) {
 			generator.addProvider(new Language(generator));
@@ -225,6 +229,17 @@ public class CactusDatagen {
 		@Override
 		protected void addTranslations() {
 
+		}
+	}
+
+	public static class CactusBlockTags extends BlockTagsProvider {
+		public CactusBlockTags(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
+			super(generator, Reference.MOD_ID, existingFileHelper);
+		}
+
+		@Override
+		protected void addTags() {
+			this.tag(CactusTags.NEEDS_CACTUS_TOOL);
 		}
 	}
 }

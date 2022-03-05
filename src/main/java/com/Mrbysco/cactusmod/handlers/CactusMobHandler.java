@@ -15,20 +15,20 @@ import java.util.ArrayList;
 public class CactusMobHandler {
 	@SubscribeEvent
 	public void CactusHurtEvent(LivingHurtEvent event) {
-		if(event.getEntityLiving() instanceof ICactusMob && event.getSource() == DamageSource.CACTUS) {
+		if (event.getEntityLiving() instanceof ICactusMob && event.getSource() == DamageSource.CACTUS) {
 			event.setCanceled(true);
 		}
-		
-		if(event.getEntityLiving() instanceof Player player) {
+
+		if (event.getEntityLiving() instanceof Player player) {
 			Level world = player.getCommandSenderWorld();
-			
-			if(event.getSource() == DamageSource.CACTUS) {
+
+			if (event.getSource() == DamageSource.CACTUS) {
 				boolean slot1 = player.getItemBySlot(EquipmentSlot.HEAD).getItem() == CactusRegistry.CACTUS_HELMET.get();
 				boolean slot2 = player.getItemBySlot(EquipmentSlot.CHEST).getItem() == CactusRegistry.CACTUS_CHESTPLATE.get();
 				boolean slot3 = player.getItemBySlot(EquipmentSlot.LEGS).getItem() == CactusRegistry.CACTUS_LEGGINGS.get();
 				boolean slot4 = player.getItemBySlot(EquipmentSlot.FEET).getItem() == CactusRegistry.CACTUS_BOOTS.get();
-				
-				if(slot1 && slot2 && slot3 && slot4) {
+
+				if (slot1 && slot2 && slot3 && slot4) {
 					ArrayList<ItemStack> armorList = new ArrayList<>();
 					armorList.add(player.getItemBySlot(EquipmentSlot.HEAD));
 					armorList.add(player.getItemBySlot(EquipmentSlot.CHEST));
@@ -44,12 +44,12 @@ public class CactusMobHandler {
 				}
 			}
 		}
-		
-		if(event.getSource().getEntity() instanceof Player player) {
+
+		if (event.getSource().getEntity() instanceof Player player) {
 			Level world = player.getCommandSenderWorld();
-			
-			if(event.getEntityLiving() instanceof ICactusMob) {
-				if(world.random.nextInt(10) < 4)
+
+			if (event.getEntityLiving() instanceof ICactusMob) {
+				if (world.random.nextInt(10) < 4)
 					player.hurt(DamageSource.CACTUS, 1F);
 			}
 		}

@@ -52,210 +52,206 @@ import java.util.List;
 import java.util.Random;
 
 public class CactusSheepEntity extends Animal implements IForgeShearable, ICactusMob {
-    private static final EntityDataAccessor<Boolean> SHEARED = SynchedEntityData.<Boolean>defineId(CactusSheepEntity.class, EntityDataSerializers.BOOLEAN);
-    
-    /**
-     * Used to control movement as well as wool regrowth. Set to 40 on handleHealthUpdate and counts down with each
-     * tick.
-     */
-    private int sheepTimer;
-    private EatSandGoal eatSandGoal;
+	private static final EntityDataAccessor<Boolean> SHEARED = SynchedEntityData.<Boolean>defineId(CactusSheepEntity.class, EntityDataSerializers.BOOLEAN);
 
-    public CactusSheepEntity(EntityType<? extends CactusSheepEntity> type, Level worldIn) {
-        super(type, worldIn);
-    }
+	/**
+	 * Used to control movement as well as wool regrowth. Set to 40 on handleHealthUpdate and counts down with each
+	 * tick.
+	 */
+	private int sheepTimer;
+	private EatSandGoal eatSandGoal;
 
-    @Override
-    protected void registerGoals() {
-        this.eatSandGoal = new EatSandGoal(this);
-        this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, Ingredient.of(Items.WHEAT), false));
-        this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
-        this.goalSelector.addGoal(5, this.eatSandGoal);
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-    }
-    
-    @Override
-    protected void customServerAiStep()
-    {
-        this.sheepTimer = this.eatSandGoal.getEatingSandTimer();
-        super.customServerAiStep();
-    }
+	public CactusSheepEntity(EntityType<? extends CactusSheepEntity> type, Level worldIn) {
+		super(type, worldIn);
+	}
 
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
-    @Override
-    public void aiStep() {
-        if (this.level.isClientSide) {
-            this.sheepTimer = Math.max(0, this.sheepTimer - 1);
-        }
+	@Override
+	protected void registerGoals() {
+		this.eatSandGoal = new EatSandGoal(this);
+		this.goalSelector.addGoal(0, new FloatGoal(this));
+		this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
+		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
+		this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, Ingredient.of(Items.WHEAT), false));
+		this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
+		this.goalSelector.addGoal(5, this.eatSandGoal);
+		this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
+		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+	}
 
-        super.aiStep();
-    }
+	@Override
+	protected void customServerAiStep() {
+		this.sheepTimer = this.eatSandGoal.getEatingSandTimer();
+		super.customServerAiStep();
+	}
 
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, (double)0.23F);
-    }
+	/**
+	 * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
+	 * use this to react to sunlight and start to burn.
+	 */
+	@Override
+	public void aiStep() {
+		if (this.level.isClientSide) {
+			this.sheepTimer = Math.max(0, this.sheepTimer - 1);
+		}
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(SHEARED, false);
-    }
+		super.aiStep();
+	}
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void handleEntityEvent(byte id) {
-        if (id == 10) {
-            this.sheepTimer = 40;
-        } else {
-            super.handleEntityEvent(id);
-        }
-    }
+	public static AttributeSupplier.Builder createAttributes() {
+		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.MOVEMENT_SPEED, (double) 0.23F);
+	}
 
-    @OnlyIn(Dist.CLIENT)
-    public float getHeadRotationPointY(float p_70894_1_) {
-        if (this.sheepTimer <= 0) {
-            return 0.0F;
-        } else if (this.sheepTimer >= 4 && this.sheepTimer <= 36) {
-            return 1.0F;
-        } else {
-            return this.sheepTimer < 4 ? ((float)this.sheepTimer - p_70894_1_) / 4.0F : -((float)(this.sheepTimer - 40) - p_70894_1_) / 4.0F;
-        }
-    }
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		this.entityData.define(SHEARED, false);
+	}
 
-    @OnlyIn(Dist.CLIENT)
-    public float getHeadRotationAngleX(float p_70890_1_) {
-        if (this.sheepTimer > 4 && this.sheepTimer <= 36) {
-            float f = ((float)(this.sheepTimer - 4) - p_70890_1_) / 32.0F;
-            return ((float)Math.PI / 5F) + 0.21991149F * Mth.sin(f * 28.7F);
-        } else {
-            return this.sheepTimer > 0 ? ((float)Math.PI / 5F) : this.getXRot() * ((float)Math.PI / 180F);
-        }
-    }
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void handleEntityEvent(byte id) {
+		if (id == 10) {
+			this.sheepTimer = 40;
+		} else {
+			super.handleEntityEvent(id);
+		}
+	}
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
-    @Override
-    public void addAdditionalSaveData(CompoundTag compound) {
-      super.addAdditionalSaveData(compound);
-      compound.putBoolean("Sheared", this.getSheared());
-    }
+	@OnlyIn(Dist.CLIENT)
+	public float getHeadRotationPointY(float p_70894_1_) {
+		if (this.sheepTimer <= 0) {
+			return 0.0F;
+		} else if (this.sheepTimer >= 4 && this.sheepTimer <= 36) {
+			return 1.0F;
+		} else {
+			return this.sheepTimer < 4 ? ((float) this.sheepTimer - p_70894_1_) / 4.0F : -((float) (this.sheepTimer - 40) - p_70894_1_) / 4.0F;
+		}
+	}
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
-    @Override
-    public void readAdditionalSaveData(CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
-        this.setSheared(compound.getBoolean("Sheared"));
-    }
+	@OnlyIn(Dist.CLIENT)
+	public float getHeadRotationAngleX(float p_70890_1_) {
+		if (this.sheepTimer > 4 && this.sheepTimer <= 36) {
+			float f = ((float) (this.sheepTimer - 4) - p_70890_1_) / 32.0F;
+			return ((float) Math.PI / 5F) + 0.21991149F * Mth.sin(f * 28.7F);
+		} else {
+			return this.sheepTimer > 0 ? ((float) Math.PI / 5F) : this.getXRot() * ((float) Math.PI / 180F);
+		}
+	}
 
-    @Override
-    protected SoundEvent getAmbientSound()
-    {
-        return SoundEvents.SHEEP_AMBIENT;
-    }
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
+	@Override
+	public void addAdditionalSaveData(CompoundTag compound) {
+		super.addAdditionalSaveData(compound);
+		compound.putBoolean("Sheared", this.getSheared());
+	}
 
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-    {
-        return SoundEvents.SHEEP_HURT;
-    }
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
+	@Override
+	public void readAdditionalSaveData(CompoundTag compound) {
+		super.readAdditionalSaveData(compound);
+		this.setSheared(compound.getBoolean("Sheared"));
+	}
 
-    @Override
-    protected SoundEvent getDeathSound()
-    {
-        return SoundEvents.SHEEP_DEATH;
-    }
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return SoundEvents.SHEEP_AMBIENT;
+	}
 
-    @Override
-    protected void playStepSound(BlockPos pos, BlockState blockIn) {
-        this.playSound(SoundEvents.SHEEP_STEP, 0.15F, 1.0F);
-    }
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		return SoundEvents.SHEEP_HURT;
+	}
 
-    public boolean isShearable() {
-        return this.isAlive() && !this.getSheared() && !this.isBaby();
-    }
+	@Override
+	protected SoundEvent getDeathSound() {
+		return SoundEvents.SHEEP_DEATH;
+	}
 
-    /**
-     * returns true if a sheeps wool has been sheared
-     */
-    public boolean getSheared() {
-        return this.entityData.get(SHEARED);
-    }
+	@Override
+	protected void playStepSound(BlockPos pos, BlockState blockIn) {
+		this.playSound(SoundEvents.SHEEP_STEP, 0.15F, 1.0F);
+	}
 
-    public void setSheared(boolean sheared) {
-        this.entityData.set(SHEARED, sheared);
-    }
+	public boolean isShearable() {
+		return this.isAlive() && !this.getSheared() && !this.isBaby();
+	}
 
-    @Override
-    public CactusSheepEntity getBreedOffspring(ServerLevel level, AgeableMob ageableMob) {
-        return CactusRegistry.CACTUS_SHEEP.get().create(level);
-    }
+	/**
+	 * returns true if a sheeps wool has been sheared
+	 */
+	public boolean getSheared() {
+		return this.entityData.get(SHEARED);
+	}
 
-    /**
-     * This function applies the benefits of growing back wool and faster growing up to the acting entity. (This
-     * function is used in the AIEatGrass)
-     */
-    public void eatSandBonus() {
-        this.setSheared(false);
-        if (this.isBaby()) {
-            this.ageUp(60);
-        }
-    }
+	public void setSheared(boolean sheared) {
+		this.entityData.set(SHEARED, sheared);
+	}
 
-    @Override
-    public boolean isShearable(@Nonnull ItemStack item, Level world, BlockPos pos) {
-        return isShearable();
-    }
+	@Override
+	public CactusSheepEntity getBreedOffspring(ServerLevel level, AgeableMob ageableMob) {
+		return CactusRegistry.CACTUS_SHEEP.get().create(level);
+	}
 
-    @Nonnull
-    @Override
-    public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack item, Level world, BlockPos pos, int fortune) {
-        world.playSound(null, this, SoundEvents.SHEEP_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
-        if (!world.isClientSide) {
-            this.setSheared(true);
-            int i = 1 + this.random.nextInt(3);
+	/**
+	 * This function applies the benefits of growing back wool and faster growing up to the acting entity. (This
+	 * function is used in the AIEatGrass)
+	 */
+	public void eatSandBonus() {
+		this.setSheared(false);
+		if (this.isBaby()) {
+			this.ageUp(60);
+		}
+	}
 
-            java.util.List<ItemStack> items = new java.util.ArrayList<>();
-            for (int j = 0; j < i; ++j) {
-                items.add(new ItemStack(Blocks.CACTUS, 1));
-            }
-            return items;
-        }
-        return java.util.Collections.emptyList();
-    }
+	@Override
+	public boolean isShearable(@Nonnull ItemStack item, Level world, BlockPos pos) {
+		return isShearable();
+	}
 
-    @Override
-    protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
-        return 0.95F * sizeIn.height;
-    }
-    
-    @Override
+	@Nonnull
+	@Override
+	public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack item, Level world, BlockPos pos, int fortune) {
+		world.playSound(null, this, SoundEvents.SHEEP_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
+		if (!world.isClientSide) {
+			this.setSheared(true);
+			int i = 1 + this.random.nextInt(3);
+
+			java.util.List<ItemStack> items = new java.util.ArrayList<>();
+			for (int j = 0; j < i; ++j) {
+				items.add(new ItemStack(Blocks.CACTUS, 1));
+			}
+			return items;
+		}
+		return java.util.Collections.emptyList();
+	}
+
+	@Override
+	protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
+		return 0.95F * sizeIn.height;
+	}
+
+	@Override
 	@Nullable
-    protected ResourceLocation getDefaultLootTable() {
-    	if(this.getSheared())
-    		return new ResourceLocation(Reference.MOD_ID, "entities/cactus_sheep");
-    	else
-    		return new ResourceLocation(Reference.MOD_ID, "entities/cactus_sheep1");
-    }
-    
-    @Override
+	protected ResourceLocation getDefaultLootTable() {
+		if (this.getSheared())
+			return new ResourceLocation(Reference.MOD_ID, "entities/cactus_sheep");
+		else
+			return new ResourceLocation(Reference.MOD_ID, "entities/cactus_sheep1");
+	}
+
+	@Override
 	protected void doPush(Entity entityIn) {
-    	if(!this.getSheared() && !(entityIn instanceof ICactusMob))
-    		entityIn.hurt(DamageSource.CACTUS, 1.0F);
-		
+		if (!this.getSheared() && !(entityIn instanceof ICactusMob))
+			entityIn.hurt(DamageSource.CACTUS, 1.0F);
+
 		super.doPush(entityIn);
 	}
 
-    public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random random) {
-        return worldIn.getBlockState(pos.below()).is(Tags.Blocks.SAND) && worldIn.getRawBrightness(pos, 0) > 8;
-    }
+	public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random random) {
+		return worldIn.getBlockState(pos.below()).is(Tags.Blocks.SAND) && worldIn.getRawBrightness(pos, 0) > 8;
+	}
 }

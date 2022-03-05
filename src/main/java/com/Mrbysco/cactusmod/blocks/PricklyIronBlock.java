@@ -15,14 +15,15 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 
 public class PricklyIronBlock extends Block {
-    public static final VoxelShape ALMOST_FULL =  Block.box(0.08, 0, 0.08, 15.98, 15.98, 15.98);
+	public static final VoxelShape ALMOST_FULL = Block.box(0.08, 0, 0.08, 15.98, 15.98, 15.98);
+
 	public PricklyIronBlock(BlockBehaviour.Properties builder) {
 		super(builder);
 	}
 
 	@Override
 	public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable) {
-		if(facing == Direction.UP) {
+		if (facing == Direction.UP) {
 			PlantType plant = plantable.getPlantType(world, pos.relative(facing));
 			return plant == PlantType.DESERT;
 		} else {

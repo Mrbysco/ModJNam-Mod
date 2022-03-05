@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class LayerCactusCowCactus <T extends CactusCowEntity> extends RenderLayer<T, CowModel<T>> {
+public class LayerCactusCowCactus<T extends CactusCowEntity> extends RenderLayer<T, CowModel<T>> {
 	public LayerCactusCowCactus(RenderLayerParent<T, CowModel<T>> rendererIn) {
 		super(rendererIn);
 	}
@@ -36,14 +36,14 @@ public class LayerCactusCowCactus <T extends CactusCowEntity> extends RenderLaye
 			poseStack.scale(-1.0F, -1.0F, 1.0F);
 			poseStack.translate(0.1F, 0.0F, -0.6F);
 			poseStack.mulPose(Vector3f.YP.rotationDegrees(42.0F));
-			poseStack.translate(-0.3125F, -2f/16f, 0.1F);
+			poseStack.translate(-0.3125F, -2f / 16f, 0.1F);
 			poseStack.scale(0.3F, 0.3F, 0.3F);
 			renderDispatcher.renderSingleBlock(blockstate, poseStack, bufferSource, packedLightIn, i);
 			poseStack.popPose();
 			poseStack.pushPose();
 
 			ModelPart head = this.getParentModel().getHead();
-			poseStack.translate((double)(head.x / 16.0F), (double)(head.y / 16.0F), (double)(head.z / 16.0F));
+			poseStack.translate((double) (head.x / 16.0F), (double) (head.y / 16.0F), (double) (head.z / 16.0F));
 
 			poseStack.scale(-1.0F, -1.0F, 1.0F);
 			poseStack.translate(0.0F, 0.7F, -0.2F);
