@@ -14,15 +14,12 @@ import net.minecraft.util.Mth;
 public class CactoniModel<T extends CactoniEntity> extends HierarchicalModel<T> {
 	private final ModelPart root;
 	private final ModelPart head;
-	private final ModelPart torso;
 	private final ModelPart left_arm;
 	private final ModelPart right_arm;
 
 	public CactoniModel(ModelPart part) {
 		this.root = part;
-
 		this.head = part.getChild("head");
-		this.torso = part.getChild("torso");
 		this.left_arm = part.getChild("left_arm");
 		this.right_arm = part.getChild("right_arm");
 	}

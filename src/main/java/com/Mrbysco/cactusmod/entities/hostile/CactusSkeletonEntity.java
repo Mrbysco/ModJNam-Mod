@@ -1,6 +1,6 @@
 package com.mrbysco.cactusmod.entities.hostile;
 
-import com.mrbysco.cactusmod.entities.AI.SpikeBowRangedAttackGoal;
+import com.mrbysco.cactusmod.entities.goals.SpikeBowRangedAttackGoal;
 import com.mrbysco.cactusmod.entities.AbstractSpikeEntity;
 import com.mrbysco.cactusmod.entities.SpikeEntity;
 import com.mrbysco.cactusmod.init.CactusRegistry;

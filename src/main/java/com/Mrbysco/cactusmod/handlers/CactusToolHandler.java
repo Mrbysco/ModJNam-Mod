@@ -20,7 +20,7 @@ public class CactusToolHandler {
 	@SubscribeEvent
 	public void CactusSwordEvent(LivingAttackEvent event) {
 		boolean flag = event.getSource().getEntity() instanceof Player;
-		if (event.getSource().getMsgId() == "player" && flag) {
+		if (event.getSource().getMsgId().equals("player") && flag) {
 			Player player = (Player) event.getSource().getEntity();
 			ItemStack stack = player.getMainHandItem();
 			Level world = player.level;
@@ -60,9 +60,7 @@ public class CactusToolHandler {
 				Vec3 vec3d2 = vec3d.vectorTo(new Vec3(player.getX(), player.getY(), player.getZ())).normalize();
 				vec3d2 = new Vec3(vec3d2.x, 0.0D, vec3d2.z);
 
-				if (vec3d2.dot(vec3d1) < 0.0D) {
-					return true;
-				}
+				return vec3d2.dot(vec3d1) < 0.0D;
 			}
 		}
 

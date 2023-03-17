@@ -1,4 +1,4 @@
-package com.mrbysco.cactusmod.entities.AI;
+package com.mrbysco.cactusmod.entities.goals;
 
 import com.mrbysco.cactusmod.entities.CactusSheepEntity;
 import net.minecraft.core.BlockPos;

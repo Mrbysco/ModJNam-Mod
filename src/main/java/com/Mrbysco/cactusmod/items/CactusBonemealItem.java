@@ -75,7 +75,6 @@ public class CactusBonemealItem extends Item {
 			int i;
 
 			for (i = 1; worldIn.getBlockState(pos.below(i)).getBlock() instanceof CactusBlock; ++i) {
-				;
 			}
 
 			if (i < 5) {
@@ -85,11 +84,7 @@ public class CactusBonemealItem extends Item {
 					j = k;
 				}
 
-				if (j == k) {
-					return true;
-				} else {
-					return true;
-				}
+				return true;
 			}
 		}
 
@@ -101,7 +96,6 @@ public class CactusBonemealItem extends Item {
 		if (worldIn.isEmptyBlock(blockpos)) {
 			int i;
 			for (i = 1; worldIn.getBlockState(pos.below(i)).is(state.getBlock()); ++i) {
-				;
 			}
 
 			if (i < 3) {

@@ -1,7 +1,7 @@
 package com.mrbysco.cactusmod.entities;
 
 import com.mrbysco.cactusmod.Reference;
-import com.mrbysco.cactusmod.entities.AI.EatSandGoal;
+import com.mrbysco.cactusmod.entities.goals.EatSandGoal;
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
