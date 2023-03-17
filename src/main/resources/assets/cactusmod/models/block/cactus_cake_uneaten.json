@@ -1,9 +1,9 @@
 {
     "textures": {
-        "particle": "cactusmod:blocks/cake_side",
-        "bottom": "cactusmod:blocks/cake_bottom",
-        "top": "cactusmod:blocks/cake_top",
-        "side": "cactusmod:blocks/cake_side"
+        "particle": "cactusmod:block/cake_side",
+        "bottom": "cactusmod:block/cake_bottom",
+        "top": "cactusmod:block/cake_top",
+        "side": "cactusmod:block/cake_side"
     },
     "elements": [
         {   "from": [ 1, 0, 1 ],

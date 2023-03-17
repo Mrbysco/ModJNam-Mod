@@ -41,6 +41,7 @@ public class CactusMod {
 
 		eventBus.addListener(this::setup);
 		eventBus.addListener(CactusSpawns::registerEntityAttributes);
+		eventBus.addListener(CactusSpawns::registerSpawnPlacements);
 
 		MinecraftForge.EVENT_BUS.register(new CactusWorkbenchHandler());
 		MinecraftForge.EVENT_BUS.register(new CactusToolHandler());
@@ -56,7 +57,8 @@ public class CactusMod {
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
-		CactusSpawns.initSpawnPlacements();
-		CactusFeatureConfig.initialize();
+		event.enqueueWork(() -> {
+			CactusFeatureConfig.initialize();
+		});
 	}
 }

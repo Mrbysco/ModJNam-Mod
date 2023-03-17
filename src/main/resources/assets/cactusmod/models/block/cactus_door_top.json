@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/door_top",
-  "textures": {
-    "top": "cactusmod:blocks/door_cactus_upper",
-    "bottom": "cactusmod:blocks/door_cactus_lower"
-  }
-}

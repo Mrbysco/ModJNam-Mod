@@ -2,7 +2,6 @@ package com.mrbysco.cactusmod.items;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -25,23 +24,23 @@ public class CactusArmorItem extends ArmorItem {
 	}
 
 	@Override
-	public void onCraftedBy(ItemStack stack, Level worldIn, Player playerIn) {
+	public void onCraftedBy(ItemStack stack, Level level, Player playerIn) {
 		stack.enchant(Enchantments.THORNS, 2);
-		super.onCraftedBy(stack, worldIn, playerIn);
+		super.onCraftedBy(stack, level, playerIn);
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
+	public InteractionResultHolder<ItemStack> use(Level level, Player playerIn, InteractionHand handIn) {
 		ItemStack stack = playerIn.getItemInHand(handIn);
 		if (!stack.isEnchanted()) {
 			stack.enchant(Enchantments.THORNS, 2);
 		}
-		return super.use(worldIn, playerIn, handIn);
+		return super.use(level, playerIn, handIn);
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
-		tooltip.add(new TranslatableComponent("cactus.armor.text").withStyle(ChatFormatting.GREEN));
+	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flagIn) {
+		super.appendHoverText(stack, level, tooltip, flagIn);
+		tooltip.add(Component.translatable("cactus.armor.text").withStyle(ChatFormatting.GREEN));
 	}
 }

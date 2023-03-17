@@ -1,7 +1,7 @@
 {
     "textures": {
-	  	"particle": "cactusmod:items/cactus_shield",
-		"shield": "cactusmod:items/cactus_shield"
+	  	"particle": "cactusmod:item/cactus_shield",
+		"shield": "cactusmod:item/cactus_shield"
 	},
 	"elements": [ 	 
 		{

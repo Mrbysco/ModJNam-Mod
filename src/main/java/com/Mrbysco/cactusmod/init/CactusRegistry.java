@@ -57,6 +57,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
@@ -74,11 +75,11 @@ import net.minecraftforge.registries.RegistryObject;
 public class CactusRegistry {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
-	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Reference.MOD_ID);
-	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Reference.MOD_ID);
+	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Reference.MOD_ID);
+	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Reference.MOD_ID);
 	public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Reference.MOD_ID);
 	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, Reference.MOD_ID);
-	public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, Reference.MOD_ID);
+	public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, Reference.MOD_ID);
 
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> CACTUS_PLANT_FEATURE = FEATURES.register("cactus_plant", () -> new CactusPlantFeature(NoneFeatureConfiguration.CODEC));
 
@@ -99,7 +100,7 @@ public class CactusRegistry {
 	public static final RegistryObject<Block> CACTUS_CHEST = BLOCKS.register("cactus_chest", () -> new CactusChestBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
 	public static final RegistryObject<Block> CACTUS_HOPPER = BLOCKS.register("cactus_hopper", () -> new CactusHopperBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(1.0F, 0.4F).sound(SoundType.WOOL)));
 	public static final RegistryObject<Block> CACTUS_TNT = BLOCKS.register("cactus_tnt", () -> new CactusTNTBlock(BlockBehaviour.Properties.of(Material.CACTUS).instabreak().sound(SoundType.WOOL)));
-	public static final RegistryObject<Block> CACTUS_DOOR = BLOCKS.register("cactus_door", () -> new CactusDoorBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL).noOcclusion()));
+	public static final RegistryObject<CactusDoorBlock> CACTUS_DOOR = BLOCKS.register("cactus_door", () -> new CactusDoorBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL).noOcclusion()));
 	public static final RegistryObject<Block> CACTUS_SLIME_BLOCK = BLOCKS.register("cactus_slime_block", () -> new CactusSlimeBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.25F).sound(SoundType.SLIME_BLOCK).noOcclusion()));
 	public static final RegistryObject<Block> CACTUS_PLANT = BLOCKS.register("cactus_plant", () -> new CactusPlantBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL).noOcclusion()));
 	public static final RegistryObject<Block> CACTUS_FLOWER = BLOCKS.register("cactus_flower", () -> new CactusFlowerBlock(() -> (CactusPlantBlock) CACTUS_PLANT.get(), BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOD).randomTicks().noOcclusion()));

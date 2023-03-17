@@ -6,7 +6,7 @@
         "bottom": "block/cactus_bottom",
         "top": "block/cactus_top",
         "side": "block/cactus_side",
-		"front": "cactusmod:blocks/carved_front"
+		"front": "cactusmod:block/carved_front"
 	},
 	"elements": [ 	 
 		{

@@ -21,9 +21,9 @@ public class LayerCactusSheep extends RenderLayer<CactusSheepEntity, CactusSheep
 		this.woolModel = new CactusWoolModel<>(modelSet.bakeLayer(ClientHandler.CACTUS_SHEEP_WOOL));
 	}
 
-	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, CactusSheepEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void render(PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn, CactusSheepEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if (!entitylivingbaseIn.getSheared() && !entitylivingbaseIn.isInvisible()) {
-			coloredCutoutModelCopyLayerRender(this.getParentModel(), this.woolModel, TEXTURE, matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, 1.0F, 1.0F, 1.0F);
+			coloredCutoutModelCopyLayerRender(this.getParentModel(), this.woolModel, TEXTURE, poseStack, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, 1.0F, 1.0F, 1.0F);
 		}
 	}
 }

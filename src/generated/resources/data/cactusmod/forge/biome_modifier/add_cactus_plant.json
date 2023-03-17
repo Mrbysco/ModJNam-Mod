@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#forge:is_sandy",
+  "features": "cactusmod:cactus_plant",
+  "step": "vegetal_decoration"
+}

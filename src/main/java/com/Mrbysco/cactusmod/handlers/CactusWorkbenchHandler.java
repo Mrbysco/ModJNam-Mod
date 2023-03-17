@@ -10,9 +10,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class CactusWorkbenchHandler {
 	@SubscribeEvent
 	public void CraftedEvent(ItemCraftedEvent event) {
-		Level world = event.getPlayer().level;
+		Level world = event.getEntity().level;
 		if (!world.isClientSide) {
-			ServerPlayer playerMP = (ServerPlayer) event.getPlayer();
+			ServerPlayer playerMP = (ServerPlayer) event.getEntity();
 //            if(ModList.get().isLoaded("fastbench")) {
 //                com.mrbysco.cactusmod.compat.fastbench.FastBenchHelper.onContainerMatch(playerMP);
 //            } else {

@@ -14,6 +14,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
@@ -49,7 +50,6 @@ import net.minecraftforge.common.Tags;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Random;
 
 public class CactusSheepEntity extends Animal implements IForgeShearable, ICactusMob {
 	private static final EntityDataAccessor<Boolean> SHEARED = SynchedEntityData.<Boolean>defineId(CactusSheepEntity.class, EntityDataSerializers.BOOLEAN);
@@ -61,8 +61,8 @@ public class CactusSheepEntity extends Animal implements IForgeShearable, ICactu
 	private int sheepTimer;
 	private EatSandGoal eatSandGoal;
 
-	public CactusSheepEntity(EntityType<? extends CactusSheepEntity> type, Level worldIn) {
-		super(type, worldIn);
+	public CactusSheepEntity(EntityType<? extends CactusSheepEntity> type, Level level) {
+		super(type, level);
 	}
 
 	@Override
@@ -251,7 +251,7 @@ public class CactusSheepEntity extends Animal implements IForgeShearable, ICactu
 		super.doPush(entityIn);
 	}
 
-	public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random random) {
-		return worldIn.getBlockState(pos.below()).is(Tags.Blocks.SAND) && worldIn.getRawBrightness(pos, 0) > 8;
+	public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor level, MobSpawnType reason, BlockPos pos, RandomSource random) {
+		return level.getBlockState(pos.below()).is(Tags.Blocks.SAND) && level.getRawBrightness(pos, 0) > 8;
 	}
 }

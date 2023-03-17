@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "cactusmod:items/cactus_bow_standby"
+        "layer0": "cactusmod:item/cactus_bow_standby"
     },
     "display": {
         "thirdperson_righthand": {

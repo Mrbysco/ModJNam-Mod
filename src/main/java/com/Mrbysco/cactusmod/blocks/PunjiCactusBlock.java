@@ -3,7 +3,6 @@ package com.mrbysco.cactusmod.blocks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -59,18 +58,18 @@ public class PunjiCactusBlock extends WoolCarpetBlock {
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-		super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
+	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+		super.neighborChanged(state, level, pos, blockIn, fromPos, isMoving);
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
-		super.entityInside(state, worldIn, pos, entityIn);
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
+		super.entityInside(state, level, pos, entityIn);
 
 		if (entityIn instanceof Mob) {
 			entityIn.hurt(DamageSource.CACTUS, 1.0F);
@@ -82,9 +81,9 @@ public class PunjiCactusBlock extends WoolCarpetBlock {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
-		tooltip.add(new TranslatableComponent("cactus.carpet.info").withStyle(ChatFormatting.GREEN));
-		tooltip.add(new TranslatableComponent("cactus.carpet.info2").withStyle(ChatFormatting.GREEN));
+	public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flagIn) {
+		super.appendHoverText(stack, level, tooltip, flagIn);
+		tooltip.add(Component.translatable("cactus.carpet.info").withStyle(ChatFormatting.GREEN));
+		tooltip.add(Component.translatable("cactus.carpet.info2").withStyle(ChatFormatting.GREEN));
 	}
 }

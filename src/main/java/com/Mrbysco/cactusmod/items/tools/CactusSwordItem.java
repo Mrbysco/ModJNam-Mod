@@ -17,10 +17,10 @@ public class CactusSwordItem extends SwordItem {
 	}
 
 	@Override
-	public boolean mineBlock(ItemStack stack, Level worldIn, BlockState state, BlockPos pos,
+	public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos,
 							 LivingEntity entityLiving) {
-		if (worldIn.random.nextInt(10) < 3)
+		if (level.random.nextInt(10) < 3)
 			entityLiving.hurt(DamageSource.CACTUS, 1F);
-		return super.mineBlock(stack, worldIn, state, pos, entityLiving);
+		return super.mineBlock(stack, level, state, pos, entityLiving);
 	}
 }

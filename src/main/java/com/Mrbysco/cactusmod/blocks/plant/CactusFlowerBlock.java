@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -19,7 +20,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 import java.util.function.Supplier;
 
 public class CactusFlowerBlock extends Block {
@@ -33,7 +33,7 @@ public class CactusFlowerBlock extends Block {
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rand) {
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
 		if (!state.canSurvive(level, pos)) {
 			level.destroyBlock(pos, true);
 		}
@@ -45,7 +45,7 @@ public class CactusFlowerBlock extends Block {
 	}
 
 	@Override
-	public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+	public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
 		BlockPos blockpos = pos.above();
 		if (level.isEmptyBlock(blockpos) && blockpos.getY() < 256) {
 			int i = state.getValue(AGE);
@@ -169,12 +169,12 @@ public class CactusFlowerBlock extends Block {
 		builder.add(AGE);
 	}
 
-	public static void generatePlant(LevelAccessor level, BlockPos pos, Random rand, int maxHorizontalDistance) {
+	public static void generatePlant(LevelAccessor level, BlockPos pos, RandomSource rand, int maxHorizontalDistance) {
 		level.setBlock(pos, ((CactusPlantBlock) CactusRegistry.CACTUS_PLANT.get()).getStateForPlacement(level, pos), 2);
 		growTreeRecursive(level, pos, rand, pos, maxHorizontalDistance, 0);
 	}
 
-	private static void growTreeRecursive(LevelAccessor level, BlockPos branchPos, Random rand, BlockPos originalBranchPos, int maxHorizontalDistance, int iterations) {
+	private static void growTreeRecursive(LevelAccessor level, BlockPos branchPos, RandomSource rand, BlockPos originalBranchPos, int maxHorizontalDistance, int iterations) {
 		CactusPlantBlock CactusPlantBlock = (CactusPlantBlock) CactusRegistry.CACTUS_PLANT.get();
 		int i = rand.nextInt(4) + 1;
 		if (iterations == 0) {

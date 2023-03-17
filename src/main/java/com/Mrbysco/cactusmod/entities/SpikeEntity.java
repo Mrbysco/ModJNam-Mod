@@ -14,18 +14,18 @@ public class SpikeEntity extends AbstractSpikeEntity {
 		super(type, world);
 	}
 
-	public SpikeEntity(Level worldIn, double x, double y, double z) {
-		this(CactusRegistry.CACTUS_SPIKE.get(), worldIn);
+	public SpikeEntity(Level level, double x, double y, double z) {
+		this(CactusRegistry.CACTUS_SPIKE.get(), level);
 		this.setPos(x, y, z);
 	}
 
-	public SpikeEntity(Level worldIn, LivingEntity shooter) {
-		this(worldIn, shooter.getX(), shooter.getY() + (double) shooter.getEyeHeight() - 0.10000000149011612D, shooter.getZ());
+	public SpikeEntity(Level level, LivingEntity shooter) {
+		this(level, shooter.getX(), shooter.getY() + (double) shooter.getEyeHeight() - 0.10000000149011612D, shooter.getZ());
 		this.setOwner(shooter);
 	}
 
-	public SpikeEntity(SpawnEntity spawnEntity, Level worldIn) {
-		this(CactusRegistry.CACTUS_SPIKE.get(), worldIn);
+	public SpikeEntity(SpawnEntity spawnEntity, Level level) {
+		this(CactusRegistry.CACTUS_SPIKE.get(), level);
 	}
 
 	protected void onHit(HitResult result) {

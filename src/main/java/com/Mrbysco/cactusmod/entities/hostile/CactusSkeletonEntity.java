@@ -1,12 +1,13 @@
 package com.mrbysco.cactusmod.entities.hostile;
 
-import com.mrbysco.cactusmod.entities.goals.SpikeBowRangedAttackGoal;
 import com.mrbysco.cactusmod.entities.AbstractSpikeEntity;
 import com.mrbysco.cactusmod.entities.SpikeEntity;
+import com.mrbysco.cactusmod.entities.goals.SpikeBowRangedAttackGoal;
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -22,8 +23,8 @@ import net.minecraft.world.level.Level;
 public class CactusSkeletonEntity extends AbstractSkeleton {
 	private final SpikeBowRangedAttackGoal<AbstractSkeleton> spikeAttackGoal = new SpikeBowRangedAttackGoal<>(this, 1.0D, 20, 15.0F);
 
-	public CactusSkeletonEntity(EntityType<? extends CactusSkeletonEntity> entityType, Level worldIn) {
-		super(entityType, worldIn);
+	public CactusSkeletonEntity(EntityType<? extends CactusSkeletonEntity> entityType, Level level) {
+		super(entityType, level);
 	}
 
 	@Override
@@ -46,8 +47,8 @@ public class CactusSkeletonEntity extends AbstractSkeleton {
 	}
 
 	@Override
-	protected void populateDefaultEquipmentSlots(DifficultyInstance difficulty) {
-		super.populateDefaultEquipmentSlots(difficulty);
+	protected void populateDefaultEquipmentSlots(RandomSource randomSource, DifficultyInstance difficultyInstance) {
+		super.populateDefaultEquipmentSlots(randomSource, difficultyInstance);
 		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(CactusRegistry.CACTUS_BOW.get()));
 	}
 

@@ -51,15 +51,17 @@ public class ClientHandler {
 
 		MenuScreens.register(CactusRegistry.CACTUS_WORKBENCH_CONTAINER.get(), new Factory());
 
-		ItemProperties.register(CactusRegistry.CACTUS_BOW.get(), new ResourceLocation("pull"), (stack, level, entity, i) -> {
-			if (entity == null) {
-				return 0.0F;
-			} else {
-				return entity.getUseItem() != stack ? 0.0F : (float) (stack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0F;
-			}
+		event.enqueueWork(() -> {
+			ItemProperties.register(CactusRegistry.CACTUS_BOW.get(), new ResourceLocation("pull"), (stack, level, entity, i) -> {
+				if (entity == null) {
+					return 0.0F;
+				} else {
+					return entity.getUseItem() != stack ? 0.0F : (float) (stack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0F;
+				}
+			});
+			ItemProperties.register(CactusRegistry.CACTUS_BOW.get(), new ResourceLocation("pulling"), (stack, level, entity, i) -> entity != null &&
+					entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
 		});
-		ItemProperties.register(CactusRegistry.CACTUS_BOW.get(), new ResourceLocation("pulling"), (stack, level, entity, i) -> entity != null &&
-				entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
 	}
 
 	public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {

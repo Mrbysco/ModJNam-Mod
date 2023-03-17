@@ -22,13 +22,13 @@ public class CactusGolemRenderer extends MobRenderer<CactusGolem, IronGolemModel
 		return texture;
 	}
 
-	protected void setupRotations(CactusGolem entityLiving, PoseStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
-		super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
+	protected void setupRotations(CactusGolem entityLiving, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks) {
+		super.setupRotations(entityLiving, poseStack, ageInTicks, rotationYaw, partialTicks);
 		if (!((double) entityLiving.animationSpeed < 0.01D)) {
 			float f = 13.0F;
 			float f1 = entityLiving.animationPosition - entityLiving.animationSpeed * (1.0F - partialTicks) + 6.0F;
 			float f2 = (Math.abs(f1 % 13.0F - 6.5F) - 3.25F) / 3.25F;
-			matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(6.5F * f2));
+			poseStack.mulPose(Vector3f.ZP.rotationDegrees(6.5F * f2));
 		}
 	}
 }

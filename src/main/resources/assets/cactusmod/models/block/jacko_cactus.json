@@ -1,6 +1,6 @@
 {
 	"parent": "cactusmod:block/carved_cactus",
 	"textures": {
-		"front": "cactusmod:blocks/carved_front_lit"
+		"front": "cactusmod:block/carved_front_lit"
 	}
 }

@@ -6,7 +6,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -37,11 +36,11 @@ public class CactusTNTBlock extends TntBlock {
 		super(properties);
 	}
 
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return COLLISION_SHAPE;
 	}
 
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return OUTLINE_SHAPE;
 	}
 
@@ -51,20 +50,20 @@ public class CactusTNTBlock extends TntBlock {
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
 		entityIn.hurt(DamageSource.CACTUS, 1.0F);
-		super.entityInside(state, worldIn, pos, entityIn);
+		super.entityInside(state, level, pos, entityIn);
 	}
 
-	public static void explode(Level world, BlockPos worldIn) {
-		explode(world, worldIn, (LivingEntity) null);
+	public static void explode(Level world, BlockPos level) {
+		explode(world, level, (LivingEntity) null);
 	}
 
-	public static void explode(Level worldIn, BlockPos pos, @Nullable LivingEntity entityIn) {
-		if (!worldIn.isClientSide) {
-			CactusTNTEntity cactusTNTEntity = new CactusTNTEntity(worldIn, (double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, entityIn);
-			worldIn.addFreshEntity(cactusTNTEntity);
-			worldIn.playSound((Player) null, cactusTNTEntity.getX(), cactusTNTEntity.getY(), cactusTNTEntity.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
+	public static void explode(Level level, BlockPos pos, @Nullable LivingEntity entityIn) {
+		if (!level.isClientSide) {
+			CactusTNTEntity cactusTNTEntity = new CactusTNTEntity(level, (double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, entityIn);
+			level.addFreshEntity(cactusTNTEntity);
+			level.playSound((Player) null, cactusTNTEntity.getX(), cactusTNTEntity.getY(), cactusTNTEntity.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
 		}
 	}
 
@@ -78,8 +77,8 @@ public class CactusTNTBlock extends TntBlock {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
-		tooltip.add(new TranslatableComponent("cactus.tnt.info").withStyle(ChatFormatting.GREEN));
+	public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flagIn) {
+		super.appendHoverText(stack, level, tooltip, flagIn);
+		tooltip.add(Component.translatable("cactus.tnt.info").withStyle(ChatFormatting.GREEN));
 	}
 }

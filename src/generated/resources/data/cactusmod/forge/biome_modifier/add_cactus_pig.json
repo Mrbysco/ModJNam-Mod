@@ -1,0 +1,10 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": "#forge:is_sandy",
+  "spawners": {
+    "type": "cactusmod:cactus_pig",
+    "maxCount": 4,
+    "minCount": 4,
+    "weight": 10
+  }
+}

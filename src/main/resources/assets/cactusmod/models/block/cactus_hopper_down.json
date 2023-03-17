@@ -1,10 +1,10 @@
 {
     "ambientocclusion": false,
     "textures": {
-        "particle": "cactusmod:blocks/cactus_hopper_outside",
-        "top": "cactusmod:blocks/cactus_hopper_top",
-        "side": "cactusmod:blocks/cactus_hopper_outside",
-        "inside": "cactusmod:blocks/cactus_hopper_inside"
+        "particle": "cactusmod:block/cactus_hopper_outside",
+        "top": "cactusmod:block/cactus_hopper_top",
+        "side": "cactusmod:block/cactus_hopper_outside",
+        "inside": "cactusmod:block/cactus_hopper_inside"
     },
     "elements": [
         {   "from": [ 0, 10, 0 ],

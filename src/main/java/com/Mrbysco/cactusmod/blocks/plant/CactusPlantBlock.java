@@ -102,7 +102,7 @@ public class CactusPlantBlock extends PipeBlock {
 		builder.add(NORTH, EAST, SOUTH, WEST, UP, DOWN);
 	}
 
-	public boolean isPathfindable(BlockState state, BlockGetter worldIn, BlockPos pos, PathComputationType type) {
+	public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
 		return false;
 	}
 }

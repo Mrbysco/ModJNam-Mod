@@ -1,7 +1,7 @@
 {   "parent": "block/block",
     "textures": {
-        "particle": "cactusmod:blocks/cactus_slime",
-        "texture": "cactusmod:blocks/cactus_slime"
+        "particle": "cactusmod:block/cactus_slime",
+        "texture": "cactusmod:block/cactus_slime"
     },
     "elements": [
         {   "from": [ 3, 3, 3 ],

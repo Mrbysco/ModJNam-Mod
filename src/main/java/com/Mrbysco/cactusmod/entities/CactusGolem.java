@@ -11,8 +11,8 @@ import net.minecraft.world.level.Level;
 
 public class CactusGolem extends IronGolem implements ICactusMob {
 
-	public CactusGolem(EntityType<? extends CactusGolem> type, Level worldIn) {
-		super(type, worldIn);
+	public CactusGolem(EntityType<? extends CactusGolem> type, Level level) {
+		super(type, level);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {

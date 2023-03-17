@@ -13,8 +13,8 @@ import net.minecraft.world.level.Level;
 public class CactusCreeperEntity extends Creeper implements ICactusMob {
 	private int explosionRadius = 2;
 
-	public CactusCreeperEntity(EntityType<? extends Creeper> type, Level worldIn) {
-		super(type, worldIn);
+	public CactusCreeperEntity(EntityType<? extends Creeper> type, Level level) {
+		super(type, level);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {

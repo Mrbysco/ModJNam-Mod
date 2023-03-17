@@ -1,10 +1,8 @@
 package com.mrbysco.cactusmod.blockentities;
 
-import com.mrbysco.cactusmod.Reference;
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -25,7 +23,7 @@ public class CactusHopperBlockEntity extends HopperBlockEntity {
 
 	@Override
 	protected Component getDefaultName() {
-		return new TranslatableComponent(Reference.MOD_ID, "container.cactus_hopper");
+		return Component.translatable("container.cactus.hopper");
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, CactusHopperBlockEntity chestBlockEntity) {

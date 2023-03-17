@@ -24,8 +24,8 @@ import javax.annotation.Nullable;
 public class CactusSpiderEntity extends Spider implements ICactusMob {
 	private static final EntityDataAccessor<Integer> SPIDER_SIZE = SynchedEntityData.defineId(CactusSpiderEntity.class, EntityDataSerializers.INT);
 
-	public CactusSpiderEntity(EntityType<? extends Spider> type, Level worldIn) {
-		super(type, worldIn);
+	public CactusSpiderEntity(EntityType<? extends Spider> type, Level level) {
+		super(type, level);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
@@ -141,9 +141,9 @@ public class CactusSpiderEntity extends Spider implements ICactusMob {
 		super.remove(reason);
 	}
 
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
 		this.setSpiderSize(4, true);
-		return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+		return super.finalizeSpawn(level, difficultyIn, reason, spawnDataIn, dataTag);
 	}
 
 	@Override

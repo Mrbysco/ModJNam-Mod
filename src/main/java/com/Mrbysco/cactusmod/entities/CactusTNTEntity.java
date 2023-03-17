@@ -40,10 +40,10 @@ public class CactusTNTEntity extends Entity {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
-	public CactusTNTEntity(Level worldIn, double x, double y, double z, @Nullable LivingEntity igniter) {
-		this(CactusRegistry.CACTUS_TNT_ENTITY.get(), worldIn);
+	public CactusTNTEntity(Level level, double x, double y, double z, @Nullable LivingEntity igniter) {
+		this(CactusRegistry.CACTUS_TNT_ENTITY.get(), level);
 		this.setPos(x, y, z);
-		double d0 = worldIn.random.nextDouble() * (double) ((float) Math.PI * 2F);
+		double d0 = level.random.nextDouble() * (double) ((float) Math.PI * 2F);
 		this.setDeltaMovement(-Math.sin(d0) * 0.02D, (double) 0.2F, -Math.cos(d0) * 0.02D);
 		this.setFuse(80);
 		this.xo = x;

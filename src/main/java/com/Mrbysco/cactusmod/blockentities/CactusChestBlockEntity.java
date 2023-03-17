@@ -1,13 +1,11 @@
 package com.mrbysco.cactusmod.blockentities;
 
-import com.mrbysco.cactusmod.Reference;
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -30,6 +28,7 @@ import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 public class CactusChestBlockEntity extends RandomizableContainerBlockEntity implements LidBlockEntity {
 	private static final int EVENT_SET_OPEN_COUNT = 1;
@@ -75,7 +74,7 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 	}
 
 	protected Component getDefaultName() {
-		return new TranslatableComponent(Reference.MOD_ID, "container.cactus_chest");
+		return Component.translatable("container.cactus.chest");
 	}
 
 	public void load(CompoundTag tag) {
@@ -190,7 +189,7 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 
 	@Override
 	public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(net.minecraftforge.common.capabilities.Capability<T> cap, Direction side) {
-		if (!this.remove && cap == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER) {
 			if (this.chestHandler == null)
 				this.chestHandler = net.minecraftforge.common.util.LazyOptional.of(this::createHandler);
 			return this.chestHandler.cast();

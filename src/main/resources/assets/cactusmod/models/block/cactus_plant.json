@@ -3,10 +3,10 @@
 	"parent": "block/block",
 	"ambientocclusion": false,
 	"textures": {
-		"particle": "cactusmod:blocks/cactus_side",
-		"bottom": "cactusmod:blocks/cactus_bottom",
-		"top": "cactusmod:blocks/cactus_top",
-		"side": "cactusmod:blocks/cactus_side_full"
+		"particle": "cactusmod:block/cactus_side",
+		"bottom": "cactusmod:block/cactus_bottom",
+		"top": "cactusmod:block/cactus_top",
+		"side": "cactusmod:block/cactus_side_full"
 	},
 	"elements": [ 	 
 		{

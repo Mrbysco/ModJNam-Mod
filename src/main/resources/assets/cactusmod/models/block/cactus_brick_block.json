@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "cactusmod:blocks/cactus_brick"
+        "all": "cactusmod:block/cactus_brick"
     }
 }

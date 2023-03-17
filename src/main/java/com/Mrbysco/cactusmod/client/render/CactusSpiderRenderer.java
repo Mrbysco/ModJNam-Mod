@@ -27,17 +27,17 @@ public class CactusSpiderRenderer<T extends CactusSpiderEntity> extends MobRende
 	}
 
 	@Override
-	public void render(T entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+	public void render(T entityIn, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
 		this.shadowRadius = 0.25F * (float) entityIn.getSpiderSize();
-		super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+		super.render(entityIn, entityYaw, partialTicks, poseStack, bufferIn, packedLightIn);
 	}
 
 	@Override
-	protected void scale(T entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
+	protected void scale(T entitylivingbaseIn, PoseStack poseStack, float partialTickTime) {
 		float f = 0.999F;
-		matrixStackIn.scale(0.999F, 0.999F, 0.999F);
+		poseStack.scale(0.999F, 0.999F, 0.999F);
 		float f1 = (float) entitylivingbaseIn.getSpiderSize();
 		if (f1 == 1.0F)
-			matrixStackIn.scale(0.5F, 0.5F, 0.5F);
+			poseStack.scale(0.5F, 0.5F, 0.5F);
 	}
 }

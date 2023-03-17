@@ -14,11 +14,11 @@ public class CactusFruitItem extends Item {
 	}
 
 	@Override
-	public ItemStack finishUsingItem(ItemStack stack, Level worldIn, LivingEntity entityLiving) {
-		ItemStack itemstack = super.finishUsingItem(stack, worldIn, entityLiving);
+	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving) {
+		ItemStack itemstack = super.finishUsingItem(stack, level, entityLiving);
 
-		if (!worldIn.isClientSide) {
-			if (worldIn.random.nextInt(10) < 5)
+		if (!level.isClientSide) {
+			if (level.random.nextInt(10) < 5)
 				entityLiving.hurt(DamageSource.CACTUS, 1F);
 		}
 

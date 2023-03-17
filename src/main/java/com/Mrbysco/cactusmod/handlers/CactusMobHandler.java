@@ -15,11 +15,11 @@ import java.util.ArrayList;
 public class CactusMobHandler {
 	@SubscribeEvent
 	public void CactusHurtEvent(LivingHurtEvent event) {
-		if (event.getEntityLiving() instanceof ICactusMob && event.getSource() == DamageSource.CACTUS) {
+		if (event.getEntity() instanceof ICactusMob && event.getSource() == DamageSource.CACTUS) {
 			event.setCanceled(true);
 		}
 
-		if (event.getEntityLiving() instanceof Player player) {
+		if (event.getEntity() instanceof Player player) {
 			Level world = player.getCommandSenderWorld();
 
 			if (event.getSource() == DamageSource.CACTUS) {
@@ -48,7 +48,7 @@ public class CactusMobHandler {
 		if (event.getSource().getEntity() instanceof Player player) {
 			Level world = player.getCommandSenderWorld();
 
-			if (event.getEntityLiving() instanceof ICactusMob) {
+			if (event.getEntity() instanceof ICactusMob) {
 				if (world.random.nextInt(10) < 4)
 					player.hurt(DamageSource.CACTUS, 1F);
 			}

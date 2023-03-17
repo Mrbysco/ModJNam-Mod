@@ -6,6 +6,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AgeableMob;
@@ -30,12 +31,11 @@ import net.minecraftforge.common.Tags.Blocks;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Random;
 
 public class CactusCowEntity extends Cow implements IForgeShearable, ICactusMob {
 
-	public CactusCowEntity(EntityType<? extends Cow> type, Level worldIn) {
-		super(type, worldIn);
+	public CactusCowEntity(EntityType<? extends Cow> type, Level level) {
+		super(type, level);
 	}
 
 	public CactusCowEntity getBreedOffspring(ServerLevel level, AgeableMob ageableMob) {
@@ -105,7 +105,7 @@ public class CactusCowEntity extends Cow implements IForgeShearable, ICactusMob 
 		return this.isBaby() ? sizeIn.height * 0.95F : 1.3F;
 	}
 
-	public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random random) {
-		return worldIn.getBlockState(pos.below()).is(Blocks.SAND) && worldIn.getRawBrightness(pos, 0) > 8;
+	public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor level, MobSpawnType reason, BlockPos pos, RandomSource random) {
+		return level.getBlockState(pos.below()).is(Blocks.SAND) && level.getRawBrightness(pos, 0) > 8;
 	}
 }

@@ -21,8 +21,8 @@ public class CactusBoatEntity extends Boat implements ICactusMob {
 		super(type, world);
 	}
 
-	public CactusBoatEntity(Level worldIn, double x, double y, double z) {
-		this(CactusRegistry.CACTUS_BOAT_ENTITY.get(), worldIn);
+	public CactusBoatEntity(Level level, double x, double y, double z) {
+		this(CactusRegistry.CACTUS_BOAT_ENTITY.get(), level);
 		this.setPos(x, y, z);
 		this.setDeltaMovement(Vec3.ZERO);
 		this.xo = x;
@@ -30,8 +30,8 @@ public class CactusBoatEntity extends Boat implements ICactusMob {
 		this.zo = z;
 	}
 
-	public CactusBoatEntity(SpawnEntity spawnEntity, Level worldIn) {
-		this(CactusRegistry.CACTUS_BOAT_ENTITY.get(), worldIn);
+	public CactusBoatEntity(SpawnEntity spawnEntity, Level level) {
+		this(CactusRegistry.CACTUS_BOAT_ENTITY.get(), level);
 	}
 
 	@Override

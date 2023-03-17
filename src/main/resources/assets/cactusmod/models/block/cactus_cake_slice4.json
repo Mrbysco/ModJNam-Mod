@@ -1,10 +1,10 @@
 {
     "textures": {
-        "particle": "cactusmod:blocks/cake_side",
-        "bottom": "cactusmod:blocks/cake_bottom",
-        "top": "cactusmod:blocks/cake_top",
-        "side": "cactusmod:blocks/cake_side",
-        "inside": "cactusmod:blocks/cake_inner"
+        "particle": "cactusmod:block/cake_side",
+        "bottom": "cactusmod:block/cake_bottom",
+        "top": "cactusmod:block/cake_top",
+        "side": "cactusmod:block/cake_side",
+        "inside": "cactusmod:block/cake_inner"
     },
     "elements": [
         {   "from": [ 9, 0, 1 ],

@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "cactusmod:blocks/prickly_iron"
+        "all": "cactusmod:block/prickly_iron"
     }
 }

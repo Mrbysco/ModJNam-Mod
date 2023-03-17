@@ -8,8 +8,8 @@ import net.minecraft.world.level.Level;
 
 public class CactusSlimeEntity extends Slime implements ICactusMob {
 
-	public CactusSlimeEntity(EntityType<? extends Slime> type, Level worldIn) {
-		super(type, worldIn);
+	public CactusSlimeEntity(EntityType<? extends Slime> type, Level level) {
+		super(type, level);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {

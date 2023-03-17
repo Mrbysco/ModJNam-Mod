@@ -5,7 +5,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -74,19 +73,19 @@ public class CactusDispenserBlock extends Block {
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-		boolean flag = worldIn.hasNeighborSignal(pos) || worldIn.hasNeighborSignal(pos.above());
+	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+		boolean flag = level.hasNeighborSignal(pos) || level.hasNeighborSignal(pos.above());
 		boolean flag1 = state.getValue(TRIGGERED);
 		if (flag && !flag1) {
-			worldIn.scheduleTick(pos, this, 4);
-			worldIn.setBlock(pos, state.setValue(TRIGGERED, Boolean.valueOf(true)), 4);
+			level.scheduleTick(pos, this, 4);
+			level.setBlock(pos, state.setValue(TRIGGERED, Boolean.valueOf(true)), 4);
 		} else if (!flag && flag1) {
-			worldIn.setBlock(pos, state.setValue(TRIGGERED, Boolean.valueOf(false)), 4);
+			level.setBlock(pos, state.setValue(TRIGGERED, Boolean.valueOf(false)), 4);
 		}
 	}
 
-	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
-		this.dispenseFrom(worldIn, pos);
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rand) {
+		this.dispenseFrom(level, pos);
 	}
 
 	protected void dispenseFrom(ServerLevel level, BlockPos pos) {
@@ -109,8 +108,8 @@ public class CactusDispenserBlock extends Block {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
-		tooltip.add(new TranslatableComponent("cactus.dispenser.info").withStyle(ChatFormatting.GREEN));
+	public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flagIn) {
+		super.appendHoverText(stack, level, tooltip, flagIn);
+		tooltip.add(Component.translatable("cactus.dispenser.info").withStyle(ChatFormatting.GREEN));
 	}
 }

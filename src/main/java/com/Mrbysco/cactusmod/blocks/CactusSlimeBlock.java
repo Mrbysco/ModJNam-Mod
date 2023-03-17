@@ -3,7 +3,6 @@ package com.mrbysco.cactusmod.blocks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,9 +37,9 @@ public class CactusSlimeBlock extends HalfTransparentBlock {
 	}
 
 	@Override
-	public void updateEntityAfterFallOn(BlockGetter worldIn, Entity entityIn) {
+	public void updateEntityAfterFallOn(BlockGetter level, Entity entityIn) {
 		if (entityIn.isSuppressingBounce()) {
-			super.updateEntityAfterFallOn(worldIn, entityIn);
+			super.updateEntityAfterFallOn(level, entityIn);
 		} else {
 			this.bounceEntity(entityIn);
 		}
@@ -61,19 +60,19 @@ public class CactusSlimeBlock extends HalfTransparentBlock {
 	 * Called when the given entity walks on this Block
 	 */
 	@Override
-	public void stepOn(Level worldIn, BlockPos pos, BlockState state, Entity entityIn) {
+	public void stepOn(Level level, BlockPos pos, BlockState state, Entity entityIn) {
 		double d0 = Math.abs(entityIn.getDeltaMovement().y);
 		if (d0 < 0.1D && !entityIn.isSteppingCarefully()) {
 			double d1 = 0.4D + d0 * 0.2D;
 			entityIn.setDeltaMovement(entityIn.getDeltaMovement().multiply(d1, 1.0D, d1));
 		}
 
-		super.stepOn(worldIn, pos, state, entityIn);
+		super.stepOn(level, pos, state, entityIn);
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
-		tooltip.add(new TranslatableComponent("cactus.slimeblock.info").withStyle(ChatFormatting.GREEN));
+	public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flagIn) {
+		super.appendHoverText(stack, level, tooltip, flagIn);
+		tooltip.add(Component.translatable("cactus.slimeblock.info").withStyle(ChatFormatting.GREEN));
 	}
 }

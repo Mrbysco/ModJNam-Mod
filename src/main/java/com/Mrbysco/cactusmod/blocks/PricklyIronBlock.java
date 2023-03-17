@@ -32,12 +32,12 @@ public class PricklyIronBlock extends Block {
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
 		entityIn.hurt(DamageSource.CACTUS, 1.0F);
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return ALMOST_FULL;
 	}
 }

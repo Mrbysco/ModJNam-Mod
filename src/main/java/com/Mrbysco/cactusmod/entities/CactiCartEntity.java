@@ -13,6 +13,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
@@ -25,12 +26,17 @@ public class CactiCartEntity extends AbstractMinecart implements ICactusMob {
 		super(type, world);
 	}
 
-	public CactiCartEntity(Level worldIn, double x, double y, double z) {
-		super(CactusRegistry.CACTUS_CART_ENTITY.get(), worldIn, x, y, z);
+	@Override
+	protected Item getDropItem() {
+		return CactusRegistry.CACTUS_CART.get();
 	}
 
-	public CactiCartEntity(SpawnEntity spawnEntity, Level worldIn) {
-		this(CactusRegistry.CACTUS_CART_ENTITY.get(), worldIn);
+	public CactiCartEntity(Level level, double x, double y, double z) {
+		super(CactusRegistry.CACTUS_CART_ENTITY.get(), level, x, y, z);
+	}
+
+	public CactiCartEntity(SpawnEntity spawnEntity, Level level) {
+		this(CactusRegistry.CACTUS_CART_ENTITY.get(), level);
 	}
 
 	@Override

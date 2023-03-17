@@ -1,8 +1,8 @@
 {
     "parent": "block/orientable",
     "textures": {
-        "top": "cactusmod:blocks/cactus_dispenser_top",
-        "front": "cactusmod:blocks/cactus_dispenser_horizontal",
-        "side": "cactusmod:blocks/cactus_dispenser_side"
+        "top": "cactusmod:block/cactus_dispenser_top",
+        "front": "cactusmod:block/cactus_dispenser_horizontal",
+        "side": "cactusmod:block/cactus_dispenser_side"
     }
 }

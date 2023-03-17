@@ -5,6 +5,7 @@ import com.mojang.math.Vector3f;
 import com.mrbysco.cactusmod.entities.CactusTNTEntity;
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.TntMinecartRenderer;
@@ -13,9 +14,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class CactusTNTRenderer extends EntityRenderer<CactusTNTEntity> {
+	private final BlockRenderDispatcher blockRenderer;
+
 	public CactusTNTRenderer(EntityRendererProvider.Context context) {
 		super(context);
 		this.shadowRadius = 0.5F;
+		this.blockRenderer = context.getBlockRenderDispatcher();
 	}
 
 	@Override
@@ -39,7 +43,7 @@ public class CactusTNTRenderer extends EntityRenderer<CactusTNTEntity> {
 		poseStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
 		poseStack.translate(-0.5D, -0.5D, 0.5D);
 		poseStack.mulPose(Vector3f.YP.rotationDegrees(90.0F));
-		TntMinecartRenderer.renderWhiteSolidBlock(CactusRegistry.CACTUS_TNT.get().defaultBlockState(), poseStack, bufferSource, packedLightIn, entityIn.getFuse() / 5 % 2 == 0);
+		TntMinecartRenderer.renderWhiteSolidBlock(blockRenderer, CactusRegistry.CACTUS_TNT.get().defaultBlockState(), poseStack, bufferSource, packedLightIn, entityIn.getFuse() / 5 % 2 == 0);
 		poseStack.popPose();
 		super.render(entityIn, entityYaw, partialTicks, poseStack, bufferSource, packedLightIn);
 	}

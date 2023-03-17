@@ -21,7 +21,7 @@ public class CactusModCompatHandlers {
 	@SubscribeEvent
 	public void SombreroToCactoniEvent(PlayerInteractEvent.EntityInteract event) {
 		if (ModList.get().isLoaded("statues") && CactusConfig.COMMON.statuesCompat.get()) {
-			Player player = event.getPlayer();
+			Player player = event.getEntity();
 			Level world = player.level;
 			Entity target = event.getTarget();
 			ItemStack stack = event.getItemStack();
