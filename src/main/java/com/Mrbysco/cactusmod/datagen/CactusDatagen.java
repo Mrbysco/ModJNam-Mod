@@ -189,7 +189,7 @@ public class CactusDatagen {
 				this.dropSelf(CactusRegistry.CACTUS_CRAFTING_TABLE.get());
 				this.add(CactusRegistry.CACTUS_DOOR.get(), BlockLoot::createDoorTable);
 				this.dropSelf(CactusRegistry.CACTUS_FLOWER.get());
-				this.add(CactusRegistry.CACTUS_HOPPER.get(), BlockLoot::createDoorTable);
+				this.add(CactusRegistry.CACTUS_HOPPER.get(), BlockLoot::createNameableBlockEntityTable);
 				this.dropSelf(CactusRegistry.CACTUS_PLANT.get());
 				this.add(CactusRegistry.CACTUS_FLOWER.get(), (block) -> {
 					return LootTable.lootTable().withPool(LootPool.lootPool()

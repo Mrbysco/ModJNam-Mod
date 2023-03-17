@@ -7,13 +7,10 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "conditions": [
+          "functions": [
             {
-              "condition": "minecraft:block_state_property",
-              "block": "cactusmod:cactus_hopper",
-              "properties": {
-                "half": "lower"
-              }
+              "function": "minecraft:copy_name",
+              "source": "block_entity"
             }
           ],
           "name": "cactusmod:cactus_hopper"
