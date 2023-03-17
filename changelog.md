@@ -1,2 +1,1 @@
-* Minor code clean up
-* Fix Cactus Hopper Block Loot Table
+* Initial update to 1.19.2
