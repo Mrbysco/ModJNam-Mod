@@ -1,0 +1,103 @@
+{
+    "_comment": "Creative Tab",
+    "itemGroup.cactusmod": "The Cactus Tab",
+
+    "_comment": "Entities",
+    "entity.cactusmod.cactus_golem": "Кактусовый голем",
+    "entity.cactusmod.cactus_cow": "Кактусовая корова",
+    "entity.cactusmod.cactus_cart": "Кактусовая вагонетка",
+    "entity.cactusmod.cactus_tnt": "Кактусовый динамит",
+    "entity.cactusmod.cactus_spike": "Кактусовая колючка",
+    "entity.cactusmod.cactus_creeper": "Кактусовый крипер",
+    "entity.cactusmod.cactus_snowman": "Кактусовый снеговик",
+    "entity.cactusmod.cactus_slime": "Кактусовый слайм",
+    "entity.cactusmod.cactus_sheep": "Кактусовая овца",
+    "entity.cactusmod.cactus_pig": "Кактусовая свинья",
+    "entity.cactusmod.cactus_spider": "Кактусовый паук",
+    "entity.cactusmod.cactus_skeleton": "Кактусовый скелет",
+    "entity.cactusmod.cactus_boat": "Кактусовая лодка",
+    "entity.cactusmod.cactoni": "Кактони",
+
+    "_comment": "Items",
+    "item.cactusmod.cactus_stick": "Кактусовая палка",
+    "item.cactusmod.cactus_brick": "Кактусовый кирпич",
+    "item.cactusmod.cactus_bone": "Кактусовая кость",
+    "item.cactusmod.cactus_bonemeal": "Кактусовая костная мука",
+    "item.cactusmod.cactus_slimeball": "Кактусовая слизь",
+
+    "item.cactusmod.cactus_sword": "Кактусовый меч",
+    "item.cactusmod.cactus_shovel": "Кактусовая лопата",
+    "item.cactusmod.cactus_pickaxe": "Кактусовая кирка",
+    "item.cactusmod.cactus_axe": "Кактусовый топор",
+    "item.cactusmod.cactus_hoe": "Кактусовая мотыга",
+    "item.cactusmod.cactus_bow": "Кактусовый лук",
+    "item.cactusmod.cactus_shield": "Кактусовый щит",
+
+    "item.cactusmod.cactus_helmet": "Кактусовый шлем",
+    "item.cactusmod.cactus_chestplate": "Кактусовый нагрудник",
+    "item.cactusmod.cactus_leggings": "Кактусовые поножи",
+    "item.cactusmod.cactus_boots": "Кактусовые ботинки",
+
+    "item.cactusmod.cactus_cart": "Кактусовая вагонетка",
+    "item.cactusmod.cactus_boat": "Кактусовая лодка",
+    "item.cactusmod.cactus_juice": "Кактусовый сок",
+
+    "item.cactusmod.cactus_fruit": "Кактусовый фрукт",
+
+    "item.cactusmod.cactus_golem_spawn_egg": "Яйцо призыва кактусова голема",
+    "item.cactusmod.cactus_cow_spawn_egg": "Яйцо призыва кактусовой коровы",
+    "item.cactusmod.cactus_creeper_spawn_egg": "Яйцо призыва кактусового крипера",
+    "item.cactusmod.cactus_snow_golem_spawn_egg": "Яйцо призыва кактусового снеговика",
+    "item.cactusmod.cactus_slime_spawn_egg": "Яйцо призыва кактусового слайма",
+    "item.cactusmod.cactus_sheep_spawn_egg": "Яйцо призыва кактусовой овцы",
+    "item.cactusmod.cactus_pig_spawn_egg": "Яйцо призыва кактусовой свиньи",
+    "item.cactusmod.cactus_spider_spawn_egg": "Яйцо призыва кактусового паука",
+    "item.cactusmod.cactus_skeleton_spawn_egg": "Яйцо призыва кактусового скелета",
+
+    "cactus.armor.text": "При создании имеет зачарование Шипы II",
+
+    "cactus.shield.text": "Действует скорее как отражатель",
+    "cactus.bow.text": "Стреляет отбрасывающими колючками",
+    "cactus.bonemeal.info": "Может только удобрять песчаные блоки",
+
+    "_comment": "Blocks",
+    "block.cactusmod.prickly_iron": "Колючий железный блок",
+
+    "block.cactusmod.cactus_brick_block": "Кактусовые кирпичи",
+    "block.cactusmod.cactus_brick_stair": "Ступеньки из кактусового кирпича",
+    "block.cactusmod.cactus_brick_slab": "Плита из кактусового кирпича",
+
+    "block.cactusmod.carved_cactus": "Вырезанный кактус",
+    "block.cactusmod.jacko_cactus": "Джон О' Фонарь",
+
+    "block.cactusmod.cactus_chest": "Кактусовый сундук",
+    "block.cactusmod.cactus_dispenser": "Кактусовый раздатчик",
+    "block.cactusmod.cactus_tnt": "Кактусовый динамит",
+    "block.cactusmod.cactus_carpet": "Кактусовый ковёр",
+
+    "block.cactusmod.cactus_hopper": "Кактусовая воронка",
+    "block.cactusmod.cactus_door": "Кактусовая дверь",
+    "block.cactusmod.cactus_cake": "Кактусовый торт",
+
+    "block.cactusmod.cactus_flower": "Кактусовый цветок",
+    "block.cactusmod.cactus_plant": "Кактусовое растение",
+    "block.cactusmod.cactus_slime_block": "Кактусовый Блок Слизи",
+    "block.cactusmod.cactus_crafting_table": "Кактусовый Верстак",
+
+    "cactus.cake.info": "Наверное, выглядит лучше, чем на вкус.",
+    "cactus.cart.info": "До боли дешево",
+    "cactus.chest.info": "Медленно очищает свои запасы",
+    "cactus.hopper.info": "Медленно очищает свои запасы",
+    "cactus.tnt.info": "Стреляет колючками во всех горизонтальных направлениях",
+    "cactus.carpet.info": "Наносит урон мобам, которые прикасаются к нему, уничтожает предметы",
+    "cactus.carpet.info2": "только когда им 2 минуты",
+    "cactus.dispenser.info": "Не имеет инвентаря, стреляет шипами",
+    "cactus.slimeblock.info": "По сути, это блок слизи, но слабее ",
+
+    "_comment": "Others",
+    "container.cactus.chest": "Кактусовый сундук",
+    "container.cactus.hopper": "Кактусовая воронка",
+
+    "death.attack.spike": "%s был проткнут",
+    "death.attack.spike.player": "%1$s был проткнут игроком %2$s"
+}
