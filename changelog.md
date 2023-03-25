@@ -1,1 +1,1 @@
-* Initial update to 1.19.2
+* Add Russian translation courtesy of [andrzab](https://github.com/andrzab)
