@@ -68,7 +68,7 @@
     "block.cactusmod.cactus_brick_slab": "Плита из кактусового кирпича",
 
     "block.cactusmod.carved_cactus": "Вырезанный кактус",
-    "block.cactusmod.jacko_cactus": "Джон О' Фонарь",
+    "block.cactusmod.jacko_cactus": "Светильник Джона",
 
     "block.cactusmod.cactus_chest": "Кактусовый сундук",
     "block.cactusmod.cactus_dispenser": "Кактусовый раздатчик",
@@ -86,8 +86,8 @@
 
     "cactus.cake.info": "Наверное, выглядит лучше, чем на вкус.",
     "cactus.cart.info": "До боли дешево",
-    "cactus.chest.info": "Медленно очищает свои запасы",
-    "cactus.hopper.info": "Медленно очищает свои запасы",
+    "cactus.chest.info": "Медленно очищает свой инвентарь",
+    "cactus.hopper.info": "Медленно очищает свой инвентарь",
     "cactus.tnt.info": "Стреляет колючками во всех горизонтальных направлениях",
     "cactus.carpet.info": "Наносит урон мобам, которые прикасаются к нему, уничтожает предметы",
     "cactus.carpet.info2": "только когда им 2 минуты",
