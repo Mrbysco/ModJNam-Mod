@@ -7,7 +7,6 @@ import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -19,13 +18,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.level.block.state.pattern.BlockPattern;
 import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
-import net.minecraft.world.level.block.state.predicate.BlockMaterialPredicate;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 public class CarvedCactusBlock extends BlockRotatable {
@@ -51,7 +48,7 @@ public class CarvedCactusBlock extends BlockRotatable {
 
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
-		entityIn.hurt(DamageSource.CACTUS, 1.0F);
+		entityIn.hurt(entityIn.damageSources().cactus(), 1.0F);
 	}
 
 	@Override
@@ -146,7 +143,9 @@ public class CarvedCactusBlock extends BlockRotatable {
 
 	private BlockPattern getOrCreateCactusIronGolemBase() {
 		if (this.cactusIronGolemBase == null) {
-			this.cactusIronGolemBase = BlockPatternBuilder.start().aisle("~ ~", "###", "~#~").where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(CactusRegistry.PRICKLY_IRON.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
+			this.cactusIronGolemBase = BlockPatternBuilder.start().aisle("~ ~", "###", "~#~").where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(CactusRegistry.PRICKLY_IRON.get()))).where('~', (blockInWorld) -> {
+				return blockInWorld.getState().isAir();
+			}).build();
 		}
 
 		return this.cactusIronGolemBase;
@@ -154,7 +153,9 @@ public class CarvedCactusBlock extends BlockRotatable {
 
 	private BlockPattern getOrCreateCactusIronGolemFull() {
 		if (this.cactusIronGolemFull == null) {
-			this.cactusIronGolemFull = BlockPatternBuilder.start().aisle("~^~", "###", "~#~").where('^', BlockInWorld.hasState(CARVED_PREDICATE)).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(CactusRegistry.PRICKLY_IRON.get()))).where('~', BlockInWorld.hasState(BlockMaterialPredicate.forMaterial(Material.AIR))).build();
+			this.cactusIronGolemFull = BlockPatternBuilder.start().aisle("~^~", "###", "~#~").where('^', BlockInWorld.hasState(CARVED_PREDICATE)).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(CactusRegistry.PRICKLY_IRON.get()))).where('~', (blockInWorld) -> {
+				return blockInWorld.getState().isAir();
+			}).build();
 		}
 
 		return this.cactusIronGolemFull;

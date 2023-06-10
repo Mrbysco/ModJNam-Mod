@@ -2,7 +2,7 @@ package com.mrbysco.cactusmod.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.mrbysco.cactusmod.Reference;
 import com.mrbysco.cactusmod.entities.CactiCartEntity;
 import net.minecraft.client.Minecraft;
@@ -71,8 +71,8 @@ public class CactusCartRenderer<T extends CactiCartEntity> extends EntityRendere
 		}
 
 		poseStack.translate(0.0D, 0.375D, 0.0D);
-		poseStack.mulPose(Vector3f.YP.rotationDegrees(180.0F - entityYaw));
-		poseStack.mulPose(Vector3f.ZP.rotationDegrees(-f3));
+		poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
+		poseStack.mulPose(Axis.ZP.rotationDegrees(-f3));
 		float f5 = (float) entityIn.getHurtTime() - partialTicks;
 		float f6 = entityIn.getDamage() - partialTicks;
 		if (f6 < 0.0F) {
@@ -80,7 +80,7 @@ public class CactusCartRenderer<T extends CactiCartEntity> extends EntityRendere
 		}
 
 		if (f5 > 0.0F) {
-			poseStack.mulPose(Vector3f.XP.rotationDegrees(Mth.sin(f5) * f5 * f6 / 10.0F * (float) entityIn.getHurtDir()));
+			poseStack.mulPose(Axis.XP.rotationDegrees(Mth.sin(f5) * f5 * f6 / 10.0F * (float) entityIn.getHurtDir()));
 		}
 
 		int j = entityIn.getDisplayOffset();
@@ -90,7 +90,7 @@ public class CactusCartRenderer<T extends CactiCartEntity> extends EntityRendere
 			float f4 = 0.75F;
 			poseStack.scale(0.75F, 0.75F, 0.75F);
 			poseStack.translate(-0.5D, (double) ((float) (j - 8) / 16.0F), 0.5D);
-			poseStack.mulPose(Vector3f.YP.rotationDegrees(90.0F));
+			poseStack.mulPose(Axis.YP.rotationDegrees(90.0F));
 			this.renderBlockState(entityIn, partialTicks, blockstate, poseStack, bufferSource, packedLightIn);
 			poseStack.popPose();
 		}

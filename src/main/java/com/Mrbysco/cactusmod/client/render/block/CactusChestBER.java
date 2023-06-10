@@ -2,7 +2,7 @@ package com.mrbysco.cactusmod.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.mrbysco.cactusmod.blockentities.CactusChestBlockEntity;
 import com.mrbysco.cactusmod.blocks.redstone.CactusChestBlock;
 import com.mrbysco.cactusmod.client.ClientHandler;
@@ -51,7 +51,7 @@ public class CactusChestBER<T extends BlockEntity & LidBlockEntity> implements B
 			poseStack.pushPose();
 			float f = blockstate.getValue(CactusChestBlock.FACING).toYRot();
 			poseStack.translate(0.5D, 0.5D, 0.5D);
-			poseStack.mulPose(Vector3f.YP.rotationDegrees(-f));
+			poseStack.mulPose(Axis.YP.rotationDegrees(-f));
 			poseStack.translate(-0.5D, -0.5D, -0.5D);
 
 			DoubleBlockCombiner.NeighborCombineResult<? extends CactusChestBlockEntity> icallbackwrapper;

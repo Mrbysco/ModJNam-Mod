@@ -91,7 +91,7 @@ public class CactusSheepEntity extends Animal implements IForgeShearable, ICactu
 	 */
 	@Override
 	public void aiStep() {
-		if (this.level.isClientSide) {
+		if (this.level().isClientSide) {
 			this.sheepTimer = Math.max(0, this.sheepTimer - 1);
 		}
 
@@ -246,7 +246,7 @@ public class CactusSheepEntity extends Animal implements IForgeShearable, ICactu
 	@Override
 	protected void doPush(Entity entityIn) {
 		if (!this.getSheared() && !(entityIn instanceof ICactusMob))
-			entityIn.hurt(DamageSource.CACTUS, 1.0F);
+			entityIn.hurt(damageSources().cactus(), 1.0F);
 
 		super.doPush(entityIn);
 	}

@@ -19,7 +19,7 @@ public class CactusPickaxeItem extends PickaxeItem {
 	public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos,
 							 LivingEntity entityLiving) {
 		if (level.random.nextInt(10) < 3)
-			entityLiving.hurt(DamageSource.CACTUS, 1F);
+			entityLiving.hurt(entityLiving.damageSources().cactus(), 1F);
 		return super.mineBlock(stack, level, state, pos, entityLiving);
 	}
 }

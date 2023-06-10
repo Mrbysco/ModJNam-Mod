@@ -2,7 +2,7 @@ package com.mrbysco.cactusmod.entities;
 
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,7 +35,7 @@ public class CactusBoatEntity extends Boat implements ICactusMob {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
@@ -47,7 +47,7 @@ public class CactusBoatEntity extends Boat implements ICactusMob {
 	@Override
 	public void tick() {
 		super.tick();
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			if (!this.getPassengers().isEmpty() && this.getPassengers().get(0) != null) {
 				++this.timeInBoat;
 			} else {
@@ -64,7 +64,7 @@ public class CactusBoatEntity extends Boat implements ICactusMob {
 
 			if (!this.getPassengers().isEmpty() && this.getPassengers().get(0) instanceof LivingEntity entity && this.timeInBoat >= 120) {
 				if (!(entity instanceof ICactusMob))
-					entity.hurt(DamageSource.GENERIC, 1.0F);
+					entity.hurt(damageSources().generic(), 1.0F);
 
 				this.timeInBoat = 0;
 			}
@@ -72,7 +72,7 @@ public class CactusBoatEntity extends Boat implements ICactusMob {
 
 			if (this.getPassengers().size() == 2 && this.getPassengers().get(1) instanceof LivingEntity entity2 && this.timeInBoat2 >= 120) {
 				if (!(entity2 instanceof ICactusMob))
-					entity2.hurt(DamageSource.CACTUS, 1.0F);
+					entity2.hurt(damageSources().cactus(), 1.0F);
 
 				this.timeInBoat2 = 0;
 			}
@@ -80,7 +80,7 @@ public class CactusBoatEntity extends Boat implements ICactusMob {
 	}
 
 	@Override
-	public void positionRider(Entity passenger) {
-		super.positionRider(passenger);
+	protected void positionRider(Entity passenger, MoveFunction moveFunction) {
+		super.positionRider(passenger, moveFunction);
 	}
 }

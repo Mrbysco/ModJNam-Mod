@@ -29,13 +29,13 @@ public class CactusSkeletonEntity extends AbstractSkeleton {
 
 	@Override
 	public void reassessWeaponGoal() {
-		if (this.level != null && !this.level.isClientSide) {
+		if (this.level() != null && !this.level().isClientSide) {
 			this.goalSelector.removeGoal(this.meleeGoal);
 			this.goalSelector.removeGoal(this.spikeAttackGoal);
 			ItemStack itemstack = this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, CactusRegistry.CACTUS_BOW.get()));
 			if (itemstack.getItem() instanceof net.minecraft.world.item.BowItem) {
 				int i = 20;
-				if (this.level.getDifficulty() != Difficulty.HARD) {
+				if (this.level().getDifficulty() != Difficulty.HARD) {
 					i = 40;
 				}
 				this.spikeAttackGoal.setMinAttackInterval(i);
@@ -84,13 +84,13 @@ public class CactusSkeletonEntity extends AbstractSkeleton {
 		double d1 = target.getY(0.3333333333333333D) - spike.getY();
 		double d2 = target.getZ() - this.getZ();
 		double d3 = (double) Mth.sqrt((float) (d0 * d0 + d2 * d2));
-		spike.shoot(d0, d1 + d3 * (double) 0.2F, d2, 1.6F, (float) (14 - this.level.getDifficulty().getId() * 4));
+		spike.shoot(d0, d1 + d3 * (double) 0.2F, d2, 1.6F, (float) (14 - this.level().getDifficulty().getId() * 4));
 		this.playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-		this.level.addFreshEntity(spike);
+		this.level().addFreshEntity(spike);
 	}
 
 	protected AbstractSpikeEntity getSpike(float p_190726_1_) {
-		SpikeEntity spike = new SpikeEntity(this.level, this);
+		SpikeEntity spike = new SpikeEntity(this.level(), this);
 		return spike;
 	}
 }

@@ -72,7 +72,7 @@ public class CactusCakeBlock extends CakeBlock {
 			return InteractionResult.PASS;
 		} else {
 			player.awardStat(Stats.EAT_CAKE_SLICE);
-			player.hurt(DamageSource.CACTUS, 1.0F);
+			player.hurt(player.damageSources().cactus(), 1.0F);
 			player.getFoodData().eat(2, 0.1F);
 			int i = state.getValue(BITES);
 			if (i < 6) {
@@ -87,7 +87,7 @@ public class CactusCakeBlock extends CakeBlock {
 
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
-		entityIn.hurt(DamageSource.CACTUS, 1.0F);
+		entityIn.hurt(entityIn.damageSources().cactus(), 1.0F);
 	}
 
 	@Override

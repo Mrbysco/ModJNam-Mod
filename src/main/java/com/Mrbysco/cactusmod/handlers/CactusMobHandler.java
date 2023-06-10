@@ -3,6 +3,7 @@ package com.mrbysco.cactusmod.handlers;
 import com.mrbysco.cactusmod.entities.ICactusMob;
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -15,14 +16,16 @@ import java.util.ArrayList;
 public class CactusMobHandler {
 	@SubscribeEvent
 	public void CactusHurtEvent(LivingHurtEvent event) {
-		if (event.getEntity() instanceof ICactusMob && event.getSource() == DamageSource.CACTUS) {
+		Entity entity = event.getEntity();
+		DamageSource cactus = entity.damageSources().cactus();
+		if (entity instanceof ICactusMob mob && event.getSource() == cactus) {
 			event.setCanceled(true);
 		}
 
-		if (event.getEntity() instanceof Player player) {
+		if (entity instanceof Player player) {
 			Level world = player.getCommandSenderWorld();
 
-			if (event.getSource() == DamageSource.CACTUS) {
+			if (event.getSource() == cactus) {
 				boolean slot1 = player.getItemBySlot(EquipmentSlot.HEAD).getItem() == CactusRegistry.CACTUS_HELMET.get();
 				boolean slot2 = player.getItemBySlot(EquipmentSlot.CHEST).getItem() == CactusRegistry.CACTUS_CHESTPLATE.get();
 				boolean slot3 = player.getItemBySlot(EquipmentSlot.LEGS).getItem() == CactusRegistry.CACTUS_LEGGINGS.get();
@@ -48,9 +51,9 @@ public class CactusMobHandler {
 		if (event.getSource().getEntity() instanceof Player player) {
 			Level world = player.getCommandSenderWorld();
 
-			if (event.getEntity() instanceof ICactusMob) {
+			if (entity instanceof ICactusMob) {
 				if (world.random.nextInt(10) < 4)
-					player.hurt(DamageSource.CACTUS, 1F);
+					player.hurt(cactus, 1F);
 			}
 		}
 	}

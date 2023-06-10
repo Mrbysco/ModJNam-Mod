@@ -34,7 +34,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ClientHandler {
@@ -97,11 +96,5 @@ public class ClientHandler {
 		}
 	}
 
-	public static final ResourceLocation CACTUS_CHEST_LOCATION = new ResourceLocation(Reference.MOD_ID, "entity/cactus_chest");
-
-	public static void preStitchEvent(TextureStitchEvent.Pre event) {
-		if (event.getAtlas().location().toString().equals("minecraft:textures/atlas/chest.png")) {
-			event.addSprite(CACTUS_CHEST_LOCATION);
-		}
-	}
+	public static final ResourceLocation CACTUS_CHEST_LOCATION = new ResourceLocation(Reference.MOD_ID, "entity/chest/cactus_chest");
 }

@@ -49,8 +49,8 @@ public class CactusPlantBlock extends PipeBlock {
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
-		entityIn.hurt(DamageSource.CACTUS, 1.0F);
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+		entity.hurt(entity.damageSources().cactus(), 1.0F);
 	}
 
 	/**

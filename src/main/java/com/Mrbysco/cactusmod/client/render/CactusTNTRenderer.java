@@ -1,7 +1,7 @@
 package com.mrbysco.cactusmod.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.mrbysco.cactusmod.entities.CactusTNTEntity;
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -40,9 +40,9 @@ public class CactusTNTRenderer extends EntityRenderer<CactusTNTEntity> {
 			poseStack.scale(f1, f1, f1);
 		}
 
-		poseStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
+		poseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
 		poseStack.translate(-0.5D, -0.5D, 0.5D);
-		poseStack.mulPose(Vector3f.YP.rotationDegrees(90.0F));
+		poseStack.mulPose(Axis.YP.rotationDegrees(90.0F));
 		TntMinecartRenderer.renderWhiteSolidBlock(blockRenderer, CactusRegistry.CACTUS_TNT.get().defaultBlockState(), poseStack, bufferSource, packedLightIn, entityIn.getFuse() / 5 % 2 == 0);
 		poseStack.popPose();
 		super.render(entityIn, entityYaw, partialTicks, poseStack, bufferSource, packedLightIn);

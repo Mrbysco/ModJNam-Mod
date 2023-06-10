@@ -88,15 +88,15 @@ public class CactusSnowGolemEntity extends AbstractGolem implements RangedAttack
 
 	public void aiStep() {
 		super.aiStep();
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			int i = Mth.floor(this.getX());
 			int j = Mth.floor(this.getY());
 			int k = Mth.floor(this.getZ());
-			if (this.level.getBiome(new BlockPos(i, 0, k)).value().getTemperature(new BlockPos(i, j, k)) > 1.0F) {
-				this.hurt(DamageSource.ON_FIRE, 1.0F);
+			if (this.level().getBiome(new BlockPos(i, 0, k)).value().getTemperature(new BlockPos(i, j, k)) > 1.0F) {
+				this.hurt(damageSources().onFire(), 1.0F);
 			}
 
-			if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level, this)) {
+			if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
 				return;
 			}
 
@@ -107,8 +107,8 @@ public class CactusSnowGolemEntity extends AbstractGolem implements RangedAttack
 				j = Mth.floor(this.getY());
 				k = Mth.floor(this.getZ() + (double) ((float) (l / 2 % 2 * 2 - 1) * 0.25F));
 				BlockPos blockpos = new BlockPos(i, j, k);
-				if (this.level.isEmptyBlock(blockpos) && this.level.getBiome(blockpos).value().getTemperature(blockpos) < 0.8F && blockstate.canSurvive(this.level, blockpos)) {
-					this.level.setBlockAndUpdate(blockpos, blockstate);
+				if (this.level().isEmptyBlock(blockpos) && this.level().getBiome(blockpos).value().getTemperature(blockpos) < 0.8F && blockstate.canSurvive(this.level(), blockpos)) {
+					this.level().setBlockAndUpdate(blockpos, blockstate);
 				}
 			}
 		}
@@ -117,7 +117,7 @@ public class CactusSnowGolemEntity extends AbstractGolem implements RangedAttack
 
 	@Override
 	public void performRangedAttack(LivingEntity target, float distanceFactor) {
-		AbstractSpikeEntity spike = CactusRegistry.CACTUS_SPIKE.get().create(level);
+		AbstractSpikeEntity spike = CactusRegistry.CACTUS_SPIKE.get().create(level());
 		if (spike != null) {
 			spike.setPos(getX(), getEyeY() - (double) 0.1F, getZ());
 			double d0 = target.getX() - this.getX();
@@ -126,7 +126,7 @@ public class CactusSnowGolemEntity extends AbstractGolem implements RangedAttack
 			double d3 = Math.sqrt(d0 * d0 + d2 * d2);
 			spike.shoot(d0, d1 + d3 * (double) 0.2F, d2, 1.6F, 12.0F);
 			this.playSound(SoundEvents.SNOW_GOLEM_SHOOT, 1.0F, 0.4F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-			this.level.addFreshEntity(spike);
+			this.level().addFreshEntity(spike);
 		}
 	}
 

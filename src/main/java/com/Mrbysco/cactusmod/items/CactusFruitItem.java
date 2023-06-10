@@ -19,7 +19,7 @@ public class CactusFruitItem extends Item {
 
 		if (!level.isClientSide) {
 			if (level.random.nextInt(10) < 5)
-				entityLiving.hurt(DamageSource.CACTUS, 1F);
+				entityLiving.hurt(entityLiving.damageSources().cactus(), 1F);
 		}
 
 		return itemstack;

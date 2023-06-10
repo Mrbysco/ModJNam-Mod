@@ -1,6 +1,7 @@
 package com.mrbysco.cactusmod.handlers;
 
 import com.mrbysco.cactusmod.init.CactusRegistry;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,15 +20,14 @@ public class CactusToolHandler {
 
 	@SubscribeEvent
 	public void CactusSwordEvent(LivingAttackEvent event) {
-		boolean flag = event.getSource().getEntity() instanceof Player;
-		if (event.getSource().getMsgId().equals("player") && flag) {
-			Player player = (Player) event.getSource().getEntity();
+		DamageSource source = event.getSource();
+		if (source != null && source.getEntity() instanceof Player player) {
 			ItemStack stack = player.getMainHandItem();
-			Level world = player.level;
+			Level level = player.level();
 
-			if (stack.getItem() == CactusRegistry.CACTUS_SWORD.get() && !world.isClientSide) {
-				if (world.random.nextInt(10) < 3)
-					player.hurt(DamageSource.CACTUS, 1F);
+			if (stack.getItem() == CactusRegistry.CACTUS_SWORD.get() && !level.isClientSide) {
+				if (level.random.nextInt(10) < 3)
+					player.hurt(player.damageSources().cactus(), 1F);
 			}
 		}
 	}
@@ -36,15 +36,15 @@ public class CactusToolHandler {
 	public void CactusShieldEvent(LivingHurtEvent event) {
 		if (event.getEntity() instanceof Player player) {
 			ItemStack heldStack = player.getUseItem();
-			Level world = player.level;
+			Level level = player.level();
 
 			if (!heldStack.isEmpty() && heldStack.getItem() == CactusRegistry.CACTUS_SHIELD.get()) {
 				if (canBlockDamageSource(event.getSource(), player)) {
 					damageShield(player, event.getAmount());
 
-					if (world.random.nextInt(10) <= 5) {
+					if (level.random.nextInt(10) <= 5) {
 						Entity trueSource = event.getSource().getEntity();
-						trueSource.hurt(DamageSource.GENERIC, 1F + Mth.floor(event.getAmount()));
+						trueSource.hurt(player.damageSources().generic(), 1F + Mth.floor(event.getAmount()));
 					}
 				}
 			}
@@ -52,7 +52,7 @@ public class CactusToolHandler {
 	}
 
 	private boolean canBlockDamageSource(DamageSource damageSourceIn, LivingEntity player) {
-		if (!damageSourceIn.isBypassArmor() && player.isBlocking()) {
+		if (!damageSourceIn.is(DamageTypeTags.BYPASSES_ARMOR) && player.isBlocking()) {
 			Vec3 vec3d = damageSourceIn.getSourcePosition();
 
 			if (vec3d != null) {

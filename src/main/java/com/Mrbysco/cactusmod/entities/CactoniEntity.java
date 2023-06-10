@@ -48,7 +48,7 @@ public class CactoniEntity extends AbstractGolem implements ICactusMob {
 	public void playerTouch(Player entityIn) {
 		super.playerTouch(entityIn);
 		if (getRandom().nextBoolean()) {
-			entityIn.hurt(DamageSource.CACTUS, 1.0F);
+			entityIn.hurt(entityIn.damageSources().cactus(), 1.0F);
 		}
 	}
 

@@ -50,9 +50,9 @@ public class CactusTNTBlock extends TntBlock {
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
-		entityIn.hurt(DamageSource.CACTUS, 1.0F);
-		super.entityInside(state, level, pos, entityIn);
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+		entity.hurt(entity.damageSources().cactus(), 1.0F);
+		super.entityInside(state, level, pos, entity);
 	}
 
 	public static void explode(Level world, BlockPos level) {

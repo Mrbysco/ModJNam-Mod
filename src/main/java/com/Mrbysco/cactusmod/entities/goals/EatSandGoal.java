@@ -26,7 +26,7 @@ public class EatSandGoal extends Goal {
 
 	public EatSandGoal(CactusSheepEntity sandEaterEntityIn) {
 		this.sandEaterEntity = sandEaterEntityIn;
-		this.entityWorld = sandEaterEntityIn.level;
+		this.entityWorld = sandEaterEntityIn.level();
 		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK, Goal.Flag.JUMP));
 	}
 

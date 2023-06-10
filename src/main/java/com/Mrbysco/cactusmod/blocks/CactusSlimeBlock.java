@@ -32,7 +32,7 @@ public class CactusSlimeBlock extends HalfTransparentBlock {
 		if (entity.isShiftKeyDown()) {
 			super.fallOn(level, state, pos, entity, fallDistance * 0.5F);
 		} else {
-			entity.causeFallDamage(fallDistance, 0.0F, DamageSource.CACTUS);
+			entity.causeFallDamage(fallDistance, 0.0F, entity.damageSources().cactus());
 		}
 	}
 
@@ -46,8 +46,8 @@ public class CactusSlimeBlock extends HalfTransparentBlock {
 	}
 
 	private void bounceEntity(Entity entity) {
-		if (entity.level.random.nextInt(40) < 1)
-			entity.hurt(DamageSource.CACTUS, 1.0F);
+		if (entity.level().random.nextInt(40) < 1)
+			entity.hurt(entity.damageSources().cactus(), 1.0F);
 
 		Vec3 vector3d = entity.getDeltaMovement();
 		if (vector3d.y < 0.0D) {

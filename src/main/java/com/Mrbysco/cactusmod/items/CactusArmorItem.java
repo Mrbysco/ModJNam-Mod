@@ -19,7 +19,7 @@ import java.util.List;
 
 public class CactusArmorItem extends ArmorItem {
 
-	public CactusArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Item.Properties builderIn) {
+	public CactusArmorItem(ArmorMaterial materialIn, ArmorItem.Type slot, Item.Properties builderIn) {
 		super(materialIn, slot, builderIn);
 	}
 

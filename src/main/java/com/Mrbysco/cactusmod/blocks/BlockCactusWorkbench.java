@@ -33,7 +33,7 @@ public class BlockCactusWorkbench extends CraftingTableBlock {
 
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
-		entityIn.hurt(DamageSource.CACTUS, 1.0F);
+		entityIn.hurt(entityIn.damageSources().cactus(), 1.0F);
 	}
 
 	@Override

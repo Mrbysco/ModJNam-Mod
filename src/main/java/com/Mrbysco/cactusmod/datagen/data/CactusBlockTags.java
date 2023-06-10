@@ -2,19 +2,21 @@ package com.mrbysco.cactusmod.datagen.data;
 
 import com.mrbysco.cactusmod.Reference;
 import com.mrbysco.cactusmod.init.CactusTags;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import javax.annotation.Nullable;
+import java.util.concurrent.CompletableFuture;
 
 public class CactusBlockTags extends BlockTagsProvider {
-	public CactusBlockTags(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
-		super(generator, Reference.MOD_ID, existingFileHelper);
+	public CactusBlockTags(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
+		super(output, lookupProvider, Reference.MOD_ID, existingFileHelper);
 	}
 
 	@Override
-	protected void addTags() {
+	protected void addTags(HolderLookup.Provider provider) {
 		this.tag(CactusTags.NEEDS_CACTUS_TOOL);
 	}
 }

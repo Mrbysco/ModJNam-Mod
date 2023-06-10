@@ -50,14 +50,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
@@ -65,7 +64,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -85,25 +84,25 @@ public class CactusRegistry {
 
 	public static final RegistryObject<MenuType<CraftingMenu>> CACTUS_WORKBENCH_CONTAINER = CONTAINERS.register("cactus_workbench", () -> IForgeMenuType.create((windowId, inv, data) -> new CactusWorkbenchContainer(windowId, inv)));
 
-	public static final RegistryObject<Block> PRICKLY_IRON = BLOCKS.register("prickly_iron", () -> new PricklyIronBlock(BlockBehaviour.Properties.of(Material.METAL).strength(2.0F, 7.0F).sound(SoundType.METAL)));
-	public static final RegistryObject<Block> CACTUS_BRICK_BLOCK = BLOCKS.register("cactus_brick_block", () -> new Block(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
-	public static final RegistryObject<Block> CACTUS_BRICK_STAIR = BLOCKS.register("cactus_brick_stair", () -> new StairBlock(() -> CACTUS_BRICK_BLOCK.get().defaultBlockState(), BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
-	public static final RegistryObject<Block> CACTUS_BRICK_SLAB = BLOCKS.register("cactus_brick_slab", () -> new SlabBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
-	public static final RegistryObject<Block> CARVED_CACTUS = BLOCKS.register("carved_cactus", () -> new CarvedCactusBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
-	public static final RegistryObject<Block> JACKO_CACTUS = BLOCKS.register("jacko_cactus", () -> new CarvedCactusBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL).lightLevel((state) -> {
+	public static final RegistryObject<Block> PRICKLY_IRON = BLOCKS.register("prickly_iron", () -> new PricklyIronBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 7.0F).sound(SoundType.METAL)));
+	public static final RegistryObject<Block> CACTUS_BRICK_BLOCK = BLOCKS.register("cactus_brick_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.4F).sound(SoundType.WOOL)));
+	public static final RegistryObject<Block> CACTUS_BRICK_STAIR = BLOCKS.register("cactus_brick_stair", () -> new StairBlock(() -> CACTUS_BRICK_BLOCK.get().defaultBlockState(), BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.4F).sound(SoundType.WOOL)));
+	public static final RegistryObject<Block> CACTUS_BRICK_SLAB = BLOCKS.register("cactus_brick_slab", () -> new SlabBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.4F).sound(SoundType.WOOL)));
+	public static final RegistryObject<Block> CARVED_CACTUS = BLOCKS.register("carved_cactus", () -> new CarvedCactusBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.4F).sound(SoundType.WOOL)));
+	public static final RegistryObject<Block> JACKO_CACTUS = BLOCKS.register("jacko_cactus", () -> new CarvedCactusBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.4F).sound(SoundType.WOOL).lightLevel((state) -> {
 		return 15;
 	})));
-	public static final RegistryObject<Block> CACTUS_CARPET = BLOCKS.register("cactus_carpet", () -> new PunjiCactusBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.25F).sound(SoundType.WOOL)));
-	public static final RegistryObject<Block> CACTUS_CAKE = BLOCKS.register("cactus_cake", () -> new CactusCakeBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.5F).sound(SoundType.WOOL)));
-	public static final RegistryObject<Block> CACTUS_DISPENSER = BLOCKS.register("cactus_dispenser", () -> new CactusDispenserBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
-	public static final RegistryObject<Block> CACTUS_CRAFTING_TABLE = BLOCKS.register("cactus_crafting_table", () -> new BlockCactusWorkbench(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
-	public static final RegistryObject<Block> CACTUS_CHEST = BLOCKS.register("cactus_chest", () -> new CactusChestBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL)));
-	public static final RegistryObject<Block> CACTUS_HOPPER = BLOCKS.register("cactus_hopper", () -> new CactusHopperBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(1.0F, 0.4F).sound(SoundType.WOOL)));
-	public static final RegistryObject<Block> CACTUS_TNT = BLOCKS.register("cactus_tnt", () -> new CactusTNTBlock(BlockBehaviour.Properties.of(Material.CACTUS).instabreak().sound(SoundType.WOOL)));
-	public static final RegistryObject<CactusDoorBlock> CACTUS_DOOR = BLOCKS.register("cactus_door", () -> new CactusDoorBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL).noOcclusion()));
-	public static final RegistryObject<Block> CACTUS_SLIME_BLOCK = BLOCKS.register("cactus_slime_block", () -> new CactusSlimeBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.25F).sound(SoundType.SLIME_BLOCK).noOcclusion()));
-	public static final RegistryObject<Block> CACTUS_PLANT = BLOCKS.register("cactus_plant", () -> new CactusPlantBlock(BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOL).noOcclusion()));
-	public static final RegistryObject<Block> CACTUS_FLOWER = BLOCKS.register("cactus_flower", () -> new CactusFlowerBlock(() -> (CactusPlantBlock) CACTUS_PLANT.get(), BlockBehaviour.Properties.of(Material.CACTUS).strength(0.4F).sound(SoundType.WOOD).randomTicks().noOcclusion()));
+	public static final RegistryObject<Block> CACTUS_CARPET = BLOCKS.register("cactus_carpet", () -> new PunjiCactusBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.25F).sound(SoundType.WOOL)));
+	public static final RegistryObject<Block> CACTUS_CAKE = BLOCKS.register("cactus_cake", () -> new CactusCakeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.5F).sound(SoundType.WOOL)));
+	public static final RegistryObject<Block> CACTUS_DISPENSER = BLOCKS.register("cactus_dispenser", () -> new CactusDispenserBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.4F).sound(SoundType.WOOL)));
+	public static final RegistryObject<Block> CACTUS_CRAFTING_TABLE = BLOCKS.register("cactus_crafting_table", () -> new BlockCactusWorkbench(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.4F).sound(SoundType.WOOL)));
+	public static final RegistryObject<Block> CACTUS_CHEST = BLOCKS.register("cactus_chest", () -> new CactusChestBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.4F).sound(SoundType.WOOL)));
+	public static final RegistryObject<Block> CACTUS_HOPPER = BLOCKS.register("cactus_hopper", () -> new CactusHopperBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(1.0F, 0.4F).sound(SoundType.WOOL)));
+	public static final RegistryObject<Block> CACTUS_TNT = BLOCKS.register("cactus_tnt", () -> new CactusTNTBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).instabreak().sound(SoundType.WOOL)));
+	public static final RegistryObject<CactusDoorBlock> CACTUS_DOOR = BLOCKS.register("cactus_door", () -> new CactusDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.4F).sound(SoundType.WOOL).noOcclusion()));
+	public static final RegistryObject<Block> CACTUS_SLIME_BLOCK = BLOCKS.register("cactus_slime_block", () -> new CactusSlimeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.25F).sound(SoundType.SLIME_BLOCK).noOcclusion()));
+	public static final RegistryObject<Block> CACTUS_PLANT = BLOCKS.register("cactus_plant", () -> new CactusPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.4F).sound(SoundType.WOOL).noOcclusion()));
+	public static final RegistryObject<Block> CACTUS_FLOWER = BLOCKS.register("cactus_flower", () -> new CactusFlowerBlock(() -> (CactusPlantBlock) CACTUS_PLANT.get(), BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.4F).sound(SoundType.WOOD).randomTicks().noOcclusion()));
 
 	public static final RegistryObject<BlockEntityType<CactusChestBlockEntity>> CACTUS_CHEST_BLOCK_ENTITY = BLOCK_ENTITIES.register("cactus_chest", () -> BlockEntityType.Builder.of(CactusChestBlockEntity::new, CACTUS_CHEST.get()).build(null));
 	public static final RegistryObject<BlockEntityType<CactusHopperBlockEntity>> CACTUS_HOPPER_BLOCK_ENTITY = BLOCK_ENTITIES.register("cactus_hopper", () -> BlockEntityType.Builder.of(CactusHopperBlockEntity::new, CACTUS_HOPPER.get()).build(null));
@@ -139,10 +138,10 @@ public class CactusRegistry {
 	public static final RegistryObject<Item> CACTUS_HOE = ITEMS.register("cactus_hoe", () -> new CactusHoeItem(CactusTiers.CACTUS, 0, -3.0F, itemBuilder()));
 	public static final RegistryObject<Item> CACTUS_SHIELD = ITEMS.register("cactus_shield", () -> new CactusShieldItem(itemBuilder().durability(97)));
 
-	public static final RegistryObject<Item> CACTUS_HELMET = ITEMS.register("cactus_helmet", () -> new CactusArmorItem(CactusArmor.CACTUS, EquipmentSlot.HEAD, itemBuilder()));
-	public static final RegistryObject<Item> CACTUS_CHESTPLATE = ITEMS.register("cactus_chestplate", () -> new CactusArmorItem(CactusArmor.CACTUS, EquipmentSlot.CHEST, itemBuilder()));
-	public static final RegistryObject<Item> CACTUS_LEGGINGS = ITEMS.register("cactus_leggings", () -> new CactusArmorItem(CactusArmor.CACTUS, EquipmentSlot.LEGS, itemBuilder()));
-	public static final RegistryObject<Item> CACTUS_BOOTS = ITEMS.register("cactus_boots", () -> new CactusArmorItem(CactusArmor.CACTUS, EquipmentSlot.FEET, itemBuilder()));
+	public static final RegistryObject<Item> CACTUS_HELMET = ITEMS.register("cactus_helmet", () -> new CactusArmorItem(CactusArmor.CACTUS, ArmorItem.Type.HELMET, itemBuilder()));
+	public static final RegistryObject<Item> CACTUS_CHESTPLATE = ITEMS.register("cactus_chestplate", () -> new CactusArmorItem(CactusArmor.CACTUS, ArmorItem.Type.CHESTPLATE, itemBuilder()));
+	public static final RegistryObject<Item> CACTUS_LEGGINGS = ITEMS.register("cactus_leggings", () -> new CactusArmorItem(CactusArmor.CACTUS, ArmorItem.Type.LEGGINGS, itemBuilder()));
+	public static final RegistryObject<Item> CACTUS_BOOTS = ITEMS.register("cactus_boots", () -> new CactusArmorItem(CactusArmor.CACTUS, ArmorItem.Type.BOOTS, itemBuilder()));
 
 	public static final RegistryObject<Item> CACTUS_BOW = ITEMS.register("cactus_bow", () -> new CactusBowItem(itemBuilder().durability(384)));
 	public static final RegistryObject<Item> CACTUS_CART = ITEMS.register("cactus_cart", () -> new CactusCartItem(itemBuilder()));
@@ -161,10 +160,10 @@ public class CactusRegistry {
 	public static final RegistryObject<Item> CACTUS_SKELETON_GOLEM_SPAWN_EGG = ITEMS.register("cactus_skeleton_spawn_egg", () -> new ForgeSpawnEggItem(CactusRegistry.CACTUS_SKELETON, 0xFF649832, 0xFF39581a, itemBuilder()));
 
 	private static Item.Properties itemBuilder() {
-		return new Item.Properties().tab(CactusTabs.CACTUS_TAB);
+		return new Item.Properties();
 	}
 
-	public static final RegistryObject<SoundEvent> HAT_MUSIC = SOUND_EVENTS.register("hat.music", () -> new SoundEvent(new ResourceLocation(Reference.MOD_ID, "hat.music")));
+	public static final RegistryObject<SoundEvent> HAT_MUSIC = SOUND_EVENTS.register("hat.music", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Reference.MOD_ID, "hat.music")));
 
 	public static final RegistryObject<EntityType<CactusGolem>> CACTUS_GOLEM = ENTITIES.register("cactus_golem", () -> register("cactus_golem", EntityType.Builder.<CactusGolem>of(CactusGolem::new, MobCategory.MISC).sized(1.4F, 2.7F).clientTrackingRange(10)));
 	public static final RegistryObject<EntityType<CactusCowEntity>> CACTUS_COW = ENTITIES.register("cactus_cow", () -> register("cactus_cow", EntityType.Builder.<CactusCowEntity>of(CactusCowEntity::new, MobCategory.CREATURE).sized(0.9F, 1.4F).clientTrackingRange(10)));

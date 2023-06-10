@@ -2,8 +2,7 @@ package com.mrbysco.cactusmod.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.mrbysco.cactusmod.Reference;
 import com.mrbysco.cactusmod.entities.CactusBoatEntity;
 import net.minecraft.client.model.BoatModel;
@@ -16,6 +15,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.vehicle.Boat.Type;
+import org.joml.Quaternionf;
 
 public class CactusBoatRenderer extends EntityRenderer<CactusBoatEntity> {
 	private static final ResourceLocation CACTIBOAT = new ResourceLocation(Reference.MOD_ID, "textures/entity/cactiboat.png");
@@ -23,7 +23,7 @@ public class CactusBoatRenderer extends EntityRenderer<CactusBoatEntity> {
 
 	public CactusBoatRenderer(EntityRendererProvider.Context context) {
 		super(context);
-		this.modelBoat = new BoatModel(context.bakeLayer(ModelLayers.createBoatModelName(Type.OAK)), false);
+		this.modelBoat = new BoatModel(context.bakeLayer(ModelLayers.createBoatModelName(Type.OAK)));
 		this.shadowRadius = 0.8F;
 	}
 
@@ -36,7 +36,7 @@ public class CactusBoatRenderer extends EntityRenderer<CactusBoatEntity> {
 	public void render(CactusBoatEntity entityIn, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
 		poseStack.pushPose();
 		poseStack.translate(0.0D, 0.375D, 0.0D);
-		poseStack.mulPose(Vector3f.YP.rotationDegrees(180.0F - entityYaw));
+		poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
 		float f = (float) entityIn.getHurtTime() - partialTicks;
 		float f1 = entityIn.getDamage() - partialTicks;
 		if (f1 < 0.0F) {
@@ -44,16 +44,16 @@ public class CactusBoatRenderer extends EntityRenderer<CactusBoatEntity> {
 		}
 
 		if (f > 0.0F) {
-			poseStack.mulPose(Vector3f.XP.rotationDegrees(Mth.sin(f) * f * f1 / 10.0F * (float) entityIn.getHurtDir()));
+			poseStack.mulPose(Axis.XP.rotationDegrees(Mth.sin(f) * f * f1 / 10.0F * (float) entityIn.getHurtDir()));
 		}
 
 		float f2 = entityIn.getBubbleAngle(partialTicks);
 		if (!Mth.equal(f2, 0.0F)) {
-			poseStack.mulPose(new Quaternion(new Vector3f(1.0F, 0.0F, 1.0F), entityIn.getBubbleAngle(partialTicks), true));
+			poseStack.mulPose((new Quaternionf()).setAngleAxis(entityIn.getBubbleAngle(partialTicks) * ((float) Math.PI / 180F), 1.0F, 0.0F, 1.0F));
 		}
 
 		poseStack.scale(-1.0F, -1.0F, 1.0F);
-		poseStack.mulPose(Vector3f.YP.rotationDegrees(90.0F));
+		poseStack.mulPose(Axis.YP.rotationDegrees(90.0F));
 		this.modelBoat.setupAnim(entityIn, partialTicks, 0.0F, -0.1F, 0.0F, 0.0F);
 		VertexConsumer ivertexbuilder = bufferIn.getBuffer(this.modelBoat.renderType(this.getTextureLocation(entityIn)));
 		this.modelBoat.renderToBuffer(poseStack, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);

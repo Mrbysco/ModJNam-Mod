@@ -22,14 +22,14 @@ public class CactusShovelItem extends ShovelItem {
 	public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos,
 							 LivingEntity entityLiving) {
 		if (level.random.nextInt(10) < 3)
-			entityLiving.hurt(DamageSource.CACTUS, 1F);
+			entityLiving.hurt(entityLiving.damageSources().cactus(), 1F);
 		return super.mineBlock(stack, level, state, pos, entityLiving);
 	}
 
 	@Override
 	public InteractionResult useOn(UseOnContext context) {
 		if (context.getLevel().random.nextInt(10) < 3)
-			context.getPlayer().hurt(DamageSource.CACTUS, 1F);
+			context.getPlayer().hurt(context.getLevel().damageSources().cactus(), 1F);
 		return super.useOn(context);
 	}
 }

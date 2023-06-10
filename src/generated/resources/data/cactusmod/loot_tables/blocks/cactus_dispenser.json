@@ -22,5 +22,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "cactusmod:blocks/cactus_dispenser"
 }

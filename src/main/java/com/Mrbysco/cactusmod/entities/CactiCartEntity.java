@@ -2,9 +2,9 @@ package com.mrbysco.cactusmod.entities;
 
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -40,7 +40,7 @@ public class CactiCartEntity extends AbstractMinecart implements ICactusMob {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
@@ -81,7 +81,7 @@ public class CactiCartEntity extends AbstractMinecart implements ICactusMob {
 			return InteractionResult.PASS;
 		} else if (this.isVehicle()) {
 			return InteractionResult.PASS;
-		} else if (!this.level.isClientSide) {
+		} else if (!this.level().isClientSide) {
 			return player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS;
 		} else {
 			return InteractionResult.SUCCESS;
@@ -108,13 +108,13 @@ public class CactiCartEntity extends AbstractMinecart implements ICactusMob {
 	@Override
 	public void tick() {
 		super.tick();
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			if (this.isVehicle()) {
 				Entity entity = this.getPassengers().get(0);
 				if (entity instanceof LivingEntity && !(entity instanceof ICactusMob)) {
 					++this.timeInCart;
 					if (this.timeInCart >= 40) {
-						entity.hurt(DamageSource.CACTUS, 1.0F);
+						entity.hurt(damageSources().cactus(), 1.0F);
 						this.timeInCart = 0;
 					}
 				}

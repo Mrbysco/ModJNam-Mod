@@ -1,8 +1,7 @@
 {
-    "_comment": "Creative Tab",
+    "_comment": "Others",
     "itemGroup.cactusmod": "仙人掌标签",
 
-    "_comment": "Entities",
     "entity.cactusmod.cactus_golem": "仙人掌傀儡",
     "entity.cactusmod.cactus_cow": "仙人掌牛",
     "entity.cactusmod.cactus_cart": "仙人掌矿车",
@@ -18,9 +17,11 @@
     "entity.cactusmod.cactus_boat": "Cactus Boat",
     "entity.cactusmod.cactoni": "Cactoni",
 
-    "_comment": "Items",
     "item.cactusmod.cactus_stick": "仙人掌棍",
     "item.cactusmod.cactus_brick": "仙人掌砖",
+    "item.cactusmod.cactus_bone": "Cactus Bone",
+    "item.cactusmod.cactus_bonemeal": "Cactus Bonemeal",
+    "item.cactusmod.cactus_slimeball": "Cactus Slimeball",
 
     "item.cactusmod.cactus_sword": "仙人掌剑",
     "item.cactusmod.cactus_shovel": "仙人掌铲",
@@ -36,14 +37,27 @@
     "item.cactusmod.cactus_boots": "仙人掌靴子",
 
     "item.cactusmod.cactus_cart": "仙人掌矿车",
+    "item.cactusmod.cactus_boat": "Cactus Boat",
     "item.cactusmod.cactus_juice": "仙人掌汁",
+
+    "item.cactusmod.cactus_fruit": "Cactus Fruit",
+
+    "item.cactusmod.cactus_golem_spawn_egg": "Cactus Golem Spawn Egg",
+    "item.cactusmod.cactus_cow_spawn_egg": "Cactus Cow Spawn Egg",
+    "item.cactusmod.cactus_creeper_spawn_egg": "Cactus Creeper Spawn Egg",
+    "item.cactusmod.cactus_snow_golem_spawn_egg": "Cactus Snow Golem Spawn Egg",
+    "item.cactusmod.cactus_slime_spawn_egg": "Cactus Slime Spawn Egg",
+    "item.cactusmod.cactus_sheep_spawn_egg": "Cactus Sheep Spawn Egg",
+    "item.cactusmod.cactus_pig_spawn_egg": "Cactus Pig Spawn Egg",
+    "item.cactusmod.cactus_spider_spawn_egg": "Cactus Spider Spawn Egg",
+    "item.cactusmod.cactus_skeleton_spawn_egg": "Cactus Skeleton Spawn Egg",
 
     "cactus.armor.text": "当制作后给予荆棘II",
 
     "cactus.shield.text": "感觉更像个反伤盾",
     "cactus.bow.text": "在四周发射击退仙人掌刺",
+    "cactus.bonemeal.info": "Can only bonemeal sand blocks",
 
-    "_comment": "Blocks",
     "block.cactusmod.prickly_iron": "带刺的铁块",
 
     "block.cactusmod.cactus_brick_block": "仙人掌砖",
@@ -62,6 +76,11 @@
     "block.cactusmod.cactus_door": "仙人掌门",
     "block.cactusmod.cactus_cake": "仙人掌蛋糕",
 
+    "block.cactusmod.cactus_flower": "Cactus Flower",
+    "block.cactusmod.cactus_plant": "Cactus Plant",
+    "block.cactusmod.cactus_slime_block": "Cactus Slime Block",
+    "block.cactusmod.cactus_crafting_table": "Cactus Workbench",
+
     "cactus.cake.info": "看起来味道比蛋糕更好",
     "cactus.cart.info": "便宜的痛苦",
     "cactus.chest.info": "慢慢地摆脱它",
@@ -70,31 +89,11 @@
     "cactus.carpet.info": "摧毁它顶部的物品",
     "cactus.carpet.info2": "只有两分钟",
     "cactus.dispenser.info": "没有能放的，全是刺",
+    "cactus.slimeblock.info": "Basically a slimeblock but less powerful",
 
-    "_comment": "Others",
     "container.cactus.chest": "仙人掌箱子",
     "container.cactus.hopper": "仙人掌漏斗",
 
-    "death.attack.spike": "%s 被刺死",
-    "death.attack.spike.player": "%1$s 被刺死因为 %2$s",
-    "item.cactusmod.cactus_bone": "Cactus Bone",
-    "item.cactusmod.cactus_bonemeal": "Cactus Bonemeal",
-    "item.cactusmod.cactus_slimeball": "Cactus Slimeball",
-    "item.cactusmod.cactus_boat": "Cactus Boat",
-    "item.cactusmod.cactus_fruit": "Cactus Fruit",
-    "item.cactusmod.cactus_golem_spawn_egg": "Cactus Golem Spawn Egg",
-    "item.cactusmod.cactus_cow_spawn_egg": "Cactus Cow Spawn Egg",
-    "item.cactusmod.cactus_creeper_spawn_egg": "Cactus Creeper Spawn Egg",
-    "item.cactusmod.cactus_snow_golem_spawn_egg": "Cactus Snow Golem Spawn Egg",
-    "item.cactusmod.cactus_slime_spawn_egg": "Cactus Slime Spawn Egg",
-    "item.cactusmod.cactus_sheep_spawn_egg": "Cactus Sheep Spawn Egg",
-    "item.cactusmod.cactus_pig_spawn_egg": "Cactus Pig Spawn Egg",
-    "item.cactusmod.cactus_spider_spawn_egg": "Cactus Spider Spawn Egg",
-    "item.cactusmod.cactus_skeleton_spawn_egg": "Cactus Skeleton Spawn Egg",
-    "cactus.bonemeal.info": "Can only bonemeal sand blocks",
-    "block.cactusmod.cactus_flower": "Cactus Flower",
-    "block.cactusmod.cactus_plant": "Cactus Plant",
-    "block.cactusmod.cactus_slime_block": "Cactus Slime Block",
-    "block.cactusmod.cactus_crafting_table": "Cactus Workbench",
-    "cactus.slimeblock.info": "Basically a slimeblock but less powerful"
+    "death.attack.cactusmod.spike": "%s got spiked",
+    "death.attack.cactusmod.spike.player": "%1$s was spiked by %2$s"
 }

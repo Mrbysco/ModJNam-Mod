@@ -98,6 +98,6 @@
     "container.cactus.chest": "Cofre de cactus",
     "container.cactus.hopper": "Tolva de cactus",
 
-    "death.attack.spike": "%s se pinchó",
-    "death.attack.spike.player": "%1$s fue picado por %2$s"
+    "death.attack.cactusmod.spike": "%s se pinchó",
+    "death.attack.cactusmod.spike.player": "%1$s fue picado por %2$s"
 }

@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[41,)"
+loaderVersion="[46,)"
 issueTrackerURL="https://github.com/Mrbysco/ModJNam-Mod/issues"
 license="MIT"
 
@@ -16,6 +16,6 @@ A ModJam 2018.1 mod.
 [[dependencies.cactusmod]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.19,1.20)"
+versionRange="[1.20,1.21)"
 ordering="NONE"
 side="BOTH"

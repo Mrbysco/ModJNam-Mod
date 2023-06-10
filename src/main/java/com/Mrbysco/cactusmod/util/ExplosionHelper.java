@@ -1,17 +1,18 @@
 package com.mrbysco.cactusmod.util;
 
+import com.mrbysco.cactusmod.Reference;
 import com.mrbysco.cactusmod.entities.AbstractSpikeEntity;
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.item.enchantment.ProtectionEnchantment;
 import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -20,17 +21,18 @@ import java.util.List;
 
 public class ExplosionHelper {
 	public static void arrowExplosion(@Nullable Entity entityIn, double x, double y, double z, float strength, boolean isSmoking) {
-		if (entityIn.level.isClientSide) {
-			entityIn.level.playLocalSound(x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (entityIn.level.random.nextFloat() - entityIn.level.random.nextFloat()) * 0.2F) * 0.7F, false);
+		Level level = entityIn.level();
+		if (level.isClientSide) {
+			level.playLocalSound(x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (level.random.nextFloat() - level.random.nextFloat()) * 0.2F) * 0.7F, false);
 		}
-		entityIn.level.addParticle(ParticleTypes.EXPLOSION, x, y, z, 1.0D, 0.0D, 0.0D);
+		level.addParticle(ParticleTypes.EXPLOSION, x, y, z, 1.0D, 0.0D, 0.0D);
 
 		for (int i = 0; i <= 20; i++) {
-			AbstractSpikeEntity spike = CactusRegistry.CACTUS_SPIKE.get().create(entityIn.level);
-			spike.setDeltaMovement((entityIn.level.random.nextDouble() * 6D - 3D) * 0.3D, 0, (entityIn.level.random.nextDouble() * 6D - 3D) * 0.3D);
+			AbstractSpikeEntity spike = CactusRegistry.CACTUS_SPIKE.get().create(level);
+			spike.setDeltaMovement((level.random.nextDouble() * 6D - 3D) * 0.3D, 0, (level.random.nextDouble() * 6D - 3D) * 0.3D);
 			spike.setPos(x, y + 0.8, z);
 
-			entityIn.level.addFreshEntity(spike);
+			level.addFreshEntity(spike);
 		}
 		arrowExplosionB(entityIn, x, y, z, strength, isSmoking);
 	}
@@ -43,7 +45,7 @@ public class ExplosionHelper {
 		int i1 = Mth.floor(y + (double) f2 + 1.0D);
 		int j2 = Mth.floor(z - (double) f2 - 1.0D);
 		int j1 = Mth.floor(z + (double) f2 + 1.0D);
-		List<Entity> list = entityIn.level.getEntities(entityIn, new AABB((double) k1, (double) i2, (double) j2, (double) l1, (double) i1, (double) j1));
+		List<Entity> list = entityIn.level().getEntities(entityIn, new AABB((double) k1, (double) i2, (double) j2, (double) l1, (double) i1, (double) j1));
 		Vec3 vector3d = new Vec3(x, y, z);
 
 		for (int k2 = 0; k2 < list.size(); ++k2) {
@@ -61,7 +63,7 @@ public class ExplosionHelper {
 						d9 = d9 / d13;
 						double d14 = (double) Explosion.getSeenPercent(vector3d, entity);
 						double d10 = (1.0D - d12) * d14;
-						entity.hurt(DamageSource.thorns(entityIn), (float) ((int) ((d10 * d10 + d10) / 2.0D * 7.0D * (double) f2 + 1.0D)));
+						entity.hurt(Reference.spikeDamage(entityIn, entity), (float) ((int) ((d10 * d10 + d10) / 2.0D * 7.0D * (double) f2 + 1.0D)));
 						double d11 = d10;
 						if (entity instanceof LivingEntity) {
 							d11 = ProtectionEnchantment.getExplosionKnockbackAfterDampener((LivingEntity) entity, d10);

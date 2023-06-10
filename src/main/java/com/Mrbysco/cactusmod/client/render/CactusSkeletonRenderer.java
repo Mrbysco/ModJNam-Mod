@@ -15,7 +15,8 @@ public class CactusSkeletonRenderer extends HumanoidMobRenderer<CactusSkeletonEn
 	public CactusSkeletonRenderer(EntityRendererProvider.Context context) {
 		super(context, new SkeletonModel(context.bakeLayer(ModelLayers.SKELETON)), 0.5F);
 		this.addLayer(new HumanoidArmorLayer<>(this, new SkeletonModel(context.bakeLayer(ModelLayers.SKELETON_INNER_ARMOR)),
-				new SkeletonModel(context.bakeLayer(ModelLayers.SKELETON_OUTER_ARMOR))));
+				new SkeletonModel(context.bakeLayer(ModelLayers.SKELETON_OUTER_ARMOR)), context.getModelManager()));
+
 	}
 
 	@Override

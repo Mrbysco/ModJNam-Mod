@@ -1,14 +1,16 @@
 package com.mrbysco.cactusmod.entities;
 
 import com.google.common.collect.Lists;
+import com.mrbysco.cactusmod.Reference;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -20,7 +22,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -44,6 +45,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -128,9 +130,9 @@ public abstract class AbstractSpikeEntity extends Projectile {
 		}
 
 		BlockPos blockpos = this.blockPosition();
-		BlockState blockstate = this.level.getBlockState(blockpos);
+		BlockState blockstate = this.level().getBlockState(blockpos);
 		if (!blockstate.isAir() && !flag) {
-			VoxelShape voxelshape = blockstate.getBlockSupportShape(this.level, blockpos);
+			VoxelShape voxelshape = blockstate.getBlockSupportShape(this.level(), blockpos);
 			if (!voxelshape.isEmpty()) {
 				Vec3 vector3d1 = this.position();
 
@@ -154,7 +156,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 		if (this.inGround && !flag) {
 			if (this.inBlockState != blockstate && this.shouldFall()) {
 				this.startFalling();
-			} else if (!this.level.isClientSide) {
+			} else if (!this.level().isClientSide) {
 				this.tickDespawn();
 			}
 
@@ -163,7 +165,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 			this.timeInGround = 0;
 			Vec3 vector3d2 = this.position();
 			Vec3 vector3d3 = vector3d2.add(vector3d);
-			HitResult raytraceresult = this.level.clip(new ClipContext(vector3d2, vector3d3, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+			HitResult raytraceresult = this.level().clip(new ClipContext(vector3d2, vector3d3, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
 			if (raytraceresult.getType() != HitResult.Type.MISS) {
 				vector3d3 = raytraceresult.getLocation();
 			}
@@ -201,7 +203,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 			double d0 = vector3d.z;
 			if (this.getIsCritical()) {
 				for (int i = 0; i < 4; ++i) {
-					this.level.addParticle(ParticleTypes.CRIT, this.getX() + d3 * (double) i / 4.0D, this.getY() + d4 * (double) i / 4.0D, this.getZ() + d0 * (double) i / 4.0D, -d3, -d4 + 0.2D, -d0);
+					this.level().addParticle(ParticleTypes.CRIT, this.getX() + d3 * (double) i / 4.0D, this.getY() + d4 * (double) i / 4.0D, this.getZ() + d0 * (double) i / 4.0D, -d3, -d4 + 0.2D, -d0);
 				}
 			}
 
@@ -223,7 +225,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 			if (this.isInWater()) {
 				for (int j = 0; j < 4; ++j) {
 					float f4 = 0.25F;
-					this.level.addParticle(ParticleTypes.BUBBLE, d5 - d3 * 0.25D, d1 - d4 * 0.25D, d2 - d0 * 0.25D, d3, d4, d0);
+					this.level().addParticle(ParticleTypes.BUBBLE, d5 - d3 * 0.25D, d1 - d4 * 0.25D, d2 - d0 * 0.25D, d3, d4, d0);
 				}
 
 				f2 = this.getWaterDrag();
@@ -241,11 +243,11 @@ public abstract class AbstractSpikeEntity extends Projectile {
 	}
 
 	public static DamageSource causeSpikeDamage(AbstractSpikeEntity spike, @Nullable Entity indirectEntityIn) {
-		return (new IndirectEntityDamageSource("spike", spike, indirectEntityIn)).setProjectile();
+		return Reference.spikeDamage(spike, indirectEntityIn);
 	}
 
 	private boolean shouldFall() {
-		return this.inGround && this.level.noCollision((new AABB(this.position(), this.position())).inflate(0.06D));
+		return this.inGround && this.level().noCollision((new AABB(this.position(), this.position())).inflate(0.06D));
 	}
 
 	private void startFalling() {
@@ -332,7 +334,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 			}
 
 			if (entity instanceof LivingEntity livingentity) {
-				if (!this.level.isClientSide && this.getPierceLevel() <= 0) {
+				if (!this.level().isClientSide && this.getPierceLevel() <= 0) {
 					livingentity.setArrowCount(livingentity.getArrowCount() + 1);
 				}
 
@@ -343,7 +345,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 					}
 				}
 
-				if (!this.level.isClientSide && entity1 instanceof LivingEntity) {
+				if (!this.level().isClientSide && entity1 instanceof LivingEntity) {
 					EnchantmentHelper.doPostHurtEffects(livingentity, entity1);
 					EnchantmentHelper.doPostDamageEffects((LivingEntity) entity1, livingentity);
 				}
@@ -357,7 +359,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 					this.hitEntities.add(livingentity);
 				}
 
-				if (!this.level.isClientSide && entity1 instanceof ServerPlayer serverPlayer) {
+				if (!this.level().isClientSide && entity1 instanceof ServerPlayer serverPlayer) {
 					if (this.hitEntities != null && this.getShotFromCrossbow()) {
 						CriteriaTriggers.KILLED_BY_CROSSBOW.trigger(serverPlayer, this.hitEntities);
 					} else if (!entity.isAlive() && this.getShotFromCrossbow()) {
@@ -375,7 +377,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 			this.setDeltaMovement(this.getDeltaMovement().scale(-0.1D));
 			this.setYRot(getYRot() + 180.0F);
 			this.yRotO += 180.0F;
-			if (!this.level.isClientSide && this.getDeltaMovement().lengthSqr() < 1.0E-7D) {
+			if (!this.level().isClientSide && this.getDeltaMovement().lengthSqr() < 1.0E-7D) {
 				this.discard();
 			}
 		}
@@ -383,7 +385,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 	}
 
 	protected void onHitBlock(BlockHitResult hitResult) {
-		this.inBlockState = this.level.getBlockState(hitResult.getBlockPos());
+		this.inBlockState = this.level().getBlockState(hitResult.getBlockPos());
 		super.onHitBlock(hitResult);
 		Vec3 vector3d = hitResult.getLocation().subtract(this.getX(), this.getY(), this.getZ());
 		this.setDeltaMovement(vector3d);
@@ -418,7 +420,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 	 */
 	@Nullable
 	protected EntityHitResult findHitEntity(Vec3 startVec, Vec3 endVec) {
-		return ProjectileUtil.getEntityHitResult(this.level, this, startVec, endVec, this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D), this::canHitEntity);
+		return ProjectileUtil.getEntityHitResult(this.level(), this, startVec, endVec, this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D), this::canHitEntity);
 	}
 
 	protected boolean canHitEntity(Entity p_230298_1_) {
@@ -437,7 +439,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 		compound.putDouble("damage", this.damage);
 		compound.putBoolean("crit", this.getIsCritical());
 		compound.putByte("PierceLevel", this.getPierceLevel());
-		compound.putString("SoundEvent", Registry.SOUND_EVENT.getKey(this.hitSound).toString());
+		compound.putString("SoundEvent", ForgeRegistries.SOUND_EVENTS.getKey(this.hitSound).toString());
 		compound.putBoolean("ShotFromCrossbow", this.getShotFromCrossbow());
 	}
 
@@ -448,7 +450,8 @@ public abstract class AbstractSpikeEntity extends Projectile {
 		super.readAdditionalSaveData(compound);
 		this.ticksInGround = compound.getShort("life");
 		if (compound.contains("inBlockState", 10)) {
-			this.inBlockState = NbtUtils.readBlockState(compound.getCompound("inBlockState"));
+			this.inBlockState = NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK), compound.getCompound("inBlockState"));
+
 		}
 
 		this.spikeShake = compound.getByte("shake") & 255;
@@ -460,7 +463,8 @@ public abstract class AbstractSpikeEntity extends Projectile {
 		this.setIsCritical(compound.getBoolean("crit"));
 		this.setPierceLevel(compound.getByte("PierceLevel"));
 		if (compound.contains("SoundEvent", 8)) {
-			this.hitSound = Registry.SOUND_EVENT.getOptional(new ResourceLocation(compound.getString("SoundEvent"))).orElse(this.getDefaultHitGroundSoundEvent());
+			SoundEvent soundevent = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(compound.getString("SoundEvent")));
+			this.hitSound = soundevent != null ? soundevent : this.getDefaultHitGroundSoundEvent();
 		}
 
 		this.setShotFromCrossbow(compound.getBoolean("ShotFromCrossbow"));
@@ -544,7 +548,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 	public void setEnchantmentEffectsFromEntity(LivingEntity p_190547_1_, float p_190547_2_) {
 		int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER_ARROWS, p_190547_1_);
 		int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH_ARROWS, p_190547_1_);
-		this.setDamage((double) (p_190547_2_ * 2.0F) + this.random.nextGaussian() * 0.25D + (double) ((float) this.level.getDifficulty().getId() * 0.11F));
+		this.setDamage((double) (p_190547_2_ * 2.0F) + this.random.nextGaussian() * 0.25D + (double) ((float) this.level().getDifficulty().getId() * 0.11F));
 		if (i > 0) {
 			this.setDamage(this.getDamage() + (double) i * 0.5D + 0.5D);
 		}
@@ -575,7 +579,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 	 * Whether the arrow can noClip
 	 */
 	public boolean getNoClip() {
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			return this.noPhysics;
 		} else {
 			return (this.entityData.get(CRITICAL) & 2) != 0;
@@ -589,7 +593,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 		this.setArrowFlag(4, fromCrossbow);
 	}
 
-	public Packet<?> getAddEntityPacket() {
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		Entity entity = this.getOwner();
 		return new ClientboundAddEntityPacket(this, entity == null ? 0 : entity.getId());
 	}

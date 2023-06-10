@@ -23,7 +23,7 @@ public class CactusCreeperEntity extends Creeper implements ICactusMob {
 
 	@Override
 	public void explodeCreeper() {
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			float f = 4.0F;
 			ExplosionHelper.arrowExplosion(this, this.getX(), this.getY() + (double) (this.getBbHeight() / 16.0F), this.getZ(), f, false);
 			this.discard();

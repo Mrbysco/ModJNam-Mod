@@ -1,5 +1,5 @@
 {
-  "feature": "minecraft:cactus_plant",
+  "feature": "cactusmod:cactus_plant",
   "placement": [
     {
       "type": "minecraft:rarity_filter",

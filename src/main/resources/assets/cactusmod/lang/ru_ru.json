@@ -98,6 +98,6 @@
     "container.cactus.chest": "Кактусовый сундук",
     "container.cactus.hopper": "Кактусовая воронка",
 
-    "death.attack.spike": "%s был проткнут",
-    "death.attack.spike.player": "%1$s был проткнут игроком %2$s"
+    "death.attack.cactusmod.spike": "%s был проткнут",
+    "death.attack.cactusmod.spike.player": "%1$s был проткнут игроком %2$s"
 }

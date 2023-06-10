@@ -23,7 +23,7 @@ public class CactusGolem extends IronGolem implements ICactusMob {
 	protected void doPush(Entity entityIn) {
 		super.doPush(entityIn);
 		if (!(entityIn instanceof ICactusMob))
-			entityIn.hurt(DamageSource.CACTUS, 1.0F);
+			entityIn.hurt(damageSources().cactus(), 1.0F);
 	}
 
 	@Override

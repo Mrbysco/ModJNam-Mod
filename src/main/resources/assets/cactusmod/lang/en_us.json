@@ -98,6 +98,6 @@
     "container.cactus.chest": "Cactus Chest",
     "container.cactus.hopper": "Cactus Hopper",
 
-    "death.attack.spike": "%s got spiked",
-    "death.attack.spike.player": "%1$s was spiked by %2$s"
+    "death.attack.cactusmod.spike": "%s got spiked",
+    "death.attack.cactusmod.spike.player": "%1$s was spiked by %2$s"
 }

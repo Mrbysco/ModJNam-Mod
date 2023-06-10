@@ -1,103 +1,88 @@
 package com.mrbysco.cactusmod.datagen.data;
 
-import com.google.common.collect.Maps;
-import com.google.gson.JsonElement;
 import com.mrbysco.cactusmod.Reference;
-import com.mrbysco.cactusmod.feature.CactusFeatureConfig;
+import com.mrbysco.cactusmod.feature.CactusPlacedFeatures;
 import com.mrbysco.cactusmod.init.CactusRegistry;
-import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.resources.RegistryOps;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.placement.BiomeFilter;
-import net.minecraft.world.level.levelgen.placement.CountPlacement;
-import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.RarityFilter;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.ForgeBiomeModifiers;
-
-import java.util.List;
-import java.util.Map;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class CactusBiomeModifiers {
 
+	protected static final ResourceKey<BiomeModifier> ADD_CACTUS_PLANT = createKey("add_cactus_plant");
+	protected static final ResourceKey<BiomeModifier> ADD_CACTUS_COW = createKey("add_cactus_cow");
+	protected static final ResourceKey<BiomeModifier> ADD_CACTUS_CREEPER = createKey("add_cactus_creeper");
+	protected static final ResourceKey<BiomeModifier> ADD_CACTUS_SLIME = createKey("add_cactus_slime");
+	protected static final ResourceKey<BiomeModifier> ADD_CACTUS_SHEEP = createKey("add_cactus_sheep");
+	protected static final ResourceKey<BiomeModifier> ADD_CACTUS_PIG = createKey("add_cactus_pig");
+	protected static final ResourceKey<BiomeModifier> ADD_CACTUS_SPIDER = createKey("add_cactus_spider");
+	protected static final ResourceKey<BiomeModifier> ADD_CACTUS_SKELETON = createKey("add_cactus_skeleton");
+	protected static final ResourceKey<BiomeModifier> ADD_CACTONI = createKey("add_cactoni");
 
-	public static Map<ResourceLocation, PlacedFeature> getConfiguredFeatures(RegistryOps<JsonElement> ops) {
-		Map<ResourceLocation, PlacedFeature> map = Maps.newHashMap();
-
-		final ResourceKey<ConfiguredFeature<?, ?>> cactusPlantResourceKey = CactusFeatureConfig.CACTUS_PLANT.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get();
-		final Holder<ConfiguredFeature<?, ?>> cactusPlantFeatureHolder = ops.registry(Registry.CONFIGURED_FEATURE_REGISTRY).get().getOrCreateHolderOrThrow(cactusPlantResourceKey);
-		final PlacedFeature cactusPlantFeature = new PlacedFeature(
-				cactusPlantFeatureHolder,
-				List.of(RarityFilter.onAverageOnceEvery(20), CountPlacement.of(UniformInt.of(0, 4)), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome()));
-		map.put(new ResourceLocation(Reference.MOD_ID, "cactus_plant"), cactusPlantFeature);
-
-		return map;
+	private static ResourceKey<BiomeModifier> createKey(String name) {
+		return ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(Reference.MOD_ID, name));
 	}
 
-	public static Map<ResourceLocation, BiomeModifier> getBiomeModifiers(RegistryOps<JsonElement> ops) {
-		Map<ResourceLocation, BiomeModifier> map = Maps.newHashMap();
+	public static void bootstrap(BootstapContext<BiomeModifier> context) {
+		HolderGetter<Biome> biomeGetter = context.lookup(Registries.BIOME);
+		HolderGetter<PlacedFeature> placedGetter = context.lookup(Registries.PLACED_FEATURE);
 
-		final HolderSet.Named<Biome> sandyTag = new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), Tags.Biomes.IS_SANDY);
-		final BiomeModifier addCactusPlant = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+		var sandyTag = biomeGetter.getOrThrow(Tags.Biomes.IS_SANDY);
+
+		context.register(ADD_CACTUS_PLANT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
 				sandyTag,
-				HolderSet.direct(ops.registry(Registry.PLACED_FEATURE_REGISTRY).get().getOrCreateHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY,
-						new ResourceLocation(Reference.MOD_ID, "cactus_plant")))),
-				GenerationStep.Decoration.VEGETAL_DECORATION);
-		map.put(new ResourceLocation(Reference.MOD_ID, "add_cactus_plant"), addCactusPlant);
+				HolderSet.direct(placedGetter.getOrThrow(CactusPlacedFeatures.CACTUS_PLANT)),
+				GenerationStep.Decoration.VEGETAL_DECORATION));
 
-		final BiomeModifier addCactusCow = ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_COW, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
-				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_COW.get(), 8, 4, 4));
-		map.put(new ResourceLocation(Reference.MOD_ID, "add_cactus_cow"), addCactusCow);
+				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_COW.get(), 8, 4, 4))
+		);
 
-		final BiomeModifier addCactusCreeper = ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_CREEPER, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
-				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_CREEPER.get(), 100, 4, 4));
-		map.put(new ResourceLocation(Reference.MOD_ID, "add_cactus_creeper"), addCactusCreeper);
+				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_CREEPER.get(), 100, 4, 4))
+		);
 
-		final BiomeModifier addCactusSlime = ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_SLIME, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
-				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_SLIME.get(), 100, 2, 2));
-		map.put(new ResourceLocation(Reference.MOD_ID, "add_cactus_slime"), addCactusSlime);
+				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_SLIME.get(), 100, 2, 2))
+		);
 
-		final BiomeModifier addCactusSheep = ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_SHEEP, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
-				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_SHEEP.get(), 12, 4, 4));
-		map.put(new ResourceLocation(Reference.MOD_ID, "add_cactus_sheep"), addCactusSheep);
+				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_SHEEP.get(), 12, 4, 4))
+		);
 
-		final BiomeModifier addCactusPig = ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_PIG, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
-				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_PIG.get(), 10, 4, 4));
-		map.put(new ResourceLocation(Reference.MOD_ID, "add_cactus_pig"), addCactusPig);
+				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_PIG.get(), 10, 4, 4))
+		);
 
-		final BiomeModifier addCactusSpider = ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_SPIDER, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
-				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_SPIDER.get(), 100, 4, 4));
-		map.put(new ResourceLocation(Reference.MOD_ID, "add_cactus_spider"), addCactusSpider);
+				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_SPIDER.get(), 100, 4, 4))
+		);
 
-		final BiomeModifier addCactusSkeleton = ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_SKELETON, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
-				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_SKELETON.get(), 100, 4, 4));
-		map.put(new ResourceLocation(Reference.MOD_ID, "add_cactus_skeleton"), addCactusSkeleton);
+				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_SKELETON.get(), 100, 4, 4))
+		);
 
-		final BiomeModifier addCactoni = ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTONI, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
-				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTONI.get(), 1, 2, 2));
-		map.put(new ResourceLocation(Reference.MOD_ID, "add_cactoni"), addCactoni);
-
-		return map;
+				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTONI.get(), 1, 2, 2))
+		);
 	}
-
-
 }

@@ -1,7 +1,7 @@
 package com.mrbysco.cactusmod.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.mrbysco.cactusmod.Reference;
 import com.mrbysco.cactusmod.entities.CactusGolem;
 import net.minecraft.client.model.IronGolemModel;
@@ -22,13 +22,13 @@ public class CactusGolemRenderer extends MobRenderer<CactusGolem, IronGolemModel
 		return texture;
 	}
 
-	protected void setupRotations(CactusGolem entityLiving, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks) {
-		super.setupRotations(entityLiving, poseStack, ageInTicks, rotationYaw, partialTicks);
-		if (!((double) entityLiving.animationSpeed < 0.01D)) {
+	protected void setupRotations(CactusGolem cactusGolem, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks) {
+		super.setupRotations(cactusGolem, poseStack, ageInTicks, rotationYaw, partialTicks);
+		if (!((double) cactusGolem.walkAnimation.speed() < 0.01D)) {
 			float f = 13.0F;
-			float f1 = entityLiving.animationPosition - entityLiving.animationSpeed * (1.0F - partialTicks) + 6.0F;
+			float f1 = cactusGolem.walkAnimation.position(partialTicks) + 6.0F;
 			float f2 = (Math.abs(f1 % 13.0F - 6.5F) - 3.25F) / 3.25F;
-			poseStack.mulPose(Vector3f.ZP.rotationDegrees(6.5F * f2));
+			poseStack.mulPose(Axis.ZP.rotationDegrees(6.5F * f2));
 		}
 	}
 }

@@ -1,1 +1,1 @@
-* Add Russian translation courtesy of [andrzab](https://github.com/andrzab)
+* Initial update to 1.20

@@ -2,15 +2,15 @@ package com.mrbysco.cactusmod.datagen.assets;
 
 import com.mrbysco.cactusmod.Reference;
 import com.mrbysco.cactusmod.init.CactusRegistry;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CactusBlockstateProvider extends BlockStateProvider {
-	public CactusBlockstateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
-		super(gen, Reference.MOD_ID, exFileHelper);
+	public CactusBlockstateProvider(PackOutput packOutput, ExistingFileHelper exFileHelper) {
+		super(packOutput, Reference.MOD_ID, exFileHelper);
 	}
 
 	@Override

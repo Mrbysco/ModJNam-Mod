@@ -68,14 +68,14 @@ public class PunjiCactusBlock extends WoolCarpetBlock {
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
-		super.entityInside(state, level, pos, entityIn);
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+		super.entityInside(state, level, pos, entity);
 
-		if (entityIn instanceof Mob) {
-			entityIn.hurt(DamageSource.CACTUS, 1.0F);
-		} else if (entityIn instanceof ItemEntity item) {
+		if (entity instanceof Mob) {
+			entity.hurt(entity.damageSources().cactus(), 1.0F);
+		} else if (entity instanceof ItemEntity item) {
 			if (item.tickCount >= 2400) {
-				entityIn.hurt(DamageSource.CACTUS, 1.0F);
+				entity.hurt(entity.damageSources().cactus(), 1.0F);
 			}
 		}
 	}

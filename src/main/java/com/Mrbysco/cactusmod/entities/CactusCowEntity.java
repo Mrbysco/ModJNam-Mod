@@ -60,9 +60,9 @@ public class CactusCowEntity extends Cow implements IForgeShearable, ICactusMob 
 	public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack item, Level world, BlockPos pos, int fortune) {
 		world.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
 		if (!world.isClientSide()) {
-			((ServerLevel) this.level).sendParticles(ParticleTypes.EXPLOSION, this.getX(), this.getY(0.5D), this.getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+			((ServerLevel) this.level()).sendParticles(ParticleTypes.EXPLOSION, this.getX(), this.getY(0.5D), this.getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
 			this.discard();
-			Cow cowentity = EntityType.COW.create(this.level);
+			Cow cowentity = EntityType.COW.create(this.level());
 			cowentity.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
 			cowentity.setHealth(this.getHealth());
 			cowentity.yBodyRot = this.yBodyRot;
@@ -76,7 +76,7 @@ public class CactusCowEntity extends Cow implements IForgeShearable, ICactusMob 
 			}
 
 			cowentity.setInvulnerable(this.isInvulnerable());
-			this.level.addFreshEntity(cowentity);
+			this.level().addFreshEntity(cowentity);
 
 			java.util.List<ItemStack> items = new java.util.ArrayList<>();
 			for (int i = 0; i < 5; ++i) {
@@ -95,7 +95,7 @@ public class CactusCowEntity extends Cow implements IForgeShearable, ICactusMob 
 			playerIn.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
 			ItemStack itemstack1 = ItemUtils.createFilledResult(itemstack, playerIn, CactusRegistry.CACTUS_JUICE.get().getDefaultInstance());
 			playerIn.setItemInHand(handIn, itemstack1);
-			return InteractionResult.sidedSuccess(this.level.isClientSide);
+			return InteractionResult.sidedSuccess(this.level().isClientSide);
 		} else {
 			return super.mobInteract(playerIn, handIn);
 		}

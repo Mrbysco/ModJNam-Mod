@@ -9,16 +9,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class CactusDoorBlock extends DoorBlock {
 	public CactusDoorBlock(BlockBehaviour.Properties builder) {
-		super(builder);
+		super(builder, BlockSetType.OAK);
 	}
 
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-		player.hurt(DamageSource.CACTUS, 1.0F);
+		player.hurt(player.damageSources().cactus(), 1.0F);
 		return super.use(state, level, pos, player, handIn, hit);
 	}
 }

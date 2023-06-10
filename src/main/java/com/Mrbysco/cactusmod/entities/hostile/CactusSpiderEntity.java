@@ -104,10 +104,6 @@ public class CactusSpiderEntity extends Spider implements ICactusMob {
 		return this.getSpiderSize() <= 4;
 	}
 
-	protected CactusSpiderEntity createInstance() {
-		return new CactusSpiderEntity(null, this.level);
-	}
-
 	public EntityType<? extends CactusSpiderEntity> getType() {
 		return (EntityType<? extends CactusSpiderEntity>) super.getType();
 	}
@@ -115,7 +111,7 @@ public class CactusSpiderEntity extends Spider implements ICactusMob {
 	@Override
 	public void remove(RemovalReason reason) {
 		int i = this.getSpiderSize();
-		if (!this.level.isClientSide && i > 1 && this.isDeadOrDying() && this.getRemovalReason() == null) {
+		if (!this.level().isClientSide && i > 1 && this.isDeadOrDying() && this.getRemovalReason() == null) {
 			Component itextcomponent = this.getCustomName();
 			boolean flag = this.isNoAi();
 			float f = (float) i / 4.0F;
@@ -125,7 +121,7 @@ public class CactusSpiderEntity extends Spider implements ICactusMob {
 			for (int l = 0; l < k; ++l) {
 				float f1 = ((float) (l % 2) - 0.5F) * f;
 				float f2 = ((float) (l / 2) - 0.5F) * f;
-				CactusSpiderEntity cactusSpider = this.getType().create(this.level);
+				CactusSpiderEntity cactusSpider = this.getType().create(this.level());
 				if (this.isPersistenceRequired()) {
 					cactusSpider.setPersistenceRequired();
 				}
@@ -135,7 +131,7 @@ public class CactusSpiderEntity extends Spider implements ICactusMob {
 				cactusSpider.setInvulnerable(this.isInvulnerable());
 				cactusSpider.setSpiderSize(j, true);
 				cactusSpider.moveTo(this.getX() + (double) f1, this.getY() + 0.5D, this.getZ() + (double) f2, this.random.nextFloat() * 360.0F, 0.0F);
-				this.level.addFreshEntity(cactusSpider);
+				this.level().addFreshEntity(cactusSpider);
 			}
 		}
 		super.remove(reason);
@@ -150,6 +146,6 @@ public class CactusSpiderEntity extends Spider implements ICactusMob {
 	protected void doPush(Entity entityIn) {
 		super.doPush(entityIn);
 		if (!(entityIn instanceof ICactusMob))
-			entityIn.hurt(DamageSource.CACTUS, 1.0F);
+			entityIn.hurt(damageSources().cactus(), 1.0F);
 	}
 }

@@ -46,7 +46,7 @@ public class CactusDispenserBlock extends Block {
 		double d0 = pos.getX() + 0.7D * (double) direction.getStepX();
 		double d1 = pos.getY() + 0.7D * (double) direction.getStepY();
 		double d2 = pos.getZ() + 0.7D * (double) direction.getStepZ();
-		return new BlockPos(d0, d1, d2);
+		return BlockPos.containing(d0, d1, d2);
 	}
 
 	public RenderShape getRenderShape(BlockState state) {
