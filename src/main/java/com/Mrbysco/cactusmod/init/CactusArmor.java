@@ -24,7 +24,6 @@ public enum CactusArmor implements ArmorMaterial {
 		return Ingredient.of(Items.CACTUS);
 	});
 
-	private static final int[] MAX_DAMAGE_ARRAY = new int[]{13, 15, 16, 11};
 	private final String name;
 	private final int durabilityMultiplier;
 	private final EnumMap<ArmorItem.Type, Integer> protectionFunctionForType;
