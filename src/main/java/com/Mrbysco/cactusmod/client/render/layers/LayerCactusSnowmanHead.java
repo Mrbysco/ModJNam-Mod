@@ -7,7 +7,6 @@ import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.SnowGolemModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;

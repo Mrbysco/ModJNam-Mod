@@ -1,7 +1,6 @@
 package com.mrbysco.cactusmod.items.tools;
 
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tier;
