@@ -77,12 +77,6 @@ public class CactusBonemealItem extends Item {
 			}
 
 			if (i < 5) {
-				int j = (Integer) state.getValue(CactusBlock.AGE) + getInt(level.random, 3, 8);
-				int k = 15;
-				if (j > k) {
-					j = k;
-				}
-
 				return true;
 			}
 		}
