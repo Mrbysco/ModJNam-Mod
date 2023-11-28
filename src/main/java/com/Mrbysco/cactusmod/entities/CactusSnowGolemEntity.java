@@ -32,19 +32,20 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.IForgeShearable;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.IShearable;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class CactusSnowGolemEntity extends AbstractGolem implements RangedAttackMob, IForgeShearable, ICactusMob {
+public class CactusSnowGolemEntity extends AbstractGolem implements RangedAttackMob, IShearable, ICactusMob {
 	private static final EntityDataAccessor<Byte> CACTUS_EQUIPPED = SynchedEntityData.<Byte>defineId(CactusSnowGolemEntity.class, EntityDataSerializers.BYTE);
 
-	public CactusSnowGolemEntity(EntityType<? extends AbstractGolem> type, Level world) {
-		super(type, world);
+	public CactusSnowGolemEntity(EntityType<? extends AbstractGolem> type, Level level) {
+		super(type, level);
 	}
 
 	protected void registerGoals() {
@@ -96,7 +97,7 @@ public class CactusSnowGolemEntity extends AbstractGolem implements RangedAttack
 				this.hurt(damageSources().onFire(), 1.0F);
 			}
 
-			if (!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
+			if (!EventHooks.getMobGriefingEvent(this.level(), this)) {
 				return;
 			}
 
@@ -148,15 +149,15 @@ public class CactusSnowGolemEntity extends AbstractGolem implements RangedAttack
 	}
 
 	@Override
-	public boolean isShearable(@Nonnull ItemStack item, Level world, BlockPos pos) {
+	public boolean isShearable(@Nonnull ItemStack item, Level level, BlockPos pos) {
 		return this.isShearable();
 	}
 
 	@Nonnull
 	@Override
-	public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack item, Level world, BlockPos pos, int fortune) {
-		world.playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
-		if (!world.isClientSide()) {
+	public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack item, Level level, BlockPos pos, int fortune) {
+		level.playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
+		if (!level.isClientSide()) {
 			setCactusEquipped(false);
 			return java.util.Collections.singletonList(new ItemStack(CactusRegistry.CARVED_CACTUS.get()));
 		}

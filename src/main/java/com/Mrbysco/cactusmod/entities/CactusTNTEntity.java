@@ -16,8 +16,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages.SpawnEntity;
+import net.neoforged.neoforge.network.NetworkHooks;
+import net.neoforged.neoforge.network.PlayMessages;
 
 import javax.annotation.Nullable;
 
@@ -32,7 +32,7 @@ public class CactusTNTEntity extends Entity {
 		this.blocksBuilding = true;
 	}
 
-	public CactusTNTEntity(SpawnEntity spawnEntity, Level level) {
+	public CactusTNTEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
 		this(CactusRegistry.CACTUS_TNT_ENTITY.get(), level);
 	}
 

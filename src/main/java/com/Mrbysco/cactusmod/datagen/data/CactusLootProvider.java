@@ -31,11 +31,11 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyC
 import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class CactusLootProvider extends LootTableProvider {
@@ -142,7 +142,7 @@ public class CactusLootProvider extends LootTableProvider {
 
 		@Override
 		protected Stream<EntityType<?>> getKnownEntityTypes() {
-			return CactusRegistry.ENTITIES.getEntries().stream().map(RegistryObject::get);
+			return CactusRegistry.ENTITIES.getEntries().stream().map(Supplier::get);
 		}
 	}
 
@@ -186,7 +186,7 @@ public class CactusLootProvider extends LootTableProvider {
 
 		@Override
 		protected Iterable<Block> getKnownBlocks() {
-			return CactusRegistry.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
+			return CactusRegistry.BLOCKS.getEntries().stream().map(holder -> (Block) holder.get())::iterator;
 		}
 	}
 

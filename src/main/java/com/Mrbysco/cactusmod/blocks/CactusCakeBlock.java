@@ -66,7 +66,7 @@ public class CactusCakeBlock extends CakeBlock {
 		return eat(level, pos, state, player);
 	}
 
-	public static InteractionResult eat(LevelAccessor world, BlockPos pos, BlockState state, Player player) {
+	public static InteractionResult eat(LevelAccessor levelAccessor, BlockPos pos, BlockState state, Player player) {
 		if (!player.canEat(false)) {
 			return InteractionResult.PASS;
 		} else {
@@ -75,9 +75,9 @@ public class CactusCakeBlock extends CakeBlock {
 			player.getFoodData().eat(2, 0.1F);
 			int i = state.getValue(BITES);
 			if (i < 6) {
-				world.setBlock(pos, state.setValue(BITES, Integer.valueOf(i + 1)), 3);
+				levelAccessor.setBlock(pos, state.setValue(BITES, Integer.valueOf(i + 1)), 3);
 			} else {
-				world.removeBlock(pos, false);
+				levelAccessor.removeBlock(pos, false);
 			}
 
 			return InteractionResult.SUCCESS;

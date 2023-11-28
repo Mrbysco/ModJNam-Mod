@@ -27,8 +27,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import javax.annotation.Nullable;
 
 public class CactoniEntity extends AbstractGolem implements ICactusMob {
-	public CactoniEntity(EntityType<? extends AbstractGolem> type, Level world) {
-		super(type, world);
+	public CactoniEntity(EntityType<? extends AbstractGolem> type, Level level) {
+		super(type, level);
 	}
 
 	protected void registerGoals() {

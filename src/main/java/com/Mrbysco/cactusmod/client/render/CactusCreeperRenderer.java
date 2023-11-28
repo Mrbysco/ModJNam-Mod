@@ -20,8 +20,8 @@ public class CactusCreeperRenderer extends MobRenderer<CactusCreeperEntity, Cree
 
 	}
 
-	protected void scale(CactusCreeperEntity entitylivingbaseIn, PoseStack poseStack, float partialTickTime) {
-		float f = entitylivingbaseIn.getSwelling(partialTickTime);
+	protected void scale(CactusCreeperEntity cactusCreeper, PoseStack poseStack, float partialTickTime) {
+		float f = cactusCreeper.getSwelling(partialTickTime);
 		float f1 = 1.0F + Mth.sin(f * 100.0F) * f * 0.01F;
 		f = Mth.clamp(f, 0.0F, 1.0F);
 		f = f * f;

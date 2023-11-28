@@ -1,10 +1,10 @@
 {
-  "type": "forge:add_spawns",
+  "type": "neoforge:add_spawns",
   "biomes": "#forge:is_sandy",
   "spawners": {
-    "type": "minecraft:pig",
+    "type": "cactusmod:cactus_slime",
     "maxCount": 2,
     "minCount": 2,
-    "weight": 1
+    "weight": 100
   }
 }

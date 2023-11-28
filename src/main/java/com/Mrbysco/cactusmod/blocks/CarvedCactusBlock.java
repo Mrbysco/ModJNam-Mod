@@ -72,53 +72,53 @@ public class CarvedCactusBlock extends BlockRotatable {
 		return this.getOrCreateCactusGolemBase().find(reader, pos) != null || this.getOrCreateCactusIronGolemBase().find(reader, pos) != null;
 	}
 
-	private void trySpawnGolem(Level world, BlockPos pos) {
-		BlockPattern.BlockPatternMatch patternMatch = this.getOrCreateCactusGolemFull().find(world, pos);
+	private void trySpawnGolem(Level level, BlockPos pos) {
+		BlockPattern.BlockPatternMatch patternMatch = this.getOrCreateCactusGolemFull().find(level, pos);
 		if (patternMatch != null) {
 			for (int i = 0; i < this.getOrCreateCactusGolemFull().getHeight(); ++i) {
 				BlockInWorld blockInWorld = patternMatch.getBlock(0, i, 0);
-				world.setBlock(blockInWorld.getPos(), Blocks.AIR.defaultBlockState(), 2);
-				world.levelEvent(2001, blockInWorld.getPos(), Block.getId(blockInWorld.getState()));
+				level.setBlock(blockInWorld.getPos(), Blocks.AIR.defaultBlockState(), 2);
+				level.levelEvent(2001, blockInWorld.getPos(), Block.getId(blockInWorld.getState()));
 			}
 
-			CactusSnowGolemEntity cactusSnowGolem = CactusRegistry.CACTUS_SNOW_GOLEM.get().create(world);
+			CactusSnowGolemEntity cactusSnowGolem = CactusRegistry.CACTUS_SNOW_GOLEM.get().create(level);
 			BlockPos blockpos1 = patternMatch.getBlock(0, 2, 0).getPos();
 			cactusSnowGolem.moveTo((double) blockpos1.getX() + 0.5D, (double) blockpos1.getY() + 0.05D, (double) blockpos1.getZ() + 0.5D, 0.0F, 0.0F);
-			world.addFreshEntity(cactusSnowGolem);
+			level.addFreshEntity(cactusSnowGolem);
 
-			for (ServerPlayer serverPlayer : world.getEntitiesOfClass(ServerPlayer.class, cactusSnowGolem.getBoundingBox().inflate(5.0D))) {
+			for (ServerPlayer serverPlayer : level.getEntitiesOfClass(ServerPlayer.class, cactusSnowGolem.getBoundingBox().inflate(5.0D))) {
 				CriteriaTriggers.SUMMONED_ENTITY.trigger(serverPlayer, cactusSnowGolem);
 			}
 
 			for (int l = 0; l < this.getOrCreateCactusGolemFull().getHeight(); ++l) {
 				BlockInWorld matchBlock = patternMatch.getBlock(0, l, 0);
-				world.blockUpdated(matchBlock.getPos(), Blocks.AIR);
+				level.blockUpdated(matchBlock.getPos(), Blocks.AIR);
 			}
 		} else {
-			patternMatch = this.getOrCreateCactusIronGolemFull().find(world, pos);
+			patternMatch = this.getOrCreateCactusIronGolemFull().find(level, pos);
 			if (patternMatch != null) {
 				for (int j = 0; j < this.getOrCreateCactusIronGolemFull().getWidth(); ++j) {
 					for (int k = 0; k < this.getOrCreateCactusIronGolemFull().getHeight(); ++k) {
 						BlockInWorld cachedblockinfo2 = patternMatch.getBlock(j, k, 0);
-						world.setBlock(cachedblockinfo2.getPos(), Blocks.AIR.defaultBlockState(), 2);
-						world.levelEvent(2001, cachedblockinfo2.getPos(), Block.getId(cachedblockinfo2.getState()));
+						level.setBlock(cachedblockinfo2.getPos(), Blocks.AIR.defaultBlockState(), 2);
+						level.levelEvent(2001, cachedblockinfo2.getPos(), Block.getId(cachedblockinfo2.getState()));
 					}
 				}
 
 				BlockPos blockpos = patternMatch.getBlock(1, 2, 0).getPos();
-				CactusGolem cactusGolem = CactusRegistry.CACTUS_GOLEM.get().create(world);
+				CactusGolem cactusGolem = CactusRegistry.CACTUS_GOLEM.get().create(level);
 				cactusGolem.setPlayerCreated(true);
 				cactusGolem.moveTo((double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.05D, (double) blockpos.getZ() + 0.5D, 0.0F, 0.0F);
-				world.addFreshEntity(cactusGolem);
+				level.addFreshEntity(cactusGolem);
 
-				for (ServerPlayer serverPlayer : world.getEntitiesOfClass(ServerPlayer.class, cactusGolem.getBoundingBox().inflate(5.0D))) {
+				for (ServerPlayer serverPlayer : level.getEntitiesOfClass(ServerPlayer.class, cactusGolem.getBoundingBox().inflate(5.0D))) {
 					CriteriaTriggers.SUMMONED_ENTITY.trigger(serverPlayer, cactusGolem);
 				}
 
 				for (int i1 = 0; i1 < this.getOrCreateCactusIronGolemFull().getWidth(); ++i1) {
 					for (int j1 = 0; j1 < this.getOrCreateCactusIronGolemFull().getHeight(); ++j1) {
 						BlockInWorld matchBlock = patternMatch.getBlock(i1, j1, 0);
-						world.blockUpdated(matchBlock.getPos(), Blocks.AIR);
+						level.blockUpdated(matchBlock.getPos(), Blocks.AIR);
 					}
 				}
 			}

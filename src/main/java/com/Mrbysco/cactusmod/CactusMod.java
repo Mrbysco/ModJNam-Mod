@@ -12,7 +12,7 @@ import com.mrbysco.cactusmod.init.CactusRegistry;
 import com.mrbysco.cactusmod.init.CactusSpawns;
 import com.mrbysco.cactusmod.init.CactusTabs;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ArmorItem;
@@ -20,15 +20,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig.Type;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 
 @Mod(Reference.MOD_ID)
@@ -38,7 +37,7 @@ public class CactusMod {
 	public CactusMod() {
 		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-		ModLoadingContext.get().registerConfig(Type.COMMON, CactusConfig.commonSpec);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CactusConfig.commonSpec);
 		eventBus.register(CactusConfig.class);
 
 		eventBus.addListener(this::setup);
@@ -50,29 +49,29 @@ public class CactusMod {
 		CactusRegistry.ENTITIES.register(eventBus);
 		CactusRegistry.BLOCK_ENTITIES.register(eventBus);
 		CactusRegistry.SOUND_EVENTS.register(eventBus);
-		CactusRegistry.CONTAINERS.register(eventBus);
+		CactusRegistry.MENU.register(eventBus);
 
 		eventBus.addListener(CactusSpawns::registerEntityAttributes);
 		eventBus.addListener(CactusSpawns::registerSpawnPlacements);
 
-		MinecraftForge.EVENT_BUS.register(new CactusWorkbenchHandler());
-		MinecraftForge.EVENT_BUS.register(new CactusToolHandler());
-		MinecraftForge.EVENT_BUS.register(new CactusMobHandler());
-		MinecraftForge.EVENT_BUS.register(new CactusModCompatHandlers());
+		NeoForge.EVENT_BUS.register(new CactusWorkbenchHandler());
+		NeoForge.EVENT_BUS.register(new CactusToolHandler());
+		NeoForge.EVENT_BUS.register(new CactusMobHandler());
+		NeoForge.EVENT_BUS.register(new CactusModCompatHandlers());
 
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+		if (FMLEnvironment.dist.isClient()) {
 			eventBus.addListener(ClientHandler::registerRenders);
 			eventBus.addListener(ClientHandler::registerEntityRenders);
 			eventBus.addListener(ClientHandler::registerLayerDefinitions);
-		});
+		}
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
 			DispenserBlock.registerBehavior(CactusRegistry.CARVED_CACTUS.get(), new OptionalDispenseItemBehavior() {
 				protected ItemStack execute(BlockSource source, ItemStack stack) {
-					Level level = source.getLevel();
-					BlockPos blockpos = source.getPos().relative(source.getBlockState().getValue(DispenserBlock.FACING));
+					Level level = source.level();
+					BlockPos blockpos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
 					CarvedCactusBlock carvedCactusBlock = (CarvedCactusBlock) CactusRegistry.CARVED_CACTUS.get();
 					if (level.isEmptyBlock(blockpos) && carvedCactusBlock.canSpawnGolem(level, blockpos)) {
 						if (!level.isClientSide) {

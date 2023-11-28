@@ -44,8 +44,8 @@ public class CactusTNTBlock extends TntBlock {
 	}
 
 	@Override
-	public void onCaughtFire(BlockState state, Level world, BlockPos pos, @Nullable Direction face, @Nullable LivingEntity igniter) {
-		CactusTNTBlock.explode(world, pos, igniter);
+	public void onCaughtFire(BlockState state, Level level, BlockPos pos, @Nullable Direction face, @Nullable LivingEntity igniter) {
+		CactusTNTBlock.explode(level, pos, igniter);
 	}
 
 	@Override
@@ -54,8 +54,8 @@ public class CactusTNTBlock extends TntBlock {
 		super.entityInside(state, level, pos, entity);
 	}
 
-	public static void explode(Level world, BlockPos level) {
-		explode(world, level, (LivingEntity) null);
+	public static void explode(Level level, BlockPos pos) {
+		explode(level, pos, (LivingEntity) null);
 	}
 
 	public static void explode(Level level, BlockPos pos, @Nullable LivingEntity entityIn) {

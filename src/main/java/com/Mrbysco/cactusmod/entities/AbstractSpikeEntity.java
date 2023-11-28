@@ -6,6 +6,7 @@ import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -43,9 +44,9 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -185,7 +186,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 					}
 				}
 
-				if (raytraceresult != null && raytraceresult.getType() != HitResult.Type.MISS && !flag && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
+				if (raytraceresult != null && raytraceresult.getType() != HitResult.Type.MISS && !flag && !EventHooks.onProjectileImpact(this, raytraceresult)) {
 					this.onHit(raytraceresult);
 					this.hasImpulse = true;
 				}
@@ -439,7 +440,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 		compound.putDouble("damage", this.damage);
 		compound.putBoolean("crit", this.getIsCritical());
 		compound.putByte("PierceLevel", this.getPierceLevel());
-		compound.putString("SoundEvent", ForgeRegistries.SOUND_EVENTS.getKey(this.hitSound).toString());
+		compound.putString("SoundEvent", BuiltInRegistries.SOUND_EVENT.getKey(this.hitSound).toString());
 		compound.putBoolean("ShotFromCrossbow", this.getShotFromCrossbow());
 	}
 
@@ -463,7 +464,7 @@ public abstract class AbstractSpikeEntity extends Projectile {
 		this.setIsCritical(compound.getBoolean("crit"));
 		this.setPierceLevel(compound.getByte("PierceLevel"));
 		if (compound.contains("SoundEvent", 8)) {
-			SoundEvent soundevent = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(compound.getString("SoundEvent")));
+			SoundEvent soundevent = BuiltInRegistries.SOUND_EVENT.get(new ResourceLocation(compound.getString("SoundEvent")));
 			this.hitSound = soundevent != null ? soundevent : this.getDefaultHitGroundSoundEvent();
 		}
 

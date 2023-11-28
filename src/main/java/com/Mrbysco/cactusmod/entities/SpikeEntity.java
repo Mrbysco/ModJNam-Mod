@@ -7,12 +7,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages.SpawnEntity;
+import net.neoforged.neoforge.network.NetworkHooks;
+import net.neoforged.neoforge.network.PlayMessages.SpawnEntity;
 
 public class SpikeEntity extends AbstractSpikeEntity {
-	public SpikeEntity(EntityType<? extends SpikeEntity> type, Level world) {
-		super(type, world);
+	public SpikeEntity(EntityType<? extends SpikeEntity> type, Level level) {
+		super(type, level);
 	}
 
 	public SpikeEntity(Level level, double x, double y, double z) {

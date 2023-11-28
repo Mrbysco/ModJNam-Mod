@@ -10,15 +10,15 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages.SpawnEntity;
+import net.neoforged.neoforge.network.NetworkHooks;
+import net.neoforged.neoforge.network.PlayMessages.SpawnEntity;
 
 public class CactusBoatEntity extends Boat implements ICactusMob {
 	private int timeInBoat;
 	private int timeInBoat2;
 
-	public CactusBoatEntity(EntityType<? extends Boat> type, Level world) {
-		super(type, world);
+	public CactusBoatEntity(EntityType<? extends Boat> type, Level level) {
+		super(type, level);
 	}
 
 	public CactusBoatEntity(Level level, double x, double y, double z) {

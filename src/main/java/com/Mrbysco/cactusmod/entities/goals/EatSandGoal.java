@@ -6,7 +6,8 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.event.EventHooks;
 
 import java.util.EnumSet;
 
@@ -18,7 +19,7 @@ public class EatSandGoal extends Goal {
 	/**
 	 * The world the sand eater entity is eating from
 	 */
-	private final Level entityWorld;
+	private final Level level;
 	/**
 	 * Number of ticks since the entity started to eat sand
 	 */
@@ -26,7 +27,7 @@ public class EatSandGoal extends Goal {
 
 	public EatSandGoal(CactusSheepEntity sandEaterEntityIn) {
 		this.sandEaterEntity = sandEaterEntityIn;
-		this.entityWorld = sandEaterEntityIn.level();
+		this.level = sandEaterEntityIn.level();
 		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK, Goal.Flag.JUMP));
 	}
 
@@ -35,13 +36,13 @@ public class EatSandGoal extends Goal {
 			return false;
 		} else {
 			BlockPos blockpos = this.sandEaterEntity.blockPosition();
-			return this.entityWorld.getBlockState(blockpos.below()).is(Tags.Blocks.SAND);
+			return this.level.getBlockState(blockpos.below()).is(Tags.Blocks.SAND);
 		}
 	}
 
 	public void start() {
 		this.eatingSandTimer = 40;
-		this.entityWorld.broadcastEntityEvent(this.sandEaterEntity, (byte) 10);
+		this.level.broadcastEntityEvent(this.sandEaterEntity, (byte) 10);
 		this.sandEaterEntity.getNavigation().stop();
 	}
 
@@ -62,19 +63,19 @@ public class EatSandGoal extends Goal {
 		this.eatingSandTimer = Math.max(0, this.eatingSandTimer - 1);
 		if (this.eatingSandTimer == 4) {
 			BlockPos blockpos = this.sandEaterEntity.blockPosition();
-			if (this.entityWorld.getBlockState(blockpos).is(Tags.Blocks.SAND)) {
-				if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.entityWorld, this.sandEaterEntity)) {
-					this.entityWorld.destroyBlock(blockpos, false);
+			if (this.level.getBlockState(blockpos).is(Tags.Blocks.SAND)) {
+				if (EventHooks.getMobGriefingEvent(this.level, this.sandEaterEntity)) {
+					this.level.destroyBlock(blockpos, false);
 				}
 
 				this.sandEaterEntity.eatSandBonus();
 			} else {
 				BlockPos blockpos1 = blockpos.below();
-				BlockState state = this.entityWorld.getBlockState(blockpos1);
+				BlockState state = this.level.getBlockState(blockpos1);
 				if (state.is(Tags.Blocks.SAND)) {
-					if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.entityWorld, this.sandEaterEntity)) {
-						this.entityWorld.levelEvent(2001, blockpos1, Block.getId(state));
-						this.entityWorld.setBlock(blockpos1, state, 2);
+					if (EventHooks.getMobGriefingEvent(this.level, this.sandEaterEntity)) {
+						this.level.levelEvent(2001, blockpos1, Block.getId(state));
+						this.level.setBlock(blockpos1, state, 2);
 					}
 
 					this.sandEaterEntity.eatSandBonus();

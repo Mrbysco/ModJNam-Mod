@@ -8,8 +8,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class CactusMobHandler {
 		}
 
 		if (entity instanceof Player player) {
-			Level world = player.getCommandSenderWorld();
+			Level level = player.getCommandSenderWorld();
 
 			if (event.getSource() == cactus) {
 				boolean slot1 = player.getItemBySlot(EquipmentSlot.HEAD).getItem() == CactusRegistry.CACTUS_HELMET.get();
@@ -38,9 +38,9 @@ public class CactusMobHandler {
 					armorList.add(player.getItemBySlot(EquipmentSlot.LEGS));
 					armorList.add(player.getItemBySlot(EquipmentSlot.FEET));
 
-					int i = world.random.nextInt(4);
+					int i = level.random.nextInt(4);
 					ItemStack stack = armorList.get(i);
-					stack.hurtAndBreak(world.random.nextInt(2), player, (p_214023_1_) -> {
+					stack.hurtAndBreak(level.random.nextInt(2), player, (p_214023_1_) -> {
 						player.broadcastBreakEvent(EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i));
 					});
 					event.setCanceled(true);
@@ -49,10 +49,10 @@ public class CactusMobHandler {
 		}
 
 		if (event.getSource().getEntity() instanceof Player player) {
-			Level world = player.getCommandSenderWorld();
+			Level level = player.getCommandSenderWorld();
 
 			if (entity instanceof ICactusMob) {
-				if (world.random.nextInt(10) < 4)
+				if (level.random.nextInt(10) < 4)
 					player.hurt(cactus, 1F);
 			}
 		}

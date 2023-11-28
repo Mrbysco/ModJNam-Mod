@@ -28,7 +28,11 @@ import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.common.capabilities.Capabilities;
+import net.neoforged.neoforge.common.capabilities.Capability;
+import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
 public class CactusChestBlockEntity extends RandomizableContainerBlockEntity implements LidBlockEntity {
 	private static final int EVENT_SET_OPEN_COUNT = 1;
@@ -175,35 +179,35 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 		return ChestMenu.threeRows(id, player, this);
 	}
 
-	private net.minecraftforge.common.util.LazyOptional<net.minecraftforge.items.IItemHandlerModifiable> chestHandler;
+	private LazyOptional<IItemHandlerModifiable> chestHandler;
 
 	@Override
 	public void setBlockState(BlockState state) {
 		super.setBlockState(state);
 		if (this.chestHandler != null) {
-			net.minecraftforge.common.util.LazyOptional<?> oldHandler = this.chestHandler;
+			LazyOptional<?> oldHandler = this.chestHandler;
 			this.chestHandler = null;
 			oldHandler.invalidate();
 		}
 	}
 
 	@Override
-	public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(net.minecraftforge.common.capabilities.Capability<T> cap, Direction side) {
-		if (!this.remove && cap == ForgeCapabilities.ITEM_HANDLER) {
+	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+		if (!this.remove && cap == Capabilities.ITEM_HANDLER) {
 			if (this.chestHandler == null)
-				this.chestHandler = net.minecraftforge.common.util.LazyOptional.of(this::createHandler);
+				this.chestHandler = LazyOptional.of(this::createHandler);
 			return this.chestHandler.cast();
 		}
 		return super.getCapability(cap, side);
 	}
 
-	private net.minecraftforge.items.IItemHandlerModifiable createHandler() {
+	private IItemHandlerModifiable createHandler() {
 		BlockState state = this.getBlockState();
 		if (!(state.getBlock() instanceof ChestBlock)) {
-			return new net.minecraftforge.items.wrapper.InvWrapper(this);
+			return new InvWrapper(this);
 		}
 		Container inv = ChestBlock.getContainer((ChestBlock) state.getBlock(), state, getLevel(), getBlockPos(), true);
-		return new net.minecraftforge.items.wrapper.InvWrapper(inv == null ? this : inv);
+		return new InvWrapper(inv == null ? this : inv);
 	}
 
 	@Override

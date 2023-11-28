@@ -14,7 +14,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraftforge.common.Tags.Blocks;
+import net.neoforged.neoforge.common.Tags.Blocks;
 
 public class CactusPigEntity extends Pig implements ICactusMob {
 

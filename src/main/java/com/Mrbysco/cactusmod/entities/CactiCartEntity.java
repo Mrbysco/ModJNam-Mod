@@ -16,14 +16,14 @@ import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages.SpawnEntity;
+import net.neoforged.neoforge.network.NetworkHooks;
+import net.neoforged.neoforge.network.PlayMessages;
 
 public class CactiCartEntity extends AbstractMinecart implements ICactusMob {
 	private int timeInCart;
 
-	public CactiCartEntity(EntityType<?> type, Level world) {
-		super(type, world);
+	public CactiCartEntity(EntityType<?> type, Level level) {
+		super(type, level);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class CactiCartEntity extends AbstractMinecart implements ICactusMob {
 		super(CactusRegistry.CACTUS_CART_ENTITY.get(), level, x, y, z);
 	}
 
-	public CactiCartEntity(SpawnEntity spawnEntity, Level level) {
+	public CactiCartEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
 		this(CactusRegistry.CACTUS_CART_ENTITY.get(), level);
 	}
 

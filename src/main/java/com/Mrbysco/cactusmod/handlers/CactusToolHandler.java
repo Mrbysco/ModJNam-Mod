@@ -11,10 +11,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.entity.living.LivingAttackEvent;
+import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
 
 public class CactusToolHandler {
 
@@ -73,11 +73,11 @@ public class CactusToolHandler {
 		shield.hurtAndBreak(1 + Mth.floor(damage), player,
 				(p_213833_1_) -> {
 					p_213833_1_.broadcastBreakEvent(handIn);
-					net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, shield, handIn);
+					EventHooks.onPlayerDestroyItem(player, shield, handIn);
 				});
 
 		if (shield.getCount() <= 0) {
-			ForgeEventFactory.onPlayerDestroyItem(player, shield, player.getUsedItemHand());
+			EventHooks.onPlayerDestroyItem(player, shield, player.getUsedItemHand());
 			player.setItemInHand(player.getUsedItemHand(), ItemStack.EMPTY);
 		}
 	}

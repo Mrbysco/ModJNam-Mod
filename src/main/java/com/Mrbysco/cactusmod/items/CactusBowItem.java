@@ -6,24 +6,39 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.Vanishable;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Predicate;
 
-public class CactusBowItem extends Item implements Vanishable {
+public class CactusBowItem extends BowItem {
+	public static final Predicate<ItemStack> ARROW_ONLY = stack -> stack.is(ItemTags.ARROWS); //TODO: TEST!
+
 	public CactusBowItem(Item.Properties builder) {
 		super(builder);
+	}
+
+	@Override
+	public Predicate<ItemStack> getAllSupportedProjectiles() {
+		return ARROW_ONLY;
+	}
+
+	@Override
+	public int getDefaultProjectileRange() {
+		return 16;
 	}
 
 	@Override
@@ -33,7 +48,7 @@ public class CactusBowItem extends Item implements Vanishable {
 
 	@Override
 	public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeLeft) {
-		if (livingEntity instanceof Player playerentity) {
+		if (livingEntity instanceof Player player) {
 			int i = this.getUseDuration(stack) - timeLeft;
 			if (i < 0) return;
 
@@ -41,19 +56,19 @@ public class CactusBowItem extends Item implements Vanishable {
 			if (!((double) f < 0.1D)) {
 				if (!level.isClientSide) {
 					SpikeEntity spike = new SpikeEntity(level, livingEntity);
-					spike.shootFromRotation(playerentity, playerentity.getXRot(), playerentity.getYRot(), 0.0F, f * 3.0F, 1.0F);
+					spike.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, f * 3.0F, 1.0F);
 					spike.setDamage(0D);
 					spike.setKnockbackStrength(3);
 
-					stack.hurtAndBreak(1, playerentity, (p_220009_1_) -> {
-						p_220009_1_.broadcastBreakEvent(playerentity.getUsedItemHand());
+					stack.hurtAndBreak(1, player, (p_220009_1_) -> {
+						p_220009_1_.broadcastBreakEvent(player.getUsedItemHand());
 					});
 
 					level.addFreshEntity(spike);
 				}
 
-				level.playSound((Player) null, playerentity.getX(), playerentity.getY(), playerentity.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.random.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-				playerentity.awardStat(Stats.ITEM_USED.get(this));
+				level.playSound((Player) null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.random.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+				player.awardStat(Stats.ITEM_USED.get(this));
 			}
 		}
 	}

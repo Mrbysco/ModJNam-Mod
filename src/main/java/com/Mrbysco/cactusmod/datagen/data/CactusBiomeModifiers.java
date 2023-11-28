@@ -13,10 +13,10 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ForgeBiomeModifiers;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifiers;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class CactusBiomeModifiers {
 
@@ -31,7 +31,7 @@ public class CactusBiomeModifiers {
 	protected static final ResourceKey<BiomeModifier> ADD_CACTONI = createKey("add_cactoni");
 
 	private static ResourceKey<BiomeModifier> createKey(String name) {
-		return ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(Reference.MOD_ID, name));
+		return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(Reference.MOD_ID, name));
 	}
 
 	public static void bootstrap(BootstapContext<BiomeModifier> context) {
@@ -40,47 +40,47 @@ public class CactusBiomeModifiers {
 
 		var sandyTag = biomeGetter.getOrThrow(Tags.Biomes.IS_SANDY);
 
-		context.register(ADD_CACTUS_PLANT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+		context.register(ADD_CACTUS_PLANT, new BiomeModifiers.AddFeaturesBiomeModifier(
 				sandyTag,
 				HolderSet.direct(placedGetter.getOrThrow(CactusPlacedFeatures.CACTUS_PLANT)),
 				GenerationStep.Decoration.VEGETAL_DECORATION));
 
-		context.register(ADD_CACTUS_COW, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_COW, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
 				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_COW.get(), 8, 4, 4))
 		);
 
-		context.register(ADD_CACTUS_CREEPER, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_CREEPER, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
 				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_CREEPER.get(), 100, 4, 4))
 		);
 
-		context.register(ADD_CACTUS_SLIME, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_SLIME, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
 				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_SLIME.get(), 100, 2, 2))
 		);
 
-		context.register(ADD_CACTUS_SHEEP, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_SHEEP, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
 				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_SHEEP.get(), 12, 4, 4))
 		);
 
-		context.register(ADD_CACTUS_PIG, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_PIG, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
 				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_PIG.get(), 10, 4, 4))
 		);
 
-		context.register(ADD_CACTUS_SPIDER, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_SPIDER, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
 				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_SPIDER.get(), 100, 4, 4))
 		);
 
-		context.register(ADD_CACTUS_SKELETON, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTUS_SKELETON, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
 				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTUS_SKELETON.get(), 100, 4, 4))
 		);
 
-		context.register(ADD_CACTONI, ForgeBiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
+		context.register(ADD_CACTONI, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
 				sandyTag,
 				new MobSpawnSettings.SpawnerData(CactusRegistry.CACTONI.get(), 1, 2, 2))
 		);

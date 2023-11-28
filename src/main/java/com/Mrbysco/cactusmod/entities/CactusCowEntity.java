@@ -25,14 +25,14 @@ import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraftforge.common.IForgeShearable;
-import net.minecraftforge.common.Tags.Blocks;
+import net.neoforged.neoforge.common.IShearable;
+import net.neoforged.neoforge.common.Tags;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class CactusCowEntity extends Cow implements IForgeShearable, ICactusMob {
+public class CactusCowEntity extends Cow implements IShearable, ICactusMob {
 
 	public CactusCowEntity(EntityType<? extends Cow> type, Level level) {
 		super(type, level);
@@ -47,7 +47,7 @@ public class CactusCowEntity extends Cow implements IForgeShearable, ICactusMob 
 	}
 
 	@Override
-	public boolean isShearable(@Nonnull ItemStack item, Level world, BlockPos pos) {
+	public boolean isShearable(@Nonnull ItemStack item, Level level, BlockPos pos) {
 		return isShearable();
 	}
 
@@ -57,9 +57,9 @@ public class CactusCowEntity extends Cow implements IForgeShearable, ICactusMob 
 
 	@Nonnull
 	@Override
-	public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack item, Level world, BlockPos pos, int fortune) {
-		world.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
-		if (!world.isClientSide()) {
+	public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack item, Level level, BlockPos pos, int fortune) {
+		level.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
+		if (!level.isClientSide()) {
 			((ServerLevel) this.level()).sendParticles(ParticleTypes.EXPLOSION, this.getX(), this.getY(0.5D), this.getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
 			this.discard();
 			Cow cowentity = EntityType.COW.create(this.level());
@@ -106,6 +106,6 @@ public class CactusCowEntity extends Cow implements IForgeShearable, ICactusMob 
 	}
 
 	public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor level, MobSpawnType reason, BlockPos pos, RandomSource random) {
-		return level.getBlockState(pos.below()).is(Blocks.SAND) && level.getRawBrightness(pos, 0) > 8;
+		return level.getBlockState(pos.below()).is(Tags.Blocks.SAND) && level.getRawBrightness(pos, 0) > 8;
 	}
 }

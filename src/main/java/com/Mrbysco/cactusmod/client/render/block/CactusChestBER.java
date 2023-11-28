@@ -40,8 +40,8 @@ public class CactusChestBER<T extends BlockEntity & LidBlockEntity> implements B
 
 	@Override
 	public void render(T blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLightIn, int combinedOverlayIn) {
-		Level world = blockEntity.getLevel();
-		boolean flag = world != null;
+		Level level = blockEntity.getLevel();
+		boolean flag = level != null;
 
 		BlockState blockstate = flag ? blockEntity.getBlockState() : CactusRegistry.CACTUS_CHEST.get().defaultBlockState().setValue(CactusChestBlock.FACING, Direction.SOUTH);
 		Block block = blockstate.getBlock();
@@ -56,7 +56,7 @@ public class CactusChestBER<T extends BlockEntity & LidBlockEntity> implements B
 
 			DoubleBlockCombiner.NeighborCombineResult<? extends CactusChestBlockEntity> icallbackwrapper;
 			if (flag) {
-				icallbackwrapper = cactusChestBlock.getWrapper(blockstate, world, blockEntity.getBlockPos(), true);
+				icallbackwrapper = cactusChestBlock.getWrapper(blockstate, level, blockEntity.getBlockPos(), true);
 			} else {
 				icallbackwrapper = DoubleBlockCombiner.Combiner::acceptNone;
 			}

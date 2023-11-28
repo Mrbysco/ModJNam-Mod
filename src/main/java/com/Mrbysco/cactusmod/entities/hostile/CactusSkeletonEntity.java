@@ -32,8 +32,8 @@ public class CactusSkeletonEntity extends AbstractSkeleton {
 		if (this.level() != null && !this.level().isClientSide) {
 			this.goalSelector.removeGoal(this.meleeGoal);
 			this.goalSelector.removeGoal(this.spikeAttackGoal);
-			ItemStack itemstack = this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, CactusRegistry.CACTUS_BOW.get()));
-			if (itemstack.getItem() instanceof net.minecraft.world.item.BowItem) {
+			ItemStack itemstack = this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, item -> item instanceof ProjectileWeaponItem));
+			if (itemstack.getItem() instanceof ProjectileWeaponItem) {
 				int i = 20;
 				if (this.level().getDifficulty() != Difficulty.HARD) {
 					i = 40;
@@ -53,8 +53,8 @@ public class CactusSkeletonEntity extends AbstractSkeleton {
 	}
 
 	@Override
-	public boolean canFireProjectileWeapon(ProjectileWeaponItem p_230280_1_) {
-		return p_230280_1_ == CactusRegistry.CACTUS_BOW.get();
+	public boolean canFireProjectileWeapon(ProjectileWeaponItem weaponItem) {
+		return weaponItem == CactusRegistry.CACTUS_BOW.get();
 	}
 
 	@Override

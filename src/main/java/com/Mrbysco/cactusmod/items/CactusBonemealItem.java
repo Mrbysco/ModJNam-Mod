@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -29,21 +30,21 @@ public class CactusBonemealItem extends Item {
 
 	@Override
 	public InteractionResult useOn(UseOnContext context) {
-		Level world = context.getLevel();
+		Level level = context.getLevel();
 		BlockPos blockpos = context.getClickedPos();
-		if (applyBonemeal(context.getItemInHand(), world, blockpos, context.getPlayer())) {
-			if (!world.isClientSide) {
-				world.levelEvent(2005, blockpos, 0);
+		if (applyBonemeal(context.getItemInHand(), level, blockpos, context.getPlayer())) {
+			if (!level.isClientSide) {
+				level.levelEvent(2005, blockpos, 0);
 			}
 
-			return InteractionResult.sidedSuccess(world.isClientSide);
+			return InteractionResult.sidedSuccess(level.isClientSide);
 		}
 		return super.useOn(context);
 	}
 
 	public static boolean applyBonemeal(ItemStack stack, Level level, BlockPos pos, net.minecraft.world.entity.player.Player player) {
 		BlockState blockstate = level.getBlockState(pos);
-		int hook = net.minecraftforge.event.ForgeEventFactory.onApplyBonemeal(player, level, pos, blockstate, stack);
+		int hook = EventHooks.onApplyBonemeal(player, level, pos, blockstate, stack);
 		if (hook != 0) return hook > 0;
 
 		if (blockstate.getBlock() instanceof CactusBlock) {

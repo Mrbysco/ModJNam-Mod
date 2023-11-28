@@ -17,7 +17,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.Tags;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -49,7 +50,7 @@ public class CactusFlowerBlock extends Block {
 		BlockPos blockpos = pos.above();
 		if (level.isEmptyBlock(blockpos) && blockpos.getY() < 256) {
 			int i = state.getValue(AGE);
-			if (i < 5 && net.minecraftforge.common.ForgeHooks.onCropsGrowPre(level, blockpos, state, true)) {
+			if (i < 5 && CommonHooks.onCropsGrowPre(level, blockpos, state, true)) {
 				boolean flag = false;
 				boolean flag1 = false;
 				BlockState blockstate = level.getBlockState(pos.below());
@@ -105,7 +106,7 @@ public class CactusFlowerBlock extends Block {
 				} else {
 					this.placeDeadFlower(level, pos);
 				}
-				net.minecraftforge.common.ForgeHooks.onCropsGrowPost(level, pos, state);
+				CommonHooks.onCropsGrowPost(level, pos, state);
 			}
 		}
 	}

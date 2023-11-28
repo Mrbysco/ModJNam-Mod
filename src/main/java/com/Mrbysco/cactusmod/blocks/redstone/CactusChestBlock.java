@@ -51,8 +51,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -70,7 +70,7 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
 	}
 
-	public DoubleBlockCombiner.NeighborCombineResult<? extends CactusChestBlockEntity> getWrapper(BlockState state, Level world, BlockPos pos, boolean override) {
+	public DoubleBlockCombiner.NeighborCombineResult<? extends CactusChestBlockEntity> getWrapper(BlockState state, Level level, BlockPos pos, boolean override) {
 		BiPredicate<LevelAccessor, BlockPos> biPredicate;
 		if (override) {
 			biPredicate = (p_226918_0_, p_226918_1_) -> false;
@@ -78,7 +78,7 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 			biPredicate = CactusChestBlock::isBlocked;
 		}
 
-		return DoubleBlockCombiner.combineWithNeigbour(tileEntityTypeSupplier.get(), CactusChestBlock::getMergerType, CactusChestBlock::getDirectionToAttached, FACING, state, world, pos, biPredicate);
+		return DoubleBlockCombiner.combineWithNeigbour(tileEntityTypeSupplier.get(), CactusChestBlock::getMergerType, CactusChestBlock::getDirectionToAttached, FACING, state, level, pos, biPredicate);
 	}
 
 	public static DoubleBlockCombiner.BlockType getMergerType(BlockState blockState) {
@@ -196,8 +196,8 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 		return false;
 	}
 
-	public static boolean isBlocked(LevelAccessor world, BlockPos pos) {
-		return isBelowSolidBlock(world, pos) || isCatSittingOn(world, pos);
+	public static boolean isBlocked(LevelAccessor levelAccessor, BlockPos pos) {
+		return isBelowSolidBlock(levelAccessor, pos) || isCatSittingOn(levelAccessor, pos);
 	}
 
 	private static boolean isBelowSolidBlock(BlockGetter reader, BlockPos level) {
@@ -205,8 +205,8 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 		return reader.getBlockState(blockpos).isRedstoneConductor(reader, blockpos);
 	}
 
-	private static boolean isCatSittingOn(LevelAccessor world, BlockPos pos) {
-		List<Cat> list = world.getEntitiesOfClass(Cat.class, new AABB((double) pos.getX(), (double) (pos.getY() + 1), (double) pos.getZ(), (double) (pos.getX() + 1), (double) (pos.getY() + 2), (double) (pos.getZ() + 1)));
+	private static boolean isCatSittingOn(LevelAccessor levelAccessor, BlockPos pos) {
+		List<Cat> list = levelAccessor.getEntitiesOfClass(Cat.class, new AABB((double) pos.getX(), (double) (pos.getY() + 1), (double) pos.getZ(), (double) (pos.getX() + 1), (double) (pos.getY() + 2), (double) (pos.getZ() + 1)));
 		if (!list.isEmpty()) {
 			for (Cat catentity : list) {
 				if (catentity.isInSittingPose()) {
@@ -227,7 +227,7 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 	}
 
 	@Override
-	public NeighborCombineResult<? extends ChestBlockEntity> combine(BlockState state, Level world, BlockPos pos, boolean override) {
+	public NeighborCombineResult<? extends ChestBlockEntity> combine(BlockState state, Level level, BlockPos pos, boolean override) {
 		return DoubleBlockCombiner.Combiner::acceptNone;
 	}
 
