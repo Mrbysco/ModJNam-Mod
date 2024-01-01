@@ -2,7 +2,6 @@ package com.mrbysco.cactusmod.blockentities;
 
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -20,7 +19,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ChestLidController;
@@ -28,11 +26,6 @@ import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.capabilities.Capabilities;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.util.LazyOptional;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
 public class CactusChestBlockEntity extends RandomizableContainerBlockEntity implements LidBlockEntity {
 	private static final int EVENT_SET_OPEN_COUNT = 1;
@@ -73,21 +66,23 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 	/**
 	 * Returns the number of slots in the inventory.
 	 */
+	@Override
 	public int getContainerSize() {
 		return 27;
 	}
 
+	@Override
 	protected Component getDefaultName() {
 		return Component.translatable("container.cactus.chest");
 	}
 
+	@Override
 	public void load(CompoundTag tag) {
 		super.load(tag);
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 		if (!this.tryLoadLootTable(tag)) {
 			ContainerHelper.loadAllItems(tag, this.items);
 		}
-
 	}
 
 	@Override
@@ -124,6 +119,7 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 		level.playSound((Player) null, d0, d1, d2, soundEvent, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
 	}
 
+	@Override
 	public boolean triggerEvent(int p_59114_, int p_59115_) {
 		if (p_59114_ == 1) {
 			this.chestLidController.shouldBeOpen(p_59115_ > 0);
@@ -133,26 +129,31 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 		}
 	}
 
+	@Override
 	public void startOpen(Player p_59120_) {
 		if (!this.remove && !p_59120_.isSpectator()) {
 			this.openersCounter.incrementOpeners(p_59120_, this.getLevel(), this.getBlockPos(), this.getBlockState());
 		}
 	}
 
+	@Override
 	public void stopOpen(Player p_59118_) {
 		if (!this.remove && !p_59118_.isSpectator()) {
 			this.openersCounter.decrementOpeners(p_59118_, this.getLevel(), this.getBlockPos(), this.getBlockState());
 		}
 	}
 
+	@Override
 	protected NonNullList<ItemStack> getItems() {
 		return this.items;
 	}
 
+	@Override
 	protected void setItems(NonNullList<ItemStack> itemsIn) {
 		this.items = itemsIn;
 	}
 
+	@Override
 	public float getOpenNess(float p_59080_) {
 		return this.chestLidController.getOpenness(p_59080_);
 	}
@@ -175,46 +176,9 @@ public class CactusChestBlockEntity extends RandomizableContainerBlockEntity imp
 		otherChest.setItems(nonnulllist);
 	}
 
+	@Override
 	protected AbstractContainerMenu createMenu(int id, Inventory player) {
 		return ChestMenu.threeRows(id, player, this);
-	}
-
-	private LazyOptional<IItemHandlerModifiable> chestHandler;
-
-	@Override
-	public void setBlockState(BlockState state) {
-		super.setBlockState(state);
-		if (this.chestHandler != null) {
-			LazyOptional<?> oldHandler = this.chestHandler;
-			this.chestHandler = null;
-			oldHandler.invalidate();
-		}
-	}
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-		if (!this.remove && cap == Capabilities.ITEM_HANDLER) {
-			if (this.chestHandler == null)
-				this.chestHandler = LazyOptional.of(this::createHandler);
-			return this.chestHandler.cast();
-		}
-		return super.getCapability(cap, side);
-	}
-
-	private IItemHandlerModifiable createHandler() {
-		BlockState state = this.getBlockState();
-		if (!(state.getBlock() instanceof ChestBlock)) {
-			return new InvWrapper(this);
-		}
-		Container inv = ChestBlock.getContainer((ChestBlock) state.getBlock(), state, getLevel(), getBlockPos(), true);
-		return new InvWrapper(inv == null ? this : inv);
-	}
-
-	@Override
-	public void invalidateCaps() {
-		super.invalidateCaps();
-		if (chestHandler != null)
-			chestHandler.invalidate();
 	}
 
 	public void recheckOpen() {

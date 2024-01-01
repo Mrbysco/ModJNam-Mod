@@ -8,6 +8,7 @@ import com.mrbysco.cactusmod.datagen.data.CactusDamageTypeProvider;
 import com.mrbysco.cactusmod.datagen.data.CactusLootProvider;
 import com.mrbysco.cactusmod.feature.CactusConfiguredFeatures;
 import com.mrbysco.cactusmod.feature.CactusPlacedFeatures;
+import net.minecraft.core.Cloner;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.RegistrySetBuilder;
@@ -47,16 +48,18 @@ public class CactusDatagen {
 		}
 	}
 
-	private static HolderLookup.Provider getProvider() {
+	private static RegistrySetBuilder.PatchedRegistries getProvider() {
 		final RegistrySetBuilder registryBuilder = new RegistrySetBuilder();
 		registryBuilder.add(Registries.DAMAGE_TYPE, CactusDamageTypeProvider::bootstrap);
 		registryBuilder.add(Registries.CONFIGURED_FEATURE, CactusConfiguredFeatures::bootstrap);
 		registryBuilder.add(Registries.PLACED_FEATURE, CactusPlacedFeatures::bootstrap);
 		registryBuilder.add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, CactusBiomeModifiers::bootstrap);
-		// We need the BIOME registry to be present so we can use a biome tag, doesn't matter that it's empty
-		registryBuilder.add(Registries.BIOME, context -> {
+		// We need the BIOME registry to be present, so we can use a biome tag, doesn't matter that it's empty
+		registryBuilder.add(Registries.BIOME, $ -> {
 		});
 		RegistryAccess.Frozen regAccess = RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY);
-		return registryBuilder.buildPatch(regAccess, VanillaRegistries.createLookup());
+		Cloner.Factory cloner$factory = new Cloner.Factory();
+		net.neoforged.neoforge.registries.DataPackRegistriesHooks.getDataPackRegistriesWithDimensions().forEach(data -> data.runWithArguments(cloner$factory::addCodec));
+		return registryBuilder.buildPatch(regAccess, VanillaRegistries.createLookup(), cloner$factory);
 	}
 }

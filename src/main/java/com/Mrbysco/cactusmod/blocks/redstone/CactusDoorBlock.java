@@ -13,7 +13,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public class CactusDoorBlock extends DoorBlock {
 	public CactusDoorBlock(BlockBehaviour.Properties builder) {
-		super(builder, BlockSetType.OAK);
+		super(BlockSetType.OAK, builder);
 	}
 
 	@Override

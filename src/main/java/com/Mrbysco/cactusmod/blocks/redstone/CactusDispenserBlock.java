@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -26,7 +27,6 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Random;
 
 public class CactusDispenserBlock extends Block {
 	public static final DirectionProperty FACING = DirectionalBlock.FACING;
@@ -36,32 +36,22 @@ public class CactusDispenserBlock extends Block {
 		super(builder);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TRIGGERED, Boolean.valueOf(false)));
 	}
-
-	public int tickRate() {
-		return 16;
-	}
-
-	public static BlockPos getDispensePosition(BlockState state, BlockPos pos) {
-		Direction direction = state.getValue(FACING);
-		double d0 = pos.getX() + 0.7D * (double) direction.getStepX();
-		double d1 = pos.getY() + 0.7D * (double) direction.getStepY();
-		double d2 = pos.getZ() + 0.7D * (double) direction.getStepZ();
-		return BlockPos.containing(d0, d1, d2);
-	}
-
+	@Override
 	public RenderShape getRenderShape(BlockState state) {
 		return RenderShape.MODEL;
 	}
 
-
+	@Override
 	public BlockState rotate(BlockState state, Rotation rot) {
 		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
+	@Override
 	public BlockState mirror(BlockState state, Mirror mirrorIn) {
 		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
 	}
 
+	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(FACING, TRIGGERED);
 	}
@@ -84,7 +74,8 @@ public class CactusDispenserBlock extends Block {
 		}
 	}
 
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rand) {
+	@Override
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
 		this.dispenseFrom(level, pos);
 	}
 

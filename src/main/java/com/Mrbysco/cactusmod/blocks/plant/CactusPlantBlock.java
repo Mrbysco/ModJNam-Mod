@@ -1,9 +1,12 @@
 package com.mrbysco.cactusmod.blocks.plant;
 
+import com.mojang.serialization.MapCodec;
+import com.mrbysco.cactusmod.blocks.CarvedCactusBlock;
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -21,30 +24,36 @@ import net.neoforged.neoforge.common.Tags;
 import java.util.Random;
 
 public class CactusPlantBlock extends PipeBlock {
+	public static final MapCodec<CactusPlantBlock> CODEC = simpleCodec(CactusPlantBlock::new);
 
+	@Override
+	protected MapCodec<? extends PipeBlock> codec() {
+		return CODEC;
+	}
 	public CactusPlantBlock(BlockBehaviour.Properties builder) {
 		super(0.3125F, builder);
 		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.valueOf(false)).setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false)).setValue(WEST, Boolean.valueOf(false)).setValue(UP, Boolean.valueOf(false)).setValue(DOWN, Boolean.valueOf(false)));
 	}
 
+	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return this.getStateForPlacement(context.getLevel(), context.getClickedPos());
 	}
 
 	public BlockState getStateForPlacement(BlockGetter getter, BlockPos pos) {
-		BlockState blockstate = getter.getBlockState(pos.below());
-		BlockState blockstate1 = getter.getBlockState(pos.above());
-		BlockState blockstate2 = getter.getBlockState(pos.north());
-		BlockState blockstate3 = getter.getBlockState(pos.east());
-		BlockState blockstate4 = getter.getBlockState(pos.south());
-		BlockState blockstate5 = getter.getBlockState(pos.west());
+		BlockState belowState = getter.getBlockState(pos.below());
+		BlockState aboveState = getter.getBlockState(pos.above());
+		BlockState northState = getter.getBlockState(pos.north());
+		BlockState eastState = getter.getBlockState(pos.east());
+		BlockState southState = getter.getBlockState(pos.south());
+		BlockState westState = getter.getBlockState(pos.west());
 		return this.defaultBlockState()
-				.setValue(DOWN, Boolean.valueOf(blockstate.is(this) || blockstate.is(CactusRegistry.CACTUS_PLANT.get()) || blockstate.is(Tags.Blocks.SAND)))
-				.setValue(UP, Boolean.valueOf(blockstate1.is(this) || blockstate1.is(CactusRegistry.CACTUS_PLANT.get())))
-				.setValue(NORTH, Boolean.valueOf(blockstate2.is(this) || blockstate2.is(CactusRegistry.CACTUS_PLANT.get())))
-				.setValue(EAST, Boolean.valueOf(blockstate3.is(this) || blockstate3.is(CactusRegistry.CACTUS_PLANT.get())))
-				.setValue(SOUTH, Boolean.valueOf(blockstate4.is(this) || blockstate4.is(CactusRegistry.CACTUS_PLANT.get())))
-				.setValue(WEST, Boolean.valueOf(blockstate5.is(this) || blockstate5.is(CactusRegistry.CACTUS_PLANT.get())));
+				.setValue(DOWN, Boolean.valueOf(belowState.is(this) || belowState.is(CactusRegistry.CACTUS_PLANT.get()) || belowState.is(Tags.Blocks.SAND)))
+				.setValue(UP, Boolean.valueOf(aboveState.is(this) || aboveState.is(CactusRegistry.CACTUS_PLANT.get())))
+				.setValue(NORTH, Boolean.valueOf(northState.is(this) || northState.is(CactusRegistry.CACTUS_PLANT.get())))
+				.setValue(EAST, Boolean.valueOf(eastState.is(this) || eastState.is(CactusRegistry.CACTUS_PLANT.get())))
+				.setValue(SOUTH, Boolean.valueOf(southState.is(this) || southState.is(CactusRegistry.CACTUS_PLANT.get())))
+				.setValue(WEST, Boolean.valueOf(westState.is(this) || westState.is(CactusRegistry.CACTUS_PLANT.get())));
 	}
 
 	@Override
@@ -58,6 +67,7 @@ public class CactusPlantBlock extends PipeBlock {
 	 * returns its solidified counterpart.
 	 * Note that this method should ideally consider only the specific face passed in.
 	 */
+	@Override
 	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
 		if (!stateIn.canSurvive(level, currentPos)) {
 			level.scheduleTick(currentPos, this, 1);
@@ -68,12 +78,14 @@ public class CactusPlantBlock extends PipeBlock {
 		}
 	}
 
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rand) {
+	@Override
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
 		if (!state.canSurvive(level, pos)) {
 			level.destroyBlock(pos, true);
 		}
 	}
 
+	@Override
 	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
 		BlockState blockstate = level.getBlockState(pos.below());
 		boolean flag = !level.getBlockState(pos.above()).isAir() && !blockstate.isAir();
@@ -97,10 +109,12 @@ public class CactusPlantBlock extends PipeBlock {
 		return block2 == this || blockstate.is(Tags.Blocks.SAND);
 	}
 
+	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(NORTH, EAST, SOUTH, WEST, UP, DOWN);
 	}
 
+	@Override
 	public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
 		return false;
 	}

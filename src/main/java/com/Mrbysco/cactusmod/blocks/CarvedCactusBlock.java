@@ -1,5 +1,6 @@
 package com.mrbysco.cactusmod.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.mrbysco.cactusmod.blocks.decorative.BlockRotatable;
 import com.mrbysco.cactusmod.entities.CactusGolem;
 import com.mrbysco.cactusmod.entities.CactusSnowGolemEntity;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
@@ -26,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Predicate;
 
 public class CarvedCactusBlock extends BlockRotatable {
+	public static final MapCodec<CarvedCactusBlock> CODEC = simpleCodec(CarvedCactusBlock::new);
 	protected static final VoxelShape COLLISION_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
 	protected static final VoxelShape OUTLINE_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
 
@@ -41,6 +44,11 @@ public class CarvedCactusBlock extends BlockRotatable {
 	private static final Predicate<BlockState> CARVED_PREDICATE = (state) -> {
 		return state != null && (state.is(CactusRegistry.CARVED_CACTUS.get()) || state.is(CactusRegistry.JACKO_CACTUS.get()));
 	};
+
+	@Override
+	protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+		return CODEC;
+	}
 
 	public CarvedCactusBlock(BlockBehaviour.Properties builder) {
 		super(builder);

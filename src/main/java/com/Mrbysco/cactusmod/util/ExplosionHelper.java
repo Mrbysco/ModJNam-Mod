@@ -50,7 +50,8 @@ public class ExplosionHelper {
 
 		for (int k2 = 0; k2 < list.size(); ++k2) {
 			Entity entity = list.get(k2);
-			if (!entity.ignoreExplosion()) {
+			Explosion fakeExplosion = new Explosion(entityIn.level(), entity, x, y, z, strength, false, Explosion.BlockInteraction.KEEP);
+			if (!entity.ignoreExplosion(fakeExplosion)) {
 				double d12 = (double) (Mth.sqrt((float) entity.distanceToSqr(vector3d)) / f2);
 				if (d12 <= 1.0D) {
 					double d5 = entity.getX() - x;

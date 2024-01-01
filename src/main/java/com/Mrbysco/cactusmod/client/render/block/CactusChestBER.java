@@ -47,7 +47,6 @@ public class CactusChestBER<T extends BlockEntity & LidBlockEntity> implements B
 		Block block = blockstate.getBlock();
 
 		if (block instanceof CactusChestBlock cactusChestBlock) {
-
 			poseStack.pushPose();
 			float f = blockstate.getValue(CactusChestBlock.FACING).toYRot();
 			poseStack.translate(0.5D, 0.5D, 0.5D);
@@ -66,10 +65,10 @@ public class CactusChestBER<T extends BlockEntity & LidBlockEntity> implements B
 			f1 = 1.0F - f1 * f1 * f1;
 			int i = icallbackwrapper.<Int2IntFunction>apply(new BrightnessCombiner<>()).applyAsInt(combinedLightIn);
 
-			Material rendermaterial = new Material(Sheets.CHEST_SHEET, ClientHandler.CACTUS_CHEST_LOCATION);
-			VertexConsumer ivertexbuilder = rendermaterial.buffer(bufferSource, RenderType::entityCutout);
+			Material renderMaterial = new Material(Sheets.CHEST_SHEET, ClientHandler.CACTUS_CHEST_LOCATION);
+			VertexConsumer vertexConsumer = renderMaterial.buffer(bufferSource, RenderType::entityCutout);
 
-			this.render(poseStack, ivertexbuilder, this.lid, this.lock, this.bottom, f1, i, combinedOverlayIn);
+			this.render(poseStack, vertexConsumer, this.lid, this.lock, this.bottom, f1, i, combinedOverlayIn);
 
 			poseStack.popPose();
 		}

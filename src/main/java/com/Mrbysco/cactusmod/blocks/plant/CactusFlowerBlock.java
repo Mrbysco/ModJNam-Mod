@@ -130,6 +130,7 @@ public class CactusFlowerBlock extends Block {
 		return true;
 	}
 
+	@Override
 	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
 		if (facing != Direction.UP && !stateIn.canSurvive(level, currentPos)) {
 			level.scheduleTick(currentPos, this, 1);
@@ -138,6 +139,7 @@ public class CactusFlowerBlock extends Block {
 		return super.updateShape(stateIn, facing, facingState, level, currentPos, facingPos);
 	}
 
+	@Override
 	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
 		BlockState blockstate = level.getBlockState(pos.below());
 		if (!blockstate.is(this.plantBlock.get()) && !blockstate.is(Tags.Blocks.SAND)) {
@@ -166,6 +168,7 @@ public class CactusFlowerBlock extends Block {
 		}
 	}
 
+	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(AGE);
 	}
@@ -216,6 +219,7 @@ public class CactusFlowerBlock extends Block {
 		}
 	}
 
+	@Override
 	public void onProjectileHit(Level level, BlockState state, BlockHitResult hit, Projectile projectile) {
 		BlockPos blockpos = hit.getBlockPos();
 		if (!level.isClientSide && projectile.mayInteract(level, blockpos) && projectile.getType().is(EntityTypeTags.IMPACT_PROJECTILES)) {

@@ -1,5 +1,6 @@
 package com.mrbysco.cactusmod.blocks.redstone;
 
+import com.mojang.serialization.MapCodec;
 import com.mrbysco.cactusmod.blockentities.CactusChestBlockEntity;
 import com.mrbysco.cactusmod.init.CactusRegistry;
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
@@ -27,7 +28,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.AbstractChestBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoubleBlockCombiner;
-import net.minecraft.world.level.block.DoubleBlockCombiner.NeighborCombineResult;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
@@ -60,20 +60,112 @@ import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
 public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity> implements SimpleWaterloggedBlock {
+	public static final MapCodec<CactusChestBlock> CODEC = simpleCodec(CactusChestBlock::new);
+
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	protected static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
-	private final Supplier<BlockEntityType<? extends CactusChestBlockEntity>> tileEntityTypeSupplier = () -> CactusRegistry.CACTUS_CHEST_BLOCK_ENTITY.get();
+	private final Supplier<BlockEntityType<? extends CactusChestBlockEntity>> tileEntityTypeSupplier = CactusRegistry.CACTUS_CHEST_BLOCK_ENTITY::get;
+
+	@Override
+	protected MapCodec<? extends AbstractChestBlock<CactusChestBlockEntity>> codec() {
+		return CODEC;
+	}
 
 	public CactusChestBlock(BlockBehaviour.Properties builder) {
-		super(builder, () -> CactusRegistry.CACTUS_CHEST_BLOCK_ENTITY.get());
+		super(builder, CactusRegistry.CACTUS_CHEST_BLOCK_ENTITY::get);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, Boolean.valueOf(false)));
+	}
+
+	@Override
+	public DoubleBlockCombiner.NeighborCombineResult<? extends ChestBlockEntity> combine(
+			BlockState pState, Level pLevel, BlockPos pPos, boolean pOverride
+	) {
+		return DoubleBlockCombiner.Combiner::acceptNone;
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return SHAPE;
+	}
+
+	@Override
+	public RenderShape getRenderShape(BlockState state) {
+		return RenderShape.ENTITYBLOCK_ANIMATED;
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+		return this.defaultBlockState()
+				.setValue(FACING, context.getHorizontalDirection().getOpposite())
+				.setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+	}
+
+	@Override
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+		if (level.isClientSide) {
+			return InteractionResult.SUCCESS;
+		} else {
+			MenuProvider menuProvider = this.getMenuProvider(state, level, pos);
+			if (menuProvider != null) {
+				player.openMenu(menuProvider);
+				player.awardStat(this.getOpenStat());
+			}
+
+			return InteractionResult.CONSUME;
+		}
+	}
+
+	@Nullable
+	@Override
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new CactusChestBlockEntity(pos, state);
+	}
+
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+		return level.isClientSide ? createTickerHelper(blockEntityType, CactusRegistry.CACTUS_CHEST_BLOCK_ENTITY.get(), CactusChestBlockEntity::lidAnimateTick) : createTickerHelper(blockEntityType, CactusRegistry.CACTUS_CHEST_BLOCK_ENTITY.get(), CactusChestBlockEntity::serverTick);
+	}
+
+	@Override
+	public BlockState rotate(BlockState state, Rotation rot) {
+		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
+	}
+
+	@Override
+	public BlockState mirror(BlockState state, Mirror mirrorIn) {
+		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
+	}
+
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(FACING, WATERLOGGED);
+	}
+
+	@Override
+	public FluidState getFluidState(BlockState state) {
+		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+	}
+
+	@Override
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
+		if (stateIn.getValue(WATERLOGGED)) {
+			level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+		}
+
+		return super.updateShape(stateIn, facing, facingState, level, currentPos, facingPos);
+	}
+
+	@Override
+	public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
+		return false;
 	}
 
 	public DoubleBlockCombiner.NeighborCombineResult<? extends CactusChestBlockEntity> getWrapper(BlockState state, Level level, BlockPos pos, boolean override) {
 		BiPredicate<LevelAccessor, BlockPos> biPredicate;
 		if (override) {
-			biPredicate = (p_226918_0_, p_226918_1_) -> false;
+			biPredicate = (levelAccessor, blockPos) -> false;
 		} else {
 			biPredicate = CactusChestBlock::isBlocked;
 		}
@@ -90,49 +182,16 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 		return direction.getCounterClockWise();
 	}
 
-	@Nullable
-	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new CactusChestBlockEntity(pos, state);
-	}
-
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-		if (level.isClientSide) {
-			return InteractionResult.SUCCESS;
-		} else {
-			MenuProvider menuProvider = this.getMenuProvider(state, level, pos);
-			if (menuProvider != null) {
-				player.openMenu(menuProvider);
-				player.awardStat(this.getOpenStat());
-			}
-
-			return InteractionResult.CONSUME;
-		}
-	}
-
 	protected Stat<ResourceLocation> getOpenStat() {
 		return Stats.CUSTOM.get(Stats.OPEN_CHEST);
 	}
 
-
-	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		return SHAPE;
-	}
-
-	public RenderShape getRenderShape(BlockState state) {
-		return RenderShape.ENTITYBLOCK_ANIMATED;
-	}
-
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
-	}
-
+	@Override
 	public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
 		if (stack.hasCustomHoverName()) {
-			BlockEntity tileentity = level.getBlockEntity(pos);
-			if (tileentity instanceof CactusChestBlockEntity) {
-				((CactusChestBlockEntity) tileentity).setCustomName(stack.getHoverName());
+			BlockEntity blockEntity = level.getBlockEntity(pos);
+			if (blockEntity instanceof CactusChestBlockEntity cactusChestBlockEntity) {
+				cactusChestBlockEntity.setCustomName(stack.getHoverName());
 			}
 		}
 	}
@@ -140,14 +199,14 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 	@OnlyIn(Dist.CLIENT)
 	public static DoubleBlockCombiner.Combiner<CactusChestBlockEntity, Float2FloatFunction> opennessCombiner(final LidBlockEntity lid) {
 		return new DoubleBlockCombiner.Combiner<CactusChestBlockEntity, Float2FloatFunction>() {
-			public Float2FloatFunction acceptDouble(CactusChestBlockEntity p_225539_1_, CactusChestBlockEntity p_225539_2_) {
+			public Float2FloatFunction acceptDouble(CactusChestBlockEntity blockEntity, CactusChestBlockEntity blockEntity1) {
 				return (angle) -> {
-					return Math.max(p_225539_1_.getOpenNess(angle), p_225539_2_.getOpenNess(angle));
+					return Math.max(blockEntity.getOpenNess(angle), blockEntity1.getOpenNess(angle));
 				};
 			}
 
-			public Float2FloatFunction acceptSingle(CactusChestBlockEntity p_225538_1_) {
-				return p_225538_1_::getOpenNess;
+			public Float2FloatFunction acceptSingle(CactusChestBlockEntity blockEntity) {
+				return blockEntity::getOpenNess;
 			}
 
 			public Float2FloatFunction acceptNone() {
@@ -156,6 +215,7 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 		};
 	}
 
+	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!state.is(newState.getBlock())) {
 			BlockEntity blockEntity = level.getBlockEntity(pos);
@@ -168,34 +228,6 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 		}
 	}
 
-	public BlockState rotate(BlockState state, Rotation rot) {
-		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-	}
-
-	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
-	}
-
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(FACING, WATERLOGGED);
-	}
-
-	public FluidState getFluidState(BlockState state) {
-		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-	}
-
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
-		if (stateIn.getValue(WATERLOGGED)) {
-			level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-		}
-
-		return super.updateShape(stateIn, facing, facingState, level, currentPos, facingPos);
-	}
-
-	public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
-		return false;
-	}
-
 	public static boolean isBlocked(LevelAccessor levelAccessor, BlockPos pos) {
 		return isBelowSolidBlock(levelAccessor, pos) || isCatSittingOn(levelAccessor, pos);
 	}
@@ -206,10 +238,12 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 	}
 
 	private static boolean isCatSittingOn(LevelAccessor levelAccessor, BlockPos pos) {
-		List<Cat> list = levelAccessor.getEntitiesOfClass(Cat.class, new AABB((double) pos.getX(), (double) (pos.getY() + 1), (double) pos.getZ(), (double) (pos.getX() + 1), (double) (pos.getY() + 2), (double) (pos.getZ() + 1)));
+		List<Cat> list = levelAccessor.getEntitiesOfClass(Cat.class,
+				new AABB(pos.getX(), pos.getY() + 1, pos.getZ(),
+						pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1));
 		if (!list.isEmpty()) {
-			for (Cat catentity : list) {
-				if (catentity.isInSittingPose()) {
+			for (Cat cat : list) {
+				if (cat.isInSittingPose()) {
 					return true;
 				}
 			}
@@ -218,22 +252,14 @@ public class CactusChestBlock extends AbstractChestBlock<CactusChestBlockEntity>
 		return false;
 	}
 
+	@Override
 	public boolean hasAnalogOutputSignal(BlockState state) {
 		return true;
 	}
 
-	public int getAnalogOutputSignal(BlockState blockState, Level level, BlockPos pos) {
-		return AbstractContainerMenu.getRedstoneSignalFromContainer((Container) level.getBlockEntity(pos));
-	}
-
 	@Override
-	public NeighborCombineResult<? extends ChestBlockEntity> combine(BlockState state, Level level, BlockPos pos, boolean override) {
-		return DoubleBlockCombiner.Combiner::acceptNone;
-	}
-
-	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-		return level.isClientSide ? createTickerHelper(blockEntityType, CactusRegistry.CACTUS_CHEST_BLOCK_ENTITY.get(), CactusChestBlockEntity::lidAnimateTick) : createTickerHelper(blockEntityType, CactusRegistry.CACTUS_CHEST_BLOCK_ENTITY.get(), CactusChestBlockEntity::serverTick);
+	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+		return AbstractContainerMenu.getRedstoneSignalFromContainer((Container) level.getBlockEntity(pos));
 	}
 
 	@Override

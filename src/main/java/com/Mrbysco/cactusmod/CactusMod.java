@@ -25,7 +25,6 @@ import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
@@ -34,9 +33,7 @@ import org.slf4j.Logger;
 public class CactusMod {
 	public static final Logger logger = LogUtils.getLogger();
 
-	public CactusMod() {
-		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
+	public CactusMod(IEventBus eventBus) {
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CactusConfig.commonSpec);
 		eventBus.register(CactusConfig.class);
 
@@ -53,6 +50,7 @@ public class CactusMod {
 
 		eventBus.addListener(CactusSpawns::registerEntityAttributes);
 		eventBus.addListener(CactusSpawns::registerSpawnPlacements);
+		eventBus.addListener(CactusRegistry::registerCapabilities);
 
 		NeoForge.EVENT_BUS.register(new CactusWorkbenchHandler());
 		NeoForge.EVENT_BUS.register(new CactusToolHandler());

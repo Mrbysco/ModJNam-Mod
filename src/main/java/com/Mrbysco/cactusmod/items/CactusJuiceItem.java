@@ -17,6 +17,7 @@ public class CactusJuiceItem extends Item {
 		super(properties);
 	}
 
+	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
 		super.finishUsingItem(stack, level, livingEntity);
 		if (livingEntity instanceof ServerPlayer serverPlayer) {

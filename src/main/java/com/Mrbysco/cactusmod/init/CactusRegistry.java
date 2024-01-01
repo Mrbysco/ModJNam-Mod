@@ -66,8 +66,12 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.MapColor;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
+import net.neoforged.neoforge.items.VanillaHopperItemHandler;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -121,7 +125,7 @@ public class CactusRegistry {
 	public static final DeferredItem<BlockItem> CACTUS_CAKE_ITEM = ITEMS.registerSimpleBlockItem(CACTUS_CAKE);
 	public static final DeferredItem<BlockItem> CACTUS_DISPENSER_ITEM = ITEMS.registerSimpleBlockItem(CACTUS_DISPENSER);
 	public static final DeferredItem<BlockItem> CACTUS_CRAFTING_TABLE_ITEM = ITEMS.registerSimpleBlockItem(CACTUS_CRAFTING_TABLE);
-	public static final DeferredItem<CactusChestBlockItem> CACTUS_CHEST_ITEM = ITEMS.register("cactus_chest", () -> new CactusChestBlockItem(CACTUS_CHEST.get(), itemBuilder()));
+	public static final DeferredItem<CactusChestBlockItem> CACTUS_CHEST_ITEM = ITEMS.register("cactus_chest", () -> new CactusChestBlockItem(CACTUS_CHEST.get(), new Item.Properties()));
 	public static final DeferredItem<BlockItem> CACTUS_HOPPER_ITEM = ITEMS.registerSimpleBlockItem(CACTUS_HOPPER);
 	public static final DeferredItem<BlockItem> CACTUS_TNT_ITEM = ITEMS.registerSimpleBlockItem(CACTUS_TNT);
 	public static final DeferredItem<BlockItem> CACTUS_DOOR_ITEM = ITEMS.registerSimpleBlockItem(CACTUS_DOOR);
@@ -130,42 +134,38 @@ public class CactusRegistry {
 	public static final DeferredItem<BlockItem> CACTUS_PLANT_ITEM = ITEMS.registerSimpleBlockItem(CACTUS_PLANT);
 
 
-	public static final DeferredItem<Item> CACTUS_STICK = ITEMS.register("cactus_stick", () -> new Item(itemBuilder()));
-	public static final DeferredItem<Item> CACTUS_BRICK_ITEM = ITEMS.register("cactus_brick", () -> new Item(itemBuilder()));
-	public static final DeferredItem<Item> CACTUS_BONE = ITEMS.register("cactus_bone", () -> new Item(itemBuilder()));
-	public static final DeferredItem<CactusBonemealItem> CACTUS_BONEMEAL = ITEMS.register("cactus_bonemeal", () -> new CactusBonemealItem(itemBuilder()));
-	public static final DeferredItem<Item> CACTUS_SLIMEBALL = ITEMS.register("cactus_slimeball", () -> new Item(itemBuilder()));
-	public static final DeferredItem<CactusSwordItem> CACTUS_SWORD = ITEMS.register("cactus_sword", () -> new CactusSwordItem(CactusTiers.CACTUS, 3, -2.4F, itemBuilder()));
-	public static final DeferredItem<CactusShovelItem> CACTUS_SHOVEL = ITEMS.register("cactus_shovel", () -> new CactusShovelItem(CactusTiers.CACTUS, 1.5F, -3.0F, itemBuilder()));
-	public static final DeferredItem<CactusPickaxeItem> CACTUS_PICKAXE = ITEMS.register("cactus_pickaxe", () -> new CactusPickaxeItem(CactusTiers.CACTUS, 1, -2.8F, itemBuilder()));
-	public static final DeferredItem<CactusAxeItem> CACTUS_AXE = ITEMS.register("cactus_axe", () -> new CactusAxeItem(CactusTiers.CACTUS, 6.0F, -3.2F, itemBuilder()));
-	public static final DeferredItem<CactusHoeItem> CACTUS_HOE = ITEMS.register("cactus_hoe", () -> new CactusHoeItem(CactusTiers.CACTUS, 0, -3.0F, itemBuilder()));
-	public static final DeferredItem<CactusShieldItem> CACTUS_SHIELD = ITEMS.register("cactus_shield", () -> new CactusShieldItem(itemBuilder().durability(97)));
+	public static final DeferredItem<Item> CACTUS_STICK = ITEMS.register("cactus_stick", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> CACTUS_BRICK_ITEM = ITEMS.register("cactus_brick", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> CACTUS_BONE = ITEMS.register("cactus_bone", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<CactusBonemealItem> CACTUS_BONEMEAL = ITEMS.register("cactus_bonemeal", () -> new CactusBonemealItem(new Item.Properties()));
+	public static final DeferredItem<Item> CACTUS_SLIMEBALL = ITEMS.register("cactus_slimeball", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<CactusSwordItem> CACTUS_SWORD = ITEMS.register("cactus_sword", () -> new CactusSwordItem(CactusTiers.CACTUS, 3, -2.4F, new Item.Properties()));
+	public static final DeferredItem<CactusShovelItem> CACTUS_SHOVEL = ITEMS.register("cactus_shovel", () -> new CactusShovelItem(CactusTiers.CACTUS, 1.5F, -3.0F, new Item.Properties()));
+	public static final DeferredItem<CactusPickaxeItem> CACTUS_PICKAXE = ITEMS.register("cactus_pickaxe", () -> new CactusPickaxeItem(CactusTiers.CACTUS, 1, -2.8F, new Item.Properties()));
+	public static final DeferredItem<CactusAxeItem> CACTUS_AXE = ITEMS.register("cactus_axe", () -> new CactusAxeItem(CactusTiers.CACTUS, 6.0F, -3.2F, new Item.Properties()));
+	public static final DeferredItem<CactusHoeItem> CACTUS_HOE = ITEMS.register("cactus_hoe", () -> new CactusHoeItem(CactusTiers.CACTUS, 0, -3.0F, new Item.Properties()));
+	public static final DeferredItem<CactusShieldItem> CACTUS_SHIELD = ITEMS.register("cactus_shield", () -> new CactusShieldItem(new Item.Properties().durability(97)));
 
-	public static final DeferredItem<CactusArmorItem> CACTUS_HELMET = ITEMS.register("cactus_helmet", () -> new CactusArmorItem(CactusArmor.CACTUS, ArmorItem.Type.HELMET, itemBuilder()));
-	public static final DeferredItem<CactusArmorItem> CACTUS_CHESTPLATE = ITEMS.register("cactus_chestplate", () -> new CactusArmorItem(CactusArmor.CACTUS, ArmorItem.Type.CHESTPLATE, itemBuilder()));
-	public static final DeferredItem<CactusArmorItem> CACTUS_LEGGINGS = ITEMS.register("cactus_leggings", () -> new CactusArmorItem(CactusArmor.CACTUS, ArmorItem.Type.LEGGINGS, itemBuilder()));
-	public static final DeferredItem<CactusArmorItem> CACTUS_BOOTS = ITEMS.register("cactus_boots", () -> new CactusArmorItem(CactusArmor.CACTUS, ArmorItem.Type.BOOTS, itemBuilder()));
+	public static final DeferredItem<CactusArmorItem> CACTUS_HELMET = ITEMS.register("cactus_helmet", () -> new CactusArmorItem(CactusArmor.CACTUS, ArmorItem.Type.HELMET, new Item.Properties()));
+	public static final DeferredItem<CactusArmorItem> CACTUS_CHESTPLATE = ITEMS.register("cactus_chestplate", () -> new CactusArmorItem(CactusArmor.CACTUS, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+	public static final DeferredItem<CactusArmorItem> CACTUS_LEGGINGS = ITEMS.register("cactus_leggings", () -> new CactusArmorItem(CactusArmor.CACTUS, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+	public static final DeferredItem<CactusArmorItem> CACTUS_BOOTS = ITEMS.register("cactus_boots", () -> new CactusArmorItem(CactusArmor.CACTUS, ArmorItem.Type.BOOTS, new Item.Properties()));
 
-	public static final DeferredItem<CactusBowItem> CACTUS_BOW = ITEMS.register("cactus_bow", () -> new CactusBowItem(itemBuilder().durability(384)));
-	public static final DeferredItem<CactusCartItem> CACTUS_CART = ITEMS.register("cactus_cart", () -> new CactusCartItem(itemBuilder()));
-	public static final DeferredItem<CactusBoatItem> CACTUS_BOAT = ITEMS.register("cactus_boat", () -> new CactusBoatItem(itemBuilder()));
-	public static final DeferredItem<CactusJuiceItem> CACTUS_JUICE = ITEMS.register("cactus_juice", () -> new CactusJuiceItem(itemBuilder().food(CactusFoods.JUICE)));
-	public static final DeferredItem<CactusFruitItem> CACTUS_FRUIT = ITEMS.register("cactus_fruit", () -> new CactusFruitItem(itemBuilder().food(CactusFoods.FRUIT)));
+	public static final DeferredItem<CactusBowItem> CACTUS_BOW = ITEMS.register("cactus_bow", () -> new CactusBowItem(new Item.Properties().durability(384)));
+	public static final DeferredItem<CactusCartItem> CACTUS_CART = ITEMS.register("cactus_cart", () -> new CactusCartItem(new Item.Properties()));
+	public static final DeferredItem<CactusBoatItem> CACTUS_BOAT = ITEMS.register("cactus_boat", () -> new CactusBoatItem(new Item.Properties()));
+	public static final DeferredItem<CactusJuiceItem> CACTUS_JUICE = ITEMS.register("cactus_juice", () -> new CactusJuiceItem(new Item.Properties().food(CactusFoods.JUICE)));
+	public static final DeferredItem<CactusFruitItem> CACTUS_FRUIT = ITEMS.register("cactus_fruit", () -> new CactusFruitItem(new Item.Properties().food(CactusFoods.FRUIT)));
 
-	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_GOLEM_SPAWN_EGG = ITEMS.register("cactus_golem_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_GOLEM, 0xFF649832, 0xFF39581a, itemBuilder()));
-	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_COW_SPAWN_EGG = ITEMS.register("cactus_cow_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_COW, 0xFF649832, 0xFF39581a, itemBuilder()));
-	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_CREEPER_SPAWN_EGG = ITEMS.register("cactus_creeper_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_CREEPER, 0xFF649832, 0xFF39581a, itemBuilder()));
-	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_SNOW_GOLEM_SPAWN_EGG = ITEMS.register("cactus_snow_golem_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_SNOW_GOLEM, 0xFF649832, 0xFF39581a, itemBuilder()));
-	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_SLIME_SPAWN_EGG = ITEMS.register("cactus_slime_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_SLIME, 0xFF649832, 0xFF39581a, itemBuilder()));
-	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_SHEEP_SPAWN_EGG = ITEMS.register("cactus_sheep_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_SHEEP, 0xFF649832, 0xFF39581a, itemBuilder()));
-	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_PIG_SPAWN_EGG = ITEMS.register("cactus_pig_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_PIG, 0xFF649832, 0xFF39581a, itemBuilder()));
-	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_SPIDER_SPAWN_EGG = ITEMS.register("cactus_spider_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_SPIDER, 0xFF649832, 0xFF39581a, itemBuilder()));
-	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_SKELETON_GOLEM_SPAWN_EGG = ITEMS.register("cactus_skeleton_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_SKELETON, 0xFF649832, 0xFF39581a, itemBuilder()));
-
-	private static Item.Properties itemBuilder() {
-		return new Item.Properties();
-	}
+	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_GOLEM_SPAWN_EGG = ITEMS.register("cactus_golem_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_GOLEM, 0xFF649832, 0xFF39581a, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_COW_SPAWN_EGG = ITEMS.register("cactus_cow_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_COW, 0xFF649832, 0xFF39581a, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_CREEPER_SPAWN_EGG = ITEMS.register("cactus_creeper_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_CREEPER, 0xFF649832, 0xFF39581a, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_SNOW_GOLEM_SPAWN_EGG = ITEMS.register("cactus_snow_golem_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_SNOW_GOLEM, 0xFF649832, 0xFF39581a, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_SLIME_SPAWN_EGG = ITEMS.register("cactus_slime_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_SLIME, 0xFF649832, 0xFF39581a, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_SHEEP_SPAWN_EGG = ITEMS.register("cactus_sheep_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_SHEEP, 0xFF649832, 0xFF39581a, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_PIG_SPAWN_EGG = ITEMS.register("cactus_pig_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_PIG, 0xFF649832, 0xFF39581a, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_SPIDER_SPAWN_EGG = ITEMS.register("cactus_spider_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_SPIDER, 0xFF649832, 0xFF39581a, new Item.Properties()));
+	public static final DeferredItem<DeferredSpawnEggItem> CACTUS_SKELETON_GOLEM_SPAWN_EGG = ITEMS.register("cactus_skeleton_spawn_egg", () -> new DeferredSpawnEggItem(CactusRegistry.CACTUS_SKELETON, 0xFF649832, 0xFF39581a, new Item.Properties()));
 
 	public static final DeferredHolder<SoundEvent, SoundEvent> HAT_MUSIC = SOUND_EVENTS.register("hat.music", () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Reference.MOD_ID, "hat.music")));
 
@@ -190,5 +190,13 @@ public class CactusRegistry {
 
 	public static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
 		return builder.build(id);
+	}
+
+	public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, CACTUS_CHEST_BLOCK_ENTITY.get(), (cactusChestBlockEntity, side) ->
+				new InvWrapper(cactusChestBlockEntity));
+
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, CACTUS_HOPPER_BLOCK_ENTITY.get(), (hopperBlockEntity, side) ->
+				new VanillaHopperItemHandler(hopperBlockEntity));
 	}
 }
