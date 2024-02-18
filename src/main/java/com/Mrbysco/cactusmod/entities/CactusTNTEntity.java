@@ -4,8 +4,6 @@ import com.mrbysco.cactusmod.init.CactusRegistry;
 import com.mrbysco.cactusmod.util.ExplosionHelper;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -16,8 +14,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.NetworkHooks;
-import net.neoforged.neoforge.network.PlayMessages;
 
 import javax.annotation.Nullable;
 
@@ -30,15 +26,6 @@ public class CactusTNTEntity extends Entity {
 	public CactusTNTEntity(EntityType<? extends CactusTNTEntity> type, Level level) {
 		super(type, level);
 		this.blocksBuilding = true;
-	}
-
-	public CactusTNTEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
-		this(CactusRegistry.CACTUS_TNT_ENTITY.get(), level);
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	public CactusTNTEntity(Level level, double x, double y, double z, @Nullable LivingEntity igniter) {

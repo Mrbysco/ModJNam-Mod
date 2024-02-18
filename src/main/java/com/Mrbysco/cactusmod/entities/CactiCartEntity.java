@@ -1,8 +1,6 @@
 package com.mrbysco.cactusmod.entities;
 
 import com.mrbysco.cactusmod.init.CactusRegistry;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -16,8 +14,6 @@ import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.NetworkHooks;
-import net.neoforged.neoforge.network.PlayMessages;
 
 public class CactiCartEntity extends AbstractMinecart implements ICactusMob {
 	private int timeInCart;
@@ -33,15 +29,6 @@ public class CactiCartEntity extends AbstractMinecart implements ICactusMob {
 
 	public CactiCartEntity(Level level, double x, double y, double z) {
 		super(CactusRegistry.CACTUS_CART_ENTITY.get(), level, x, y, z);
-	}
-
-	public CactiCartEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
-		this(CactusRegistry.CACTUS_CART_ENTITY.get(), level);
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {

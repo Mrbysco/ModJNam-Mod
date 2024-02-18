@@ -1,8 +1,6 @@
 package com.mrbysco.cactusmod.entities;
 
 import com.mrbysco.cactusmod.init.CactusRegistry;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,8 +8,6 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.network.NetworkHooks;
-import net.neoforged.neoforge.network.PlayMessages.SpawnEntity;
 
 public class CactusBoatEntity extends Boat implements ICactusMob {
 	private int timeInBoat;
@@ -28,15 +24,6 @@ public class CactusBoatEntity extends Boat implements ICactusMob {
 		this.xo = x;
 		this.yo = y;
 		this.zo = z;
-	}
-
-	public CactusBoatEntity(SpawnEntity spawnEntity, Level level) {
-		this(CactusRegistry.CACTUS_BOAT_ENTITY.get(), level);
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

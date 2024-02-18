@@ -172,11 +172,11 @@ public class CactusRegistry {
 	public static final Supplier<EntityType<CactusGolem>> CACTUS_GOLEM = ENTITIES.register("cactus_golem", () -> register("cactus_golem", EntityType.Builder.<CactusGolem>of(CactusGolem::new, MobCategory.MISC).sized(1.4F, 2.7F).clientTrackingRange(10)));
 	public static final Supplier<EntityType<CactusCowEntity>> CACTUS_COW = ENTITIES.register("cactus_cow", () -> register("cactus_cow", EntityType.Builder.<CactusCowEntity>of(CactusCowEntity::new, MobCategory.CREATURE).sized(0.9F, 1.4F).clientTrackingRange(10)));
 	public static final Supplier<EntityType<CactiCartEntity>> CACTUS_CART_ENTITY = ENTITIES.register("cactus_cart", () -> register("cactus_cart", EntityType.Builder.<CactiCartEntity>of(CactiCartEntity::new, MobCategory.MISC)
-			.sized(0.98F, 0.7F).clientTrackingRange(8).setCustomClientFactory(CactiCartEntity::new)));
+			.sized(0.98F, 0.7F).clientTrackingRange(8)));
 	public static final Supplier<EntityType<CactusTNTEntity>> CACTUS_TNT_ENTITY = ENTITIES.register("cactus_tnt", () -> register("cactus_tnt", EntityType.Builder.<CactusTNTEntity>of(CactusTNTEntity::new, MobCategory.MISC)
-			.sized(0.98F, 0.7F).clientTrackingRange(8).setCustomClientFactory(CactusTNTEntity::new)));
+			.sized(0.98F, 0.7F).clientTrackingRange(8)));
 	public static final Supplier<EntityType<SpikeEntity>> CACTUS_SPIKE = ENTITIES.register("cactus_spike", () -> register("cactus_spike", EntityType.Builder.<SpikeEntity>of(SpikeEntity::new, MobCategory.MISC)
-			.sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).setCustomClientFactory(SpikeEntity::new)));
+			.sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20)));
 	public static final Supplier<EntityType<CactusCreeperEntity>> CACTUS_CREEPER = ENTITIES.register("cactus_creeper", () -> register("cactus_creeper", EntityType.Builder.<CactusCreeperEntity>of(CactusCreeperEntity::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(8)));
 	public static final Supplier<EntityType<CactusSnowGolemEntity>> CACTUS_SNOW_GOLEM = ENTITIES.register("cactus_snow_golem", () -> register("cactus_snow_golem", EntityType.Builder.<CactusSnowGolemEntity>of(CactusSnowGolemEntity::new, MobCategory.MISC).sized(0.7F, 1.9F).clientTrackingRange(8)));
 	public static final Supplier<EntityType<CactusSlimeEntity>> CACTUS_SLIME = ENTITIES.register("cactus_slime", () -> register("cactus_slime", EntityType.Builder.<CactusSlimeEntity>of(CactusSlimeEntity::new, MobCategory.MONSTER).sized(2.04F, 2.04F).clientTrackingRange(10)));
@@ -185,7 +185,7 @@ public class CactusRegistry {
 	public static final Supplier<EntityType<CactusSpiderEntity>> CACTUS_SPIDER = ENTITIES.register("cactus_spider", () -> register("cactus_spider", EntityType.Builder.<CactusSpiderEntity>of(CactusSpiderEntity::new, MobCategory.MONSTER).sized(1.4F, 0.9F).clientTrackingRange(8)));
 	public static final Supplier<EntityType<CactusSkeletonEntity>> CACTUS_SKELETON = ENTITIES.register("cactus_skeleton", () -> register("cactus_skeleton", EntityType.Builder.<CactusSkeletonEntity>of(CactusSkeletonEntity::new, MobCategory.MONSTER).sized(0.6F, 1.99F).clientTrackingRange(8)));
 	public static final Supplier<EntityType<CactusBoatEntity>> CACTUS_BOAT_ENTITY = ENTITIES.register("cactus_boat", () -> register("cactus_boat", EntityType.Builder.<CactusBoatEntity>of(CactusBoatEntity::new, MobCategory.MISC)
-			.sized(1.375F, 0.5625F).clientTrackingRange(10).setCustomClientFactory(CactusBoatEntity::new)));
+			.sized(1.375F, 0.5625F).clientTrackingRange(10)));
 	public static final Supplier<EntityType<CactoniEntity>> CACTONI = ENTITIES.register("cactoni", () -> register("cactoni", EntityType.Builder.<CactoniEntity>of(CactoniEntity::new, MobCategory.MISC).sized(0.7F, 2.4F).clientTrackingRange(8)));
 
 	public static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
